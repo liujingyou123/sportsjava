@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RentView">
+        <attr name="bottom_labels" format="reference" />
+        <attr name="tab_res_ids" format="reference" />
+        <attr name="tab_select_background" format="reference|color" />
+        <attr name="tab_unSelect_background" format="reference|color" />
+        <attr name="tab_indicator_drawable" format="reference|color" />
+        <attr name="tab_textColor_selector" format="reference" />
+        <attr name="tab_text_size" format="dimension" />
+        <attr name="tab_horizontal_divider" format="reference|color" />
+        <attr name="tab_divider_width" format="dimension" />
+        <attr name="tab_drawable_padding" format="dimension" />
+        <attr name="tab_indicator_margin_top" format="dimension" />
+        <attr name="tab_indicator_margin_bottom" format="dimension" />
+        <attr name="tab_indicator_margin_left" format="dimension" />
+        <attr name="tab_indicator_margin_rigth" format="dimension" />
+        <attr name="tab_count" format="integer" />
+    </declare-styleable>
+
+    <!--bottom tab id-->
+    <item name="tab" type="id" />
+    <item name="indicator" type="id" />
+
+    <declare-styleable name="RoundedImageView">
+        <attr name="corner_radius" format="dimension" />
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="mutate_background" format="boolean" />
+        <attr name="oval" format="boolean" />
+        <attr name="android:scaleType" />
+    </declare-styleable>
+
+    <declare-styleable name="TagCloudLayout">
+        <attr name="lineSpacing" format="dimension" />
+        <attr name="tagSpacing" format="dimension" />
+        <!-- 是否是固定布局 -->
+        <attr name="isFixed" format="boolean" />
+        <attr name="columnSize" format="integer" />
+    </declare-styleable>
+
+    <item name="bannerContainer" type="id" />
+    <item name="bannerViewPager" type="id" />
+    <item name="circleIndicator" type="id" />
+    <item name="numIndicator" type="id" />
+    <item name="titleView" type="id" />
+    <item name="bannerTitle" type="id" />
+    <item name="numIndicatorInside" type="id" />
+    <item name="indicatorInside" type="id" />
+
+    <declare-styleable name="Banner">
+        <attr name="delay_time" format="integer" />
+        <attr name="scroll_time" format="integer" />
+        <attr name="is_auto_play" format="boolean" />
+        <attr name="title_background" format="color|reference" />
+        <attr name="title_textcolor" format="color" />
+        <attr name="title_textsize" format="dimension" />
+        <attr name="title_height" format="dimension" />
+        <attr name="indicator_width" format="dimension" />
+        <attr name="indicator_height" format="dimension" />
+        <attr name="indicator_margin" format="dimension" />
+        <attr name="indicator_drawable_selected" format="reference" />
+        <attr name="indicator_drawable_unselected" format="reference" />
+        <attr name="layout_id" format="reference" />
+        <attr name="image_scale_type" format="enum">
+            <enum name="center" value="0" />
+            <enum name="center_crop" value="1" />
+            <enum name="center_inside" value="2" />
+            <enum name="fit_center" value="3" />
+            <enum name="fit_end" value="4" />
+            <enum name="fit_start" value="5" />
+            <enum name="fit_xy" value="6" />
+            <enum name="matrix" value="7" />
+        </attr>
+    </declare-styleable>
+
+</resources>

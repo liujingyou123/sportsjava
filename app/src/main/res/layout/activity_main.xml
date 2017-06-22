@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/rl_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/bg" />
+
+        <com.sports.limitsport.view.BottomTabView
+            android:id="@+id/tabView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:layout_gravity="bottom"
+            android:background="#000000"
+            android:paddingTop="2dp"
+            app:bottom_labels="@array/tabs"
+            app:tab_count="4"
+            app:tab_drawable_padding="0dp"
+            app:tab_text_size="10sp"
+            app:tab_textColor_selector="@drawable/bg_bottom_selection"
+            app:tab_indicator_margin_top="7dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>
