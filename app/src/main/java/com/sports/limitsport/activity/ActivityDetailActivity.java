@@ -1,5 +1,6 @@
 package com.sports.limitsport.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -189,13 +190,21 @@ public class ActivityDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn_done, R.id.imv_back})
+    @OnClick({R.id.btn_done, R.id.imv_back, R.id.rl_allshai, R.id.tv_sign_num})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_done:
                 break;
             case R.id.imv_back:
                 finish();
+                break;
+            case R.id.rl_allshai:
+                Intent intent = new Intent(this, AllShaiActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_sign_num:
+                Intent intent2 = new Intent(this, SignUpListActivity.class);
+                startActivity(intent2);
                 break;
         }
     }
