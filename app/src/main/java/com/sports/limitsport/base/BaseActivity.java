@@ -88,9 +88,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void onPause() {
-        super.onPause();
-    }
 
     @Override
     public void startActivity(Intent intent) {
