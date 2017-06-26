@@ -194,6 +194,8 @@ public class ActivityDetailActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_done:
+                Intent intentSign = new Intent(this, SignUpActivity.class);
+                startActivity(intentSign);
                 break;
             case R.id.imv_back:
                 finish();
