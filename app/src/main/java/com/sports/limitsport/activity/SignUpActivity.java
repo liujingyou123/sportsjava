@@ -1,5 +1,6 @@
 package com.sports.limitsport.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -37,13 +38,15 @@ public class SignUpActivity extends BaseActivity {
         imvFocusHouseBack.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_house})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_done})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
                 finish();
                 break;
-            case R.id.tv_focus_house:
+            case R.id.btn_done:
+                Intent intent = new Intent(this, PayOrderActivity.class);
+                startActivity(intent);
                 break;
         }
     }

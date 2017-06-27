@@ -112,4 +112,30 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_ticket_nums"
         android:layout_margin="10dp"></com.sports.limitsport.view.NumCheckView>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg">
+
+        <TextView
+            android:id="@+id/tv_price_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="1500"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_done"
+            style="@style/btn_done"
+            android:text="下一步"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
 </RelativeLayout>

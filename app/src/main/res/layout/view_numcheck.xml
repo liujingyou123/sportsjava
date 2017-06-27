@@ -10,7 +10,7 @@
         android:text="-"
         android:textColor="@color/color_gray_white"
         android:textSize="20sp"
-        android:enabled="false"/>
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/tv_num"

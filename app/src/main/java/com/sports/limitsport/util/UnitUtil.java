@@ -139,7 +139,7 @@ public class UnitUtil {
         if (TextViewUtil.isEmpty(numStr)) {
             return null;
         }
-        String ret =null;
+        String ret = null;
         try {
             double num = Double.parseDouble(numStr);
             if (num > limit) {
@@ -230,6 +230,18 @@ public class UnitUtil {
         ret = df.format(num);
         return ret;
 
+    }
+
+    /**
+     * 格式化数字 1->01 ..  11->11
+     * @param num
+     * @return
+     */
+    public static String formatDec(double num) {
+        String ret;
+        DecimalFormat df = new DecimalFormat("00.##");
+        ret = df.format(num);
+        return ret;
     }
 
     public static String formatSNum(String num) {

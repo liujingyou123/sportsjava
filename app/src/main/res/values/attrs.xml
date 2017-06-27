@@ -74,4 +74,10 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="NumCheckView">
+        <attr name="label_width" format="dimension" />
+        <attr name="num_width" format="dimension" />
+        <attr name="num_height" format="dimension" />
+    </declare-styleable>
+
 </resources>
