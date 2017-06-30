@@ -52,7 +52,7 @@
                     android:layout_height="250dp"
                     android:visibility="gone" />
 
-                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                <com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen
                     android:id="@+id/jc_video"
                     android:layout_width="match_parent"
                     android:layout_height="200dp" />
@@ -289,6 +289,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

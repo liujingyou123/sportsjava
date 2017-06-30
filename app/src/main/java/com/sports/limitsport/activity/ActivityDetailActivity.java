@@ -23,6 +23,7 @@ import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.PositionScrollView;
 import com.sports.limitsport.view.SpacesItemHDecoration;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
+import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ActivityDetailActivity extends BaseActivity {
     @BindView(R.id.rl_bottom)
     RelativeLayout rlBottom;
     @BindView(R.id.jc_video)
-    JCVideoPlayerStandard jcVideo;
+    JCVideoPlayerStandardShowShareButtonAfterFullscreen jcVideo;
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_price)
@@ -95,13 +96,13 @@ public class ActivityDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         init();
         setAllRcy();
-        setViewType(1);
+        setViewType(0);
         StatusBarUtil.setTranslucent(this);
     }
 
     private void init() {
         jcVideo.setUp("http://video.jiecao.fm/11/23/xin/%E5%81%87%E4%BA%BA.mp4"
-                , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "");
+                , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "嫂子不信");
         Batman.getInstance().fromNet("http://img4.jiecaojingxuan.com/2016/11/23/00b026e7-b830-4994-bc87-38f4033806a6.jpg@!640_360", jcVideo.thumbImageView);
 
         TagDetailAdapter tagDetailAdapter = new TagDetailAdapter(this, null);
@@ -190,7 +191,7 @@ public class ActivityDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn_done, R.id.imv_back, R.id.rl_allshai, R.id.tv_sign_num})
+    @OnClick({R.id.btn_done, R.id.imv_back, R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_done:
@@ -207,6 +208,10 @@ public class ActivityDetailActivity extends BaseActivity {
             case R.id.tv_sign_num:
                 Intent intent2 = new Intent(this, SignUpListActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.ll_location:
+                Intent intent1 = new Intent(this, MapActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
