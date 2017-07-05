@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="#000000"
+    android:background="#171717"
     android:orientation="horizontal">
 
     <ImageView
@@ -12,8 +12,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:scaleType="centerInside"
-        android:src="@mipmap/icon_white_back"
-        android:visibility="gone"/>
+        android:src="@mipmap/icon_back" />
 
 
     <TextView
@@ -35,6 +34,9 @@
         android:gravity="center"
         android:singleLine="true"
         android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp" />
+
+    <View
+        style="@style/view_line"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

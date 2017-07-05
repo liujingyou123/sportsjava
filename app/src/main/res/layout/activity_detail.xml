@@ -452,7 +452,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_white_back" />
+            android:src="@mipmap/icon_back" />
 
         <ImageView
             android:id="@+id/imv_share"

@@ -39,4 +39,10 @@
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/bg_done</item>
     </style>
+
+    <style name="view_line">
+        <item name="android:background">@color/color_bg_line</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
 </resources>

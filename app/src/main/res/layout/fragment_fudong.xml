@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="16dp"
+        android:layout_height="11dp"
+        android:text="互动"
+        android:textColor="#FFA5A4A4"
+        android:textSize="8sp"
+        />
+</LinearLayout>

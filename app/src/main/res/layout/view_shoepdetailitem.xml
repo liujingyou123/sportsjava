@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tv_labelone"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+    <!-- 首付 -->
+
+    <ImageView
+        android:id="@+id/imv_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/icon_eventdetail_more" />
+
+    <TextView
+        android:id="@+id/tv_labeltwo"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:text=""
+        android:textColor="@color/color_gray_white_s"
+        android:textSize="14sp"
+        android:layout_toLeftOf="@id/imv_go"
+        android:layout_marginRight="15dp"/>
+
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/tv_labelone"/>
+</merge>
