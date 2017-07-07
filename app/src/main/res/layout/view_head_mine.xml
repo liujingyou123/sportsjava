@@ -35,19 +35,19 @@
 
             <ImageView
                 android:id="@+id/imv_go"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@mipmap/icon_eventdetail_more"/>
+                android:src="@mipmap/icon_eventdetail_more"
+                android:scaleType="centerInside"/>
 
             <LinearLayout
                 android:id="@+id/ll_fensi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="45dp"
+                android:layout_marginRight="30dp"
                 android:layout_toLeftOf="@id/imv_go"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
@@ -69,6 +69,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_guanzhu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -174,7 +175,7 @@
                 android:drawablePadding="8dp"
                 android:drawableTop="@mipmap/icon_gerenzhongxin_club"
                 android:gravity="center_horizontal"
-                android:text="收藏(0)"
+                android:text="俱乐部(0)"
                 android:textColor="#FF4795FB"
                 android:textSize="12sp" />
 
@@ -185,7 +186,7 @@
                 android:drawablePadding="8dp"
                 android:drawableTop="@mipmap/icon_gerenzhongxin_event"
                 android:gravity="center_horizontal"
-                android:text="收藏(0)"
+                android:text="活动(0)"
                 android:textColor="#FF4795FB"
                 android:textSize="12sp" />
         </RelativeLayout>

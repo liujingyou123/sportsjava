@@ -37,6 +37,8 @@ public class SlidingTabLayout extends LinearLayout {
     private final int DEFAULT_DIVIDER_WIDTH = 1;
     /*indicator 的高度*/
     private final int DEFAULT_INDICATOR_HEIGHT = 5;
+    /*indicator 的宽度*/
+    private final int DEFAULT_INDICATOR_WIDTH = 20;
     /*底部线条的高度默认值*/
     private final int DEFAULT_BOTTOM_LINE_HEIGHT = 2;
     /*分割线距离上下边缘的距离默认为8*/
@@ -73,6 +75,8 @@ public class SlidingTabLayout extends LinearLayout {
     private int mBottomLineHeight = DEFAULT_BOTTOM_LINE_HEIGHT;
     /*滑动指示器的高度*/
     private int mIndicatorHeight = DEFAULT_INDICATOR_HEIGHT ;
+    /*滑动指示器的宽度*/
+    private int mIndicatorWidth = DEFAULT_INDICATOR_WIDTH ;
     /*分割线的宽度*/
     private int mDividerWidth = DEFAULT_DIVIDER_WIDTH;
     /*底部线条的画笔*/
@@ -128,6 +132,8 @@ public class SlidingTabLayout extends LinearLayout {
             }
             else if(attr == R.styleable.SlidingTabLayout_tabTitleColorSelect){
                 mTabSelectColor = typedArray.getColor(attr, DEFAULT_TAB_TITLE_COLOR_SELECT);
+            } else if (attr == R.styleable.SlidingTabLayout_indicatorWidth) {
+                mIndicatorWidth = (int) typedArray.getDimension(attr, DEFAULT_INDICATOR_HEIGHT * getResources().getDisplayMetrics().density);
             }
 
 //            switch (attr) {
@@ -201,7 +207,7 @@ public class SlidingTabLayout extends LinearLayout {
             right = (int) (mSelectionOffset * nextView.getRight() + (1.0f - mSelectionOffset) * right);
         }
         /*绘制滑动的页卡*/
-        canvas.drawRect(left+(right-left)/2-20, height - mIndicatorHeight-15, right-(right-left)/2+20, height-15, mIndicatorPaint);
+        canvas.drawRect(left+(right-left)/2-mIndicatorWidth, height - mIndicatorHeight-15, right-(right-left)/2+mIndicatorWidth, height-15, mIndicatorPaint);
         canvas.drawRect(0,height - mBottomLineHeight,getWidth(),height,mBottomPaint);
 //        for (int i = 0; i < getChildCount() - 1; i++) {
 //            View child = getChildAt(i);

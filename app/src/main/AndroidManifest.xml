@@ -75,6 +75,14 @@
             android:screenOrientation="portrait" />
         <activity android:name=".mine.NoticeListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".mine.SetActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mine.MyFocusListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mine.MyFansListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mine.MyCollectionActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

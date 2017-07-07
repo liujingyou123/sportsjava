@@ -117,7 +117,7 @@ public class Afo implements ImageButler {
 
     private void goWithBitmapTransform(Context context, String fileName, ImageView imageView, Transformation bitmapTransformation, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
         if (maxHeight == 0 || maxHeight == 0) {
-            Glide.with(imageView.getContext()).load(fileName).bitmapTransform(bitmapTransformation).placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().bitmapTransform(bitmapTransformation).placeholder(defaultImage).error(failedImage).into(imageView);
         } else {
             Glide.with(imageView.getContext()).load(fileName).bitmapTransform(bitmapTransformation).override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).into(imageView);
 

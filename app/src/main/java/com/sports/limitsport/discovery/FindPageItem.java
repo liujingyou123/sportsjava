@@ -1,6 +1,5 @@
 package com.sports.limitsport.discovery;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.sports.limitsport.util.SlidingTagPagerItem;

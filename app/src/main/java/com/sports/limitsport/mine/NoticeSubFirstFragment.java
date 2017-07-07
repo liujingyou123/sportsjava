@@ -39,11 +39,17 @@ public class NoticeSubFirstFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_huodong:
-                Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
-                startActivity(intent);
+                gotoList(1);
                 break;
             case R.id.rl_sys:
+                gotoList(2);
                 break;
         }
+    }
+
+    private void gotoList(int type) {
+        Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
+        intent.putExtra("type", type);
+        startActivity(intent);
     }
 }

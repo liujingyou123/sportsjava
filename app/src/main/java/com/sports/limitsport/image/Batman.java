@@ -211,4 +211,17 @@ public final class Batman {
         mButler.fromNetWithTransfromat(mContext, url, imageView, new RoundedCornersTransformation(mContext, 30, 0,
                 RoundedCornersTransformation.CornerType.BOTTOM), defaultImage, failedImage, 0, 0);
     }
+
+    /**
+     * 加载圆角网络图片
+     *
+     * @param url          图片地址URL
+     * @param imageView    显示图片的ImageView
+     * @param defaultImage 默认图片
+     * @param failedImage  失败图片
+     */
+    public void getImageWithRoundLeft(String url, ImageView imageView, int defaultImage, int failedImage, int radius) {
+        mButler.fromNetWithTransfromat(mContext, url, imageView, new RoundedCornersTransformation(mContext, 30, 0,
+                RoundedCornersTransformation.CornerType.LEFT), defaultImage, failedImage, 0, 0);
+    }
 }

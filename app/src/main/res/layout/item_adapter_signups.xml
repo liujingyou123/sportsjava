@@ -5,17 +5,17 @@
 
     <ImageView
         android:id="@+id/imv_head"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignBottom="@id/imv_head"
         android:layout_alignRight="@id/imv_head"
-        android:background="#ffff00" />
+        android:src="@mipmap/icon_gender_female" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -23,13 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imv_head"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/imv_head"
         android:singleLine="true"
         android:text="路过的一直"
         android:textColor="#ffffff"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_focus"
@@ -55,9 +54,8 @@
         android:layout_marginTop="4dp"
         android:layout_toLeftOf="@id/tv_focus"
         android:ellipsize="end"
-        android:maxLines="2"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="潜水爱好者，还喜欢散文和是个的始终后首个女工哦女歌手给你送上你"
         android:textColor="#ffffff"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 </RelativeLayout>

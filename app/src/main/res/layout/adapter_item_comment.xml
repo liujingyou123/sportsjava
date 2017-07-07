@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="25dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imv_head"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/imv_head"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/imv_head"
+            android:text="Azn 坚持"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_name"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="5dp"
+            android:text="2小时前"
+            android:textColor="#FFA5A4A4"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/imv_replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_replay" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="滑雪的好处不仅在于雪中的奇异世界给人的精神带来的巨大享受。"
+        android:textColor="#FFA5A4A4"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_gray"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/imv_cover"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:visibility="visible"
+            android:scaleType="center"/>
+
+        <TextView
+            android:id="@+id/tv_replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imv_cover"
+            android:maxLines="4"
+            android:text="\@JaySin Jay : 滑雪的好处不仅在于雪中的奇异世界给人的精神带来的巨大享受，我很喜欢这种感觉，真的非常非常喜欢，有没有一样我很喜欢这种感觉，真的非常非常喜欢，有没有一样我很喜欢这种感觉，真的非常非常喜欢，有没有一样"
+            android:textColor="#FFA5A4A4"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:lineSpacingExtra="2dp"/>
+    </RelativeLayout>
+</LinearLayout>
