@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.mine.MyActivitysActivity;
+import com.sports.limitsport.mine.MyClubsActivity;
 import com.sports.limitsport.mine.MyCollectionActivity;
 import com.sports.limitsport.mine.MyFansListActivity;
 import com.sports.limitsport.mine.MyFocusListActivity;
@@ -60,7 +62,7 @@ public class MineHeaderView extends LinearLayout {
         tg.setAdapter(new TagFavAdapter(getContext(), mData));
     }
 
-    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu})
+    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_go:
@@ -78,6 +80,14 @@ public class MineHeaderView extends LinearLayout {
             case R.id.ll_guanzhu:
                 Intent intent1 = new Intent(getContext(), MyFocusListActivity.class);
                 getContext().startActivity(intent1);
+                break;
+            case R.id.tv_club:
+                Intent intent4 = new Intent(getContext(), MyClubsActivity.class);
+                getContext().startActivity(intent4);
+                break;
+            case R.id.tv_activity:
+                Intent intent5 = new Intent(getContext(), MyActivitysActivity.class);
+                getContext().startActivity(intent5);
                 break;
         }
     }

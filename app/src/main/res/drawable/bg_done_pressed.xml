@@ -3,7 +3,7 @@
 
     <!-- 圆角 -->
     <corners
-        android:radius="4dp"/><!-- 设置圆角半径 -->
+        android:radius="2dp"/><!-- 设置圆角半径 -->
 
 
     <!-- 填充 -->

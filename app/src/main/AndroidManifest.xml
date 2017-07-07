@@ -62,27 +62,40 @@
             android:name=".activity.MapActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".mine.UserInfoActivity"
+        <activity
+            android:name=".mine.UserInfoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateVisible"/>
+            android:windowSoftInputMode="stateHidden|stateVisible" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".mine.NoticeFirstLevelActivity"
+        <activity
+            android:name=".mine.NoticeFirstLevelActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".mine.NoticeListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".mine.SetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".mine.MyFocusListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".mine.MyFansListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".mine.MyCollectionActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".mine.NoticeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.SetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyFocusListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyFansListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyClubsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyActivitysActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

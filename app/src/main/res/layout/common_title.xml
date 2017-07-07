@@ -34,7 +34,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:textColor="#ffffff"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <View
         style="@style/view_line"

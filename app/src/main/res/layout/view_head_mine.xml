@@ -169,6 +169,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_club"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -180,6 +181,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
