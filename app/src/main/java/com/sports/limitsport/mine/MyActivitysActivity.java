@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.mine.adapter.MyActivitysAdapter;
@@ -55,6 +57,14 @@ public class MyActivitysActivity extends BaseActivity {
         adapter.bindToRecyclerView(ryActivity);
 
         adapter.setEmptyView(emptyView);
+
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(MyActivitysActivity.this, OrderDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

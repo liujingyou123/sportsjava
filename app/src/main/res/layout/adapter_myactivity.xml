@@ -6,8 +6,7 @@
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
     android:layout_marginTop="6dp"
-    android:background="@drawable/bg_black_round_circle"
-    android:orientation="vertical">
+    android:background="@drawable/bg_black_round_circle">
 
     <TextView
         android:id="@+id/tv_ordernum"

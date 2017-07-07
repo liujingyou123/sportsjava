@@ -96,6 +96,10 @@
         <activity
             android:name=".mine.MyActivitysActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".mine.OrderDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
