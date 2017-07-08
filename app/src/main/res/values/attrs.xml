@@ -74,4 +74,26 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="NumCheckView">
+        <attr name="label_width" format="dimension" />
+        <attr name="num_width" format="dimension" />
+        <attr name="num_height" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SlidingTabLayout">
+        <attr name="indicatorColor" format="color" />
+        <attr name="dividerColor" format="color" />
+        <attr name="bottomLineColor" format="color" />
+        <attr name="dividerMargin" format="dimension" />
+        <attr name="indicatorHeight" format="dimension" />
+        <attr name="indicatorWidth" format="dimension" />
+        <attr name="bottomLineHeight" format="dimension" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="tabTitleColor" format="color" />
+        <attr name="tabTitleColorSelect" format="color" />
+    </declare-styleable>
+    <declare-styleable name="ShopDetailItem">
+        <attr name="LabelOne" format="string" />
+        <attr name="LabelTwo" format="string" />
+    </declare-styleable>
 </resources>

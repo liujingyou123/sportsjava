@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_title"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="系统通知"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchMinWidth="20dp"
+            android:textOn=""
+            android:textOff=""
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="开启后可以收到极限领秀为你推送的精选消息，还有您关注的俱乐部最新动态哦。"
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"/>
+
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="互动"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchMinWidth="20dp"
+            android:textOn=""
+            android:textOff=""
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="开启后可以收到小伙伴之间的评论、点赞、关注消息提示哦。"
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"/>
+
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"/>
+
+    <com.sports.limitsport.view.mine.ItemView
+        android:id="@+id/it_push"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        apps:LabelOne="接受极限领秀精彩推送"
+        apps:LabelTwo="已开启"></com.sports.limitsport.view.mine.ItemView>
+
+    <com.sports.limitsport.view.mine.ItemView
+        android:id="@+id/it_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        apps:LabelOne="清除缓存"
+        apps:LabelTwo="44.5M"></com.sports.limitsport.view.mine.ItemView>
+
+    <com.sports.limitsport.view.mine.ItemView
+        android:id="@+id/it_aboutus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        apps:LabelOne="关于我们"
+        apps:LabelTwo=""></com.sports.limitsport.view.mine.ItemView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/btn_done"
+        style="@style/bt_done"
+        android:text="退出登录"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="15dp"/>
+</LinearLayout>

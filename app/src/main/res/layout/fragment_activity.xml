@@ -6,6 +6,34 @@
 
     <include layout="@layout/common_title" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/imv_laba"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/imv_laba"
+            android:text="当前没有报名中的活动， 以下为历史活动。"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/imv_nonewdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"

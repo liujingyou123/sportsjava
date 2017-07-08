@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_marginBottom="3dp">
+
+    <ImageView
+        android:id="@+id/imv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round_black_2"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:text="报名"
+        android:textColor="#FFFFFFFF"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/imv_head"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="15dp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imv_head"
+        android:layout_alignTop="@id/imv_head"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/imv_head"
+        android:gravity="center_vertical"
+        android:text="Ricky Ricky"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/imv_head"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="南山俱乐部 大云山潜水第九期"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tv_name"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
+        android:text="12345"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        android:drawableLeft="@mipmap/icon_jingcaixiu_hot"
+        android:drawablePadding="2dp"/>
+</RelativeLayout>

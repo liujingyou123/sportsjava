@@ -4,11 +4,16 @@
     package="com.sports.limitsport">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".base.LimitSportApplication"
@@ -18,6 +23,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="BA6WynpCoQKbo3aSVWHBAjoox6vaQEwo" />
+
         <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +35,71 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.ActivityDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AllShaiActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SignUpListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PayOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaySuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MapActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".mine.UserInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateVisible" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".mine.NoticeFirstLevelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.NoticeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.SetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyFocusListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyFansListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyClubsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mine.MyActivitysActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".mine.OrderDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.sports.limitsport.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivitysAdapter;
 import com.sports.limitsport.activity.model.Act;
@@ -51,11 +53,21 @@ public class ActivityFragment extends BaseFragment {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         adapter = new ActivitysAdapter(data);
-        adapter.openLoadAnimation();
         recyclerView.setAdapter(adapter);
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         recyclerView.addItemDecoration(decoration);
+
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(ActivityFragment.this.getContext(), ActivityDetailActivity.class);
+                ActivityFragment.this.startActivity(intent);
+            }
+        });
+
+
+
     }
 
     private void getTestData() {
@@ -85,6 +97,19 @@ public class ActivityFragment extends BaseFragment {
             Act act4 = new Act();
             act4.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
             data.add(act4);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            Act act4 = new Act();
+            act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
+            data.add(act4);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            Act act6 = new Act();
+            act6.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
+            data.add(act6);
+
         }
     }
 

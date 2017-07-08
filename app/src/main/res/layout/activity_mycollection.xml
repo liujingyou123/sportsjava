@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_title" />
+
+    <com.sports.limitsport.view.SlidingTabLayout
+        android:id="@+id/id_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:background="@color/bg_title"
+        apps:bottomLineColor="#141414"
+        apps:bottomLineHeight="1dp"
+        apps:dividerMargin="14dp"
+        apps:indicatorColor="@color/color_text_green"
+        apps:indicatorHeight="2dp"
+        apps:tabTitleColor="#FFA5A4A4"
+        apps:tabTitleColorSelect="@color/color_text_green"
+        apps:indicatorWidth="20dp"></com.sports.limitsport.view.SlidingTabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_green"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text=""
+        android:textColor="@color/color_text_green"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/bg_green_rec"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="手机号码"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <com.sports.limitsport.view.ExtendedEditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:hint="请填写手机号码"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textColorHint="#555555"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/bg_green_rec"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="用户姓名"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <com.sports.limitsport.view.ExtendedEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:hint="请填写用户姓名"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textColorHint="#555555"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/bg_green_rec"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="用户姓名"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <com.sports.limitsport.view.ExtendedEditText
+            android:id="@+id/et_ids"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:hint="请填写身份证号码"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textColorHint="#555555"
+            android:textSize="16sp" />
+    </LinearLayout>
+</merge>
