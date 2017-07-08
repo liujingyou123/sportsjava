@@ -33,9 +33,8 @@ public class OrderInfoView extends LinearLayout {
 
     private OrderInfo orderInfo;
 
-    public OrderInfoView(Context context, OrderInfo orderInfo) {
+    public OrderInfoView(Context context) {
         super(context);
-        this.orderInfo = orderInfo;
         initView();
     }
 
@@ -51,13 +50,12 @@ public class OrderInfoView extends LinearLayout {
 
     private void initView() {
         setOrientation(VERTICAL);
-        int padding = UnitUtil.dip2px(getContext(), 10);
+        int padding = UnitUtil.dip2px(getContext(), 15);
         setPadding(padding, padding, padding, padding);
         LayoutInflater.from(getContext()).inflate(R.layout.item_adapter_orders, this);
         ButterKnife.bind(this, this);
 
-        String position = UnitUtil.formatDec(orderInfo.id);
-        tvNum.setText("用户"+position);
+
         etPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,7 +111,27 @@ public class OrderInfoView extends LinearLayout {
     }
 
 
+    public void showOrderInfo(OrderInfo orderInfo, boolean isEdit) {
+        showOrderInfo(orderInfo);
+        if (!isEdit) {
+            etPhone.setEnabled(false);
+            etName.setEnabled(false);
+            etIds.setEnabled(false);
+        }
+    }
 
+
+    public void showOrderInfo(OrderInfo orderInfo) {
+        if (orderInfo == null) {
+            return;
+        }
+        this.orderInfo = orderInfo;
+        String position = UnitUtil.formatDec(orderInfo.id);
+        tvNum.setText("用户" + position);
+        etPhone.setText(orderInfo.phone);
+        etName.setText(orderInfo.names);
+        etIds.setText(orderInfo.idCard);
+    }
 
 
 }

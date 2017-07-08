@@ -83,7 +83,8 @@ public class PayOrderActivity extends BaseActivity {
         OrderInfo orderInfo = new OrderInfo();
         int childViewCount = llOrders.getChildCount();
         orderInfo.id = childViewCount + 1;
-        OrderInfoView view = new OrderInfoView(this, orderInfo);
+        OrderInfoView view = new OrderInfoView(this);
+        view.showOrderInfo(orderInfo);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         llOrders.addView(view, lp);
 

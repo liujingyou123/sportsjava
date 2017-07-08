@@ -45,7 +45,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="-10dp"
                 android:text="下单时间：2017-06-14  21:59"
+                android:textColor="#A5A4A4"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_pay_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="支付时间：2017-06-14  22:10"
+                android:textColor="#A5A4A4"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_pay_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="支付方式：支付宝"
                 android:textColor="#A5A4A4"
                 android:textSize="12sp" />
 
@@ -55,7 +75,7 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_black_round_circle">
 
                 <ImageView
@@ -118,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/tv_ticket_price"
+                    android:layout_marginRight="15dp"
                     android:text="x2"
                     android:textColor="#c5c4c4"
                     android:textSize="12sp" />
@@ -157,6 +178,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_showDong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -177,7 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:text="报名信息"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -188,125 +210,149 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"></LinearLayout>
 
-            <TextView
+            <!-- 支付方式 -->
+            <LinearLayout
+                android:id="@+id/ll_order_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="40dp"
-                android:text="支付方式"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
+                <View
+                    style="@style/view_line"
+                    android:layout_below="@id/imv_cover"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"/>
 
                 <TextView
-                    android:id="@+id/tv_zhifubao"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/icon_dingdanzhifu_zhifubao"
-                    android:drawablePadding="8dp"
-                    android:gravity="center_vertical"
-                    android:text="支付宝"
-                    android:textColor="#ffffff"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_zhifubao"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="25dp"
-                    android:drawableLeft="@mipmap/icon_dingdanzhifu_wechat"
-                    android:drawablePadding="8dp"
-                    android:gravity="center_vertical"
-                    android:text="微信"
+                    android:text="支付方式"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
-                <RadioGroup
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp">
 
-                    <RadioButton
-                        android:id="@+id/zhifubao"
+                    <TextView
+                        android:id="@+id/tv_zhifubao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:button="@drawable/paytype_raido"
-                        android:checked="true" />
+                        android:drawableLeft="@mipmap/icon_dingdanzhifu_zhifubao"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
+                        android:text="支付宝"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
 
-                    <RadioButton
-                        android:id="@+id/weixin"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:layout_weight="1"
-                        android:button="@drawable/paytype_raido" />
-                </RadioGroup>
-            </RelativeLayout>
+                        android:layout_below="@id/tv_zhifubao"
+                        android:layout_marginTop="25dp"
+                        android:drawableLeft="@mipmap/icon_dingdanzhifu_wechat"
+                        android:drawablePadding="8dp"
+                        android:gravity="center_vertical"
+                        android:text="微信"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
 
-            <View
-                style="@style/view_line"
-                android:layout_below="@id/imv_cover"
-                android:layout_marginTop="10dp" />
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/zhifubao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:button="@drawable/paytype_raido"
+                            android:checked="true" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/tv_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_btn_gray"
-                    android:gravity="center"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingTop="10dp"
-                    android:text="取消订单"
-                    android:textColor="#FFA5A4A4"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:id="@+id/tv_pay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/bg_done"
-                    android:gravity="center"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingTop="10dp"
-                    android:text="支付 59:33"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="16sp" />
+                        <RadioButton
+                            android:id="@+id/weixin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="40dp"
+                            android:layout_weight="1"
+                            android:button="@drawable/paytype_raido" />
+                    </RadioGroup>
+                </RelativeLayout>
 
                 <View
-                    android:layout_width="0dp"
+                    style="@style/view_line"
+                    android:layout_below="@id/imv_cover"
+                    android:layout_marginTop="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_btn_gray"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="25dp"
+                        android:paddingTop="10dp"
+                        android:text="取消订单"
+                        android:textColor="#FFA5A4A4"
+                        android:textSize="16sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_done"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="25dp"
+                        android:paddingTop="10dp"
+                        android:text="支付 59:33"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
             </LinearLayout>
+            
+            
+            <TextView
+                android:id="@+id/tv_notice"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="如有疑问，请联系俱乐部"
+                android:textColor="#FF616161"
+                android:textSize="12sp"/>
         </LinearLayout>
     </ScrollView>
 

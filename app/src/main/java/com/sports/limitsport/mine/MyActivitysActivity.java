@@ -38,6 +38,7 @@ public class MyActivitysActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
     }
+
     private void initView() {
         tvFocusHouse.setText("我的活动");
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_commentlist, null);
@@ -62,6 +63,7 @@ public class MyActivitysActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(MyActivitysActivity.this, OrderDetailActivity.class);
+                intent.putExtra("type", position + 1 + "");
                 startActivity(intent);
             }
         });
