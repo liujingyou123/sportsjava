@@ -70,6 +70,7 @@ dependencies {
     compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     compile 'com.github.yalantis:ucrop:2.2.1'
+    compile 'com.youth.banner:banner:1.4.9'
     compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/baidumapapi_base_v4_3_1.jar')
     compile files('libs/baidumapapi_cloud_v4_3_1.jar')

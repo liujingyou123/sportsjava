@@ -27,6 +27,6 @@ class FindPageItem extends SlidingTagPagerItem {
 //        fragment.setArguments(bundle);
 //
 
-        return null;
+        return fragment;
     }
 }

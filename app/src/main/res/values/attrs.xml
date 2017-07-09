@@ -91,6 +91,7 @@
         <attr name="dividerWidth" format="dimension" />
         <attr name="tabTitleColor" format="color" />
         <attr name="tabTitleColorSelect" format="color" />
+        <attr name="tabTextSize" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="ShopDetailItem">
         <attr name="LabelOne" format="string" />

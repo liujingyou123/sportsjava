@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#000000"
+        android:background="@color/bg_title"
         android:orientation="horizontal">
 
         <ImageView
@@ -18,21 +18,23 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_fadongtai"/>
 
         <com.sports.limitsport.view.SlidingTabLayout
             android:id="@+id/id_tab"
             android:layout_width="134dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:background="#ffffff"
+            android:background="@color/bg_title"
             apps:bottomLineColor="#00000000"
             apps:bottomLineHeight="0dp"
             apps:dividerMargin="14dp"
             apps:indicatorColor="#00000000"
             apps:indicatorHeight="2dp"
             apps:tabTitleColor="#A5A4A4"
-            apps:tabTitleColorSelect="#FFFFFF"></com.sports.limitsport.view.SlidingTabLayout>
+            apps:tabTitleColorSelect="#FFFFFF"
+            apps:tabTextSize="16sp"></com.sports.limitsport.view.SlidingTabLayout>
 
     </RelativeLayout>
 

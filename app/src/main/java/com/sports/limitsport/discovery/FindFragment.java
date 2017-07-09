@@ -48,7 +48,7 @@ public class FindFragment extends BaseFragment {
         mTab.add(new FindPageItem("动态", "1"));
         idViewPager.setAdapter(new SlidingTabPagerAdapter(this.getChildFragmentManager(), mTab));
         idTab.setViewPager(idViewPager, UnitUtil.dip2px(this.getContext(), 134));
-        idViewPager.setCurrentItem(0);
+//        idViewPager.setCurrentItem(0);
     }
 
     @Override

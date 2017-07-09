@@ -40,6 +40,17 @@ public class UnitUtil {
     }
 
     /**
+     * 将像素转换为sp
+     *
+     * @param
+     * @return
+     */
+    public static int px2sp(Context context,float pxValue) {
+        float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    /**
      * 获取屏宽度像素数
      *
      * @return

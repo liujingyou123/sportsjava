@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.util.UnitUtil;
 
 import java.util.List;
 
@@ -81,6 +82,8 @@ public class SlidingTabLayout extends LinearLayout {
     private int mDividerWidth = DEFAULT_DIVIDER_WIDTH;
     /*底部线条的画笔*/
     private Paint mBottomPaint ;
+    /*默认title字体的大小*/
+    private int mTextSize = DEFAULT_TEXT_SIZE;
 
     /*tab标题没选中的颜色*/
     private int mTabNonSelectColor = DEFAULT_TAB_TITLE_COLOR;
@@ -134,39 +137,11 @@ public class SlidingTabLayout extends LinearLayout {
                 mTabSelectColor = typedArray.getColor(attr, DEFAULT_TAB_TITLE_COLOR_SELECT);
             } else if (attr == R.styleable.SlidingTabLayout_indicatorWidth) {
                 mIndicatorWidth = (int) typedArray.getDimension(attr, DEFAULT_INDICATOR_HEIGHT * getResources().getDisplayMetrics().density);
+            } else if (attr == R.styleable.SlidingTabLayout_tabTextSize) {
+                mTextSize = UnitUtil.px2sp(getContext(), typedArray.getDimensionPixelSize(attr, DEFAULT_TEXT_SIZE));
             }
 
-//            switch (attr) {
-//                case R.styleable.SlidingTabLayout_indicatorColor:
-//                    /*获取页卡颜色值*/
-//                    mIndicatorColor = typedArray.getColor(attr, DEFAULT_INDICATOR_COLOR);
-//                    break;
-//                case R.styleable.SlidingTabLayout_dividerColor:
-//                    /*获取分割线颜色的值*/
-//                    mDividerColor = typedArray.getColor(attr, DEFAULT_DIVIDER_COLOR);
-//                    break;
-//                case R.styleable.SlidingTabLayout_bottomLineColor:
-//                    /*获取底部线条颜色的值*/
-//                    mBottomLineColor = typedArray.getColor(attr, DEFAULT_BOTTOM_LINE_COLOR);
-//                    break;
-//                case R.styleable.SlidingTabLayout_dividerMargin:
-//                    /*获取分割线的距离上线边距的距离*/
-//                    mDividerMargin = (int) typedArray.getDimension(attr, DEFAULT_DIVIDER_MARGIN * getResources().getDisplayMetrics().density);
-//                    Log.v("zgy","=========mDividerMargin========="+mDividerMargin) ;
-//                    break;
-//                case R.styleable.SlidingTabLayout_indicatorHeight:
-//                    /*获取页卡的高度*/
-//                    mIndicatorHeight = (int) typedArray.getDimension(attr, DEFAULT_INDICATOR_HEIGHT * getResources().getDisplayMetrics().density);
-//                    break;
-//                case R.styleable.SlidingTabLayout_bottomLineHeight:
-//                    /*获取底部线条的高度*/
-//                    mBottomLineHeight = (int) typedArray.getDimension(attr, DEFAULT_BOTTOM_LINE_HEIGHT * getResources().getDisplayMetrics().density);
-//                    break;
-//                case R.styleable.SlidingTabLayout_dividerWidth:
-//                    /*获取分割线的宽度*/
-//                    mDividerWidth = (int) typedArray.getDimension(attr, DEFAULT_DIVIDER_WIDTH * getResources().getDisplayMetrics().density);
-//                    break;
-//            }
+
         }
         /*释放TypedArray*/
         typedArray.recycle();
@@ -297,7 +272,7 @@ public class SlidingTabLayout extends LinearLayout {
     private TextView createDefaultTabView(Context context,int size, int width) {
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         TextView textView = new TextView(context);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
         textView.setGravity(Gravity.CENTER);
 
         layoutParams = new LayoutParams(width/size, LayoutParams.MATCH_PARENT);
@@ -317,7 +292,7 @@ public class SlidingTabLayout extends LinearLayout {
     private TextView createDefaultTabView(Context context,int size) {
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         TextView textView = new TextView(context);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
         textView.setGravity(Gravity.CENTER);
         if(size==1){
             layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
