@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:drawableLeft="@mipmap/icon_dingdanzhifu_information_line"
+            android:drawableLeft="@drawable/icon_bg_note"
             android:drawablePadding="2dp"
             android:gravity="center_vertical"
             android:text="俱乐部"
@@ -47,7 +47,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rlv_club"
         android:layout_width="match_parent"
-        android:layout_height="160dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="160dp"
+        android:layout_marginTop="15dp"></android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
         android:layout_width="match_parent"
