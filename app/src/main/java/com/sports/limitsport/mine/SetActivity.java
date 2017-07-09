@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
+import com.sports.limitsport.main.IdentifyActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,9 +49,14 @@ public class SetActivity extends BaseActivity {
         dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-
+                test();
             }
         });
         dialog.show();
+    }
+
+    private void test() {
+        Intent intent = new Intent(this, IdentifyActivity.class);
+        startActivity(intent);
     }
 }
