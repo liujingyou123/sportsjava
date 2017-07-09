@@ -104,6 +104,9 @@
         <activity
             android:name=".main.IdentifyActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".main.SelectOwnHobbyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

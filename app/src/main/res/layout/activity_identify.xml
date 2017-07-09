@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:text="跳过"
+        android:textColor="#FFA5A4A4"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/imv_head"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="#ffff00" />
+
+    <RadioGroup
+        android:id="@+id/rg_male"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imv_head"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_blue_gray_circle"
+            android:button="@null"
+            android:checked="false"
+            android:drawableLeft="@drawable/rb_gender_male"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:text="男生"
+            android:textColor="@color/color_blue_gray_circle"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:background="@drawable/bg_pink_gray_circle"
+            android:button="@null"
+            android:checked="false"
+            android:drawableLeft="@drawable/rb_gender_female"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:text="女生"
+            android:textColor="@color/color_pink_gray_circle"
+            android:textSize="10sp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/rg_male">
+        <LinearLayout
+            android:id="@+id/ll_nicheng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵称"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="支持2－16位英文，数字，符号"
+                android:text=""
+                android:textColor="#FFFFFFFF"
+                android:textColorHint="#FFA5A4A4"
+                android:textSize="14sp"
+                android:layout_marginLeft="15dp"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="20dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_chengshi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="所在城市"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请选择所在城市"
+                android:text=""
+                android:textColor="#FFFFFFFF"
+                android:textColorHint="#FFA5A4A4"
+                android:textSize="14sp"
+                android:layout_marginLeft="15dp"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="20dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出生年月"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请选择出生年月"
+                android:text=""
+                android:textColor="#FFFFFFFF"
+                android:textColorHint="#FFA5A4A4"
+                android:textSize="14sp"
+                android:layout_marginLeft="15dp"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="20dp"/>
+
+
+        <TextView
+            android:id="@+id/tv_done"
+            style="@style/bt_done"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="50dp"
+            android:text="下一步"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
