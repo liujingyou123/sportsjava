@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
-import com.sports.limitsport.discovery.Club;
+import com.sports.limitsport.discovery.model.Club;
 import com.sports.limitsport.image.Batman;
 
 import java.util.List;

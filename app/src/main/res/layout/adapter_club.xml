@@ -14,7 +14,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
+        android:layout_marginTop="51dp"
+        android:background="@drawable/bg_black_circle"
+        android:padding="1dp"/>
 
     <TextView
         android:id="@+id/tv_name"
@@ -33,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="2dp"
         android:text="50人已加入"
         android:textColor="#FFA5A4A4"
         android:textSize="12sp"/>

@@ -9,9 +9,10 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.adapter.ShallAdapter;
-import com.sports.limitsport.discovery.Club;
+import com.sports.limitsport.discovery.adapter.FineShowAdapter;
+import com.sports.limitsport.discovery.model.Club;
 import com.sports.limitsport.discovery.adapter.ClubAdapter;
+import com.sports.limitsport.discovery.model.FineShow;
 import com.sports.limitsport.util.GlideImageLoader;
 import com.sports.limitsport.util.MyTestData;
 import com.youth.banner.Banner;
@@ -35,8 +36,10 @@ public class HotNewHeadView extends LinearLayout {
     @BindView(R.id.rlv_fanshow)
     RecyclerView rlvFanshow;
     private ClubAdapter clubAdapter;
+    private FineShowAdapter fineShowAdapter;
 
     private List<Club> clubs = new ArrayList<>();
+    private List<FineShow> fineShows = new ArrayList<>();
 
     public HotNewHeadView(Context context) {
         super(context);
@@ -57,7 +60,8 @@ public class HotNewHeadView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_hotnew, this);
         ButterKnife.bind(this, this);
         showBanner();
-        setClubs();
+        showClubs();
+        showFines();
     }
 
     private void showBanner() {
@@ -72,7 +76,7 @@ public class HotNewHeadView extends LinearLayout {
         banner.start();
     }
 
-    private void setClubs() {
+    private void showClubs() {
         for (int i = 0; i < 10; i++) {
             Club club = new Club();
             clubs.add(club);
@@ -85,5 +89,24 @@ public class HotNewHeadView extends LinearLayout {
 
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlvClub.addItemDecoration(decoration);
+    }
+
+    /**
+     * 精彩秀
+     */
+    private void showFines() {
+        for (int i = 0; i < 10; i++) {
+            FineShow club = new FineShow();
+            fineShows.add(club);
+        }
+
+        rlvFanshow.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        fineShowAdapter = new FineShowAdapter(fineShows);
+        rlvFanshow.setAdapter(fineShowAdapter);
+
+
+        SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
+        rlvFanshow.addItemDecoration(decoration);
     }
 }

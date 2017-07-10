@@ -23,9 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:drawableLeft="@drawable/icon_bg_note"
-            android:drawablePadding="2dp"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="俱乐部"
             android:textColor="#FFFFFFFF"
@@ -35,13 +35,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:drawablePadding="2dp"
             android:drawableRight="@mipmap/icon_discovery_more"
             android:gravity="center_vertical"
             android:text="更多"
             android:textColor="#FF8D8D8D"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -53,15 +54,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:drawableLeft="@mipmap/icon_dingdanzhifu_information_line"
-            android:drawablePadding="2dp"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/icon_bg_note"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="精彩秀"
             android:textColor="#FFFFFFFF"
@@ -71,19 +72,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:drawablePadding="2dp"
             android:drawableRight="@mipmap/icon_discovery_more"
             android:gravity="center_vertical"
             android:text="更多"
             android:textColor="#FF8D8D8D"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rlv_fanshow"
         android:layout_width="match_parent"
-        android:layout_height="130dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="190dp"
+        android:layout_marginTop="15dp"></android.support.v7.widget.RecyclerView>
 
 
     <RelativeLayout
@@ -95,9 +98,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:drawableLeft="@mipmap/icon_dingdanzhifu_information_line"
-            android:drawablePadding="2dp"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/icon_bg_note"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="新人报道"
             android:textColor="#FFFFFFFF"
@@ -107,12 +110,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:drawablePadding="2dp"
             android:drawableRight="@mipmap/icon_discovery_more"
             android:gravity="center_vertical"
             android:text="更多"
             android:textColor="#FF8D8D8D"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 </LinearLayout>
