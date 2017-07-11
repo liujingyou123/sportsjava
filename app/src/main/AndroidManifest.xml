@@ -105,9 +105,28 @@
             android:name=".main.IdentifyActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".main.SelectOwnHobbyActivity"
+        <activity
+            android:name=".main.SelectOwnHobbyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".discovery.FindClubActivity"
+        <activity
+            android:name=".discovery.FindClubActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".discovery.CreateClubActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".discovery.FineShowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".discovery.NewPersonReportActivity"
+            android:screenOrientation="portrait" />
+        <!-- 个人主页 -->
+        <activity
+            android:name=".discovery.PersonInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".discovery.JoinActivityActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".discovery.JoinClubActivity"
             android:screenOrientation="portrait" />
     </application>
 

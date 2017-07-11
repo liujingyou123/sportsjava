@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -61,7 +62,9 @@ public class HotNewsFragment extends Fragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 XLog.e("onItemChildClick");
-                view.setEnabled(false);
+//                view.setEnabled(false);
+                Intent intent = new Intent(HotNewsFragment.this.getContext(), PersonInfoActivity.class);
+                HotNewsFragment.this.getContext().startActivity(intent);
             }
         });
     }

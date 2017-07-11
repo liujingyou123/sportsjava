@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +59,8 @@ public class FindClubActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_focus_right:
+                Intent intent = new Intent(this, CreateClubActivity.class);
+                startActivity(intent);
                 break;
         }
     }

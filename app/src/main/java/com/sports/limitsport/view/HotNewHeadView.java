@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.discovery.FindClubActivity;
+import com.sports.limitsport.discovery.FineShowActivity;
+import com.sports.limitsport.discovery.NewPersonReportActivity;
 import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.adapter.FineShowAdapter;
 import com.sports.limitsport.discovery.model.Club;
@@ -122,8 +124,12 @@ public class HotNewHeadView extends LinearLayout {
                 getContext().startActivity(intent);
                 break;
             case R.id.tv_fineshow:
+                Intent intent1 = new Intent(getContext(), FineShowActivity.class);
+                getContext().startActivity(intent1);
                 break;
             case R.id.tv_news:
+                Intent intent2 = new Intent(getContext(), NewPersonReportActivity.class);
+                getContext().startActivity(intent2);
                 break;
         }
     }
