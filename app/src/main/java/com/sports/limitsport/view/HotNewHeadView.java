@@ -1,17 +1,20 @@
 package com.sports.limitsport.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.discovery.FindClubActivity;
+import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.adapter.FineShowAdapter;
 import com.sports.limitsport.discovery.model.Club;
-import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.model.FineShow;
 import com.sports.limitsport.util.GlideImageLoader;
 import com.sports.limitsport.util.MyTestData;
@@ -23,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by jingyouliu on 17/7/9.
@@ -108,5 +112,19 @@ public class HotNewHeadView extends LinearLayout {
 
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlvFanshow.addItemDecoration(decoration);
+    }
+
+    @OnClick({R.id.tv_clubs, R.id.tv_fineshow, R.id.tv_news})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_clubs:
+                Intent intent = new Intent(getContext(), FindClubActivity.class);
+                getContext().startActivity(intent);
+                break;
+            case R.id.tv_fineshow:
+                break;
+            case R.id.tv_news:
+                break;
+        }
     }
 }
