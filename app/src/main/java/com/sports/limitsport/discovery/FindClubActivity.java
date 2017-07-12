@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.discovery.adapter.FindClubAdapter;
@@ -82,6 +83,13 @@ public class FindClubActivity extends BaseActivity {
         rlClubs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         adapter = new FindClubAdapter(clubs);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(FindClubActivity.this, ClubDetailActivity.class);
+                startActivity(intent);
+            }
+        });
         rlClubs.setAdapter(adapter);
 
 

@@ -123,7 +123,5 @@
         android:id="@+id/btn_done"
         style="@style/bt_done"
         android:text="退出登录"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_marginBottom="15dp"/>
 </LinearLayout>

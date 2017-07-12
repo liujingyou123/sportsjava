@@ -4,18 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.mine.adapter.MineAdapter;
 import com.sports.limitsport.mine.model.Dongtai;
-import com.sports.limitsport.util.UnitUtil;
-import com.sports.limitsport.view.MineHeaderView;
 import com.sports.limitsport.view.PersonInfoHeaderView;
 
 import java.util.ArrayList;

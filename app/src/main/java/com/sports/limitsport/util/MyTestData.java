@@ -23,4 +23,8 @@ public class MyTestData {
         }
         return data;
     }
+
+    public static List<String> getEmptyData() {
+        return new ArrayList<>();
+    }
 }

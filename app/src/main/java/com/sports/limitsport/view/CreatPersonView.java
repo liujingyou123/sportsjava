@@ -17,17 +17,20 @@ import com.sports.limitsport.R;
 public class CreatPersonView extends LinearLayout{
     public CreatPersonView(Context context) {
         super(context);
+        initView();
     }
 
     public CreatPersonView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initView();
     }
 
     public CreatPersonView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView();
     }
 
     private void initView() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_creatperson, null);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_creatperson, this);
     }
 }

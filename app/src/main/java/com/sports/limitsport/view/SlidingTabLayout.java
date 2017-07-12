@@ -265,6 +265,9 @@ public class SlidingTabLayout extends LinearLayout {
             TextView textView = createDefaultTabView(getContext(),adapter.getCount());
             textView.setOnClickListener(tabOnClickListener);
             textView.setText(mItemName.getTabName(i));
+            if (i ==0 ) {
+                textView.setTextColor(mTabSelectColor);
+            }
             addView(textView);
         }
     }
