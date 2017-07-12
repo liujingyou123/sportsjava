@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorlayout"
@@ -124,7 +123,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_club_name"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginTop="15dp">
 
                             <com.sports.limitsport.view.CreatPersonView
                                 android:layout_width="match_parent"
@@ -132,11 +132,51 @@
 
                             <com.sports.limitsport.view.CreatPersonView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
 
                             <com.sports.limitsport.view.CreatPersonView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+                            <LinearLayout
+                                android:id="@+id/ll_members_two"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_club_name"
+                                android:orientation="vertical"
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone">
+
+                                <com.sports.limitsport.view.CreatPersonView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>
+
+                                <com.sports.limitsport.view.CreatPersonView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+
+                                <com.sports.limitsport.view.CreatPersonView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tv_more"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="更多管理者"
+                                android:textColor="#FFFFFFFF"
+                                android:textSize="12sp"
+                                android:gravity="center"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:layout_gravity="center_horizontal"
+                                android:drawableRight="@drawable/bg_tv_more"
+                                android:drawablePadding="4dp"/>
                         </LinearLayout>
 
 
@@ -233,6 +273,16 @@
             android:text="申请加入" />
     </LinearLayout>
 
+    <!-- 发布按钮 -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:id="@+id/imv_publish"
+        android:src="@mipmap/icon_clubxiangqing_fadongtai"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="15dp"/>
 
 </FrameLayout>
 

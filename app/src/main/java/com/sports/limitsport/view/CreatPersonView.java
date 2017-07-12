@@ -4,9 +4,15 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.image.Batman;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -14,7 +20,16 @@ import com.sports.limitsport.R;
  * 创始人View
  */
 
-public class CreatPersonView extends LinearLayout{
+public class CreatPersonView extends LinearLayout {
+    @BindView(R.id.imv_head)
+    ImageView imvHead;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_jiaose)
+    TextView tvJiaose;
+    @BindView(R.id.tv_des)
+    TextView tvDes;
+
     public CreatPersonView(Context context) {
         super(context);
         initView();
@@ -32,5 +47,9 @@ public class CreatPersonView extends LinearLayout{
 
     private void initView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_creatperson, this);
+        ButterKnife.bind(this,this);
+
+        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
+
     }
 }

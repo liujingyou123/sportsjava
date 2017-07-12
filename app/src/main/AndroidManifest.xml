@@ -124,11 +124,17 @@
         <activity
             android:name=".discovery.PersonInfoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".discovery.JoinActivityActivity"
+        <activity
+            android:name=".discovery.JoinActivityActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".discovery.JoinClubActivity"
+        <activity
+            android:name=".discovery.JoinClubActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".discovery.ClubDetailActivity"
+        <activity
+            android:name=".discovery.ClubDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".discovery.ClubBaseInfoActivity"
             android:screenOrientation="portrait" />
     </application>
 

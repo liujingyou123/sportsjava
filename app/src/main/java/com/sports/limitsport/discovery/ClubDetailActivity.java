@@ -1,5 +1,7 @@
 package com.sports.limitsport.discovery;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -17,6 +19,7 @@ import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.SlidingTagPagerItem;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -58,6 +61,10 @@ public class ClubDetailActivity extends BaseActivity {
     TextView btnDone;
     @BindView(R.id.ll_bottom)
     LinearLayout llBottom;
+    @BindView(R.id.ll_members_two)
+    LinearLayout llMembersTwo;
+    @BindView(R.id.tv_more)
+    TextView tvMore;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
 
     @Override
@@ -79,12 +86,6 @@ public class ClubDetailActivity extends BaseActivity {
      * 设置item
      */
     private void setupViewPager() {
-//        ClubsDetailAdapter adapter = new ClubsDetailAdapter(getSupportFragmentManager());
-//        adapter.addFragment(new TabActivityFragment(), "在线活动");
-//        adapter.addFragment(new TabActivityFragment(), "精彩回顾");
-//        viewPager.setAdapter(adapter);
-//        setIndicator(this, tabs);
-
         mTab.add(new ClubDetailPageItem("在线活动", "0"));
         mTab.add(new ClubDetailPageItem("精彩回顾", "1"));
         viewPager.setAdapter(new SlidingTabPagerAdapter(this.getSupportFragmentManager(), mTab));
@@ -92,7 +93,7 @@ public class ClubDetailActivity extends BaseActivity {
 //        viewPager.setCurrentItem(0);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.tv_club_tip})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -103,6 +104,21 @@ public class ClubDetailActivity extends BaseActivity {
                 dialog.show();
                 break;
             case R.id.imv_share:
+                break;
+            case R.id.tv_more:
+                if (tvMore.isSelected()) {
+                    tvMore.setText("更多管理着");
+                    tvMore.setSelected(false);
+                    llMembersTwo.setVisibility(View.GONE);
+                } else {
+                    tvMore.setText("收起");
+                    tvMore.setSelected(true);
+                    llMembersTwo.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.tv_club_tip:
+                Intent intent = new Intent(this, ClubBaseInfoActivity.class);
+                startActivity(intent);
                 break;
         }
     }
