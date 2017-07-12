@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg">
+
+    <TextView
+        android:id="@+id/tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/view_line"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:text="发布"
+        android:textColor="@color/color_green_gray"
+        android:textSize="14sp"
+        android:gravity="center_vertical"/>
+
+    <EditText
+        android:id="@+id/btn_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_line"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@id/tv_send"
+        android:background="@drawable/bg_btn_gray_round"
+        android:gravity="left|top"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:hint="我要来发言…"
+        android:textColorHint="#FF444444"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:minHeight="35dp"/>
+</RelativeLayout>

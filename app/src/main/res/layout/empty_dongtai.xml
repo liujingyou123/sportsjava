@@ -12,6 +12,7 @@
         android:src="@mipmap/defaultgraph_nocontent"
         android:layout_marginTop="15dp" />
     <TextView
+        android:id="@+id/tv_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="您还没有动态，快去发布吧"

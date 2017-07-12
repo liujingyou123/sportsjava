@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.mine.adapter.MyCollectFanShowAdapter;
@@ -52,6 +54,13 @@ public class FineShowActivity extends BaseActivity {
         rclv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         adapter = new MyCollectFanShowAdapter(MyTestData.getData());
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(FineShowActivity.this, FineShowDetailActivity.class);
+                startActivity(intent);
+            }
+        });
         adapter.bindToRecyclerView(rclv);
 
         adapter.setEmptyView(emptyView);
