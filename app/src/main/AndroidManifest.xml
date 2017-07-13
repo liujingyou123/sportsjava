@@ -142,6 +142,10 @@
         <activity
             android:name=".notice.FindMoreActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".notice.EditNewDongTaiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

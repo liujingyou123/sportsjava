@@ -2,6 +2,7 @@ package com.sports.limitsport.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -41,6 +42,11 @@ public class Afo implements ImageButler {
                 return false;
             }
         }).into(simpleTarget);
+    }
+
+    @Override
+    public void loadUri(Context context, Uri uri, ImageView imageView) {
+        Glide.with(imageView.getContext()).load(uri).centerCrop().into(imageView);
     }
 
 

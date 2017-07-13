@@ -23,6 +23,7 @@ import com.sports.limitsport.view.NoticeViewHeaderView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -162,4 +163,15 @@ public class NoticeFragment extends BaseFragment {
     }
 
 
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_right})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                break;
+            case R.id.imv_right:
+                Intent intent = new Intent(this.getContext(), EditNewDongTaiActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

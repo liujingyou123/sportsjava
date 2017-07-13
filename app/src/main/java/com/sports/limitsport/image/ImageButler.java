@@ -2,6 +2,7 @@ package com.sports.limitsport.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.Transformation;
@@ -21,6 +22,7 @@ public interface ImageButler {
      */
     void fromNet(Context context, String url, BatmanCallBack callBack);
 
+    void loadUri(Context context, Uri uri, ImageView imageView);
     /**
      * 加载网络图片
      *

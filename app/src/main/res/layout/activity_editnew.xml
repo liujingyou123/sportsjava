@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#171717"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_bianjixindongtai_quit" />
+
+
+        <TextView
+            android:id="@+id/tv_focus_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:text="发布"
+            android:textColor="@color/color_btn_selector"
+            android:textSize="14sp"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/tv_focus_house"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="编辑新动态"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <View
+            style="@style/view_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF232323"
+        android:orientation="vertical"
+        android:layout_below="@id/rl_top">
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="分享你挑战极限的精彩和快乐吧"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#FF444444"
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imv_cover"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_alignParentBottom="true" />
+
+            <ImageView
+                android:id="@+id/imv_close_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_bianjixindongtai_delete" />
+
+            <ImageView
+                android:id="@+id/imv_video"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_video" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FF232323">
+
+        <View style="@style/view_line" />
+
+        <ImageView
+            android:id="@+id/imv_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_bianjixindongtai_pic" />
+
+        <ImageView
+            android:id="@+id/imv_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/imv_pic"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_bianjixindongtai_at" />
+
+        <ImageView
+            android:id="@+id/imv_club"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/imv_at"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_bianjixindongtai_event" />
+
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@drawable/bg_tv_type"
+            android:text="公开"
+            android:textColor="#FFFFFFFF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+</RelativeLayout>

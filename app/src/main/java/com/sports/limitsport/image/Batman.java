@@ -2,6 +2,7 @@ package com.sports.limitsport.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -55,6 +56,9 @@ public final class Batman {
         mButler.fromNet(mContext, url, imageView, defaultImage, failedImage, 0, 0);
     }
 
+    public void loadUri(Uri uri, ImageView imageView) {
+        mButler.loadUri(mContext, uri, imageView);
+    }
 
     /**
      * 加载网络图片
