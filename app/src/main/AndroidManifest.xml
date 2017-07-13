@@ -136,7 +136,11 @@
         <activity
             android:name=".discovery.ClubBaseInfoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".discovery.FineShowDetailActivity"
+        <activity
+            android:name=".discovery.FineShowDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".notice.FindMoreActivity"
             android:screenOrientation="portrait" />
     </application>
 

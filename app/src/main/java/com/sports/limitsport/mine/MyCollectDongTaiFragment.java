@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyCollectDongTaiAdapter;
+import com.sports.limitsport.util.MyTestData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,22 +35,14 @@ public class MyCollectDongTaiFragment extends Fragment {
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
     private MyCollectDongTaiAdapter adapter;
-    private List<String> data = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mycollectdongtai, null);
         unbinder = ButterKnife.bind(this, view);
-        testData();
         initView();
         return view;
-    }
-
-    private void testData() {
-        for (int i = 0; i < 5; i++) {
-            data.add("" + i);
-        }
     }
 
     private void initView() {
@@ -66,7 +59,7 @@ public class MyCollectDongTaiFragment extends Fragment {
         });
         rlcv.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyCollectDongTaiAdapter(data);
+        adapter = new MyCollectDongTaiAdapter(MyTestData.getData());
         adapter.bindToRecyclerView(rlcv);
 
         adapter.setEmptyView(emptyView);
