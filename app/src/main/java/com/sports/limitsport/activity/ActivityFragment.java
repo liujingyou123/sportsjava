@@ -8,6 +8,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -34,6 +37,10 @@ public class ActivityFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     Unbinder unbinder;
+    @BindView(R.id.imv_focus_house_back)
+    ImageView imvFocusHouseBack;
+    @BindView(R.id.rl_nodata)
+    RelativeLayout rlNodata;
 
     private List<Act> data = new ArrayList<>();
     private ActivitysAdapter adapter;
@@ -50,12 +57,13 @@ public class ActivityFragment extends BaseFragment {
 
     private void init() {
         tvFocusHouse.setText("极限领秀");
+        imvFocusHouseBack.setVisibility(View.GONE);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         adapter = new ActivitysAdapter(data);
         recyclerView.setAdapter(adapter);
 
-        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(5);
         recyclerView.addItemDecoration(decoration);
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -65,7 +73,6 @@ public class ActivityFragment extends BaseFragment {
                 ActivityFragment.this.startActivity(intent);
             }
         });
-
 
 
     }
@@ -117,5 +124,10 @@ public class ActivityFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.imv_nonewdata)
+    public void onViewClicked() {
+        rlNodata.setVisibility(View.GONE);
     }
 }

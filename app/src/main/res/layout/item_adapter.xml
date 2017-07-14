@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp">
 
     <ImageView
         android:id="@+id/imv_cover"
@@ -18,7 +19,7 @@
         android:layout_marginTop="15dp"
         android:text="南商俱乐部 大云山潜水项目第九期"
         android:textColor="#ffffff"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:layout_below="@id/imv_cover"/>
 
@@ -29,7 +30,7 @@
         android:layout_below="@id/tv_name"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:text="04月22日 周六 13:30-15:00"
         android:textColor="#919191"
         android:textSize="12sp" />
@@ -41,10 +42,10 @@
         android:layout_below="@id/tv_date"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:text="浙江省湖州市大云山"
         android:textColor="#919191"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +70,7 @@
             android:paddingTop="2dp"
             android:text="免费"
             android:textColor="#ffffff"
-            android:textSize="13sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_money"
@@ -77,7 +78,7 @@
             android:layout_height="wrap_content"
             android:text="1200-1500"
             android:textColor="@color/color_text_green"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView
@@ -93,7 +94,7 @@
         android:paddingTop="2dp"
         android:text="报名中"
         android:textColor="#ffffff"
-        android:textSize="13sp"
+        android:textSize="10sp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"/>
 </RelativeLayout>
