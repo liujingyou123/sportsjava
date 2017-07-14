@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="15dp">
+    
+    <ImageView
+        android:id="@+id/imv_cover"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <ImageView
+        android:id="@+id/imv_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/bg_imv_select"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imv_cover"
+        android:layout_alignTop="@id/imv_cover"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
+        android:text="南山俱乐部 大云山潜水第九期"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:layout_toLeftOf="@id/imv_checked"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="20dp"
+        android:text="04月22日 周六 13:30-15:00 "
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp"
+        android:maxLines="1"/>
+</RelativeLayout>

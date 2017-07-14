@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <ImageView
+        android:id="@+id/imv_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp" />
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@id/imv_head"
+        android:layout_alignRight="@id/imv_head"
+        android:src="@mipmap/icon_gender_female" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imv_head"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@id/imv_head"
+        android:singleLine="true"
+        android:text="路过的一直"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/imv_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/bg_imv_select"
+        android:scaleType="centerInside"/>
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/icon_information_location"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:text="未知"
+        android:textColor="#A5A4A4"
+        android:textSize="12sp"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_below="@id/tv_name"/>
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_below="@id/tv_location"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_toLeftOf="@id/imv_checked"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="潜水爱好者，还喜欢散文和是个的始终后首个女工哦女歌手给你送上你"
+        android:textColor="#A5A4A4"
+        android:textSize="12sp"/>
+</RelativeLayout>

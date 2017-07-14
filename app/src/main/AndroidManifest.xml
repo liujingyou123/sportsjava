@@ -36,6 +36,16 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.zhihu.matisse.sample.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
+
         <activity
             android:name=".activity.ActivityDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -146,6 +156,18 @@
             android:name=".notice.EditNewDongTaiActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <!-- 图片预览 -->
+        <activity
+            android:name=".view.imagepreview.ImagePreviewActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".notice.SelectMyFocusPersonActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".notice.SelectMyJoinActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

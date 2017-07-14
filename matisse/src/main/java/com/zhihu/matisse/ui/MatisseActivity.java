@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -249,6 +250,7 @@ public class MatisseActivity extends AppCompatActivity implements
             result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
             ArrayList<String> selectedPaths = (ArrayList<String>) mSelectedCollection.asListOfString();
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
+            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION_ITEM, (ArrayList<? extends Parcelable>) mSelectedCollection.asList());
             setResult(RESULT_OK, result);
             finish();
         } else if (v.getId() == R.id.imv_back) {

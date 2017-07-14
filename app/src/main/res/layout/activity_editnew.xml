@@ -69,36 +69,42 @@
             android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"
             android:textSize="14sp" />
 
-        <RelativeLayout
-            android:id="@+id/rl_pic"
+        <FrameLayout
+            android:id="@+id/fl_pic"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/imv_cover"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp">
+            <RelativeLayout
                 android:layout_width="92dp"
                 android:layout_height="92dp"
-                android:layout_alignParentBottom="true" />
+                android:layout_gravity="bottom">
+
+                <ImageView
+                    android:id="@+id/imv_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true" />
+
+                <ImageView
+                    android:id="@+id/imv_video"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/icon_video" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/imv_close_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_gravity="right|top"
                 android:scaleType="centerInside"
                 android:src="@mipmap/icon_bianjixindongtai_delete" />
+        </FrameLayout>
 
-            <ImageView
-                android:id="@+id/imv_video"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerInside"
-                android:src="@mipmap/icon_video" />
-        </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -107,7 +113,8 @@
         android:layout_alignParentBottom="true"
         android:background="#FF232323">
 
-        <View style="@style/view_line" />
+        <View style="@style/view_line"
+            android:background="#FF282828"/>
 
         <ImageView
             android:id="@+id/imv_pic"
@@ -141,15 +148,16 @@
 
         <TextView
             android:id="@+id/tv_type"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:drawableLeft="@drawable/bg_tv_type"
+            android:drawablePadding="2dp"
             android:text="公开"
             android:textColor="#FFFFFFFF"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:gravity="center_vertical"/>
 
     </RelativeLayout>
 </RelativeLayout>

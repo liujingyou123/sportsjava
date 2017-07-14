@@ -13,6 +13,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyFocusAdapter;
+import com.sports.limitsport.util.MyTestData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,12 @@ public class MyFocusListActivity extends BaseActivity {
     @BindView(R.id.rv_focus)
     RecyclerView rvFocus;
     private MyFocusAdapter adapter;
-    private List<String> data = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myfocus);
         ButterKnife.bind(this);
-        testData();
         initView();
     }
 
@@ -57,7 +56,7 @@ public class MyFocusListActivity extends BaseActivity {
             }
         });
         rvFocus.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new MyFocusAdapter(data);
+        adapter = new MyFocusAdapter(MyTestData.getData());
         adapter.bindToRecyclerView(rvFocus);
 
         adapter.setEmptyView(emptyView);
@@ -75,9 +74,4 @@ public class MyFocusListActivity extends BaseActivity {
         });
     }
 
-    private void testData() {
-        for (int i = 0; i < 15; i++) {
-            data.add(""+i);
-        }
-    }
 }

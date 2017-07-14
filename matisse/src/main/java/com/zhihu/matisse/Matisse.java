@@ -99,7 +99,7 @@ public final class Matisse {
     }
 
     public static List<Item> obtainItemsResult(Intent data) {
-        return data.getParcelableExtra(MatisseActivity.EXTRA_RESULT_SELECTION_ITEM);
+        return data.getParcelableArrayListExtra(MatisseActivity.EXTRA_RESULT_SELECTION_ITEM);
     }
 
     public static boolean obtainIsCapture(Intent data) {

@@ -42,7 +42,7 @@ public class MediaStoreCompat {
 
     private final WeakReference<Activity> mContext;
     private final WeakReference<Fragment> mFragment;
-    private       CaptureStrategy         mCaptureStrategy;
+    private CaptureStrategy mCaptureStrategy;
     private       Uri                     mCurrentPhotoUri;
     private       String                  mCurrentPhotoPath;
 
