@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
@@ -43,7 +44,6 @@ import java.util.List;
  */
 
 public class TakePhotoActivity extends AppCompatActivity implements View.OnClickListener {
-    Button addCameraButton;
     CameraSettingsView settingsView;
     FlashSwitchView flashSwitchView;
     CameraSwitchView frontBackCameraSwitcher;
@@ -62,7 +62,6 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_takephoto);
-        addCameraButton = findView(R.id.addCameraButton);
         settingsView = findView(R.id.settings_view);
         flashSwitchView = findView(R.id.flash_switch_view);
         frontBackCameraSwitcher = findView(R.id.front_back_camera_switcher);
@@ -72,7 +71,6 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
         photoVideoCameraSwitcher = findView(R.id.photo_video_camera_switcher);
         cameraLayout = findView(R.id.cameraLayout);
 
-        addCameraButton.setOnClickListener(this);
         settingsView.setOnClickListener(this);
         flashSwitchView.setOnClickListener(this);
         frontBackCameraSwitcher.setOnClickListener(this);
@@ -81,6 +79,13 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
         recordSizeMbText.setOnClickListener(this);
         photoVideoCameraSwitcher.setOnClickListener(this);
         cameraLayout.setOnClickListener(this);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setCamera();
+            }
+        }, 500);
     }
 
     private <T> T findView(int id) {
@@ -97,7 +102,6 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
 
     @RequiresPermission(Manifest.permission.CAMERA)
     public void addCamera() {
-        addCameraButton.setVisibility(View.GONE);
         cameraLayout.setVisibility(View.VISIBLE);
 
         final CameraFragment cameraFragment = CameraFragment.newInstance(new Configuration.Builder()
@@ -270,29 +274,31 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
         return (CameraFragmentApi) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
     }
 
+    private void setCamera() {
+        if (Build.VERSION.SDK_INT > 15) {
+            final String[] permissions = {
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE};
+
+            final List<String> permissionsToRequest = new ArrayList<>();
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsToRequest.add(permission);
+                }
+            }
+            if (!permissionsToRequest.isEmpty()) {
+                ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[permissionsToRequest.size()]), REQUEST_CAMERA_PERMISSIONS);
+            } else addCamera();
+        } else {
+            addCamera();
+        }
+    }
+
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.addCameraButton) {
-            if (Build.VERSION.SDK_INT > 15) {
-                final String[] permissions = {
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE};
-
-                final List<String> permissionsToRequest = new ArrayList<>();
-                for (String permission : permissions) {
-                    if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                        permissionsToRequest.add(permission);
-                    }
-                }
-                if (!permissionsToRequest.isEmpty()) {
-                    ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[permissionsToRequest.size()]), REQUEST_CAMERA_PERMISSIONS);
-                } else addCamera();
-            } else {
-                addCamera();
-            }
-        } else if (v.getId() == R.id.settings_view) {
+        if (v.getId() == R.id.settings_view) {
             final CameraFragmentApi cameraFragment4 = getCameraFragment();
             if (cameraFragment4 != null) {
                 cameraFragment4.openSettingDialog();
