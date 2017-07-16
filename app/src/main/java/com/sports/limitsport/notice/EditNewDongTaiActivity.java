@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.internal.entity.Item;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,31 +187,42 @@ public class EditNewDongTaiActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-//            selectMedia = new SelectMedia();
-//
+            selectMedia = new SelectMedia();
+
 //            List<Item> items = Matisse.obtainItemsResult(data);
-//
-//            flPic.setVisibility(View.VISIBLE);
-//
-//
-//            if (items != null && items.size() > 0 && items.get(0).isVideo()) {
-//                selectMedia.type = SelectMedia.TYPE_VIDEO;
-//                imvVideo.setVisibility(View.VISIBLE);
-//            } else { //图片
-//                selectMedia.type = SelectMedia.TYPE_IMAGE;
-//                imvVideo.setVisibility(View.GONE);
-//            }
+
+            flPic.setVisibility(View.VISIBLE);
+
+            final boolean isImage = Matisse.isImage(data);
+
+
 //            List<Uri> strings = Matisse.obtainResult(data);
 //            if (strings != null && strings.size() > 0) {
-//                selectMedia.uri = strings.get(0);
-//                Batman.getInstance().loadUri(strings.get(0), imvCover);
-//            }
 //
-//            List<String> paths = Matisse.obtainPathResult(data);
-//
-//            if (paths != null && paths.size() > 0) {
-//                selectMedia.path = paths.get(0);
 //            }
+
+            List<String> paths = Matisse.obtainPathResult(data);
+
+            if (paths != null && paths.size() > 0) {
+
+                final Uri uri = Uri.fromFile(new File(paths.get(0)));
+                selectMedia.uri = uri;
+                selectMedia.path = paths.get(0);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!isImage) {
+                            selectMedia.type = SelectMedia.TYPE_VIDEO;
+                            imvVideo.setVisibility(View.VISIBLE);
+                        } else { //图片
+                            selectMedia.type = SelectMedia.TYPE_IMAGE;
+                            imvVideo.setVisibility(View.GONE);
+                        }
+                        Batman.getInstance().loadUri(uri, imvCover);
+                    }
+                }, 500);
+            }
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
             String name = data.getStringExtra("name");
             etContent.setText(etContent.getText().toString() + "@" + name);

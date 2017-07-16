@@ -116,6 +116,7 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
                 public void onVideoRecorded(String filePath) {
                     Intent intent = getIntent();
                     intent.putExtra("filePath", filePath);
+                    intent.putExtra("type", "video");
                     setResult(RESULT_OK, intent);
                     finish();
 //                    Intent intent = PreviewActivity.newIntentVideo(TakePhotoActivity.this, filePath);
@@ -126,6 +127,7 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
                 public void onPhotoTaken(byte[] bytes, String filePath) {
                     Intent intent = getIntent();
                     intent.putExtra("filePath", filePath);
+                    intent.putExtra("type", "photo");
                     setResult(RESULT_OK, intent);
                     finish();
 

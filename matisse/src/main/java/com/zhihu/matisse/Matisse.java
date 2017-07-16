@@ -96,6 +96,9 @@ public final class Matisse {
         return data.getStringArrayListExtra(MatisseActivity.EXTRA_RESULT_SELECTION_PATH);
     }
 
+    public static boolean isImage(Intent data) {
+        return "photo".equals(data.getStringExtra(MatisseActivity.EXTRA_RESULT_SELECTION_TYPE));
+    }
     /**
      * MIME types the selection constrains on.
      * <p>

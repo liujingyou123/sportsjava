@@ -56,6 +56,7 @@ import com.zhihu.matisse.internal.utils.PathUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main Activity to display albums and media content (images/videos) in each album
@@ -69,6 +70,7 @@ public class MatisseActivity extends AppCompatActivity implements
 
     public static final String EXTRA_RESULT_SELECTION = "extra_result_selection";
     public static final String EXTRA_RESULT_SELECTION_PATH = "extra_result_selection_path";
+    public static final String EXTRA_RESULT_SELECTION_TYPE = "EXTRA_RESULT_SELECTION_TYPE";
     private static final int REQUEST_CODE_PREVIEW = 23;
     private static final int REQUEST_CODE_CAPTURE = 24;
     private final AlbumCollection mAlbumCollection = new AlbumCollection();
@@ -102,17 +104,6 @@ public class MatisseActivity extends AppCompatActivity implements
                 throw new RuntimeException("Don't forget to set CaptureStrategy.");
             mMediaStoreCompat.setCaptureStrategy(mSpec.captureStrategy);
         }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        Drawable navigationIcon = toolbar.getNavigationIcon();
-        TypedArray ta = getTheme().obtainStyledAttributes(new int[]{R.attr.album_element_color});
-        int color = ta.getColor(0, 0);
-        ta.recycle();
-        navigationIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
         mButtonPreview = (TextView) findViewById(R.id.button_preview);
         mButtonApply = (TextView) findViewById(R.id.button_apply);
@@ -186,6 +177,11 @@ public class MatisseActivity extends AppCompatActivity implements
                 }
                 result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
                 result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
+                if (selected.get(0).isImage()) {
+                    result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "photo");
+                } else {
+                    result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "video");
+                }
                 setResult(RESULT_OK, result);
                 finish();
             } else {
@@ -200,15 +196,18 @@ public class MatisseActivity extends AppCompatActivity implements
         } else if (requestCode == REQUEST_CODE_CAPTURE) {
             // Just pass the data back to previous calling Activity.
             String path = data.getStringExtra("filePath");
+            String type = data.getStringExtra("type");
             Log.e("file", " path = " + path);
 //            Uri contentUri = mMediaStoreCompat.getCurrentPhotoUri();
 //            String path = mMediaStoreCompat.getCurrentPhotoPath();
-            ArrayList<Uri> selected = new ArrayList<>();
+//            ArrayList<Uri> selected = new ArrayList<>();
             ArrayList<String> selectedPath = new ArrayList<>();
             selectedPath.add(path);
             Intent result = new Intent();
-            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selected);
+//            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selected);
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
+            result.putExtra(EXTRA_RESULT_SELECTION_TYPE, type);
+
             setResult(RESULT_OK, result);
 //            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
 //                MatisseActivity.this.revokeUriPermission(contentUri,
@@ -246,6 +245,14 @@ public class MatisseActivity extends AppCompatActivity implements
             result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
             ArrayList<String> selectedPaths = (ArrayList<String>) mSelectedCollection.asListOfString();
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
+
+            List<Item> items = mSelectedCollection.asList();
+            if (items.get(0).isImage()) {
+                result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "photo");
+            } else {
+                result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "video");
+            }
+
             setResult(RESULT_OK, result);
             finish();
         }
