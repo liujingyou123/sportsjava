@@ -201,6 +201,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
 //
 //            }
 
+            imvCover.setImageResource(0);
+
             List<String> paths = Matisse.obtainPathResult(data);
 
             if (paths != null && paths.size() > 0) {
