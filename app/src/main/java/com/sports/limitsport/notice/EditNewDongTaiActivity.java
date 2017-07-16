@@ -185,31 +185,31 @@ public class EditNewDongTaiActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            selectMedia = new SelectMedia();
-
-            List<Item> items = Matisse.obtainItemsResult(data);
-
-            flPic.setVisibility(View.VISIBLE);
-
-
-            if (items != null && items.size() > 0 && items.get(0).isVideo()) {
-                selectMedia.type = SelectMedia.TYPE_VIDEO;
-                imvVideo.setVisibility(View.VISIBLE);
-            } else { //图片
-                selectMedia.type = SelectMedia.TYPE_IMAGE;
-                imvVideo.setVisibility(View.GONE);
-            }
-            List<Uri> strings = Matisse.obtainResult(data);
-            if (strings != null && strings.size() > 0) {
-                selectMedia.uri = strings.get(0);
-                Batman.getInstance().loadUri(strings.get(0), imvCover);
-            }
-
-            List<String> paths = Matisse.obtainPathResult(data);
-
-            if (paths != null && paths.size() > 0) {
-                selectMedia.path = paths.get(0);
-            }
+//            selectMedia = new SelectMedia();
+//
+//            List<Item> items = Matisse.obtainItemsResult(data);
+//
+//            flPic.setVisibility(View.VISIBLE);
+//
+//
+//            if (items != null && items.size() > 0 && items.get(0).isVideo()) {
+//                selectMedia.type = SelectMedia.TYPE_VIDEO;
+//                imvVideo.setVisibility(View.VISIBLE);
+//            } else { //图片
+//                selectMedia.type = SelectMedia.TYPE_IMAGE;
+//                imvVideo.setVisibility(View.GONE);
+//            }
+//            List<Uri> strings = Matisse.obtainResult(data);
+//            if (strings != null && strings.size() > 0) {
+//                selectMedia.uri = strings.get(0);
+//                Batman.getInstance().loadUri(strings.get(0), imvCover);
+//            }
+//
+//            List<String> paths = Matisse.obtainPathResult(data);
+//
+//            if (paths != null && paths.size() > 0) {
+//                selectMedia.path = paths.get(0);
+//            }
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
             String name = data.getStringExtra("name");
             etContent.setText(etContent.getText().toString() + "@" + name);

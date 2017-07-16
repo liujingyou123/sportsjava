@@ -84,7 +84,7 @@ public class CheckView extends View {
         mStrokePaint.setAntiAlias(true);
         mStrokePaint.setStyle(Paint.Style.STROKE);
         mStrokePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        mStrokePaint.setStrokeWidth(STROKE_WIDTH);
+        mStrokePaint.setStrokeWidth(STROKE_WIDTH * mDensity);
         TypedArray ta = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.item_checkCircle_borderColor});
         int defaultColor = ResourcesCompat.getColor(
                 getResources(), R.color.zhihu_item_checkCircle_borderColor,

@@ -29,6 +29,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.os.EnvironmentCompat;
 
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.ui.TakePhotoActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,8 +44,8 @@ public class MediaStoreCompat {
     private final WeakReference<Activity> mContext;
     private final WeakReference<Fragment> mFragment;
     private CaptureStrategy mCaptureStrategy;
-    private       Uri                     mCurrentPhotoUri;
-    private       String                  mCurrentPhotoPath;
+    private Uri mCurrentPhotoUri;
+    private String mCurrentPhotoPath;
 
     public MediaStoreCompat(Activity activity) {
         mContext = new WeakReference<>(activity);
@@ -72,37 +73,45 @@ public class MediaStoreCompat {
     }
 
     public void dispatchCaptureIntent(Context context, int requestCode) {
-        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (captureIntent.resolveActivity(context.getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (captureIntent.resolveActivity(context.getPackageManager()) != null) {
+//            File photoFile = null;
+//            try {
+//                photoFile = createImageFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (photoFile != null) {
+//                mCurrentPhotoPath = photoFile.getAbsolutePath();
+//                mCurrentPhotoUri = FileProvider.getUriForFile(mContext.get(),
+//                        mCaptureStrategy.authority, photoFile);
+//                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoUri);
+//                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//                    List<ResolveInfo> resInfoList = context.getPackageManager()
+//                            .queryIntentActivities(captureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+//                    for (ResolveInfo resolveInfo : resInfoList) {
+//                        String packageName = resolveInfo.activityInfo.packageName;
+//                        context.grantUriPermission(packageName, mCurrentPhotoUri,
+//                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                    }
+//                }
+//                if (mFragment != null) {
+//                    mFragment.get().startActivityForResult(captureIntent, requestCode);
+//                } else {
+//                    mContext.get().startActivityForResult(captureIntent, requestCode);
+//                }
+//            }
+//        }
 
-            if (photoFile != null) {
-                mCurrentPhotoPath = photoFile.getAbsolutePath();
-                mCurrentPhotoUri = FileProvider.getUriForFile(mContext.get(),
-                        mCaptureStrategy.authority, photoFile);
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoUri);
-                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    List<ResolveInfo> resInfoList = context.getPackageManager()
-                            .queryIntentActivities(captureIntent, PackageManager.MATCH_DEFAULT_ONLY);
-                    for (ResolveInfo resolveInfo : resInfoList) {
-                        String packageName = resolveInfo.activityInfo.packageName;
-                        context.grantUriPermission(packageName, mCurrentPhotoUri,
-                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    }
-                }
-                if (mFragment != null) {
-                    mFragment.get().startActivityForResult(captureIntent, requestCode);
-                } else {
-                    mContext.get().startActivityForResult(captureIntent, requestCode);
-                }
-            }
+        Intent intent = new Intent(context, TakePhotoActivity.class);
+        if (mFragment != null) {
+            mFragment.get().startActivityForResult(intent, requestCode);
+        } else {
+            mContext.get().startActivityForResult(intent, requestCode);
         }
+
     }
 
     private File createImageFile() throws IOException {
