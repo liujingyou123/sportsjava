@@ -11,12 +11,11 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.SignUpAdapter;
-import com.sports.limitsport.activity.model.SignUpUser;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.log.XLog;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.sports.limitsport.util.MyTestData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,19 +51,9 @@ public class SignUpListActivity extends BaseActivity {
     }
 
     private void initRy() {
-        List<SignUpUser> dataShai = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            SignUpUser shai = new SignUpUser();
-            shai.imgUser = "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg";
-            dataShai.add(shai);
-        }
-
         rlSignupList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new SignUpAdapter(dataShai);
+        adapter = new SignUpAdapter(MyTestData.getData());
         rlSignupList.setAdapter(adapter);
-
-//        SpacesItemVDecoration decoration = new SpacesItemVDecoration(100);
-//        ryAll.addItemDecoration(decoration);
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -78,8 +67,17 @@ public class SignUpListActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        finish();
+
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_share})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.imv_share:
+                ShareDialog dialog = new ShareDialog(this);
+                dialog.show();
+                break;
+        }
     }
 }

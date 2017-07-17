@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.util.MyTestData;
@@ -114,8 +115,8 @@ public class ActivityDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_done:
-                Intent intentSign = new Intent(this, SignUpActivity.class);
-                startActivity(intentSign);
+                showAlreadySignUpDialog();
+
                 break;
             case R.id.imv_report:
                 ReportDialog dialog = new ReportDialog(this);
@@ -126,5 +127,21 @@ public class ActivityDetailActivity extends BaseActivity {
                 dialog1.show();
                 break;
         }
+    }
+
+    /**
+     * 您已报名，还需要添加小伙伴
+     */
+    private void showAlreadySignUpDialog() {
+        NoticeDelDialog dialog = new NoticeDelDialog(this);
+        dialog.setMessage("您已报名，还需要添加小伙伴吗？");
+        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                Intent intentSign = new Intent(ActivityDetailActivity.this, SignUpActivity.class);
+                startActivity(intentSign);
+            }
+        });
+        dialog.show();
     }
 }

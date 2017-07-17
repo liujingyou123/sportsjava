@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-//    signingConfigs {
-//        debug {
-//            keyAlias 'android'
-//            keyPassword 'android'
-//            storeFile file('/Users/liuworkmac/Documents/gitHub/sportsjava/app/sports.jks')
-//            storePassword 'android'
-//        }
-//    }
+    signingConfigs {
+        debug {
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file('/Users/liuworkmac/Documents/gitHub/sportsjava/app/sports.jks')
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -24,10 +24,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
         debug {
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
     }
     sourceSets {

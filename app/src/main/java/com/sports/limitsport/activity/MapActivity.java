@@ -45,7 +45,7 @@ public class MapActivity extends BaseActivity {
 
 
     BitmapDescriptor bdA = BitmapDescriptorFactory
-            .fromResource(R.drawable.icon_marka);
+            .fromResource(R.mipmap.icon_map_position);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MapActivity extends BaseActivity {
         ButterKnife.bind(this);
         mBaiduMap = bmapView.getMap();
         imvFocusHouseBack.setVisibility(View.VISIBLE);
-        tvFocusHouse.setText("集合地");
+        tvFocusHouse.setText("活动地点");
         location();
         initLocationMap();
     }

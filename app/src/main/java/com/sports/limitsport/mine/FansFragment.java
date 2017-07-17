@@ -12,11 +12,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.adapter.SignUpAdapter;
-import com.sports.limitsport.activity.model.SignUpUser;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.FansAdapter;
-import com.sports.limitsport.mine.model.Comment;
 import com.sports.limitsport.mine.model.Fans;
 
 import java.util.ArrayList;
