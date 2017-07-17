@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#FF1E1E1E"
+    android:text="还没有动态，快去当晒图第一人吧～"
+    android:textColor="#FF616161"
+    android:textSize="12sp"
+    android:id="@+id/tv_empty"
+    android:gravity="center">
+</TextView>

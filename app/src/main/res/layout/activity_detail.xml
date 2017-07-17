@@ -30,11 +30,12 @@
             android:text="现在报名" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.sports.limitsport.view.PostionRecyclerView
         android:id="@+id/rlv_discuss"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rl_bottom"></android.support.v7.widget.RecyclerView>
+        android:layout_above="@id/rl_bottom"
+        android:descendantFocusability="blocksDescendants" ></com.sports.limitsport.view.PostionRecyclerView>
 
     <RelativeLayout
         android:id="@+id/rl_title"

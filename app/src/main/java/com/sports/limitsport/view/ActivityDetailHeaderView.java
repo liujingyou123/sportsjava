@@ -2,7 +2,6 @@ package com.sports.limitsport.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.MapActivity;
-import com.sports.limitsport.activity.SignUpActivity;
 import com.sports.limitsport.activity.SignUpListActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.activity.adapter.ShallAdapter;
@@ -34,7 +32,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
@@ -102,15 +99,20 @@ public class ActivityDetailHeaderView extends LinearLayout {
     private void initView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_activity_detail_head, this);
         ButterKnife.bind(this, this);
-    }
 
-    private void init() {
         jcVideo.setUp("http://video.jiecao.fm/11/23/xin/%E5%81%87%E4%BA%BA.mp4"
                 , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "嫂子不信");
         Batman.getInstance().fromNet("http://img4.jiecaojingxuan.com/2016/11/23/00b026e7-b830-4994-bc87-38f4033806a6.jpg@!640_360", jcVideo.thumbImageView);
 
         TagDetailAdapter tagDetailAdapter = new TagDetailAdapter(this.getContext(), null);
         tg.setAdapter(tagDetailAdapter);
+
+        setAllRcy();
+        setNameRecy();
+    }
+
+    private void init() {
+
 
 
 //        scrollView.setOnScrollChangedListener(new PositionScrollView.OnScrollChangedListener() {
@@ -197,13 +199,9 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
 
-    @OnClick({R.id.btn_done,R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location})
+    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_done:
-                Intent intentSign = new Intent(getContext(), SignUpActivity.class);
-                getContext().startActivity(intentSign);
-                break;
             case R.id.rl_allshai:
                 Intent intent = new Intent(getContext(), AllShaiActivity.class);
                 getContext().startActivity(intent);
