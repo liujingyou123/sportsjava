@@ -17,6 +17,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.MapActivity;
 import com.sports.limitsport.activity.SignUpListActivity;
+import com.sports.limitsport.activity.ActivityDiscussActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.activity.adapter.ShallAdapter;
 import com.sports.limitsport.activity.adapter.TagDetailAdapter;
@@ -24,8 +25,6 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,7 +146,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
 
-    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location})
+    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_allshai:
@@ -161,6 +160,10 @@ public class ActivityDetailHeaderView extends LinearLayout {
             case R.id.ll_location:
                 Intent intent1 = new Intent(getContext(), MapActivity.class);
                 getContext().startActivity(intent1);
+                break;
+            case R.id.rl_discuss:
+                Intent intent3 = new Intent(getContext(), ActivityDiscussActivity.class);
+                getContext().startActivity(intent3);
                 break;
         }
     }

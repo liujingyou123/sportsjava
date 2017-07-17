@@ -1,43 +1,39 @@
-package com.sports.limitsport.mine;
+package com.sports.limitsport.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.adapter.ElsePriseAdapter;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.mine.adapter.MyFocusAdapter;
 import com.sports.limitsport.util.MyTestData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by liuworkmac on 17/7/6.
- * 我的关注
+ * Created by liuworkmac on 17/7/17.
+ * 他们也觉得赞
  */
 
-public class MyFocusListActivity extends BaseActivity {
+public class ElsePriseActivity extends BaseActivity {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
-    @BindView(R.id.rv_focus)
-    RecyclerView rvFocus;
-    private MyFocusAdapter adapter;
+    @BindView(R.id.rv_else)
+    RecyclerView rvElse;
+    private ElsePriseAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myfocus);
+        setContentView(R.layout.activity_elseprise);
         ButterKnife.bind(this);
         initView();
     }
@@ -48,20 +44,10 @@ public class MyFocusListActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvFocusHouse.setText("我的关注");
-        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_commentlist, null);
-        emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        rvFocus.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new MyFocusAdapter(MyTestData.getData());
-        adapter.bindToRecyclerView(rvFocus);
-
-        adapter.setEmptyView(emptyView);
-
+        tvFocusHouse.setText("他们也觉得赞");
+        rvElse.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        adapter = new ElsePriseAdapter(MyTestData.getData());
+        adapter.bindToRecyclerView(rvElse);
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -74,5 +60,4 @@ public class MyFocusListActivity extends BaseActivity {
             }
         });
     }
-
 }

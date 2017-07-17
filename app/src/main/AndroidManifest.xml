@@ -178,6 +178,15 @@
         <activity android:name=".activity.TongTaiDetailActivity"
             android:screenOrientation="portrait" />
 
+        <!-- 他们也觉得赞-->
+        <activity android:name=".activity.ElsePriseActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 活动讨论区 -->
+        <activity android:name=".activity.ActivityDiscussActivity"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>

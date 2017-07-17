@@ -1,6 +1,7 @@
 package com.sports.limitsport.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.ElsePriseActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
@@ -73,7 +75,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
         rlNames.addItemDecoration(decoration);
     }
 
-    @OnClick({R.id.imv_pinglun, R.id.imv_share, R.id.imv_report})
+    @OnClick({R.id.imv_pinglun, R.id.imv_share, R.id.imv_report, R.id.tv_sign_num})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_pinglun:
@@ -85,6 +87,10 @@ public class DongTaiDetialHeadView extends LinearLayout {
             case R.id.imv_report:
                 ReportDialog reportDialog = new ReportDialog(getContext());
                 reportDialog.show();
+                break;
+            case R.id.tv_sign_num:
+                Intent intent = new Intent(getContext(), ElsePriseActivity.class);
+                getContext().startActivity(intent);
                 break;
         }
     }
