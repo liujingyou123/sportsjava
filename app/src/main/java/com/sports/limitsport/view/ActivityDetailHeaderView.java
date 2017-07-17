@@ -20,14 +20,12 @@ import com.sports.limitsport.activity.SignUpListActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.activity.adapter.ShallAdapter;
 import com.sports.limitsport.activity.adapter.TagDetailAdapter;
-import com.sports.limitsport.activity.model.Shai;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,53 +109,12 @@ public class ActivityDetailHeaderView extends LinearLayout {
         setNameRecy();
     }
 
-    private void init() {
-
-
-
-//        scrollView.setOnScrollChangedListener(new PositionScrollView.OnScrollChangedListener() {
-//            @Override
-//            public void onScrollChanged(int l, int t, int oldl, int oldt) {
-//                if (t > 0) {
-//                    rlTitle.setBackgroundColor(Color.parseColor("#000000"));
-//                    tvTitle.setVisibility(View.VISIBLE);
-//                } else {
-//                    rlTitle.setBackgroundColor(Color.parseColor("#00000000"));
-//                    tvTitle.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-    }
-
     private void setAllRcy() {
-        List<Shai> dataShai = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Shai shai = new Shai();
-            if (i == 0) {
-                shai.imageUrl = "http://img.sc115.com/wm/xqx/pic1/15011vd5vam10fg.jpg";
-                shai.avtorUrl = "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg";
-            } else if (i == 1) {
-                shai.imageUrl = "https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D220/sign=e8ad4ce10246f21fd6345951c6256b31/00e93901213fb80e448b63cd3ed12f2eb9389455.jpg";
-                shai.avtorUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498192057580&di=ef84966dca93c975c989224ac94eaa64&imgtype=0&src=http%3A%2F%2Fimg8.zol.com.cn%2Fbbs%2Fupload%2F4022%2F4021881.jpg";
-
-            } else if (i == 2) {
-                shai.imageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498191947398&di=d03a0115e8cf8f6eb714f23722fc1941&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2015%2F227%2F37%2FSU4O4L7V51U5.jpg";
-                shai.avtorUrl = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=982737746,434320139&fm=26&gp=0.jpg";
-
-            } else {
-                shai.imageUrl = "http://img.sc115.com/wm/xqx/pic1/1501eoeg434fdwe.jpg";
-                shai.avtorUrl = "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg";
-
-            }
-
-            dataShai.add(shai);
-        }
-
         rvAllSee.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        shallAdapter = new ShallAdapter(dataShai);
-        rvAllSee.setAdapter(shallAdapter);
-
+        shallAdapter = new ShallAdapter(MyTestData.getData());
+        shallAdapter.bindToRecyclerView(rvAllSee);
+        shallAdapter.setEmptyView(R.layout.empty_text);
 
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(8);
         rvAllSee.addItemDecoration(decoration);
@@ -178,7 +135,6 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
 
-
     /**
      * type: 0 video 1:图片
      */
@@ -187,14 +143,6 @@ public class ActivityDetailHeaderView extends LinearLayout {
             Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imvCover);
             imvCover.setVisibility(View.VISIBLE);
             jcVideo.setVisibility(View.GONE);
-
-//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//            int left = UnitUtil.dip2px(this, 15);
-//            int top = UnitUtil.dip2px(this, 200);
-//
-//            lp.setMargins(left, top, left, 0);
-//            rlCover.setBackgroundResource(R.drawable.bg_round_black);
-//            rlCover.setLayoutParams(lp);
         }
     }
 

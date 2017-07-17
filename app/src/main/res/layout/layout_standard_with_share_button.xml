@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:text="00:00"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="9sp"/>
 
         <SeekBar
             android:id="@+id/bottom_seek_progress"
@@ -57,14 +58,15 @@
             android:paddingRight="12dp"
             android:paddingTop="8dp"
             android:progressDrawable="@drawable/jc_bottom_seek_progress"
-            android:thumb="@drawable/jc_bottom_seek_thumb" />
+            android:thumb="@mipmap/icon_video_vertical_position" />
 
         <TextView
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="9sp"/>
 
         <ImageView
             android:id="@+id/fullscreen"
@@ -73,7 +75,7 @@
             android:layout_marginLeft="14.0dip"
             android:layout_marginRight="14.0dip"
             android:scaleType="centerInside"
-            android:src="@drawable/jc_enlarge" />
+            android:src="@mipmap/icon_video_vertical_fullscreen" />
     </LinearLayout>
 
     <ProgressBar

@@ -11,7 +11,7 @@
         android:layout_marginRight="10dp"
         android:background="#FF1E1E1E"
         android:gravity="center"
-        android:text="还没有动态，快去当晒图第一人吧～"
+        android:text="还没有任何留言，赶紧去抢沙发吧～"
         android:textColor="#FF616161"
         android:textSize="12sp"></TextView>
 </LinearLayout>

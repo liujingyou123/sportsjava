@@ -1,6 +1,7 @@
-package com.sports.limitsport.discovery;
+package com.sports.limitsport.activity;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,28 +16,31 @@ import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.discovery.adapter.FineShowCommentAdapter;
 import com.sports.limitsport.util.MyTestData;
-import com.sports.limitsport.view.FineShowDetailHeadView;
+import com.sports.limitsport.view.DongTaiDetialHeadView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by liuworkmac on 17/7/12.
+ * Created by liuworkmac on 17/7/17.
+ * 动态详情
  */
 
-public class FineShowDetailActivity extends BaseActivity {
+public class TongTaiDetailActivity extends BaseActivity {
     @BindView(R.id.rlv_comment)
     RecyclerView rlvComment;
     @BindView(R.id.btn_comment)
     TextView btnComment;
+    @BindView(R.id.tv_send)
+    TextView tvSend;
     private FineShowCommentAdapter adapter;
     private CommentDialog commentDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_fineshow);
+        setContentView(R.layout.activity_dongtai);
         ButterKnife.bind(this);
         initView();
     }
@@ -58,14 +62,13 @@ public class FineShowDetailActivity extends BaseActivity {
 
     private void initView() {
 
-        View headerView = new FineShowDetailHeadView(this);
-
+        View headerView = new DongTaiDetialHeadView(this);
         rlvComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        adapter = new FineShowCommentAdapter(MyTestData.getData());
+        adapter = new FineShowCommentAdapter(MyTestData.getEmptyData());
         adapter.addHeaderView(headerView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvComment);
+//        ryMine.setAdapter(mineAdapter);
         adapter.setEmptyView(R.layout.empty_no_comment);
 
         commentDialog = new CommentDialog(this);
@@ -75,10 +78,12 @@ public class FineShowDetailActivity extends BaseActivity {
                 String content = commentDialog.getContent();
                 if (TextUtils.isEmpty(content)) {
                     btnComment.setText("我要来发言…");
-//                    btnComment.setTextColor(Color.parseColor("#999999"));
+                    btnComment.setTextColor(Color.parseColor("#FF444444"));
+                    tvSend.setEnabled(false);
                 } else {
                     btnComment.setText(commentDialog.getContent());
-//                    btnComment.setTextColor(Color.parseColor("#333333"));
+                    btnComment.setTextColor(Color.parseColor("#ffffff"));
+                    tvSend.setEnabled(true);
                 }
             }
         });

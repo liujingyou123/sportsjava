@@ -14,12 +14,11 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
 import com.sports.limitsport.base.BaseActivity;
-import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
-import com.sports.limitsport.view.PositionScrollView;
-import com.sports.limitsport.view.PostionRecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,11 +32,9 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 public class ActivityDetailActivity extends BaseActivity {
 
     @BindView(R.id.rlv_discuss)
-    PostionRecyclerView rlvDiscuss;
+    RecyclerView rlvDiscuss;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
     private ActivityDetailHeaderView activityDetailHeaderView;
     private ActivityDiscussAdapter adapter;
 
@@ -53,18 +50,14 @@ public class ActivityDetailActivity extends BaseActivity {
 
     private void init() {
         activityDetailHeaderView = new ActivityDetailHeaderView(this);
-        setViewType(1);
-        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_text, null);
+        setViewType(0);
         rlvDiscuss.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         adapter = new ActivityDiscussAdapter(MyTestData.getData());
         adapter.addHeaderView(activityDetailHeaderView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvDiscuss);
-//        ryMine.setAdapter(mineAdapter);
-        adapter.setEmptyView(emptyView);
-
-//        rlvDiscuss.scrollToPosition(0);
+        adapter.setEmptyView(R.layout.empty_discuss);
 
         rlvDiscuss.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -84,10 +77,8 @@ public class ActivityDetailActivity extends BaseActivity {
 
         if (location[1] < statusBarHeight) {
             rlTitle.setBackgroundColor(Color.parseColor("#000000"));
-            tvTitle.setVisibility(View.VISIBLE);
         } else {
             rlTitle.setBackgroundColor(Color.parseColor("#00000000"));
-            tvTitle.setVisibility(View.GONE);
         }
     }
 
@@ -116,7 +107,7 @@ public class ActivityDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.imv_back, R.id.btn_done})
+    @OnClick({R.id.imv_back, R.id.btn_done, R.id.imv_report, R.id.imv_share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_back:
@@ -125,6 +116,14 @@ public class ActivityDetailActivity extends BaseActivity {
             case R.id.btn_done:
                 Intent intentSign = new Intent(this, SignUpActivity.class);
                 startActivity(intentSign);
+                break;
+            case R.id.imv_report:
+                ReportDialog dialog = new ReportDialog(this);
+                dialog.show();
+                break;
+            case R.id.imv_share:
+                ShareDialog dialog1 = new ShareDialog(this);
+                dialog1.show();
                 break;
         }
     }

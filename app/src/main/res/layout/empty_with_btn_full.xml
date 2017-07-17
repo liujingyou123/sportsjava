@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="30dp"
+            android:drawableTop="@mipmap/defaultgraph_nocontent"
+            android:text="还没有动态，赶紧来当晒图第一人吧～"
+            android:textColor="#FF616161"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_done"
+            android:layout_width="90dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_green"
+            android:gravity="center"
+            android:text="晒动态"
+            android:textColor="@color/color_text_green"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.sports.limitsport.view.video;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +32,8 @@ public class JCVideoPlayerStandardShowShareButtonAfterFullscreen extends JCVideo
         super.init(context);
         shareButton = (ImageView) findViewById(R.id.share);
         shareButton.setOnClickListener(this);
+        FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+
 
     }
 
@@ -51,11 +54,14 @@ public class JCVideoPlayerStandardShowShareButtonAfterFullscreen extends JCVideo
     public void setUp(String url, int screen, Object... objects) {
         super.setUp(url, screen, objects);
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            shareButton.setVisibility(View.VISIBLE);
+            shareButton.setVisibility(View.INVISIBLE);
             titleTextView.setVisibility(VISIBLE);
+            fullscreenButton.setImageResource(R.mipmap.icon_video_cross_fullscreen);
         } else {
             shareButton.setVisibility(View.INVISIBLE);
             titleTextView.setVisibility(View.INVISIBLE);
+            fullscreenButton.setImageResource(R.mipmap.icon_video_vertical_fullscreen);
+
         }
     }
 }

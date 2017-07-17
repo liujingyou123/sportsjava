@@ -14,9 +14,10 @@
         android:layout_centerVertical="true"
         android:padding="10dp"
         android:text="发布"
-        android:textColor="@color/color_green_gray"
+        android:textColor="@color/color_btn_selector"
         android:textSize="14sp"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:enabled="false"/>
 
     <EditText
         android:id="@+id/btn_comment"

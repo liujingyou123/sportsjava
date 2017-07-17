@@ -22,10 +22,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by liuworkmac on 17/7/12.
+ * Created by liuworkmac on 17/7/17.
  */
 
-public class FineShowDetailHeadView extends LinearLayout {
+public class DongTaiDetialHeadView extends LinearLayout {
+
+    @BindView(R.id.imv_head)
+    ImageView imvHead;
     @BindView(R.id.imv_cover)
     ImageView imvCover;
     @BindView(R.id.rl_names)
@@ -33,28 +36,27 @@ public class FineShowDetailHeadView extends LinearLayout {
     private NamesAdapter namesAdapter; //他们也报名了
 
 
-    public FineShowDetailHeadView(Context context) {
+    public DongTaiDetialHeadView(Context context) {
         super(context);
-        init();
+        initView();
     }
 
-    public FineShowDetailHeadView(Context context, @Nullable AttributeSet attrs) {
+    public DongTaiDetialHeadView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initView();
     }
 
-    public FineShowDetailHeadView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DongTaiDetialHeadView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        initView();
     }
 
-    private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_fineshowdetail_head, this);
+    private void initView() {
+        LayoutInflater.from(getContext()).inflate(R.layout.view_dongtaidetail, this);
         ButterKnife.bind(this, this);
-
+        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
         Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imvCover);
         setNameRecy();
-
     }
 
     /**
@@ -86,4 +88,5 @@ public class FineShowDetailHeadView extends LinearLayout {
                 break;
         }
     }
+
 }

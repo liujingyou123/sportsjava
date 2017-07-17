@@ -9,28 +9,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/imv_head"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/bg_tv_white_circle"
-            android:gravity="center"
-            android:text="G"
-            android:textColor="#FF000000"
-            android:textSize="22sp" />
+            android:layout_marginLeft="15dp" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/imv_head"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/imv_head"
             android:singleLine="true"
             android:text="路过的一直"
@@ -58,31 +53,19 @@
             android:layout_alignLeft="@id/tv_name"
             android:layout_below="@id/tv_name"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:layout_toLeftOf="@id/tv_focus"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="1天前"
             android:textColor="#FFA5A4A4"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@id/imv_head"
-        android:singleLine="true"
-        android:text="大牛教你如何迈出滑雪第一步！"
-        android:textColor="#ffffff"
-        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/imv_cover"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="200dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -102,12 +85,23 @@
         android:textColor="#FF4795FB"
         android:textSize="13sp" />
 
-    <RelativeLayout
+    <com.sports.limitsport.view.tagview.TagCloudLayout
+        android:id="@+id/tg_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        apps:lineSpacing="5dp"
+        apps:tagSpacing="5dp"></com.sports.limitsport.view.tagview.TagCloudLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp">
+
+        <View style="@style/view_line"
+            android:layout_marginRight="15dp"/>
 
         <ImageView
             android:id="@+id/imv_zan"
@@ -146,17 +140,21 @@
             android:layout_toRightOf="@id/imv_pinglun"
             android:src="@mipmap/icon_dongtai_share" />
 
+
         <ImageView
             android:id="@+id/imv_report"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/icon_dongtai_tipoff" />
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_dongtai_tipoff"
+            android:scaleType="centerInside"/>
+
+        <View
+            style="@style/view_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="15dp"/>
     </RelativeLayout>
-    <View
-        style="@style/view_line"
-        android:layout_marginTop="15dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

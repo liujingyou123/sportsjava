@@ -173,6 +173,11 @@
 
         <activity android:name=".notice.SelectMyJoinActivity"
             android:screenOrientation="portrait" />
+
+        <!-- 动态详情页-->
+        <activity android:name=".activity.TongTaiDetailActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
