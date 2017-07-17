@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,16 +22,19 @@ import butterknife.OnClick;
  */
 
 public class NumCheckView extends LinearLayout {
-    @BindView(R.id.tv_sub)
-    TextView tvSub;
     @BindView(R.id.tv_num)
     TextView tvNum;
-    @BindView(R.id.tv_add)
-    TextView tvAdd;
+    @BindView(R.id.imv_sub)
+    ImageView imvSub;
+    @BindView(R.id.imv_add)
+    ImageView imvAdd;
 
     private int num;
 
     private OnNumChangedListener mOnNumChangedListener;
+
+    private int minNum = 0;
+    private int maxNum = Integer.MAX_VALUE;
 
     public NumCheckView(Context context) {
         super(context);
@@ -52,27 +56,40 @@ public class NumCheckView extends LinearLayout {
         setGravity(Gravity.CENTER_VERTICAL);
         LayoutInflater.from(getContext()).inflate(R.layout.view_numcheck, this);
         ButterKnife.bind(this, this);
+        imvSub.setEnabled(false);
+        imvAdd.setEnabled(true);
     }
 
 
-    @OnClick({R.id.tv_sub, R.id.tv_add})
+    @OnClick({R.id.imv_sub, R.id.imv_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_sub:
+            case R.id.imv_sub:
                 subNum();
                 break;
-            case R.id.tv_add:
+            case R.id.imv_add:
                 addNum();
                 break;
         }
     }
 
     private void addNum() {
-        num++;
-        tvNum.setText(num + "");
 
-        if (num > 0) {
-            tvSub.setEnabled(true);
+        if (num < maxNum) {
+            num++;
+            tvNum.setText(num + "");
+        }
+
+        if (num >= maxNum) {
+            imvAdd.setEnabled(false);
+        } else {
+            imvAdd.setEnabled(true);
+        }
+
+        if (num > minNum) {
+            imvSub.setEnabled(true);
+        } else {
+            imvSub.setEnabled(false);
         }
 
         if (mOnNumChangedListener != null) {
@@ -82,11 +99,22 @@ public class NumCheckView extends LinearLayout {
     }
 
     private void subNum() {
-        if (num > 0) {
+        if (num > minNum) {
             num--;
             tvNum.setText(num + "");
+        }
+
+        if (num >= maxNum) {
+            imvAdd.setEnabled(false);
         } else {
-            tvSub.setEnabled(false);
+            imvAdd.setEnabled(true);
+        }
+
+
+        if (num > minNum) {
+            imvSub.setEnabled(true);
+        } else {
+            imvSub.setEnabled(false);
         }
 
         if (mOnNumChangedListener != null) {
@@ -95,18 +123,25 @@ public class NumCheckView extends LinearLayout {
         }
     }
 
-    public void setLabelWitdh(int labelWitdh) {
-        if (labelWitdh != 0) {
-            LayoutParams lp = new LayoutParams(labelWitdh, labelWitdh);
-            tvSub.setLayoutParams(lp);
-            tvAdd.setLayoutParams(lp);
-        }
+    public void setImvAddResource(int ids) {
+        imvAdd.setImageResource(ids);
     }
 
-    public void setLabelTextSize(int textSize) {
+    public void setImvSubResource(int ids) {
+        imvSub.setImageResource(ids);
+    }
+
+    //    public void setLabelWitdh(int labelWitdh) {
+//        if (labelWitdh != 0) {
+//            LayoutParams lp = new LayoutParams(labelWitdh, labelWitdh);
+//            imvSub.setLayoutParams(lp);
+//            imvAdd.setLayoutParams(lp);
+//        }
+//    }
+//
+    public void setNumTextSize(int textSize) {
         if (textSize != 0) {
-            tvSub.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-            tvAdd.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+            tvNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         }
     }
 
@@ -121,12 +156,21 @@ public class NumCheckView extends LinearLayout {
         return num;
     }
 
+    public void setMinNum(int minNum) {
+        this.minNum = minNum;
+    }
+
+    public void setMaxNum(int maxNum) {
+        this.maxNum = maxNum;
+    }
+
     public void setOnNumChangedListener(OnNumChangedListener onNumChangedListener) {
         this.mOnNumChangedListener = onNumChangedListener;
     }
 
     public interface OnNumChangedListener {
         void onNumChanged(int num);
+
         void isAdd(boolean isAdd);
     }
 }

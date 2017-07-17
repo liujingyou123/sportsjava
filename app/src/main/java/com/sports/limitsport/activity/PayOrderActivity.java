@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.model.OrderInfo;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.NumCheckView;
 import com.sports.limitsport.view.OrderInfoView;
@@ -28,8 +29,6 @@ import butterknife.OnClick;
 
 public class PayOrderActivity extends BaseActivity {
 
-    @BindView(R.id.imv_focus_house_back)
-    ImageView imvFocusHouseBack;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.imv_cover)
@@ -56,12 +55,14 @@ public class PayOrderActivity extends BaseActivity {
     }
 
     private void initRecy() {
-        imvFocusHouseBack.setVisibility(View.VISIBLE);
         tvFocusHouse.setText("订单支付");
-        ncv.setLabelWitdh(UnitUtil.dip2px(this, 25));
-        ncv.setLabelTextSize(16);
-        ncv.setNumWitdh(UnitUtil.dip2px(this, 40));
+        Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imvCover);
 
+        ncv.setNumWitdh(UnitUtil.dip2px(this, 38));
+        ncv.setImvAddResource(R.drawable.bg_nc_pay_add);
+        ncv.setImvSubResource(R.drawable.bg_nc_pay_sub);
+        ncv.setNumTextSize(12);
+        ncv.setMinNum(1);
         ncv.setOnNumChangedListener(new NumCheckView.OnNumChangedListener() {
             @Override
             public void onNumChanged(int num) {

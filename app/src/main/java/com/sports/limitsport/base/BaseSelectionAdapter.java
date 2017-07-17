@@ -16,6 +16,7 @@ import java.util.List;
 public class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> implements BaseQuickAdapter.OnItemClickListener {
     public List<Integer> mSelectedPositions = new ArrayList<>();
     private boolean isSingleCheck;
+    private OnItemSelectClickListener mOnItemSelectClickListener;
 
     public BaseSelectionAdapter(int layoutResId, @Nullable List<T> data, boolean isSingleCheck) {
         super(layoutResId, data);
@@ -65,5 +66,16 @@ public class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHold
                 notifyDataSetChanged();
             }
         }
+
+        if (mOnItemSelectClickListener != null) {
+            mOnItemSelectClickListener.onItemClick(adapter, view, position);
+        }
+    }
+
+    public void setOnItemSelectClickListener(OnItemSelectClickListener onItemSelectClickListener) {
+        this.mOnItemSelectClickListener = onItemSelectClickListener;
+    }
+    public interface OnItemSelectClickListener {
+        void onItemClick(BaseQuickAdapter adapter, View view, int position);
     }
 }

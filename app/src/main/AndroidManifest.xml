@@ -186,6 +186,10 @@
         <activity android:name=".activity.ActivityDiscussActivity"
             android:screenOrientation="portrait" />
 
+        <!-- H5 -->
+        <activity android:name=".view.H5Activity"
+            android:screenOrientation="portrait" />
+
 
     </application>
 

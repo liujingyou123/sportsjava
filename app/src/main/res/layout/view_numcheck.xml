@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_sub"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/bg_gray_green"
-        android:gravity="center"
-        android:text="-"
-        android:textColor="@color/color_gray_white"
-        android:textSize="20sp"
-        android:enabled="false" />
+    <ImageView
+        android:id="@+id/imv_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bg_nc_dec"
+        android:scaleType="centerInside" />
 
     <TextView
         android:id="@+id/tv_num"
@@ -19,16 +15,11 @@
         android:gravity="center"
         android:text="0"
         android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_add"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/bg_gray_green"
-        android:gravity="center"
-        android:text="+"
-        android:textColor="@color/color_gray_white"
-        android:textSize="20sp" />
+        android:textSize="14sp" />
+    <ImageView
+        android:id="@+id/imv_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bg_nc_add"
+        android:scaleType="centerInside" />
 </merge>

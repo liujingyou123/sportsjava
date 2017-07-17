@@ -50,7 +50,7 @@ public class OrderInfoView extends LinearLayout {
 
     private void initView() {
         setOrientation(VERTICAL);
-        int padding = UnitUtil.dip2px(getContext(), 15);
+        int padding = UnitUtil.dip2px(getContext(), 10);
         setPadding(padding, padding, padding, padding);
         LayoutInflater.from(getContext()).inflate(R.layout.item_adapter_orders, this);
         ButterKnife.bind(this, this);
