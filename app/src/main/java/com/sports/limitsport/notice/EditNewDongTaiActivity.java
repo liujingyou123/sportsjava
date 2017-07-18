@@ -138,20 +138,6 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 break;
             case R.id.fl_pic:
                 if (selectMedia != null && !TextUtils.isEmpty(selectMedia.type)) {
-//                    if (SelectMedia.TYPE_IMAGE.equals(selectMedia.type)) {
-//                        ArrayList<String> list = new ArrayList<>();
-//                        list.add(selectMedia.path);
-//
-//                    } else if (SelectMedia.TYPE_VIDEO.equals(selectMedia.type)) {
-//                        Intent intent = new Intent(Intent.ACTION_VIEW);
-//                        intent.setDataAndType(selectMedia.uri, "video/*");
-//                        try {
-//                            startActivity(intent);
-//                        } catch (ActivityNotFoundException e) {
-//                            ToastUtil.show(this, com.zhihu.matisse.R.string.error_no_video_activity);
-//                        }
-//                    }
-
                     Intent intents = new Intent(context, PreviewActivity.class);
                     intents.putExtra("type", selectMedia.type);
                     intents.putExtra("path", selectMedia.path);
@@ -198,7 +184,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
             final String type = data.getStringExtra("type");
             String path = data.getStringExtra("path");
             final String uri = data.getStringExtra("uri");
-            if (TextUtils.isEmpty(uri)) {
+            if (!TextUtils.isEmpty(uri)) {
                 selectMedia.uri = Uri.parse(uri);
             } else {
                 selectMedia.uri = null;
