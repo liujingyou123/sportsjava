@@ -70,7 +70,7 @@ public final class SelectionSpec {
         filters = null;
         capture = false;
         captureStrategy = null;
-        spanCount = 3;
+        spanCount = 4;
         gridExpectedSize = 0;
         thumbnailScale = 0.5f;
         imageEngine = new GlideEngine();

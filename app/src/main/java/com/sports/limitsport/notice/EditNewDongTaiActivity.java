@@ -193,38 +193,33 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
             flPic.setVisibility(View.VISIBLE);
 
-            final boolean isImage = Matisse.isImage(data);
-
-
-//            List<Uri> strings = Matisse.obtainResult(data);
-//            if (strings != null && strings.size() > 0) {
-//
-//            }
+            final String type = data.getStringExtra("type");
+            String path = data.getStringExtra("path");
+            final String uri = data.getStringExtra("uri");
 
             imvCover.setImageResource(0);
+            imvVideo.setVisibility(View.GONE);
 
-            List<String> paths = Matisse.obtainPathResult(data);
-
-            if (paths != null && paths.size() > 0) {
-
-                final Uri uri = Uri.fromFile(new File(paths.get(0)));
-                selectMedia.uri = uri;
-                selectMedia.path = paths.get(0);
+            if (!TextUtils.isEmpty(path)) {
+                final Uri uriL = Uri.parse(uri);
+                selectMedia.uri = uriL;
+                selectMedia.path = path;
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!isImage) {
+                        if ("video".equals(type)) {
                             selectMedia.type = SelectMedia.TYPE_VIDEO;
                             imvVideo.setVisibility(View.VISIBLE);
                         } else { //图片
                             selectMedia.type = SelectMedia.TYPE_IMAGE;
                             imvVideo.setVisibility(View.GONE);
                         }
-                        Batman.getInstance().loadUri(uri, imvCover);
+                        Batman.getInstance().loadUri(uriL, imvCover);
                     }
                 }, 500);
             }
+
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
             String name = data.getStringExtra("name");
             etContent.setText(etContent.getText().toString() + "@" + name);

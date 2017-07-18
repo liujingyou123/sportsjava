@@ -57,7 +57,7 @@ public class GlideEngine implements ImageEngine {
     public void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
         Glide.with(context)
                 .load(uri)
-                .override(resizeX, resizeY)
+//                .override(resizeX, resizeY)
                 .priority(Priority.HIGH)
                 .into(imageView);
     }

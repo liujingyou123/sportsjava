@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhihu.matisse.R;
@@ -53,6 +55,7 @@ import com.zhihu.matisse.internal.ui.adapter.AlbumsAdapter;
 import com.zhihu.matisse.internal.ui.widget.AlbumsSpinner;
 import com.zhihu.matisse.internal.utils.MediaStoreCompat;
 import com.zhihu.matisse.internal.utils.PathUtils;
+import com.zhihu.matisse.until.StatusBarUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,6 +87,7 @@ public class MatisseActivity extends AppCompatActivity implements
     private TextView mButtonApply;
     private View mContainer;
     private View mEmptyView;
+    private ImageView imvBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,8 +111,10 @@ public class MatisseActivity extends AppCompatActivity implements
 
         mButtonPreview = (TextView) findViewById(R.id.button_preview);
         mButtonApply = (TextView) findViewById(R.id.button_apply);
+        imvBack = (ImageView) findViewById(R.id.imv_back);
         mButtonPreview.setOnClickListener(this);
         mButtonApply.setOnClickListener(this);
+        imvBack.setOnClickListener(this);
         mContainer = findViewById(R.id.container);
         mEmptyView = findViewById(R.id.empty_view);
 
@@ -124,6 +130,9 @@ public class MatisseActivity extends AppCompatActivity implements
         mAlbumCollection.onCreate(this, this);
         mAlbumCollection.onRestoreInstanceState(savedInstanceState);
         mAlbumCollection.loadAlbums();
+
+        StatusBarUtil.setColor(this, Color.parseColor("#000000"), 0);
+
     }
 
     @Override
@@ -161,38 +170,47 @@ public class MatisseActivity extends AppCompatActivity implements
             return;
 
         if (requestCode == REQUEST_CODE_PREVIEW) {
-            Bundle resultBundle = data.getBundleExtra(BasePreviewActivity.EXTRA_RESULT_BUNDLE);
-            ArrayList<Item> selected = resultBundle.getParcelableArrayList(SelectedItemCollection.STATE_SELECTION);
-            int collectionType = resultBundle.getInt(SelectedItemCollection.STATE_COLLECTION_TYPE,
-                    SelectedItemCollection.COLLECTION_UNDEFINED);
-            if (data.getBooleanExtra(BasePreviewActivity.EXTRA_RESULT_APPLY, false)) {
-                Intent result = new Intent();
-                ArrayList<Uri> selectedUris = new ArrayList<>();
-                ArrayList<String> selectedPaths = new ArrayList<>();
-                if (selected != null) {
-                    for (Item item : selected) {
-                        selectedUris.add(item.getContentUri());
-                        selectedPaths.add(PathUtils.getPath(this, item.getContentUri()));
-                    }
-                }
-                result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
-                result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
-                if (selected.get(0).isImage()) {
-                    result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "photo");
-                } else {
-                    result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "video");
-                }
-                setResult(RESULT_OK, result);
-                finish();
-            } else {
-                mSelectedCollection.overwrite(selected, collectionType);
-                Fragment mediaSelectionFragment = getSupportFragmentManager().findFragmentByTag(
-                        MediaSelectionFragment.class.getSimpleName());
-                if (mediaSelectionFragment instanceof MediaSelectionFragment) {
-                    ((MediaSelectionFragment) mediaSelectionFragment).refreshMediaGrid();
-                }
-                updateBottomToolbar();
-            }
+            Intent intent = new Intent();
+            String path = data.getStringExtra("path");
+            String uri = data.getStringExtra("uri");
+            String type = data.getStringExtra("type");
+            intent.putExtra("type", type);
+            intent.putExtra("path", path);
+            intent.putExtra("uri", uri);
+            setResult(RESULT_OK, intent);
+            finish();
+//            Bundle resultBundle = data.getBundleExtra(BasePreviewActivity.EXTRA_RESULT_BUNDLE);
+//            ArrayList<Item> selected = resultBundle.getParcelableArrayList(SelectedItemCollection.STATE_SELECTION);
+//            int collectionType = resultBundle.getInt(SelectedItemCollection.STATE_COLLECTION_TYPE,
+//                    SelectedItemCollection.COLLECTION_UNDEFINED);
+//            if (data.getBooleanExtra(BasePreviewActivity.EXTRA_RESULT_APPLY, false)) {
+//                Intent result = new Intent();
+//                ArrayList<Uri> selectedUris = new ArrayList<>();
+//                ArrayList<String> selectedPaths = new ArrayList<>();
+//                if (selected != null) {
+//                    for (Item item : selected) {
+//                        selectedUris.add(item.getContentUri());
+//                        selectedPaths.add(PathUtils.getPath(this, item.getContentUri()));
+//                    }
+//                }
+//                result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
+//                result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
+//                if (selected.get(0).isImage()) {
+//                    result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "photo");
+//                } else {
+//                    result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "video");
+//                }
+//                setResult(RESULT_OK, result);
+//                finish();
+//            } else {
+//                mSelectedCollection.overwrite(selected, collectionType);
+//                Fragment mediaSelectionFragment = getSupportFragmentManager().findFragmentByTag(
+//                        MediaSelectionFragment.class.getSimpleName());
+//                if (mediaSelectionFragment instanceof MediaSelectionFragment) {
+//                    ((MediaSelectionFragment) mediaSelectionFragment).refreshMediaGrid();
+//                }
+//                updateBottomToolbar();
+//            }
         } else if (requestCode == REQUEST_CODE_CAPTURE) {
             // Just pass the data back to previous calling Activity.
             String path = data.getStringExtra("filePath");
@@ -221,15 +239,15 @@ public class MatisseActivity extends AppCompatActivity implements
         if (selectedCount == 0) {
             mButtonPreview.setEnabled(false);
             mButtonApply.setEnabled(false);
-            mButtonApply.setText(getString(R.string.button_apply_default));
+            mButtonApply.setText("拍照");
         } else if (selectedCount == 1 && mSpec.singleSelectionModeEnabled()) {
             mButtonPreview.setEnabled(true);
-            mButtonApply.setText(R.string.button_apply_default);
+            mButtonApply.setText("拍照");
             mButtonApply.setEnabled(true);
         } else {
             mButtonPreview.setEnabled(true);
             mButtonApply.setEnabled(true);
-            mButtonApply.setText(getString(R.string.button_apply, selectedCount));
+            mButtonApply.setText("拍照");
         }
     }
 
@@ -254,6 +272,8 @@ public class MatisseActivity extends AppCompatActivity implements
             }
 
             setResult(RESULT_OK, result);
+            finish();
+        } else if (v.getId() == R.id.imv_back) {
             finish();
         }
     }
@@ -323,10 +343,27 @@ public class MatisseActivity extends AppCompatActivity implements
 
     @Override
     public void onMediaClick(Album album, Item item, int adapterPosition) {
-        Intent intent = new Intent(this, AlbumPreviewActivity.class);
-        intent.putExtra(AlbumPreviewActivity.EXTRA_ALBUM, album);
-        intent.putExtra(AlbumPreviewActivity.EXTRA_ITEM, item);
-        intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
+//        Intent intent = new Intent(this, AlbumPreviewActivity.class);
+//        intent.putExtra(AlbumPreviewActivity.EXTRA_ALBUM, album);
+//        intent.putExtra(AlbumPreviewActivity.EXTRA_ITEM, item);
+//        intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
+//        startActivityForResult(intent, REQUEST_CODE_PREVIEW);
+        String type;
+        String uri;
+        String path;
+        if (item.isVideo()) {
+            type = "video";
+        } else {
+            type = "photo";
+        }
+
+        uri = item.getContentUri().toString();
+        path = PathUtils.getPath(this, item.getContentUri());
+
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("path", path);
+        intent.putExtra("uri", uri);
         startActivityForResult(intent, REQUEST_CODE_PREVIEW);
     }
 

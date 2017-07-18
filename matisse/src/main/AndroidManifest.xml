@@ -30,5 +30,10 @@
             android:name="com.zhihu.matisse.ui.TakePhotoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeFullscreen"/>
+
+        <activity
+            android:name=".ui.PreviewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

@@ -45,7 +45,7 @@ public class PicassoEngine implements ImageEngine {
 
     @Override
     public void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
-        Picasso.with(context).load(uri).resize(resizeX, resizeY).priority(Picasso.Priority.HIGH)
+        Picasso.with(context).load(uri).priority(Picasso.Priority.HIGH)
                 .centerInside().into(imageView);
     }
 
