@@ -13,8 +13,10 @@
         android:layout_marginTop="30dp"
         android:text="恭喜您！购票成功！"
         android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textSize="16sp"
+        android:drawableLeft="@drawable/bg_zhifu_result_status"
+        android:gravity="center_vertical"
+        android:drawablePadding="5dp"/>
 
 
     <TextView
@@ -23,8 +25,7 @@
         android:layout_marginTop="10dp"
         android:text="请注意活动时间以免错过活动"
         android:textColor="#ffffff"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="14sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,8 +37,7 @@
         <ImageView
             android:id="@+id/imv_cover"
             android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:background="#fff000" />
+            android:layout_height="110dp" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -49,8 +49,7 @@
             android:layout_toRightOf="@id/imv_cover"
             android:text="南山俱乐部大云山潜水第九期"
             android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -61,7 +60,7 @@
             android:layout_marginTop="5dp"
             android:text="4月22日"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -72,7 +71,7 @@
             android:layout_marginTop="5dp"
             android:text="浙江省湖州市"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_tickets"
@@ -83,7 +82,7 @@
             android:layout_marginTop="15dp"
             android:text="1500"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_tickets_num"
@@ -94,7 +93,7 @@
             android:layout_marginTop="5dp"
             android:text="2"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <LinearLayout

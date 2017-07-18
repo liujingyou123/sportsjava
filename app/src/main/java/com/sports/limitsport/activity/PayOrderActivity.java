@@ -63,6 +63,7 @@ public class PayOrderActivity extends BaseActivity {
         ncv.setImvSubResource(R.drawable.bg_nc_pay_sub);
         ncv.setNumTextSize(12);
         ncv.setMinNum(1);
+        ncv.setDefaultNum(1);
         ncv.setOnNumChangedListener(new NumCheckView.OnNumChangedListener() {
             @Override
             public void onNumChanged(int num) {

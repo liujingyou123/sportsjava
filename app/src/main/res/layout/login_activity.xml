@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:text="跳过"
+        android:textColor="#FFA5A4A4"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/tv_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_skip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/bg_withe_circle"
+        android:gravity="center"
+        android:text="G"
+        android:textColor="#ffffff"
+        android:textSize="50sp" />
+
+
+    <EditText
+        android:id="@+id/phone_view"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_below="@+id/tv_head"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@null"
+        android:hint="输入手机号码"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textColorHint="#999999"
+        android:textSize="14sp" />
+
+
+    <View
+        android:id="@+id/view_line"
+        style="@style/view_line"
+        android:layout_below="@+id/phone_view"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
+
+    <LinearLayout
+        android:id="@+id/image_verify_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phone_view"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+
+        <EditText
+            android:id="@+id/verify_code_view_image"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="输入图片验证码"
+            android:inputType="number"
+            android:textColor="#FFFFFFFF"
+            android:textColorHint="#FFA5A4A4"
+            android:textSize="14sp" />
+
+
+        <ImageView
+            android:id="@+id/pic_code"
+            android:layout_width="80dp"
+            android:layout_height="34dp"
+            android:layout_marginRight="30dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line1"
+        style="@style/view_line"
+        android:layout_below="@id/image_verify_code"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_verify_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_verify_code"
+        android:layout_marginLeft="30dp"
+        android:gravity="center_vertical">
+
+
+        <EditText
+            android:id="@+id/verify_code_view"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="输入验证码"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="#FFFFFFFF"
+            android:textColorHint="#FFA5A4A4"
+            android:textSize="14sp" />
+
+        <com.sports.limitsport.view.CountDownButton
+            android:id="@+id/countDown"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:text="获取验证码"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line2"
+        style="@style/view_line"
+        android:layout_below="@id/ll_verify_code"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
+
+
+    <TextView
+        android:id="@+id/login"
+        style="@style/bt_done"
+        android:layout_below="@id/view_line2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="30dp"
+        android:enabled="false"
+        android:text="登录" />
+
+
+</RelativeLayout>

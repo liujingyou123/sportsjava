@@ -61,7 +61,10 @@ public class ActivityFragment extends BaseFragment {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         adapter = new ActivitysAdapter(data);
-        recyclerView.setAdapter(adapter);
+        adapter.bindToRecyclerView(recyclerView);
+
+        View footerView = LayoutInflater.from(getContext()).inflate(R.layout.end_list, null);
+        adapter.addFooterView(footerView);
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(5);
         recyclerView.addItemDecoration(decoration);

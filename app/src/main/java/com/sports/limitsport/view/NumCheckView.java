@@ -28,13 +28,11 @@ public class NumCheckView extends LinearLayout {
     ImageView imvSub;
     @BindView(R.id.imv_add)
     ImageView imvAdd;
-
-    private int num;
-
     private OnNumChangedListener mOnNumChangedListener;
-
     private int minNum = 0;
     private int maxNum = Integer.MAX_VALUE;
+    private int num = minNum;
+
 
     public NumCheckView(Context context) {
         super(context);
@@ -59,7 +57,6 @@ public class NumCheckView extends LinearLayout {
         imvSub.setEnabled(false);
         imvAdd.setEnabled(true);
     }
-
 
     @OnClick({R.id.imv_sub, R.id.imv_add})
     public void onViewClicked(View view) {
@@ -131,14 +128,11 @@ public class NumCheckView extends LinearLayout {
         imvSub.setImageResource(ids);
     }
 
-    //    public void setLabelWitdh(int labelWitdh) {
-//        if (labelWitdh != 0) {
-//            LayoutParams lp = new LayoutParams(labelWitdh, labelWitdh);
-//            imvSub.setLayoutParams(lp);
-//            imvAdd.setLayoutParams(lp);
-//        }
-//    }
-//
+    public void setDefaultNum(int defaultNum) {
+        this.num = defaultNum;
+        tvNum.setText(""+num);
+    }
+
     public void setNumTextSize(int textSize) {
         if (textSize != 0) {
             tvNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
