@@ -165,7 +165,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 if (aBoolean) {
                     Matisse.from(EditNewDongTaiActivity.this)
                             .choose(MimeType.ofAll())
-                            .capture(true)
+                            .capture(false)
                             .captureStrategy(
                                     new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
                             .showSingleMediaType(true)

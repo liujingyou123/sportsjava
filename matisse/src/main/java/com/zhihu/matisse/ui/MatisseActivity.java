@@ -213,19 +213,22 @@ public class MatisseActivity extends AppCompatActivity implements
 //            }
         } else if (requestCode == REQUEST_CODE_CAPTURE) {
             // Just pass the data back to previous calling Activity.
-            String path = data.getStringExtra("filePath");
+            String path = data.getStringExtra("path");
             String type = data.getStringExtra("type");
+            String uri = Uri.fromFile(new File(path)).toString();
             Log.e("file", " path = " + path);
 //            Uri contentUri = mMediaStoreCompat.getCurrentPhotoUri();
 //            String path = mMediaStoreCompat.getCurrentPhotoPath();
 //            ArrayList<Uri> selected = new ArrayList<>();
-            ArrayList<String> selectedPath = new ArrayList<>();
-            selectedPath.add(path);
+//            ArrayList<String> selectedPath = new ArrayList<>();
+//            selectedPath.add(path);
             Intent result = new Intent();
 //            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selected);
-            result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
-            result.putExtra(EXTRA_RESULT_SELECTION_TYPE, type);
-
+//            result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
+//            result.putExtra(EXTRA_RESULT_SELECTION_TYPE, type);
+            result.putExtra("type", type);
+            result.putExtra("path", path);
+            result.putExtra("uri", uri);
             setResult(RESULT_OK, result);
 //            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
 //                MatisseActivity.this.revokeUriPermission(contentUri,
@@ -238,7 +241,7 @@ public class MatisseActivity extends AppCompatActivity implements
         int selectedCount = mSelectedCollection.count();
         if (selectedCount == 0) {
             mButtonPreview.setEnabled(false);
-            mButtonApply.setEnabled(false);
+            mButtonApply.setEnabled(true);
             mButtonApply.setText("拍照");
         } else if (selectedCount == 1 && mSpec.singleSelectionModeEnabled()) {
             mButtonPreview.setEnabled(true);
@@ -254,25 +257,29 @@ public class MatisseActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_preview) {
-            Intent intent = new Intent(this, SelectedPreviewActivity.class);
-            intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
-            startActivityForResult(intent, REQUEST_CODE_PREVIEW);
+//            Intent intent = new Intent(this, SelectedPreviewActivity.class);
+//            intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
+//            startActivityForResult(intent, REQUEST_CODE_PREVIEW);
         } else if (v.getId() == R.id.button_apply) {
-            Intent result = new Intent();
-            ArrayList<Uri> selectedUris = (ArrayList<Uri>) mSelectedCollection.asListOfUri();
-            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
-            ArrayList<String> selectedPaths = (ArrayList<String>) mSelectedCollection.asListOfString();
-            result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
 
-            List<Item> items = mSelectedCollection.asList();
-            if (items.get(0).isImage()) {
-                result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "photo");
-            } else {
-                result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "video");
-            }
+            Intent intent = new Intent(this, TakePhotoActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_CAPTURE);
 
-            setResult(RESULT_OK, result);
-            finish();
+//            Intent result = new Intent();
+//            ArrayList<Uri> selectedUris = (ArrayList<Uri>) mSelectedCollection.asListOfUri();
+//            result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
+//            ArrayList<String> selectedPaths = (ArrayList<String>) mSelectedCollection.asListOfString();
+//            result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPaths);
+//
+//            List<Item> items = mSelectedCollection.asList();
+//            if (items.get(0).isImage()) {
+//                result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "photo");
+//            } else {
+//                result.putExtra(EXTRA_RESULT_SELECTION_TYPE, "video");
+//            }
+//
+//            setResult(RESULT_OK, result);
+//            finish();
         } else if (v.getId() == R.id.imv_back) {
             finish();
         }
