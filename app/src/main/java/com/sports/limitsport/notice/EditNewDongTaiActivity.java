@@ -30,6 +30,8 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.internal.entity.Item;
+import com.zhihu.matisse.ui.PreviewActivity;
+import com.zhihu.matisse.ui.TakePhotoActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -136,22 +138,25 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 break;
             case R.id.fl_pic:
                 if (selectMedia != null && !TextUtils.isEmpty(selectMedia.type)) {
-                    if (SelectMedia.TYPE_IMAGE.equals(selectMedia.type)) {
-                        ArrayList<String> list = new ArrayList<>();
-                        list.add(selectMedia.path);
-                        Intent intents = new Intent(context, ImagePreviewActivity.class);
-                        intents.putExtra("pics", list);
-                        intents.putExtra("index", 0);
-                        context.startActivity(intents);
-                    } else if (SelectMedia.TYPE_VIDEO.equals(selectMedia.type)) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(selectMedia.uri, "video/*");
-                        try {
-                            startActivity(intent);
-                        } catch (ActivityNotFoundException e) {
-                            ToastUtil.show(this, com.zhihu.matisse.R.string.error_no_video_activity);
-                        }
-                    }
+//                    if (SelectMedia.TYPE_IMAGE.equals(selectMedia.type)) {
+//                        ArrayList<String> list = new ArrayList<>();
+//                        list.add(selectMedia.path);
+//
+//                    } else if (SelectMedia.TYPE_VIDEO.equals(selectMedia.type)) {
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        intent.setDataAndType(selectMedia.uri, "video/*");
+//                        try {
+//                            startActivity(intent);
+//                        } catch (ActivityNotFoundException e) {
+//                            ToastUtil.show(this, com.zhihu.matisse.R.string.error_no_video_activity);
+//                        }
+//                    }
+
+                    Intent intents = new Intent(context, PreviewActivity.class);
+                    intents.putExtra("type", selectMedia.type);
+                    intents.putExtra("path", selectMedia.path);
+                    intents.putExtra("uri", selectMedia.uri.toString());
+                    context.startActivity(intents);
                 }
                 break;
         }
@@ -189,35 +194,38 @@ public class EditNewDongTaiActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             selectMedia = new SelectMedia();
 
-//            List<Item> items = Matisse.obtainItemsResult(data);
-
-            flPic.setVisibility(View.VISIBLE);
 
             final String type = data.getStringExtra("type");
             String path = data.getStringExtra("path");
             final String uri = data.getStringExtra("uri");
-
-            imvCover.setImageResource(0);
-            imvVideo.setVisibility(View.GONE);
+            if (TextUtils.isEmpty(uri)) {
+                selectMedia.uri = Uri.parse(uri);
+            } else {
+                selectMedia.uri = null;
+            }
+            selectMedia.type = type;
+            selectMedia.path = path;
 
             if (!TextUtils.isEmpty(path)) {
-                final Uri uriL = Uri.parse(uri);
-                selectMedia.uri = uriL;
-                selectMedia.path = path;
+
+                flPic.setVisibility(View.VISIBLE);
+                imvCover.setImageResource(0);
+                imvVideo.setVisibility(View.GONE);
+
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if ("video".equals(type)) {
-                            selectMedia.type = SelectMedia.TYPE_VIDEO;
                             imvVideo.setVisibility(View.VISIBLE);
                         } else { //图片
-                            selectMedia.type = SelectMedia.TYPE_IMAGE;
                             imvVideo.setVisibility(View.GONE);
                         }
-                        Batman.getInstance().loadUri(uriL, imvCover);
+                        Batman.getInstance().loadUri(Uri.parse(uri), imvCover);
                     }
                 }, 500);
+            } else {
+                flPic.setVisibility(View.GONE);
             }
 
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
