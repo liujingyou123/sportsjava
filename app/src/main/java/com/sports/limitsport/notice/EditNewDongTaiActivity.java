@@ -142,7 +142,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
                     intents.putExtra("type", selectMedia.type);
                     intents.putExtra("path", selectMedia.path);
                     intents.putExtra("uri", selectMedia.uri.toString());
-                    context.startActivity(intents);
+                    intents.putExtra("isDel", true);
+                    startActivityForResult(intents, REQUEST_CODE_CHOOSE);
                 }
                 break;
         }

@@ -50,5 +50,16 @@
             android:textColor="#4899ff"
             android:textSize="14sp" />
 
+        <ImageView
+            android:id="@+id/imv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_bianjixindongtai_quit"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 </FrameLayout>
