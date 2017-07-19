@@ -15,6 +15,7 @@ import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.notice.adapter.MyNoticeDongTaiAdapter;
 import com.sports.limitsport.notice.adapter.MyNoticeRecommendAdapter;
@@ -65,8 +66,7 @@ public class NoticeFragment extends BaseFragment {
         headerView.setButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NoticeFragment.this.getContext(), FindMoreActivity.class);
-                startActivity(intent);
+                gotoFucusFriends();
             }
         });
         rlvMyNotice.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -76,6 +76,14 @@ public class NoticeFragment extends BaseFragment {
         adapter.addHeaderView(headerView);
         adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.rl_perison) {
+                    gotoPersionInfo();
+                }
+            }
+        });
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -167,11 +175,25 @@ public class NoticeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                gotoFucusFriends();
                 break;
             case R.id.imv_right:
                 Intent intent = new Intent(this.getContext(), EditNewDongTaiActivity.class);
                 startActivity(intent);
                 break;
         }
+    }
+
+    /**
+     * 关注好友页面
+     */
+    private void gotoFucusFriends() {
+        Intent intent = new Intent(NoticeFragment.this.getContext(), FindMoreActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoPersionInfo() {
+        Intent intent = new Intent(NoticeFragment.this.getContext(), PersonInfoActivity.class);
+        startActivity(intent);
     }
 }

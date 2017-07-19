@@ -74,7 +74,7 @@ public class AllShaiActivity extends BaseActivity {
      * 前往动态详情页
      */
     private void gotoDongtaiDetail() {
-        Intent intent = new Intent(this, TongTaiDetailActivity.class);
+        Intent intent = new Intent(this, DongTaiDetailActivity.class);
         startActivity(intent);
     }
 

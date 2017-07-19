@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.discovery.adapter.DongTaiAdapter;
 import com.sports.limitsport.discovery.model.DongTai;
+import com.sports.limitsport.view.DongTaiDetialHeadView;
 import com.sports.limitsport.view.NewNewsHeadView;
 import com.sports.limitsport.view.SpacesItemDecorationS;
 
@@ -61,14 +65,16 @@ public class NewNewsFragment extends Fragment {
         SpacesItemDecorationS decoration = new SpacesItemDecorationS(5);
         rlvNew.addItemDecoration(decoration);
 
-//        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                Intent intent = new Intent(ActivityFragment.this.getContext(), ActivityDetailActivity.class);
-//                ActivityFragment.this.startActivity(intent);
-//            }
-//        });
-
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.imv_cover) {
+                    gotoDongTaiDetail();
+                } else if (view.getId() == R.id.imv_head || view.getId() == R.id.tv_name) {
+                    gotoPersonInfo();
+                }
+            }
+        });
 
 
     }
@@ -114,5 +120,21 @@ public class NewNewsFragment extends Fragment {
             data.add(act6);
 
         }
+    }
+
+    /**
+     * 动态详情
+     */
+    private void gotoDongTaiDetail() {
+        Intent intent = new Intent(getContext(), DongTaiDetailActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * 个人主页
+     */
+    private void gotoPersonInfo() {
+        Intent intent = new Intent(getContext(), PersonInfoActivity.class);
+        startActivity(intent);
     }
 }

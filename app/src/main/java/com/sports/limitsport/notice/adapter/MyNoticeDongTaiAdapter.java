@@ -29,6 +29,7 @@ public class MyNoticeDongTaiAdapter extends BaseQuickAdapter<String, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
+        helper.addOnClickListener(R.id.rl_perison);
         Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", (ImageView) helper.getView(R.id.imv_head), 0, 0);
         ImageView imageView = helper.getView(R.id.imv_cover);
         TextView tvDes = helper.getView(R.id.tv_des);

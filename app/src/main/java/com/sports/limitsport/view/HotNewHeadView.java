@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.discovery.ClubDetailActivity;
 import com.sports.limitsport.discovery.FindClubActivity;
 import com.sports.limitsport.discovery.FineShowActivity;
+import com.sports.limitsport.discovery.FineShowDetailActivity;
 import com.sports.limitsport.discovery.NewPersonReportActivity;
 import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.adapter.FineShowAdapter;
@@ -92,9 +95,15 @@ public class HotNewHeadView extends LinearLayout {
         clubAdapter = new ClubAdapter(clubs);
         rlvClub.setAdapter(clubAdapter);
 
-
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlvClub.addItemDecoration(decoration);
+
+        clubAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                gotoClubDetail();
+            }
+        });
     }
 
     /**
@@ -114,6 +123,13 @@ public class HotNewHeadView extends LinearLayout {
 
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlvFanshow.addItemDecoration(decoration);
+
+        fineShowAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                gotoFineShowDetail();
+            }
+        });
     }
 
     @OnClick({R.id.tv_clubs, R.id.tv_fineshow, R.id.tv_news})
@@ -132,5 +148,21 @@ public class HotNewHeadView extends LinearLayout {
                 getContext().startActivity(intent2);
                 break;
         }
+    }
+
+    /**
+     * 俱乐部详情页
+     */
+    private void gotoClubDetail() {
+        Intent intent = new Intent(getContext(), ClubDetailActivity.class);
+        getContext().startActivity(intent);
+    }
+
+    /**
+     * 精彩秀详情
+     */
+    private void gotoFineShowDetail() {
+        Intent intent = new Intent(getContext(), FineShowDetailActivity.class);
+        getContext().startActivity(intent);
     }
 }

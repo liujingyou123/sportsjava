@@ -65,7 +65,7 @@ public class ActivityDiscussActivity extends BaseActivity {
         textView.setText("还没有留言，快来抢沙发吧～");
         rlvDiscuss.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new ActivityDiscussAdapter(MyTestData.getEmptyData());
+        adapter = new ActivityDiscussAdapter(MyTestData.getData());
         adapter.bindToRecyclerView(rlvDiscuss);
         adapter.setEmptyView(emptyView);
 

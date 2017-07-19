@@ -97,6 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
         android:lineSpacingExtra="3dp"
         android:maxLines="3"
         android:text="银色生灵站在一块巨石上，一脸愕然，神色发呆，眼前这个小子真是人类吗？怎么这么凶残，竟想吃掉他！“怕了吧，赶紧自己洗白白，然后到锅里来。”小不点瞪着大眼看他。到底谁是人类，谁是太古遗种？银色生灵有点神经错乱的感觉，怎么两个人的种族像是置换了过来？！“你……确信在对我说话？”他迟疑的问道。“废话，除了你这里哪还有什么能吃的东西吗？”小不点理直气壮的反问。“嗷吼……”银色生灵咆哮，震动的山林簌簌摇动，落叶飞舞，他脸色阴沉无比，银光敛去，露出"
@@ -173,11 +174,11 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:id="@+id/imv_org"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:scaleType="centerInside"
             android:src="@mipmap/icon_eventdetail_more" />
     </RelativeLayout>

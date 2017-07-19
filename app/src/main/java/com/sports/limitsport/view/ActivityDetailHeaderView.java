@@ -13,14 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.MapActivity;
 import com.sports.limitsport.activity.SignUpListActivity;
 import com.sports.limitsport.activity.ActivityDiscussActivity;
+import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.activity.adapter.ShallAdapter;
 import com.sports.limitsport.activity.adapter.TagDetailAdapter;
+import com.sports.limitsport.discovery.ClubDetailActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
@@ -117,6 +120,13 @@ public class ActivityDetailHeaderView extends LinearLayout {
 
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(8);
         rvAllSee.addItemDecoration(decoration);
+
+        shallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                gotoDongtaiDetail();
+            }
+        });
     }
 
     /**
@@ -146,7 +156,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
 
-    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss})
+    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss, R.id.imv_org})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_allshai:
@@ -165,6 +175,30 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 Intent intent3 = new Intent(getContext(), ActivityDiscussActivity.class);
                 getContext().startActivity(intent3);
                 break;
+            case R.id.imv_org:
+                gotoOrigDetail();
+                break;
         }
+    }
+
+    /**
+     * 前往动态详情页
+     */
+    private void gotoDongtaiDetail() {
+        Intent intent = new Intent(getContext(), DongTaiDetailActivity.class);
+        getContext().startActivity(intent);
+    }
+
+    /**
+     * 组织者详情页(俱乐部详情页， 个人主页)
+     */
+    private void gotoOrigDetail() {
+        Intent intent = new Intent(getContext(), ClubDetailActivity.class);
+        getContext().startActivity(intent);
+//
+//        //TODO 去个人主页
+//
+//        Intent intent1 = new Intent(getContext(), PersonInfoActivity.class);
+//        getContext().startActivity(intent1);
     }
 }

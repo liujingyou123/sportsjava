@@ -177,7 +177,7 @@
 
         <!-- 动态详情页-->
         <activity
-            android:name=".activity.TongTaiDetailActivity"
+            android:name=".activity.DongTaiDetailActivity"
             android:screenOrientation="portrait" />
 
         <!-- 他们也觉得赞-->

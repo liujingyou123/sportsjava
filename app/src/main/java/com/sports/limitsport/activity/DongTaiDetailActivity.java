@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * 动态详情
  */
 
-public class TongTaiDetailActivity extends BaseActivity {
+public class DongTaiDetailActivity extends BaseActivity {
     @BindView(R.id.rlv_comment)
     RecyclerView rlvComment;
     @BindView(R.id.btn_comment)

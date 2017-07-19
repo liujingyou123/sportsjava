@@ -22,6 +22,10 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTai, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, DongTai item) {
+        helper.addOnClickListener(R.id.imv_cover);
+        helper.addOnClickListener(R.id.imv_head);
+        helper.addOnClickListener(R.id.tv_name);
+
         ImageView imvCover = helper.getView(R.id.imv_cover);
         ImageView imvHead = helper.getView(R.id.imv_head);
         Batman.getInstance().fromNetWithFitCenter(item.imageUrl, imvCover);
