@@ -19,7 +19,7 @@ public class ClubDetailPageItem extends SlidingTagPagerItem {
         if ("0".equals(getMsg())) {
             fragment = new TabActivityFragment();
         } else if ("1".equals(getMsg())) {
-            fragment = new TabActivityFragment();
+            fragment = new TabHistoryFragment();
         }
         return fragment;
     }

@@ -1,7 +1,7 @@
 package com.sports.limitsport.discovery;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
@@ -19,7 +20,7 @@ import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.SlidingTagPagerItem;
-import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.view.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class ClubDetailActivity extends BaseActivity {
     LinearLayout llMembersTwo;
     @BindView(R.id.tv_more)
     TextView tvMore;
+    @BindView(R.id.rl_top)
+    RelativeLayout rlTop;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
 
     @Override
@@ -80,6 +83,17 @@ public class ClubDetailActivity extends BaseActivity {
 
         collapsingToolbar.setTitle(" ");
         setupViewPager();
+
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset < 0) {
+                    rlTop.setBackgroundResource(R.color.bg_title);
+                } else {
+                    rlTop.setBackgroundColor(Color.parseColor("#00000000"));
+                }
+            }
+        });
     }
 
     /**
