@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -126,7 +127,7 @@ public class UserInfoActivity extends BaseActivity {
                 if (aBoolean) {
                     Matisse.from(UserInfoActivity.this)
                             .choose(MimeType.ofImage())
-                            .capture(true)
+                            .capture(false)
                             .captureStrategy(
                                     new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
                             .showSingleMediaType(true)
@@ -149,11 +150,14 @@ public class UserInfoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> strings = Matisse.obtainResult(data);
+            final String type = data.getStringExtra("type");
+            String path = data.getStringExtra("path");
+            final String uri = data.getStringExtra("uri");
 
-            if (strings != null && strings.size() > 0) {
+
+            if (!TextUtils.isEmpty(uri)) {
                 Uri destinationUri = Uri.fromFile(new File(context.getCacheDir(), System.currentTimeMillis() + "_" + "head.jpg"));
-                startCrop(strings.get(0), destinationUri);
+                startCrop(Uri.parse(uri), destinationUri);
             }
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             Uri resultUri = UCrop.getOutput(data);
@@ -186,7 +190,7 @@ public class UserInfoActivity extends BaseActivity {
         // Color palette
         options.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
         options.setStatusBarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        options.setActiveWidgetColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        options.setActiveWidgetColor(ContextCompat.getColor(context, R.color.color_text_green));
         options.setToolbarWidgetColor(ContextCompat.getColor(context, R.color.white));
         return uCrop.withOptions(options);
     }

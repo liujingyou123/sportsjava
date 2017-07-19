@@ -47,6 +47,7 @@ dependencies {
     provided 'com.squareup.picasso:picasso:2.5.2'
     compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
 //    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.yalantis:ucrop:2.2.1'
 
     compile project(':camerafragment')
 }

@@ -4,10 +4,13 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -25,6 +28,7 @@ import com.sports.limitsport.notice.model.SelectMedia;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.imagepreview.ImagePreviewActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -175,46 +179,65 @@ public class EditNewDongTaiActivity extends BaseActivity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             selectMedia = new SelectMedia();
 
-
             final String type = data.getStringExtra("type");
             String path = data.getStringExtra("path");
             final String uri = data.getStringExtra("uri");
-            if (!TextUtils.isEmpty(uri)) {
-                selectMedia.uri = Uri.parse(uri);
-            } else {
-                selectMedia.uri = null;
-            }
-            selectMedia.type = type;
-            selectMedia.path = path;
 
             if (!TextUtils.isEmpty(path)) {
 
-                flPic.setVisibility(View.VISIBLE);
-                imvCover.setImageResource(0);
-                imvVideo.setVisibility(View.GONE);
-
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if ("video".equals(type)) {
-                            imvVideo.setVisibility(View.VISIBLE);
-                        } else { //图片
-                            imvVideo.setVisibility(View.GONE);
-                        }
-                        Batman.getInstance().loadUri(Uri.parse(uri), imvCover);
+                if ("photo".equals(type)) {
+                    if (!TextUtils.isEmpty(uri)) {
+                        Uri destinationUri = Uri.fromFile(new File(context.getCacheDir(), System.currentTimeMillis() + "_" + "dongtai.jpg"));
+                        startCrop(Uri.parse(uri), destinationUri);
                     }
-                }, 500);
+                } else {
+                    selectMedia.type = type;
+                    selectMedia.path = path;
+                    if (!TextUtils.isEmpty(uri)) {
+                        selectMedia.uri = Uri.parse(uri);
+                    } else {
+                        selectMedia.uri = null;
+                    }
+                    flPic.setVisibility(View.VISIBLE);
+                    imvCover.setImageResource(0);
+                    imvVideo.setVisibility(View.GONE);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            imvVideo.setVisibility(View.VISIBLE);
+                            Batman.getInstance().loadUri(Uri.parse(uri), imvCover);
+                        }
+                    }, 500);
+                }
+
             } else {
                 flPic.setVisibility(View.GONE);
             }
 
+
+        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+
+            Uri resultUri = UCrop.getOutput(data);
+            String path = resultUri.getPath();
+
+            flPic.setVisibility(View.VISIBLE);
+            imvVideo.setVisibility(View.GONE);
+
+            selectMedia.type = "photo";
+            selectMedia.path = path;
+            selectMedia.uri = resultUri;
+            Batman.getInstance().fromNet(path, imvCover, 0, 0);
+
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
             String name = data.getStringExtra("name");
             etContent.setText(etContent.getText().toString() + "@" + name);
@@ -240,5 +263,32 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private void gotoSelectMyJionActivitys() {
         Intent intent = new Intent(this, SelectMyJoinActivity.class);
         startActivityForResult(intent, REQUEST_CODE_ACTIVITY);
+    }
+
+    //开启裁剪
+    private void startCrop(Uri sourceUri, Uri destinationUri) {
+        UCrop uCrop = UCrop.of(sourceUri, destinationUri);
+        uCrop.withAspectRatio(16, 9);
+
+        uCrop = advancedConfig(uCrop);
+        uCrop.start(this);
+    }
+
+    private UCrop advancedConfig(@NonNull UCrop uCrop) {
+        UCrop.Options options = new UCrop.Options();
+        options.setCompressionQuality(100);
+        options.setMaxScaleMultiplier(5);
+        options.setImageToCropBoundsAnimDuration(666);
+        options.setShowCropFrame(false);
+        options.setCropGridColumnCount(0);
+        options.setCropGridRowCount(0);
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setFreeStyleCropEnabled(true);
+        // Color palette
+        options.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        options.setStatusBarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        options.setActiveWidgetColor(ContextCompat.getColor(context, R.color.color_text_green));
+        options.setToolbarWidgetColor(ContextCompat.getColor(context, R.color.white));
+        return uCrop.withOptions(options);
     }
 }
