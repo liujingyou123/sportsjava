@@ -62,6 +62,8 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_takephoto);
+        setCamera();
+
         settingsView = findView(R.id.settings_view);
         flashSwitchView = findView(R.id.flash_switch_view);
         frontBackCameraSwitcher = findView(R.id.front_back_camera_switcher);
@@ -80,12 +82,11 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
         photoVideoCameraSwitcher.setOnClickListener(this);
         cameraLayout.setOnClickListener(this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setCamera();
-            }
-        }, 500);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//            }
+//        }, 500);
     }
 
     private <T> T findView(int id) {
@@ -102,10 +103,23 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
 
     @RequiresPermission(Manifest.permission.CAMERA)
     public void addCamera() {
-        cameraLayout.setVisibility(View.VISIBLE);
+//        cameraLayout.setVisibility(View.VISIBLE);
 
-        final CameraFragment cameraFragment = CameraFragment.newInstance(new Configuration.Builder()
-                .setCamera(Configuration.CAMERA_FACE_REAR).build());
+        Configuration.Builder builder = new Configuration.Builder();
+        builder.setCamera(Configuration.CAMERA_FACE_REAR);
+        builder.setMediaAction(Configuration.MEDIA_ACTION_VIDEO);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        final CameraFragment cameraFragment = CameraFragment.newInstance(builder.build());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, cameraFragment, FRAGMENT_TAG)
                 .commitAllowingStateLoss();

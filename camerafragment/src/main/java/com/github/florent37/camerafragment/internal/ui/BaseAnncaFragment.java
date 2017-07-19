@@ -638,6 +638,9 @@ public abstract class BaseAnncaFragment<CameraId> extends Fragment implements Ca
     }
 
     protected void setCameraPreview(View preview, Size previewSize) {
+        Log.e("previewSize","previewSize width = " + previewSize.getWidth());
+        Log.e("previewSize","previewSize height = " + previewSize.getHeight());
+
         //onCameraControllerReady()
         videoQualities = cameraController.getVideoQualityOptions();
         photoQualities = cameraController.getPhotoQualityOptions();

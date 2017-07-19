@@ -279,11 +279,10 @@ public class EditNewDongTaiActivity extends BaseActivity {
         options.setCompressionQuality(100);
         options.setMaxScaleMultiplier(5);
         options.setImageToCropBoundsAnimDuration(666);
-        options.setShowCropFrame(false);
+        options.setShowCropFrame(true);
         options.setCropGridColumnCount(0);
         options.setCropGridRowCount(0);
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-        options.setFreeStyleCropEnabled(true);
         // Color palette
         options.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
         options.setStatusBarColor(ContextCompat.getColor(context, R.color.colorPrimary));
