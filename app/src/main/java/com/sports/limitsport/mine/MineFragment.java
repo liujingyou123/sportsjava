@@ -61,7 +61,7 @@ public class MineFragment extends BaseFragment {
     private void testData() {
         for (int i = 0; i < 5; i++) {
             Dongtai dongtai = new Dongtai();
-            dongtai.imgUrl = "https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D220/sign=965c17148f94a4c21523e0293ef51bac/3812b31bb051f819c6ccf551d2b44aed2f73e7c4.jpg";
+            dongtai.imgUrl = "http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg";
             dongtai.des = "如果有天堂，应该是这样的，做最棒的自己。";
             List<String> activitys = new ArrayList<>();
             activitys.add("松花湖滑雪第二期");
