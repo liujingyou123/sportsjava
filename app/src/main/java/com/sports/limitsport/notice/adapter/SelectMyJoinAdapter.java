@@ -30,4 +30,9 @@ public class SelectMyJoinAdapter extends BaseSelectionAdapter<SelectEntity, Base
         Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imvCover);
 
     }
+
+    @Override
+    public int getSelectId() {
+        return R.id.imv_checked;
+    }
 }

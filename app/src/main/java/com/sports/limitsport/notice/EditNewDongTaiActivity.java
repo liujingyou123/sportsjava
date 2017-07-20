@@ -1,7 +1,6 @@
 package com.sports.limitsport.notice;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -26,20 +25,15 @@ import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.notice.model.SelectMedia;
 import com.sports.limitsport.util.ToastUtil;
-import com.sports.limitsport.view.imagepreview.ImagePreviewActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
-import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.ui.PreviewActivity;
-import com.zhihu.matisse.ui.TakePhotoActivity;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

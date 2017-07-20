@@ -76,7 +76,8 @@ public class SignUpActivity extends BaseActivity {
         adapter.setHeaderAndEmpty(true);
         adapter.setHeaderView(signUpHeadView);
         adapter.setFooterView(signUpFooterView);
-        adapter.setOnItemSelectClickListener(new BaseSelectionAdapter.OnItemSelectClickListener() {
+
+        adapter.setOnItemChildSelectClickListener(new BaseSelectionAdapter.OnItemChildSelectClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 XLog.e("select position = " + position);

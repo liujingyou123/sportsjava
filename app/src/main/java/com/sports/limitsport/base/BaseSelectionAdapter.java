@@ -13,30 +13,33 @@ import java.util.List;
  * Created by liuworkmac on 17/7/14.
  */
 
-public class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> implements BaseQuickAdapter.OnItemClickListener {
+public abstract class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> implements  BaseQuickAdapter.OnItemChildClickListener{
     public List<Integer> mSelectedPositions = new ArrayList<>();
     private boolean isSingleCheck;
-    private OnItemSelectClickListener mOnItemSelectClickListener;
+    private OnItemChildSelectClickListener mOnItemSelectClickListener;
 
     public BaseSelectionAdapter(int layoutResId, @Nullable List<T> data, boolean isSingleCheck) {
         super(layoutResId, data);
-        setOnItemClickListener(this);
         this.isSingleCheck = isSingleCheck;
+        setOnItemChildClickListener(this);
     }
 
     public BaseSelectionAdapter(@Nullable List<T> data, boolean isSingleCheck) {
         super(data);
-        setOnItemClickListener(this);
         this.isSingleCheck = isSingleCheck;
+        setOnItemChildClickListener(this);
     }
 
     @Override
     protected void convert(K helper, T item) {
-
+        helper.addOnClickListener(getSelectId());
     }
 
+
+    public abstract int getSelectId();
+
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (isSingleCheck) {
             if (mSelectedPositions != null) {
                 if (mSelectedPositions.size() > 0) {
@@ -72,10 +75,47 @@ public class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHold
         }
     }
 
-    public void setOnItemSelectClickListener(OnItemSelectClickListener onItemSelectClickListener) {
+    //    @Override
+//    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//        if (isSingleCheck) {
+//            if (mSelectedPositions != null) {
+//                if (mSelectedPositions.size() > 0) {
+//                    int selectPosition = mSelectedPositions.get(0);
+//                    if (selectPosition != position) {
+//                        ((T) adapter.getItem(selectPosition)).isSelect = false;
+//                        mSelectedPositions.clear();
+//                        mSelectedPositions.add(position);
+//                        ((T) adapter.getItem(position)).isSelect = true;
+//                        notifyDataSetChanged();
+//                    }
+//                } else {
+//                    mSelectedPositions.add(position);
+//                    ((T) adapter.getItem(position)).isSelect = true;
+//                    notifyDataSetChanged();
+//                }
+//
+//            }
+//        } else {
+//            if (mSelectedPositions != null && mSelectedPositions.contains(position)) {
+//                mSelectedPositions.remove(mSelectedPositions.indexOf(position));
+//                ((T) adapter.getItem(position)).isSelect = false;
+//                notifyDataSetChanged();
+//            } else if (mSelectedPositions != null && !mSelectedPositions.contains(position)) {
+//                mSelectedPositions.add(position);
+//                ((T) adapter.getItem(position)).isSelect = true;
+//                notifyDataSetChanged();
+//            }
+//        }
+//
+//        if (mOnItemSelectClickListener != null) {
+//            mOnItemSelectClickListener.onItemClick(adapter, view, position);
+//        }
+//    }
+
+    public void setOnItemChildSelectClickListener(OnItemChildSelectClickListener onItemSelectClickListener) {
         this.mOnItemSelectClickListener = onItemSelectClickListener;
     }
-    public interface OnItemSelectClickListener {
+    public interface OnItemChildSelectClickListener {
         void onItemClick(BaseQuickAdapter adapter, View view, int position);
     }
 }

@@ -31,4 +31,9 @@ public class MyFocusPersonSelectAdapter extends BaseSelectionAdapter<FocusPerson
         Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
 
     }
+
+    @Override
+    public int getSelectId() {
+        return R.id.imv_checked;
+    }
 }

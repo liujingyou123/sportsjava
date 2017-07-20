@@ -26,4 +26,9 @@ public class TicketsTypeAdapter extends BaseSelectionAdapter<SelectEntity, BaseV
         TextView textView = helper.getView(R.id.tv_ticket_type_one);
         textView.setSelected(item.isSelect);
     }
+
+    @Override
+    public int getSelectId() {
+        return R.id.ll_parent;
+    }
 }
