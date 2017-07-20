@@ -102,7 +102,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
 
         jcVideo.setUp("http://video.jiecao.fm/11/23/xin/%E5%81%87%E4%BA%BA.mp4"
                 , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "嫂子不信");
-        Batman.getInstance().fromNet("http://img4.jiecaojingxuan.com/2016/11/23/00b026e7-b830-4994-bc87-38f4033806a6.jpg@!640_360", jcVideo.thumbImageView);
+        Batman.getInstance().fromNet("http://pic.58pic.com/58pic/13/61/00/61a58PICtPr_1024.jpg", jcVideo.thumbImageView);
 
         TagDetailAdapter tagDetailAdapter = new TagDetailAdapter(this.getContext(), null);
         tg.setAdapter(tagDetailAdapter);

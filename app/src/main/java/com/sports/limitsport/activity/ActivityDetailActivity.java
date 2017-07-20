@@ -19,6 +19,7 @@ import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.StatusBarUtil;
+import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
 
 import butterknife.BindView;
@@ -108,7 +109,7 @@ public class ActivityDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.imv_back, R.id.btn_done, R.id.imv_report, R.id.imv_share})
+    @OnClick({R.id.imv_back, R.id.btn_done, R.id.imv_report, R.id.imv_share, R.id.imv_fav})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_back:
@@ -125,6 +126,9 @@ public class ActivityDetailActivity extends BaseActivity {
             case R.id.imv_share:
                 ShareDialog dialog1 = new ShareDialog(this);
                 dialog1.show();
+                break;
+            case R.id.imv_fav:
+                ToastUtil.showTrueToast(this, "收藏成功");
                 break;
         }
     }

@@ -20,6 +20,7 @@
         <View
             style="@style/view_line_one_px"/>
         <TextView
+            android:id="@+id/tv_report_one"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_round_white"
@@ -30,6 +31,7 @@
         <View
             style="@style/view_line_one_px"/>
         <TextView
+            android:id="@+id/tv_report_two"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_round_white"
@@ -41,6 +43,7 @@
         <View
             style="@style/view_line_one_px"/>
         <TextView
+            android:id="@+id/tv_report_thr"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_round_white"
@@ -51,6 +54,7 @@
         <View
             style="@style/view_line_one_px"/>
         <TextView
+            android:id="@+id/tv_report_four"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_round_white"
@@ -61,6 +65,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_report_cancel"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/bg_round_white"
