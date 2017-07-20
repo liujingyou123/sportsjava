@@ -8,6 +8,8 @@ import com.sports.limitsport.net.NetworkClient;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by liuworkmac on 17/6/21.
  */
@@ -23,6 +25,9 @@ public class LimitSportApplication extends Application {
         NetworkClient.init(this);
         Batman.getInstance().init(this);
         UMShareAPI.get(this);
+
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
     }
 
 

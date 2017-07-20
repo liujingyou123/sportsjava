@@ -90,4 +90,6 @@ dependencies {
     compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
     compile files('libs/weiboSDKCore_3.1.4.jar')
     compile project(':matisse')
+    compile files('libs/jcore-android-1.1.5.jar')
+    compile files('libs/jpush-android-3.0.7.jar')
 }

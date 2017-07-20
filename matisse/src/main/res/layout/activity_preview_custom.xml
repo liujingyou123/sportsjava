@@ -57,7 +57,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="15dp"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_bianjixindongtai_quit"
+            android:src="@drawable/icon_bianjixindongtai_delete"
             android:layout_alignParentRight="true"
             android:visibility="gone"/>
 

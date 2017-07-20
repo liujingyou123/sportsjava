@@ -1,9 +1,13 @@
 package com.sports.limitsport.activity;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,9 +23,11 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.model.LatLng;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.util.UnitUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +71,6 @@ public class MapActivity extends BaseActivity {
                 .target(cenpt)
                 .zoom(12)
                 .build();
-
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
     }
@@ -77,13 +82,15 @@ public class MapActivity extends BaseActivity {
         mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
 
 
-        Button button = new Button(getApplicationContext());
-        button.setTextColor(Color.parseColor("#4899ff"));
-        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        button.setBackgroundResource(R.drawable.popup);
-        button.setText("阿活动后给你送噶都洒过德国队撒个蛋糕大噶时");
+        TextView textView = new TextView(getApplicationContext());
+        textView.setTextColor(Color.parseColor("#FF4795FB"));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        textView.setBackgroundResource(R.mipmap.icon_position);
+        textView.setText(" 阿活动后给你送噶都洒过德国队撒个蛋糕大噶时 ");
+        textView.setGravity(Gravity.CENTER);
+//        textView.setPadding(0, UnitUtil.dip2px(this, 7),0, UnitUtil.dip2px(this, 7));
         LatLng pt = mMarkerA.getPosition();
-        InfoWindow mInfoWindow = new InfoWindow(button, pt, -100);
+        InfoWindow mInfoWindow = new InfoWindow(textView, pt, -110);
         mBaiduMap.showInfoWindow(mInfoWindow);
 
     }

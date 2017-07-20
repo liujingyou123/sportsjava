@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyFocusAdapter;
 import com.sports.limitsport.notice.adapter.MyFocusPersonSelectAdapter;
@@ -84,6 +85,7 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 XLog.e("position = " + position);
+                gotoPersionInfo();
             }
         });
     }
@@ -95,4 +97,11 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 个人主页
+     */
+    private void gotoPersionInfo() {
+        Intent intent = new Intent(this, PersonInfoActivity.class);
+        startActivity(intent);
+    }
 }

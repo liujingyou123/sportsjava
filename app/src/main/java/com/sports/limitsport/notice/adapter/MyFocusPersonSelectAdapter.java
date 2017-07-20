@@ -18,7 +18,7 @@ import java.util.List;
 public class MyFocusPersonSelectAdapter extends BaseSelectionAdapter<FocusPerson, BaseViewHolder> {
 
     public MyFocusPersonSelectAdapter(@Nullable List<FocusPerson> data) {
-        super(R.layout.adpater_select_myfocus, data, true);
+        super(R.layout.adpater_select_myfocus, data, false);
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SelectMyJoinAdapter extends BaseSelectionAdapter<SelectEntity, BaseViewHolder> {
     public SelectMyJoinAdapter(@Nullable List<SelectEntity> data) {
-        super(R.layout.adapter_selectmyjoin, data, false);
+        super(R.layout.adapter_selectmyjoin, data, true);
     }
 
     @Override

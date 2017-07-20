@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.ActivityDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.base.SelectEntity;
 import com.sports.limitsport.log.XLog;
@@ -80,10 +81,10 @@ public class SelectMyJoinActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                XLog.e("position = " +position);
+                XLog.e("position = " + position);
+                gotoActivityDetail();
             }
         });
-
 
     }
 
@@ -92,5 +93,13 @@ public class SelectMyJoinActivity extends BaseActivity {
             SelectEntity focusPerson = new SelectEntity();
             data.add(focusPerson);
         }
+    }
+
+    /**
+     * 前往活动详情
+     */
+    private void gotoActivityDetail() {
+        Intent intent = new Intent(this, ActivityDetailActivity.class);
+        startActivity(intent);
     }
 }

@@ -252,7 +252,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     }
 
     /**
-     * 选择我关注的人
+     * 选择我参加的活动
      */
     private void gotoSelectMyJionActivitys() {
         Intent intent = new Intent(this, SelectMyJoinActivity.class);
