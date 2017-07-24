@@ -68,7 +68,7 @@ public class ClubBaseInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imvCover);
+        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
     }
 
     private void exitDialog() {

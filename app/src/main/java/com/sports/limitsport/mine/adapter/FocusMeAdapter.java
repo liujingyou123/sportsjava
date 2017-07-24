@@ -29,7 +29,7 @@ public class FocusMeAdapter extends BaseQuickAdapter<FocusMe, BaseViewHolder> {
         TextView textView = helper.getView(R.id.tv_detail);
         textView.setText("在这条动态中@了你");
         helper.getView(R.id.imv_replay).setVisibility(View.GONE);
-        Batman.getInstance().getImageWithRoundLeft("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imageView,0,0,0);
+        Batman.getInstance().getImageWithRoundLeft("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView,0,0,0);
         Batman.getInstance().getImageWithCircle("http://up.qqjia.com/z/16/tu17317_45.png", imvHead,0,0);
     }
 }

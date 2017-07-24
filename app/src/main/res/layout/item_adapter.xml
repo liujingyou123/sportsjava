@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="30dp">
 
-    <ImageView
+    <com.sports.limitsport.view.ScaleImageView
         android:id="@+id/imv_cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,23 @@
         android:layout_marginTop="3dp"
         android:text="04月22日 周六 13:30-15:00"
         android:textColor="#919191"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_status_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:text="活动已结束"
+        android:textColor="#919191"
+        android:textSize="12sp"
+        android:drawableLeft="@mipmap/icon_home_over"
+        android:drawablePadding="3dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_address"
@@ -48,6 +64,7 @@
         android:textSize="12sp" />
 
     <LinearLayout
+        android:id="@+id/ll_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_address"
@@ -55,7 +72,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_no_money"

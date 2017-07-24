@@ -23,7 +23,7 @@ public class ClubAdapter extends BaseQuickAdapter<Club, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Club item) {
         ImageView imageView = helper.getView(R.id.imv_cover);
-        Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imageView);
+        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
 
         Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", (ImageView) helper.getView(R.id.imv_head), 0, 0);
 

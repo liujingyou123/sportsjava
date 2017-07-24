@@ -23,7 +23,7 @@ public class NoticeAdapter extends BaseQuickAdapter<NoticeTwo, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, NoticeTwo item) {
         ImageView imageView = helper.getView(R.id.imv_cover);
-        Batman.getInstance().getImageWithRoundBottom("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imageView,0,0,0);
+        Batman.getInstance().getImageWithRoundBottom("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView,0,0,0);
 
     }
 }

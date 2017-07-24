@@ -5,15 +5,16 @@ package com.sports.limitsport.base;
  */
 
 public class BaseResponse {
-    public boolean isSuccess;
+    public boolean success;
     public String errMsg;
+    public String errCode;
 
     public boolean isSuccess() {
-        return isSuccess;
+        return success;
     }
 
     public void setSuccess(boolean success) {
-        isSuccess = success;
+        success = success;
     }
 
     public String getErrMsg() {

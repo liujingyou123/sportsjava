@@ -25,10 +25,6 @@ public class SignUpFooterView extends RelativeLayout {
     TextView tvTicketNums;
     @BindView(R.id.ncv)
     NumCheckView ncv;
-//    @BindView(R.id.imv_server)
-//    ImageView imvServer;
-//    @BindView(R.id.tv_server)
-//    TextView tvServer;
 
     public SignUpFooterView(Context context) {
         super(context);
@@ -65,4 +61,8 @@ public class SignUpFooterView extends RelativeLayout {
 //                break;
 //        }
 //    }
+
+    public void setNumCheckViewEnable(boolean enable) {
+        ncv.setCanEnable(enable);
+    }
 }

@@ -3,7 +3,7 @@ package com.sports.limitsport.net;
 
 public class NetUtils {
 
-    private static String baseUrl = "";
+    private static String baseUrl = "http://192.168.1.111";
     private static String webUrl = "";
 
 

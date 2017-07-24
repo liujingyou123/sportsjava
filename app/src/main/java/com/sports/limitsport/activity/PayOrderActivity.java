@@ -56,14 +56,14 @@ public class PayOrderActivity extends BaseActivity {
 
     private void initRecy() {
         tvFocusHouse.setText("订单支付");
-        Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imvCover);
+        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
 
         ncv.setNumWitdh(UnitUtil.dip2px(this, 38));
         ncv.setImvAddResource(R.drawable.bg_nc_pay_add);
         ncv.setImvSubResource(R.drawable.bg_nc_pay_sub);
         ncv.setNumTextSize(12);
-        ncv.setMinNum(1);
-        ncv.setDefaultNum(1);
+//        ncv.setMinNum(1);
+//        ncv.setDefaultNum(1);
         ncv.setOnNumChangedListener(new NumCheckView.OnNumChangedListener() {
             @Override
             public void onNumChanged(int num) {

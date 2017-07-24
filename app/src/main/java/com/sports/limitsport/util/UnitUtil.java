@@ -12,6 +12,10 @@ import com.sports.limitsport.log.XLog;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class UnitUtil {
@@ -45,7 +49,7 @@ public class UnitUtil {
      * @param
      * @return
      */
-    public static int px2sp(Context context,float pxValue) {
+    public static int px2sp(Context context, float pxValue) {
         float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
@@ -245,12 +249,25 @@ public class UnitUtil {
 
     /**
      * 格式化数字 1->01 ..  11->11
+     *
      * @param num
      * @return
      */
     public static String formatDec(double num) {
         String ret;
         DecimalFormat df = new DecimalFormat("00.##");
+        ret = df.format(num);
+        return ret;
+    }
+
+    /**
+     * 数字格式化 两位
+     * @param num
+     * @return
+     */
+    public static String formatDecDouble(int num) {
+        String ret;
+        DecimalFormat df = new DecimalFormat("00");
         ret = df.format(num);
         return ret;
     }
@@ -364,5 +381,29 @@ public class UnitUtil {
         }
 
         return ret;
+    }
+
+
+    public static Date stringToDate(String timeStr) {
+        if (TextUtils.isEmpty(timeStr)) {
+            return null;
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time = null;
+        try {
+            time = df.parse(timeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    public static Calendar dateToCalendar(Date date) {
+        if (date == null) {
+           return null;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
     }
 }

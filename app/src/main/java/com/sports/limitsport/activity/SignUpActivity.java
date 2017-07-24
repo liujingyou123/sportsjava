@@ -20,6 +20,8 @@ import com.sports.limitsport.base.SelectEntity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.H5Activity;
 import com.sports.limitsport.view.SignUpFooterView;
 import com.sports.limitsport.view.SignUpHeadView;
@@ -62,8 +64,10 @@ public class SignUpActivity extends BaseActivity {
     private void init() {
         tvFocusHouse.setText("活动报名");
 
+        TextViewUtil.setPartAndColorAndClick(tvServer, onClickListener, 2, tvServer.getText().length(), getResources().getColor(R.color.color_text_green));
         signUpHeadView = new SignUpHeadView(this);
         signUpFooterView = new SignUpFooterView(this);
+        signUpFooterView.setNumCheckViewEnable(false);
         rlvTicketType.setLayoutManager(new GridLayoutManager(this, 2));
 
         List<SelectEntity> data = new ArrayList<>();
@@ -81,6 +85,7 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 XLog.e("select position = " + position);
+                signUpFooterView.setNumCheckViewEnable(true);
             }
         });
         imvServer.setSelected(true);
@@ -88,7 +93,7 @@ public class SignUpActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.imv_server, R.id.tv_server})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.imv_server})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -105,11 +110,15 @@ public class SignUpActivity extends BaseActivity {
                     imvServer.setSelected(true);
                 }
                 break;
-            case R.id.tv_server:
-                gotoServerDeal();
-                break;
         }
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            gotoServerDeal();
+        }
+    };
 
     /**
      * 服务协议

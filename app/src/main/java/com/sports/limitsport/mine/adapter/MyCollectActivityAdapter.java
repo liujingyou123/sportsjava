@@ -22,7 +22,7 @@ public class MyCollectActivityAdapter extends BaseQuickAdapter<String, BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         ImageView imageView = helper.getView(R.id.imv_cover);
-        Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imageView);
+        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
 
     }
 }

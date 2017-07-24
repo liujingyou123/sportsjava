@@ -1,6 +1,7 @@
 package com.sports.limitsport.discovery;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.discovery.adapter.DongTaiAdapter;
 import com.sports.limitsport.discovery.model.DongTai;
-import com.sports.limitsport.view.DongTaiDetialHeadView;
+import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.view.NewNewsHeadView;
 import com.sports.limitsport.view.SpacesItemDecorationS;
 
@@ -25,6 +26,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Action2;
+import rx.functions.Func0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by liuworkmac on 17/6/29.
@@ -57,8 +65,10 @@ public class NewNewsFragment extends Fragment {
 
     private void init() {
         View headView = new NewNewsHeadView(this.getContext());
-        rlvNew.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//可防止Item切换
+        rlvNew.setLayoutManager(layoutManager);
         adapter = new DongTaiAdapter(data);
         adapter.bindToRecyclerView(rlvNew);
         adapter.addHeaderView(headView);
@@ -80,46 +90,81 @@ public class NewNewsFragment extends Fragment {
     }
 
     private void getTestData() {
+        List<DongTai> mdata = new ArrayList<>();
+
         DongTai act = new DongTai();
         act.imageUrl = "http://img2.imgtn.bdimg.com/it/u=4144902998,2125657744&fm=11&gp=0.jpg";
-        data.add(act);
+        mdata.add(act);
 
         DongTai act2 = new DongTai();
         act2.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
-        data.add(act2);
+        mdata.add(act2);
 
         DongTai act3 = new DongTai();
         act3.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-        data.add(act3);
+        mdata.add(act3);
 
         for (int i = 0; i < 4; i++) {
             DongTai act4 = new DongTai();
             act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
-            data.add(act4);
+            mdata.add(act4);
         }
 
         DongTai act5 = new DongTai();
         act5.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-        data.add(act5);
+        mdata.add(act5);
 
         for (int i = 0; i < 5; i++) {
             DongTai act4 = new DongTai();
             act4.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
-            data.add(act4);
+            mdata.add(act4);
         }
 
         for (int i = 0; i < 4; i++) {
             DongTai act4 = new DongTai();
             act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
-            data.add(act4);
+            mdata.add(act4);
         }
 
         for (int i = 0; i < 5; i++) {
             DongTai act6 = new DongTai();
             act6.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-            data.add(act6);
-
+            mdata.add(act6);
         }
+        doLoadBitmap(mdata);
+    }
+
+    private void doLoadBitmap(List<DongTai> mData) {
+        Observable.from(mData).map(new Func1<DongTai, DongTai>() {
+            @Override
+            public DongTai call(DongTai dongTai) {
+                DongTai act4 = new DongTai();
+                Bitmap bitmap = Batman.getInstance().getBitMap(NewNewsFragment.this.getContext(), dongTai.imageUrl);
+                if (bitmap != null) {
+                    act4.width = bitmap.getWidth();
+                    act4.height = bitmap.getHeight();
+                }
+                act4.imageUrl = dongTai.imageUrl;
+                return act4;
+            }
+        }).collect(new Func0<List<DongTai>>() {
+            @Override
+            public List<DongTai> call() {
+                return new ArrayList<DongTai>();
+            }
+        }, new Action2<List<DongTai>, DongTai>() {
+            @Override
+            public void call(List<DongTai> dongTais, DongTai dongTai) {
+                if (dongTais != null) {
+                    dongTais.add(dongTai);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<DongTai>>() {
+            @Override
+            public void call(List<DongTai> dongTais) {
+                adapter.addData(dongTais);
+            }
+        });
     }
 
     /**

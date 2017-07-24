@@ -34,7 +34,7 @@ public class MyCollectDongTaiAdapter extends BaseQuickAdapter<String, BaseViewHo
         TagCloudLayout tagCloudLayout = helper.getView(R.id.tg_tag);
         LinearLayout llCall = helper.getView(R.id.ll_recall);
 
-        Batman.getInstance().fromNet("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imageView);
+        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
         List<String> tags = new ArrayList<>();
         for (int i=0; i<3; i++) {
             tags.add("参见的滑雪第二期");

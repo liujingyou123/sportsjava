@@ -95,7 +95,7 @@ public class HotNewHeadView extends LinearLayout {
         clubAdapter = new ClubAdapter(clubs);
         rlvClub.setAdapter(clubAdapter);
 
-        SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
+        SpacesItemHDecoration decoration = new SpacesItemHDecoration(5);
         rlvClub.addItemDecoration(decoration);
 
         clubAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -121,7 +121,7 @@ public class HotNewHeadView extends LinearLayout {
         rlvFanshow.setAdapter(fineShowAdapter);
 
 
-        SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
+        SpacesItemHDecoration decoration = new SpacesItemHDecoration(5);
         rlvFanshow.addItemDecoration(decoration);
 
         fineShowAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

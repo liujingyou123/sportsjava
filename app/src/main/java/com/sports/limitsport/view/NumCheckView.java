@@ -158,6 +158,24 @@ public class NumCheckView extends LinearLayout {
         this.maxNum = maxNum;
     }
 
+    public void setCanEnable(boolean enable) {
+        if (enable) {
+            if (num > minNum) {
+                imvSub.setEnabled(true);
+            } else {
+                imvSub.setEnabled(false);
+            }
+            if (num < maxNum) {
+                imvAdd.setEnabled(true);
+            } else {
+                imvAdd.setEnabled(false);
+            }
+        } else {
+            imvSub.setEnabled(false);
+            imvAdd.setEnabled(false);
+        }
+    }
+
     public void setOnNumChangedListener(OnNumChangedListener onNumChangedListener) {
         this.mOnNumChangedListener = onNumChangedListener;
     }

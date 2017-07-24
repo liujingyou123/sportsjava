@@ -1,6 +1,7 @@
 package com.sports.limitsport.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivitysAdapter;
 import com.sports.limitsport.activity.model.Act;
+import com.sports.limitsport.activity.model.ActivityResponse;
+import com.sports.limitsport.activity.presenter.ActivityListPresenter;
 import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.view.CustomLoadMoreView;
 import com.sports.limitsport.view.SpacesItemDecoration;
 
 import java.util.ArrayList;
@@ -26,12 +32,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Action2;
+import rx.functions.Func0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by liuworkmac on 17/6/21.
  */
 
-public class ActivityFragment extends BaseFragment {
+public class ActivityFragment extends BaseFragment implements IActivityListView {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.recyclerview)
@@ -41,30 +54,53 @@ public class ActivityFragment extends BaseFragment {
     ImageView imvFocusHouseBack;
     @BindView(R.id.rl_nodata)
     RelativeLayout rlNodata;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
 
     private List<Act> data = new ArrayList<>();
     private ActivitysAdapter adapter;
+
+    private ActivityListPresenter mPresenter;
+    private int pageNumber = 1;
+
+    private long totalSize;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, null);
         unbinder = ButterKnife.bind(this, view);
-        getTestData();
         init();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getData();
+
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ActivityListPresenter(this);
+        }
+
+        mPresenter.getActivityList(pageNumber);
     }
 
     private void init() {
         tvFocusHouse.setText("极限领秀");
         imvFocusHouseBack.setVisibility(View.GONE);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//可防止Item切换
+
+        recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ActivitysAdapter(data);
         adapter.bindToRecyclerView(recyclerView);
 
-        View footerView = LayoutInflater.from(getContext()).inflate(R.layout.end_list, null);
-        adapter.addFooterView(footerView);
+        adapter.setLoadMoreView(new CustomLoadMoreView());
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(5);
         recyclerView.addItemDecoration(decoration);
@@ -76,61 +112,119 @@ public class ActivityFragment extends BaseFragment {
                 ActivityFragment.this.startActivity(intent);
             }
         });
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+//                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, recyclerView);
+        rlAll.setEnableLoadMore(false);
 
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
 
+            }
+
+            @Override
+            public void onRefreshing() {
+                refresh();
+            }
+        });
     }
 
-    private void getTestData() {
-        Act act = new Act();
-        act.imageUrl = "http://img2.imgtn.bdimg.com/it/u=4144902998,2125657744&fm=11&gp=0.jpg";
-        data.add(act);
-
-        Act act2 = new Act();
-        act2.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
-        data.add(act2);
-
-        Act act3 = new Act();
-        act3.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-        data.add(act3);
-
-        for (int i = 0; i < 4; i++) {
-            Act act4 = new Act();
-            act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
-            data.add(act4);
+    private void loadMore() {
+        if (mPresenter != null) {
+            mPresenter.getActivityList(pageNumber);
         }
+    }
 
-        Act act5 = new Act();
-        act5.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-        data.add(act5);
-
-        for (int i = 0; i < 5; i++) {
-            Act act4 = new Act();
-            act4.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
-            data.add(act4);
+    private void refresh() {
+        pageNumber = 1;
+        if (mPresenter != null) {
+            mPresenter.getActivityList(pageNumber);
         }
+    }
 
-        for (int i = 0; i < 4; i++) {
-            Act act4 = new Act();
-            act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
-            data.add(act4);
-        }
 
-        for (int i = 0; i < 5; i++) {
-            Act act6 = new Act();
-            act6.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-            data.add(act6);
+    private void doLoadBitmap(List<Act> mData) {
+        Observable.from(mData).map(new Func1<Act, Act>() {
+            @Override
+            public Act call(Act baseStaggeredEntity) {
+                Act act1 = new Act();
+                Bitmap bitmap = Batman.getInstance().getBitMap(ActivityFragment.this.getContext(), baseStaggeredEntity.getCoverUrl());
+                if (bitmap != null) {
+                    act1.setWidth(bitmap.getWidth());
+                    act1.setHeight(bitmap.getHeight());
+                }
+                act1.setCoverUrl(baseStaggeredEntity.getCoverUrl());
+                return act1;
+            }
+        }).collect(new Func0<List<Act>>() {
+            @Override
+            public List<Act> call() {
+                return new ArrayList<Act>();
+            }
+        }, new Action2<List<Act>, Act>() {
+            @Override
+            public void call(List<Act> baseStaggeredEntities, Act baseStaggeredEntity) {
+                if (baseStaggeredEntities != null) {
+                    baseStaggeredEntities.add(baseStaggeredEntity);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<Act>>() {
+            @Override
+            public void call(List<Act> baseStaggeredEntities) {
+                if (rlAll.isRefreshing()) {
+                    adapter.setNewData(baseStaggeredEntities);
+                    rlAll.refreshComplete();
+                } else {
+                    adapter.addData(baseStaggeredEntities);
+                    if (adapter.getData().size() >= totalSize) {
+                        adapter.loadMoreEnd();
+                    } else {
+                        adapter.loadMoreComplete();
+                    }
+                }
 
-        }
+            }
+        });
+    }
+
+    @OnClick(R.id.imv_nonewdata)
+    public void onViewClicked() {
+        rlNodata.setVisibility(View.GONE);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
     }
 
-    @OnClick(R.id.imv_nonewdata)
-    public void onViewClicked() {
-        rlNodata.setVisibility(View.GONE);
+    @Override
+    public void showList(ActivityResponse response) {
+        if (response.getData() != null) {
+            if (response.getData().getQuery() > 0) {
+                rlNodata.setVisibility(View.GONE);
+            } else {
+                rlNodata.setVisibility(View.VISIBLE);
+            }
+            totalSize = response.getData().getTotalSize();
+            List<Act> tmp = response.getData().getData();
+            doLoadBitmap(tmp);
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        adapter.loadMoreFail();
     }
 }

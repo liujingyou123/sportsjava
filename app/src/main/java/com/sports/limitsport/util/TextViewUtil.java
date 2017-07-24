@@ -6,9 +6,11 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,6 +36,17 @@ public class TextViewUtil {
         Spannable spannable = new SpannableString(s);
         spannable.setSpan(new ForegroundColorSpan(textColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(spannable);
+    }
+
+    //设置TextView部分颜色和点击事件
+    public static void setPartAndColorAndClick(TextView tv, View.OnClickListener onClickListener, int start, int end, int textColor) {
+        String s = tv.getText().toString();
+        Spannable spannable = new SpannableString(s);
+//        spannable.setSpan(new ForegroundColorSpan(textColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ClickSpan(onClickListener, textColor), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(spannable);
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        tv.setHighlightColor(tv.getResources().getColor(android.R.color.transparent));
     }
 
     //给TextView设置部分大小和颜色

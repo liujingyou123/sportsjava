@@ -24,7 +24,7 @@ public class EachCommentAdapter extends BaseQuickAdapter<Comment, BaseViewHolder
     protected void convert(BaseViewHolder helper, Comment item) {
         ImageView imvHead = helper.getView(R.id.imv_head);
         ImageView imageView = helper.getView(R.id.imv_cover);
-        Batman.getInstance().getImageWithRoundLeft("http://pic.jj20.com/up/allimg/911/0P316142450/160P3142450-4.jpg", imageView,0,0,0);
+        Batman.getInstance().getImageWithRoundLeft("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView,0,0,0);
         Batman.getInstance().getImageWithCircle("http://up.qqjia.com/z/16/tu17317_45.png", imvHead,0,0);
     }
 }
