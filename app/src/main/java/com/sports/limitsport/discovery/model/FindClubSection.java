@@ -1,6 +1,7 @@
 package com.sports.limitsport.discovery.model;
 
 import com.chad.library.adapter.base.entity.SectionEntity;
+import com.sports.limitsport.model.Club;
 
 /**
  * Created by liuworkmac on 17/7/11.

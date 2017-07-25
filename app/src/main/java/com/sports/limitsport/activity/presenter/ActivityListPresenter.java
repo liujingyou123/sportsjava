@@ -1,14 +1,10 @@
 package com.sports.limitsport.activity.presenter;
 
 import com.sports.limitsport.activity.IActivityListView;
-import com.sports.limitsport.activity.model.Act;
-import com.sports.limitsport.activity.model.ActivityResponse;
-import com.sports.limitsport.net.IpServices;
-import com.sports.limitsport.net.NetSubscriber;
-import com.sports.limitsport.util.ToolsUtil;
+import com.sports.limitsport.model.Act;
+import com.sports.limitsport.model.ActivityResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

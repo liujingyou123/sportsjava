@@ -1,4 +1,4 @@
-package com.sports.limitsport.activity.model;
+package com.sports.limitsport.model;
 
 /**
  * Created by liuworkmac on 17/6/21.

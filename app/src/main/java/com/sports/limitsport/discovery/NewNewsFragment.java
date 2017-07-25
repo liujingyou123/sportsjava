@@ -16,7 +16,10 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.discovery.adapter.DongTaiAdapter;
 import com.sports.limitsport.discovery.model.DongTai;
+import com.sports.limitsport.discovery.presenter.NewNewsPresenter;
+import com.sports.limitsport.discovery.ui.INewNewsView;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.view.NewNewsHeadView;
 import com.sports.limitsport.view.SpacesItemDecorationS;
 
@@ -39,13 +42,15 @@ import rx.schedulers.Schedulers;
  * 动态
  */
 
-public class NewNewsFragment extends Fragment {
+public class NewNewsFragment extends Fragment implements INewNewsView {
     @BindView(R.id.rlv_new)
     RecyclerView rlvNew;
     Unbinder unbinder;
 
     private DongTaiAdapter adapter;
     private List<DongTai> data = new ArrayList<>();
+    private NewNewsHeadView newNewsHeadView;
+    private NewNewsPresenter mPresenter;
 
     @Nullable
     @Override
@@ -58,20 +63,27 @@ public class NewNewsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getData();
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new NewNewsPresenter(this);
+            mPresenter.getAdvList();
+        }
     }
 
     private void init() {
-        View headView = new NewNewsHeadView(this.getContext());
+        newNewsHeadView = new NewNewsHeadView(this.getContext());
 
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//可防止Item切换
         rlvNew.setLayoutManager(layoutManager);
         adapter = new DongTaiAdapter(data);
         adapter.bindToRecyclerView(rlvNew);
-        adapter.addHeaderView(headView);
+        adapter.addHeaderView(newNewsHeadView);
         SpacesItemDecorationS decoration = new SpacesItemDecorationS(5);
         rlvNew.addItemDecoration(decoration);
 
@@ -182,4 +194,30 @@ public class NewNewsFragment extends Fragment {
         Intent intent = new Intent(getContext(), PersonInfoActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void showAdvList(AdvertiseInfoResponse response) {
+        if (response.getData() != null) {
+            List<String> tmp = new ArrayList<>();
+            for (int i = 0; i < response.getData().size(); i++) {
+                tmp.add(response.getData().get(i).getAdPicUrl());
+            }
+
+            if (newNewsHeadView != null) {
+                newNewsHeadView.setImagesList(tmp);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+
+        mPresenter = null;
+    }
+
 }

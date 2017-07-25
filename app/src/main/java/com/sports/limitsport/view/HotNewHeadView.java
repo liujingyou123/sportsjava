@@ -19,7 +19,7 @@ import com.sports.limitsport.discovery.FineShowDetailActivity;
 import com.sports.limitsport.discovery.NewPersonReportActivity;
 import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.adapter.FineShowAdapter;
-import com.sports.limitsport.discovery.model.Club;
+import com.sports.limitsport.model.Club;
 import com.sports.limitsport.discovery.model.FineShow;
 import com.sports.limitsport.util.GlideImageLoader;
 import com.sports.limitsport.util.MyTestData;
@@ -49,6 +49,7 @@ public class HotNewHeadView extends LinearLayout {
 
     private List<Club> clubs = new ArrayList<>();
     private List<FineShow> fineShows = new ArrayList<>();
+    private List<String> advs = new ArrayList<>();
 
     public HotNewHeadView(Context context) {
         super(context);
@@ -68,7 +69,7 @@ public class HotNewHeadView extends LinearLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_hotnew, this);
         ButterKnife.bind(this, this);
-        showBanner();
+//        showBanner();
         showClubs();
         showFines();
     }
@@ -77,7 +78,7 @@ public class HotNewHeadView extends LinearLayout {
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
-        banner.setImages(MyTestData.getData());
+        banner.setImages(advs);
         //设置标题集合（当banner样式有显示title时）
         //设置指示器位置（当banner模式中有指示器时）
         banner.setIndicatorGravity(BannerConfig.CENTER);
@@ -86,10 +87,6 @@ public class HotNewHeadView extends LinearLayout {
     }
 
     private void showClubs() {
-        for (int i = 0; i < 10; i++) {
-            Club club = new Club();
-            clubs.add(club);
-        }
         rlvClub.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         clubAdapter = new ClubAdapter(clubs);
@@ -164,5 +161,17 @@ public class HotNewHeadView extends LinearLayout {
     private void gotoFineShowDetail() {
         Intent intent = new Intent(getContext(), FineShowDetailActivity.class);
         getContext().startActivity(intent);
+    }
+
+    public void setClubsList(List<Club> data) {
+        clubAdapter.addData(data);
+    }
+
+    public void setImgUrls(List<String> imgUrls) {
+        if (advs != null) {
+            advs.clear();
+            advs.addAll(imgUrls);
+        }
+        showBanner();
     }
 }

@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.model.Act;
+import com.sports.limitsport.model.Act;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.ScaleImageView;

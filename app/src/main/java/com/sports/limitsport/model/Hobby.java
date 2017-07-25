@@ -1,4 +1,4 @@
-package com.sports.limitsport.main;
+package com.sports.limitsport.model;
 
 /**
  * Created by jingyouliu on 17/7/9.

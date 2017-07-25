@@ -1,4 +1,4 @@
-package com.sports.limitsport.activity.model;
+package com.sports.limitsport.model;
 
 import com.sports.limitsport.base.BaseResponse;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by liuworkmac on 17/7/24.
  */
 
-public class ActivityResponse extends BaseResponse{
+public class ClubListResponse extends BaseResponse {
 
     private DataBean data;
 
@@ -25,9 +25,7 @@ public class ActivityResponse extends BaseResponse{
         private long totalPage;
         private long pageSize;
         private long pageNumber;
-        private int query;
-
-        private List<Act> data;
+        private List<Club> data;
 
         public long getTotalSize() {
             return totalSize;
@@ -61,20 +59,12 @@ public class ActivityResponse extends BaseResponse{
             this.pageNumber = pageNumber;
         }
 
-        public List<Act> getData() {
+        public List<Club> getData() {
             return data;
         }
 
-        public void setData(List<Act> data) {
+        public void setData(List<Club> data) {
             this.data = data;
-        }
-
-        public int getQuery() {
-            return query;
-        }
-
-        public void setQuery(int query) {
-            this.query = query;
         }
     }
 }

@@ -12,6 +12,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.main.adapter.HobbyAdapter;
 import com.sports.limitsport.main.adapter.HobbySpaceItemDecoration;
+import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.util.UnitUtil;
 
 import java.util.ArrayList;

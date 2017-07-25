@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.discovery.adapter.FindClubAdapter;
-import com.sports.limitsport.discovery.model.Club;
+import com.sports.limitsport.model.Club;
 import com.sports.limitsport.discovery.model.FindClubSection;
 import com.sports.limitsport.view.SpacesItemHDecoration;
 
