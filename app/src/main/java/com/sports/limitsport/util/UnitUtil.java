@@ -262,6 +262,7 @@ public class UnitUtil {
 
     /**
      * 数字格式化 两位
+     *
      * @param num
      * @return
      */
@@ -272,6 +273,13 @@ public class UnitUtil {
         return ret;
     }
 
+
+    /**
+     * 数字格式化 两位
+     *
+     * @param num
+     * @return
+     */
     public static String formatSNum(String num) {
         String ret = null;
         if (TextUtils.isEmpty(num)) {
@@ -388,7 +396,7 @@ public class UnitUtil {
         if (TextUtils.isEmpty(timeStr)) {
             return null;
         }
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date time = null;
         try {
             time = df.parse(timeStr);
@@ -400,10 +408,37 @@ public class UnitUtil {
 
     public static Calendar dateToCalendar(Date date) {
         if (date == null) {
-           return null;
+            return null;
         }
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal;
+    }
+
+    /**
+     * 1:周一
+     *
+     * @return
+     */
+    public static String stringToWeek(String str) {
+        String week = null;
+
+        if ("1".equals(str)) {
+            week = "周一";
+        } else if ("2".equals(str)) {
+            week = "周二";
+        } else if ("3".equals(str)) {
+            week = "周三";
+        } else if ("4".equals(str)) {
+            week = "周四";
+        } else if ("5".equals(str)) {
+            week = "周五";
+        } else if ("6".equals(str)) {
+            week = "周六";
+        } else if ("7".equals(str)) {
+            week = "周日";
+        }
+
+        return week;
     }
 }

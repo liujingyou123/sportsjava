@@ -4,6 +4,7 @@ package com.sports.limitsport.activity.adapter;
  */
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class TagDetailAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 3;
+        return ret;
     }
 
     @Override
@@ -60,17 +61,17 @@ public class TagDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-//        Tag tag = mData.get(i);
-//        if (tag != null) {
-////            if (!TextUtils.isEmpty(tag.getColor())) {
-////                viewHolder.tvTagDetail.setTextColor(Color.parseColor(tag.getColor()));
-////                viewHolder.tvTagDetail.setBackgroundDrawable(getDrawable(tag.getColor()));
-////
-////            }
-//            viewHolder.tvTagDetail.setText(mData.get(i));
-//        }
+        String tag = mData.get(i);
+        if (tag != null) {
+//            if (!TextUtils.isEmpty(tag.getColor())) {
+//                viewHolder.tvTagDetail.setTextColor(Color.parseColor(tag.getColor()));
+//                viewHolder.tvTagDetail.setBackgroundDrawable(getDrawable(tag.getColor()));
+//
+//            }
+            viewHolder.tvTagDetail.setText(mData.get(i));
+        }
 
-//        viewHolder.tvTagDetail.setText(mData.get(i));
+        viewHolder.tvTagDetail.setText(mData.get(i));
 
         return view;
     }

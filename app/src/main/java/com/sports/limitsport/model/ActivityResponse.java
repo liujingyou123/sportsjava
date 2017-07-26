@@ -10,6 +10,17 @@ import java.util.List;
 
 public class ActivityResponse extends BaseResponse{
 
+
+    /**
+     * data : [{"activityVideo":"http://v.youku.com/v_show/id_XODEzNDI1ODYw.html","activityVideoImg":"www.sohu.com","address":"上海地铁9号线九亭地铁站4号口","coverUrl":"www.e-cology.com.cn","endDate":"2017-07-24","id":2,"maxMoney":"1300.00","minMoney":"999.00","name":"黄山3天2日旅行","startDate":"2017-07-19","status":"1","ticketNum":200,"week":"4"}]
+     * pageNumber : 1
+     * pageSize : 10
+     * query : 1
+     * start : 0
+     * totalPage : 1
+     * totalSize : 1
+     */
+
     private DataBean data;
 
     public DataBean getData() {
@@ -21,44 +32,76 @@ public class ActivityResponse extends BaseResponse{
     }
 
     public static class DataBean {
-        private long totalSize;
-        private long totalPage;
-        private long pageSize;
-        private long pageNumber;
+        private int pageNumber;
+        private int pageSize;
         private int query;
+        private int start;
+        private int totalPage;
+        private int totalSize;
+        /**
+         * activityVideo : http://v.youku.com/v_show/id_XODEzNDI1ODYw.html
+         * activityVideoImg : www.sohu.com
+         * address : 上海地铁9号线九亭地铁站4号口
+         * coverUrl : www.e-cology.com.cn
+         * endDate : 2017-07-24
+         * id : 2
+         * maxMoney : 1300.00
+         * minMoney : 999.00
+         * name : 黄山3天2日旅行
+         * startDate : 2017-07-19
+         * status : 1
+         * ticketNum : 200
+         * week : 4
+         */
 
         private List<Act> data;
 
-        public long getTotalSize() {
-            return totalSize;
-        }
-
-        public void setTotalSize(long totalSize) {
-            this.totalSize = totalSize;
-        }
-
-        public long getTotalPage() {
-            return totalPage;
-        }
-
-        public void setTotalPage(long totalPage) {
-            this.totalPage = totalPage;
-        }
-
-        public long getPageSize() {
-            return pageSize;
-        }
-
-        public void setPageSize(long pageSize) {
-            this.pageSize = pageSize;
-        }
-
-        public long getPageNumber() {
+        public int getPageNumber() {
             return pageNumber;
         }
 
-        public void setPageNumber(long pageNumber) {
+        public void setPageNumber(int pageNumber) {
             this.pageNumber = pageNumber;
+        }
+
+        public int getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(int pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public int getQuery() {
+            return query;
+        }
+
+        public void setQuery(int query) {
+            this.query = query;
+        }
+
+        public int getStart() {
+            return start;
+        }
+
+        public void setStart(int start) {
+            this.start = start;
+        }
+
+        public int getTotalPage() {
+            return totalPage;
+        }
+
+        public void setTotalPage(int totalPage) {
+            this.totalPage = totalPage;
+        }
+
+        public int getTotalSize() {
+            return totalSize;
+        }
+
+        public void setTotalSize(int totalSize) {
+            this.totalSize = totalSize;
         }
 
         public List<Act> getData() {
@@ -69,12 +112,5 @@ public class ActivityResponse extends BaseResponse{
             this.data = data;
         }
 
-        public int getQuery() {
-            return query;
-        }
-
-        public void setQuery(int query) {
-            this.query = query;
-        }
     }
 }

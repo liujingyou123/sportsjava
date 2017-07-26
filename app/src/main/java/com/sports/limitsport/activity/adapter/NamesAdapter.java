@@ -7,6 +7,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.ActivityDetailResponse;
+import com.sports.limitsport.model.ApplicantListBean;
 
 import java.util.List;
 
@@ -15,13 +17,14 @@ import java.util.List;
  * 他们也报名了
  */
 
-public class NamesAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public NamesAdapter(@Nullable List<String> data) {
+public class NamesAdapter extends BaseQuickAdapter<ApplicantListBean, BaseViewHolder> {
+    public NamesAdapter(@Nullable List<ApplicantListBean> data) {
         super(R.layout.adapter_names, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", (ImageView) helper.getView(R.id.imv_head), 0, 0);
+    protected void convert(BaseViewHolder helper, ApplicantListBean item) {
+        ImageView imageView = helper.getView(R.id.imv_head);
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imageView, 0, 0);
     }
 }

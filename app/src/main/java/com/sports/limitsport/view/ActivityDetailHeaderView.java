@@ -15,19 +15,26 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.ActivityDiscussActivity;
 import com.sports.limitsport.activity.AllShaiActivity;
+import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.activity.MapActivity;
 import com.sports.limitsport.activity.SignUpListActivity;
-import com.sports.limitsport.activity.ActivityDiscussActivity;
-import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.activity.adapter.ShallAdapter;
 import com.sports.limitsport.activity.adapter.TagDetailAdapter;
 import com.sports.limitsport.discovery.ClubDetailActivity;
 import com.sports.limitsport.image.Batman;
-import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.model.ActivityDetailResponse;
+import com.sports.limitsport.model.ApplicantListBean;
+import com.sports.limitsport.model.DongTaiList;
+import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,9 +84,26 @@ public class ActivityDetailHeaderView extends LinearLayout {
     RelativeLayout rlAllshai;
     @BindView(R.id.rv_all_see)
     RecyclerView rvAllSee;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+    @BindView(R.id.tv_sign_end)
+    TextView tvSignEnd;
+    @BindView(R.id.tv_address)
+    TextView tvAddress;
+    @BindView(R.id.tv_ticket_type_num)
+    TextView tvTicketTypeNum;
+    @BindView(R.id.ll_tickets)
+    LinearLayout llTickets;
+    @BindView(R.id.tv_endtime)
+    TextView tvEndtime;
+    @BindView(R.id.tv_refund_rule)
+    TextView tvRefundRule;
+    @BindView(R.id.tv_last_num)
+    TextView tvLastNum;
 
     private ShallAdapter shallAdapter; //大家都在晒
     private NamesAdapter namesAdapter; //他们也报名了
+    private ActivityDetailResponse.DataBean mData;
 
     public ActivityDetailHeaderView(Context context) {
         super(context);
@@ -100,21 +124,15 @@ public class ActivityDetailHeaderView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_activity_detail_head, this);
         ButterKnife.bind(this, this);
 
-        jcVideo.setUp("http://video.jiecao.fm/11/23/xin/%E5%81%87%E4%BA%BA.mp4"
-                , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "嫂子不信");
-        Batman.getInstance().fromNet("http://pic.58pic.com/58pic/13/61/00/61a58PICtPr_1024.jpg", jcVideo.thumbImageView);
 
-        TagDetailAdapter tagDetailAdapter = new TagDetailAdapter(this.getContext(), null);
-        tg.setAdapter(tagDetailAdapter);
-
-        setAllRcy();
-        setNameRecy();
+//        setAllRcy();
+//        setNameRecy();
     }
 
-    private void setAllRcy() {
+    private void setAllRcy(List<DongTaiList> data) {
         rvAllSee.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        shallAdapter = new ShallAdapter(MyTestData.getData());
+        shallAdapter = new ShallAdapter(data);
         shallAdapter.bindToRecyclerView(rvAllSee);
         shallAdapter.setEmptyView(R.layout.empty_text);
 
@@ -132,10 +150,10 @@ public class ActivityDetailHeaderView extends LinearLayout {
     /**
      * 他们也报名了
      */
-    private void setNameRecy() {
+    private void setNameRecy(List<ApplicantListBean> data) {
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        namesAdapter = new NamesAdapter(MyTestData.getData());
+        namesAdapter = new NamesAdapter(data);
         rlNames.setAdapter(namesAdapter);
 
 
@@ -147,11 +165,17 @@ public class ActivityDetailHeaderView extends LinearLayout {
     /**
      * type: 0 video 1:图片
      */
-    public void setViewType(int type) {
+    private void setViewType(int type) {
         if (type == 1) {
-            Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
+            Batman.getInstance().fromNet(mData.getCoverUrl(), imvCover, R.mipmap.icon_default, R.mipmap.icon_default);
             imvCover.setVisibility(View.VISIBLE);
             jcVideo.setVisibility(View.GONE);
+        } else {
+            jcVideo.setVisibility(View.VISIBLE);
+
+            jcVideo.setUp(mData.getActivityVideo()
+                    , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, mData.getName());
+            Batman.getInstance().fromNet(mData.getActivityVideoImg(), jcVideo.thumbImageView, R.mipmap.icon_default, R.mipmap.icon_default);
         }
     }
 
@@ -172,13 +196,98 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 getContext().startActivity(intent1);
                 break;
             case R.id.rl_discuss:
-                Intent intent3 = new Intent(getContext(), ActivityDiscussActivity.class);
-                getContext().startActivity(intent3);
+                gotoDiscussActivity();
                 break;
             case R.id.imv_org:
                 gotoOrigDetail();
                 break;
         }
+    }
+
+    public void showDetail(ActivityDetailResponse.DataBean data) {
+        if (data == null) {
+            return;
+        }
+        mData = data;
+        if (TextViewUtil.isEmpty(mData.getCoverUrl())) { //视频
+            setViewType(0);
+        } else {
+            setViewType(1);
+        }
+
+        tvName.setText(mData.getName());
+        tvPrice.setText(mData.getMoney());
+
+        List<String> tags = new ArrayList<>(); //参加须知 标签
+
+        if (TextViewUtil.isEmpty(mData.getRefundRule())) {
+            tvPayback.setVisibility(View.GONE);
+        } else {
+            tvPayback.setVisibility(View.VISIBLE);
+            if ("0".equals(mData.getRefundRule())) { //随时可退
+                tvPayback.setText("随时可退");
+                tags.add("随时可退");
+                tvRefundRule.setText("随时可退");
+            } else if ("1".equals(mData.getRefundRule())) { //限时退款
+                tvPayback.setText("限时退款");
+                tags.add("限时退款");
+                tvRefundRule.setText("限时退款");
+            } else if ("2".equals(mData.getRefundRule())) { //不可退款
+                tvPayback.setText("不可退款");
+                tags.add("不可退款");
+                tvRefundRule.setText("不可退款");
+            }
+        }
+        tvDes.setText(mData.getActivityDetail());
+
+        //组织人
+        Batman.getInstance().getImageWithCircle(mData.getOrganizerHeadPor(), imvOrgCover, R.mipmap.icon_club_defaul, R.mipmap.icon_club_defaul);
+        tvOrgName.setText(mData.getOrganizerClub());
+        tvOrgGroup.setText(mData.getOrganizerdesc());
+
+        //他们也报名了
+        setNameRecy(mData.getApplicantList());
+
+        tvDate.setText(mData.getStartDate() + "-" + mData.getEndDate());
+        tvSignEnd.setText(mData.getSignEndDate());
+        tvAddress.setText(mData.getAddress());
+
+        if (mData.getTicketsList() != null) {
+            tvTicketTypeNum.setText(mData.getTicketsList().size() + "");
+            for (int i = 0; i < mData.getTicketsList().size(); i++) {
+                ActivityDetailResponse.DataBean.TicketsListBean ticketsListBean = mData.getTicketsList().get(i);
+                TextView textView = new TextView(getContext());
+                textView.setTextAppearance(getContext(), R.style.text_normal_gray);
+                textView.setMaxLines(1);
+                textView.setPadding(0, UnitUtil.dip2px(getContext(), 5), 0, 0);
+                textView.setText(ticketsListBean.getName() + ":¥" + ticketsListBean.getMoney() + "(" + ticketsListBean.getDescContent() + ")");
+                llTickets.addView(textView);
+            }
+
+        } else {
+            tvTicketTypeNum.setText("暂无票种信息");
+        }
+
+        if ("1".equals(mData.getInsuranceInformation())) {
+            tags.add("不包含保险");
+        } else if ("0".equals(mData.getInsuranceInformation())) {
+            tags.add("含保险");
+        }
+
+        if (mData.getOwnItems() == 0) {
+            tags.add("无需自备物品");
+        } else if (mData.getOwnItems() == 1) {
+            tags.add("需自备物品");
+        }
+        TagDetailAdapter tagDetailAdapter = new TagDetailAdapter(this.getContext(), tags);
+        tg.setAdapter(tagDetailAdapter);
+
+        tvEndtime.setText(mData.getSignEndDate());
+        tvLastNum.setText("最少成团人数");
+    }
+
+    public void showAllShai(List<DongTaiList> data) {
+        setAllRcy(data);
     }
 
     /**
@@ -195,10 +304,14 @@ public class ActivityDetailHeaderView extends LinearLayout {
     private void gotoOrigDetail() {
         Intent intent = new Intent(getContext(), ClubDetailActivity.class);
         getContext().startActivity(intent);
-//
-//        //TODO 去个人主页
-//
-//        Intent intent1 = new Intent(getContext(), PersonInfoActivity.class);
-//        getContext().startActivity(intent1);
+    }
+
+    /**
+     * 前往活动讨论区
+     */
+    private void gotoDiscussActivity() {
+        Intent intent = new Intent(getContext(), ActivityDiscussActivity.class);
+        intent.putExtra("id", mData.getId());
+        getContext().startActivity(intent);
     }
 }

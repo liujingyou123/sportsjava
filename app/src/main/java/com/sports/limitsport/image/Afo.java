@@ -87,11 +87,11 @@ public class Afo implements ImageButler {
 
     @Override
     public Bitmap getBitMap(Context context, String url) {
+        Bitmap bitmap = null;
         try {
-            return Glide.with(context).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            bitmap = Glide.with(context).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+            return bitmap;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -1,0 +1,53 @@
+package com.sports.limitsport.activity.presenter;
+
+import com.sports.limitsport.activity.ui.IActivityDiscussView;
+import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.util.ToolsUtil;
+
+import java.util.HashMap;
+
+/**
+ * Created by liuworkmac on 17/7/26.
+ * 活动讨论区
+ */
+
+public class ActivityDiscussPresenter {
+    IActivityDiscussView mIActivityDiscussView;
+
+    public ActivityDiscussPresenter(IActivityDiscussView mIActivityDiscussView) {
+        this.mIActivityDiscussView = mIActivityDiscussView;
+    }
+
+    /**
+     * 评论列表
+     * @param id
+     */
+    public void getCommentList(String id, String pageNumber) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("articleId", id);
+        hashMap.put("pageNumber", pageNumber);
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getCommentList(hashMap), new NetSubscriber<CommentListResponse>() {
+            @Override
+            public void response(CommentListResponse response) {
+                if (mIActivityDiscussView != null) {
+                    mIActivityDiscussView.showCommentList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+//                if (mIActivityDetailView != null) {
+//                    mIActivityDetailView.onError(e);
+//                }
+            }
+        });
+    }
+
+    public void clear() {
+        mIActivityDiscussView = null;
+    }
+}

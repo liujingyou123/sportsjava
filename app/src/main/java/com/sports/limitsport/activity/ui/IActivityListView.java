@@ -1,4 +1,4 @@
-package com.sports.limitsport.activity;
+package com.sports.limitsport.activity.ui;
 
 import com.sports.limitsport.model.ActivityResponse;
 

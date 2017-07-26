@@ -21,6 +21,7 @@ import butterknife.OnClick;
 
 /**
  * Created by liuworkmac on 17/7/11.
+ * 精彩秀列表
  */
 
 public class FineShowActivity extends BaseActivity {

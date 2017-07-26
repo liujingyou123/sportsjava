@@ -13,14 +13,23 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
+import com.sports.limitsport.activity.presenter.ActivityDetailPresenter;
+import com.sports.limitsport.activity.ui.IActivityDetailView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
+import com.sports.limitsport.model.ActivityDetailResponse;
+import com.sports.limitsport.model.CommentList;
+import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +40,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
  * Created by liuworkmac on 17/6/22.
  */
 
-public class ActivityDetailActivity extends BaseActivity {
+public class ActivityDetailActivity extends BaseActivity implements IActivityDetailView {
 
     @BindView(R.id.rlv_discuss)
     RecyclerView rlvDiscuss;
@@ -39,23 +48,42 @@ public class ActivityDetailActivity extends BaseActivity {
     RelativeLayout rlTitle;
     private ActivityDetailHeaderView activityDetailHeaderView;
     private ActivityDiscussAdapter adapter;
+    private String id;
+    private ActivityDetailPresenter mPresenter;
+    private List<CommentList> data = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+        getIntentData();
         init();
         StatusBarUtil.setTranslucent(this);
+        getData();
     }
 
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getStringExtra("id");
+        }
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ActivityDetailPresenter(this);
+        }
+        mPresenter.getActivityDetail(id);
+        mPresenter.getAllShai(id);
+        mPresenter.getCommentList(id);
+    }
 
     private void init() {
         activityDetailHeaderView = new ActivityDetailHeaderView(this);
-        setViewType(0);
         rlvDiscuss.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new ActivityDiscussAdapter(MyTestData.getData());
+        adapter = new ActivityDiscussAdapter(data);
         adapter.addHeaderView(activityDetailHeaderView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvDiscuss);
@@ -76,38 +104,12 @@ public class ActivityDetailActivity extends BaseActivity {
 
         int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
 
-
         if (location[1] < statusBarHeight) {
             rlTitle.setBackgroundColor(Color.parseColor("#000000"));
         } else {
             rlTitle.setBackgroundColor(Color.parseColor("#00000000"));
         }
     }
-
-
-    /**
-     * type: 0 video 1:图片
-     */
-    public void setViewType(int type) {
-        if (activityDetailHeaderView != null) {
-            activityDetailHeaderView.setViewType(type);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
-            return;
-        }
-        super.onBackPressed();
-    }
-
 
     @OnClick({R.id.imv_back, R.id.btn_done, R.id.imv_report, R.id.imv_share, R.id.imv_fav})
     public void onViewClicked(View view) {
@@ -117,7 +119,6 @@ public class ActivityDetailActivity extends BaseActivity {
                 break;
             case R.id.btn_done:
                 showAlreadySignUpDialog();
-
                 break;
             case R.id.imv_report:
                 ReportDialog dialog = new ReportDialog(this);
@@ -147,5 +148,57 @@ public class ActivityDetailActivity extends BaseActivity {
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public void showActivityDetail(ActivityDetailResponse response) {
+        if (response != null && response.getData() != null) {
+            response.getData().setId(id);
+            activityDetailHeaderView.showDetail(response.getData());
+        }
+    }
+
+    @Override
+    public void showAllShiList(DongTaiListResponse response) {
+        if (response != null) {
+            activityDetailHeaderView.showAllShai(null);
+        }
+    }
+
+    @Override
+    public void showCommentList(CommentListResponse response) {
+        if (adapter != null) {
+//            adapter.addData(null);
+        }
+
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
     }
 }

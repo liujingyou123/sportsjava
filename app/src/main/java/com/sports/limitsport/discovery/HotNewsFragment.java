@@ -18,6 +18,7 @@ import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.discovery.presenter.HotNewsPresenter;
 import com.sports.limitsport.discovery.ui.IHotNewsView;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.view.HotNewHeadView;
 
@@ -62,6 +63,7 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
 
         mPresenter.getClubsList();
         mPresenter.getAdvList();
+        mPresenter.getFineShow();
     }
 
     private void initView() {
@@ -99,6 +101,16 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
 
             if (hotNewHeadView != null) {
                 hotNewHeadView.setImgUrls(tmp);
+            }
+        }
+    }
+
+    @Override
+    public void showFineShowList(FineShowListResponse response) {
+        if (response != null) {
+            if (hotNewHeadView != null) {
+                //TODO  添加正确的数据结构  不能传null;
+                hotNewHeadView.setFineShowList(null);
             }
         }
     }

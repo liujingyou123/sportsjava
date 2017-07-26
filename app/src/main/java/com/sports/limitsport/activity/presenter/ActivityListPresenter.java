@@ -1,10 +1,14 @@
 package com.sports.limitsport.activity.presenter;
 
-import com.sports.limitsport.activity.IActivityListView;
+import com.sports.limitsport.activity.ui.IActivityListView;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.util.ToolsUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,36 +23,36 @@ public class ActivityListPresenter {
     }
 
     public void getActivityList(int pageNumber) {
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("pageNumber", pageNumber + "");
-//        hashMap.put("pageSize", "10");
-//        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getActivityList(hashMap), new NetSubscriber<ActivityResponse>() {
-//            @Override
-//            public void response(ActivityResponse response) {
-//                if (mIActivityListView != null) {
-//                    mIActivityListView.showList(response);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                super.onError(e);
-//        if (mIActivityListView != null) {
-//            mIActivityListView.onError(e);
-//        }
-//            }
-//        });
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getActivityList(hashMap), new NetSubscriber<ActivityResponse>() {
+            @Override
+            public void response(ActivityResponse response) {
+                if (mIActivityListView != null) {
+                    mIActivityListView.showList(response);
+                }
+            }
 
-        List<Act> acts = getTestData();
-
-        ActivityResponse response = new ActivityResponse();
-        ActivityResponse.DataBean dataBean = new ActivityResponse.DataBean();
-        dataBean.setTotalSize(100);
-        dataBean.setData(acts);
-        response.setData(dataBean);
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
         if (mIActivityListView != null) {
-            mIActivityListView.showList(response);
+            mIActivityListView.onError(e);
         }
+            }
+        });
+
+//        List<Act> acts = getTestData();
+//
+//        ActivityResponse response = new ActivityResponse();
+//        ActivityResponse.DataBean dataBean = new ActivityResponse.DataBean();
+//        dataBean.setTotalSize(100);
+//        dataBean.setData(acts);
+//        response.setData(dataBean);
+//        if (mIActivityListView != null) {
+//            mIActivityListView.showList(response);
+//        }
 
     }
 

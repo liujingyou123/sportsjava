@@ -17,6 +17,8 @@ import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivitysAdapter;
+import com.sports.limitsport.activity.ui.IActivityListView;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
 import com.sports.limitsport.activity.presenter.ActivityListPresenter;
@@ -108,8 +110,12 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(ActivityFragment.this.getContext(), ActivityDetailActivity.class);
-                ActivityFragment.this.startActivity(intent);
+                Act act = (Act) adapter.getItem(position);
+                if (act != null) {
+                    Intent intent = new Intent(ActivityFragment.this.getContext(), ActivityDetailActivity.class);
+                    intent.putExtra("id", act.getId() + "");
+                    ActivityFragment.this.startActivity(intent);
+                }
             }
         });
         adapter.disableLoadMoreIfNotFullPage();
@@ -117,7 +123,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-//                XLog.e("onLoadMoreRequested");
+                XLog.e("onLoadMoreRequested");
                 loadMore();
             }
         }, recyclerView);
@@ -131,6 +137,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
 
             @Override
             public void onRefreshing() {
+                XLog.e("onRefreshing");
                 refresh();
             }
         });
@@ -138,6 +145,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
 
     private void loadMore() {
         if (mPresenter != null) {
+            pageNumber++;
             mPresenter.getActivityList(pageNumber);
         }
     }
@@ -154,14 +162,16 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         Observable.from(mData).map(new Func1<Act, Act>() {
             @Override
             public Act call(Act baseStaggeredEntity) {
-                Act act1 = new Act();
+                baseStaggeredEntity.setCoverUrl("http://image.tianjimedia.com/uploadImages/2015/318/28/J0IUZ1ST711A.jpg");
                 Bitmap bitmap = Batman.getInstance().getBitMap(ActivityFragment.this.getContext(), baseStaggeredEntity.getCoverUrl());
                 if (bitmap != null) {
-                    act1.setWidth(bitmap.getWidth());
-                    act1.setHeight(bitmap.getHeight());
+                    baseStaggeredEntity.setWidth(bitmap.getWidth());
+                    baseStaggeredEntity.setHeight(bitmap.getHeight());
+                } else {
+                    baseStaggeredEntity.setWidth(180);
+                    baseStaggeredEntity.setHeight(320);
                 }
-                act1.setCoverUrl(baseStaggeredEntity.getCoverUrl());
-                return act1;
+                return baseStaggeredEntity;
             }
         }).collect(new Func0<List<Act>>() {
             @Override
@@ -179,7 +189,9 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
             @Override
             public void call(List<Act> baseStaggeredEntities) {
                 if (rlAll.isRefreshing()) {
-                    adapter.setNewData(baseStaggeredEntities);
+                    data.clear();
+                    data.addAll(baseStaggeredEntities);
+                    adapter.notifyDataSetChanged();
                     rlAll.refreshComplete();
                 } else {
                     adapter.addData(baseStaggeredEntities);
@@ -190,6 +202,11 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                     }
                 }
 
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                XLog.e("throwable exception");
             }
         });
     }

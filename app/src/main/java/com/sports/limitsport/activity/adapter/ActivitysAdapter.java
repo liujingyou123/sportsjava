@@ -38,7 +38,6 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
         tvSigning.setVisibility(View.GONE);
         tvTip.setVisibility(View.GONE);
         tvTime.setVisibility(View.GONE);
-        tvPrice.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
 
         if ("0".equals(item.getMinMoney())) {
@@ -46,7 +45,7 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
             tvPrice.setText("¥0");
         } else {
             tvFree.setVisibility(View.GONE);
-            tvPrice.setText("¥" + item.getMinMoney() + " - ¥" + item.getMaxMoney());
+            tvPrice.setText("¥" + UnitUtil.formatSNum(item.getMinMoney()) + " - ¥" + UnitUtil.formatSNum(item.getMaxMoney()));
         }
 
         if ("1".equals(item.getStatus())) { //报名中
@@ -79,12 +78,12 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
         Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imvCover);
 
         tvName.setText(item.getName());
-        Calendar calendar = UnitUtil.dateToCalendar(UnitUtil.stringToDate(item.getDateTime()));
+        Calendar calendar = UnitUtil.dateToCalendar(UnitUtil.stringToDate(item.getStartDate()));
         if (calendar != null) {
             tvTime.setText(UnitUtil.formatDecDouble(calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日"
-                    + " " + item.getWeek() + " " + UnitUtil.formatDecDouble(calendar.get(Calendar.HOUR_OF_DAY)) + ":" + UnitUtil.formatDecDouble(calendar.get(Calendar.MINUTE)));
+                    + " " + UnitUtil.stringToWeek(item.getWeek()));
         }
-        tvAddress.setText(item.getAddress());
+        tvAddress.setText("活动地:" + item.getAddress());
 
     }
 }

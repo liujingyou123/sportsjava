@@ -15,7 +15,11 @@ import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.ApplicantListBean;
 import com.sports.limitsport.util.MyTestData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +67,8 @@ public class FineShowDetailHeadView extends LinearLayout {
     private void setNameRecy() {
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        namesAdapter = new NamesAdapter(MyTestData.getData());
+        List<ApplicantListBean> data = new ArrayList<>();
+        namesAdapter = new NamesAdapter(data);
         rlNames.setAdapter(namesAdapter);
 
 

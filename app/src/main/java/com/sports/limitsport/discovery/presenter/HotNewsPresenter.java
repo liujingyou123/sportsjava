@@ -4,6 +4,7 @@ import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.Club;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.discovery.ui.IHotNewsView;
+import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NoneNetSubscriber;
 import com.sports.limitsport.util.MyTestData;
@@ -24,49 +25,76 @@ public class HotNewsPresenter {
         this.mIHotNewsView = mIHotNewsView;
     }
 
+    /**
+     * 获取俱乐部
+     */
     public void getClubsList() {
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("pageNumber", "1");
-//        hashMap.put("pageSize", "10");
-//        hashMap.put("type", "2");
-//        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getClubList(hashMap), new NoneNetSubscriber<ClubListResponse>() {
-//            @Override
-//            public void response(ClubListResponse response) {
-//                if (mIHotNewsView != null) {
-//                    mIHotNewsView.showClubsList(response);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                super.onError(e);
-//            }
-//        });
-        getTestData();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", "1");
+        hashMap.put("pageSize", "10");
+        hashMap.put("type", "2");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getClubList(hashMap), new NoneNetSubscriber<ClubListResponse>() {
+            @Override
+            public void response(ClubListResponse response) {
+                if (mIHotNewsView != null) {
+                    mIHotNewsView.showClubsList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+//        getTestData();
     }
 
     /**
      * 获取轮播图片
      */
     public void getAdvList() {
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("adType", "2");
-//        hashMap.put("position", "1");
-//        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getAdvList(hashMap), new NoneNetSubscriber<AdvertiseInfoResponse>() {
-//            @Override
-//            public void response(AdvertiseInfoResponse response) {
-//                if (mIHotNewsView != null) {
-//                    mIHotNewsView.showAdvList(response);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                super.onError(e);
-//            }
-//        });
-        getTestAdvData();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("adType", "2");
+        hashMap.put("position", "1");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getAdvList(hashMap), new NoneNetSubscriber<AdvertiseInfoResponse>() {
+            @Override
+            public void response(AdvertiseInfoResponse response) {
+                if (mIHotNewsView != null) {
+                    mIHotNewsView.showAdvList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+//        getTestAdvData();
     }
+
+    /**
+     * 获取精彩秀推荐列表
+     */
+    public void getFineShow() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", "1");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getFineShowList(hashMap), new NoneNetSubscriber<FineShowListResponse>() {
+            @Override
+            public void response(FineShowListResponse response) {
+                if (mIHotNewsView != null) {
+                    mIHotNewsView.showFineShowList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+//        getTestAdvData();
+    }
+
 
     private void getTestAdvData() {
         AdvertiseInfoResponse response = new AdvertiseInfoResponse();

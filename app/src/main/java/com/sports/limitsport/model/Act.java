@@ -5,38 +5,36 @@ package com.sports.limitsport.model;
  */
 
 public class Act {
-    private String id;
-    private String status;//状态(0:草稿 1:报名中 2:进行中 3:已完成)
-    private String address;
-    private String name;
-    private String coverUrl;
-    private String dateTime;
-    private String week;
-    private String maxMoney;
-    private String minMoney;
     private String activityVideo;
     private String activityVideoImg;
-    private long ticketNum;
-
-
+    private String address;
+    private String coverUrl;
+    private String endDate;
+    private int id;
+    private String maxMoney;
+    private String minMoney;
+    private String name;
+    private String startDate;
+    private String status;
+    private int ticketNum;
+    private String week;
     private int width;
     private int height;
 
-
-    public String getId() {
-        return id;
+    public String getActivityVideo() {
+        return activityVideo;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setActivityVideo(String activityVideo) {
+        this.activityVideo = activityVideo;
     }
 
-    public String getStatus() {
-        return status;
+    public String getActivityVideoImg() {
+        return activityVideoImg;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setActivityVideoImg(String activityVideoImg) {
+        this.activityVideoImg = activityVideoImg;
     }
 
     public String getAddress() {
@@ -47,14 +45,6 @@ public class Act {
         this.address = address;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCoverUrl() {
         return coverUrl;
     }
@@ -63,12 +53,68 @@ public class Act {
         this.coverUrl = coverUrl;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMaxMoney() {
+        return maxMoney;
+    }
+
+    public void setMaxMoney(String maxMoney) {
+        this.maxMoney = maxMoney;
+    }
+
+    public String getMinMoney() {
+        return minMoney;
+    }
+
+    public void setMinMoney(String minMoney) {
+        this.minMoney = minMoney;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getTicketNum() {
+        return ticketNum;
+    }
+
+    public void setTicketNum(int ticketNum) {
+        this.ticketNum = ticketNum;
     }
 
     public String getWeek() {
@@ -93,45 +139,5 @@ public class Act {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public String getMaxMoney() {
-        return maxMoney;
-    }
-
-    public void setMaxMoney(String maxMoney) {
-        this.maxMoney = maxMoney;
-    }
-
-    public String getMinMoney() {
-        return minMoney;
-    }
-
-    public void setMinMoney(String minMoney) {
-        this.minMoney = minMoney;
-    }
-
-    public String getActivityVideo() {
-        return activityVideo;
-    }
-
-    public void setActivityVideo(String activityVideo) {
-        this.activityVideo = activityVideo;
-    }
-
-    public String getActivityVideoImg() {
-        return activityVideoImg;
-    }
-
-    public void setActivityVideoImg(String activityVideoImg) {
-        this.activityVideoImg = activityVideoImg;
-    }
-
-    public long getTicketNum() {
-        return ticketNum;
-    }
-
-    public void setTicketNum(long ticketNum) {
-        this.ticketNum = ticketNum;
     }
 }

@@ -6,22 +6,23 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
-import com.sports.limitsport.discovery.model.FineShow;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.FineShowList;
 
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/7/10.
+ * 发现 头条
  */
 
-public class FineShowAdapter extends BaseQuickAdapter<FineShow, BaseViewHolder> {
-    public FineShowAdapter(@Nullable List<FineShow> data) {
+public class FineShowAdapter extends BaseQuickAdapter<FineShowList, BaseViewHolder> {
+    public FineShowAdapter(@Nullable List<FineShowList> data) {
         super(R.layout.fineshow, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FineShow item) {
+    protected void convert(BaseViewHolder helper, FineShowList item) {
         ImageView imvCover = helper.getView(R.id.imv_cover);
         ImageView imvHead = helper.getView(R.id.imv_head);
 

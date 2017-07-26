@@ -80,7 +80,8 @@
                 android:layout_marginTop="13dp"
                 android:text="温馨提示 : 余票仅剩10张"
                 android:textColor="#FFA5A4A4"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -139,8 +140,7 @@
         <ImageView
             android:id="@+id/imv_org_cover"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_circle_white" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -171,7 +171,8 @@
             android:layout_marginTop="6dp"
             android:text="背景team"
             android:textColor="#FFA5A4A4"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:maxLines="1"/>
 
         <ImageView
             android:id="@+id/imv_org"
@@ -233,6 +234,7 @@
             android:text="活动时间:" />
 
         <TextView
+            android:id="@+id/tv_date"
             style="@style/text_normal_gray"
             android:text="2017年04月22日 周六 13:30-15:00" />
     </LinearLayout>
@@ -250,6 +252,7 @@
             android:text="报名截至:" />
 
         <TextView
+            android:id="@+id/tv_sign_end"
             style="@style/text_normal_gray"
             android:text="2017年04月22日" />
     </LinearLayout>
@@ -268,6 +271,7 @@
             android:text="集合地点:" />
 
         <TextView
+            android:id="@+id/tv_address"
             style="@style/text_normal_gray"
             android:layout_marginLeft="2dp"
             android:drawableLeft="@mipmap/icon_eventdetail_location"
@@ -282,6 +286,7 @@
         android:text="票种明细" />
 
     <TextView
+        android:id="@+id/tv_ticket_type_num"
         style="@style/text_normal_gray"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -289,38 +294,47 @@
         android:text="本次活动分为标准票和家庭票2种:" />
 
     <LinearLayout
+        android:id="@+id/ll_tickets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:layout_marginRight="10dp">
 
-        <TextView
-            style="@style/text_normal_gray"
-            android:text="标准票:" />
-
-        <TextView
-            style="@style/text_normal_gray"
-            android:text="1500" />
     </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:orientation="horizontal">-->
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        <!--<TextView-->
+            <!--style="@style/text_normal_gray"-->
+            <!--android:text="标准票:" />-->
 
-        <TextView
-            style="@style/text_normal_gray"
-            android:text="家庭票:" />
+        <!--<TextView-->
+            <!--style="@style/text_normal_gray"-->
+            <!--android:text="1500" />-->
+    <!--</LinearLayout>-->
 
-        <TextView
-            style="@style/text_normal_gray"
-            android:text="1500" />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+            <!--style="@style/text_normal_gray"-->
+            <!--android:text="家庭票:" />-->
+
+        <!--<TextView-->
+            <!--style="@style/text_normal_gray"-->
+            <!--android:text="1500" />-->
+    <!--</LinearLayout>-->
 
     <TextView
         style="@style/text_note"
@@ -350,18 +364,20 @@
             android:text="预订截止时间:" />
 
         <TextView
+            android:id="@+id/tv_endtime"
             style="@style/text_normal_gray"
             android:text="2017年04月22日 13:00" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_refund_rule"
         style="@style/text_normal_gray"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:drawableLeft="@drawable/bg_dot"
         android:drawablePadding="5dp"
-        android:text="预订截止时间:" />
+        android:text="--" />
 
 
     <LinearLayout
@@ -376,11 +392,12 @@
             style="@style/text_normal_gray"
             android:drawableLeft="@drawable/bg_dot"
             android:drawablePadding="5dp"
-            android:text="费用包含:" />
+            android:text="最少成团人数:" />
 
         <TextView
+            android:id="@+id/tv_last_num"
             style="@style/text_normal_gray"
-            android:text="150+AA/人" />
+            android:text="" />
     </LinearLayout>
 
     <RelativeLayout

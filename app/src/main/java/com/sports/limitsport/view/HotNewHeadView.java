@@ -20,9 +20,8 @@ import com.sports.limitsport.discovery.NewPersonReportActivity;
 import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.adapter.FineShowAdapter;
 import com.sports.limitsport.model.Club;
-import com.sports.limitsport.discovery.model.FineShow;
+import com.sports.limitsport.model.FineShowList;
 import com.sports.limitsport.util.GlideImageLoader;
-import com.sports.limitsport.util.MyTestData;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
@@ -48,7 +47,7 @@ public class HotNewHeadView extends LinearLayout {
     private FineShowAdapter fineShowAdapter;
 
     private List<Club> clubs = new ArrayList<>();
-    private List<FineShow> fineShows = new ArrayList<>();
+    private List<FineShowList> fineShows = new ArrayList<>();
     private List<String> advs = new ArrayList<>();
 
     public HotNewHeadView(Context context) {
@@ -107,11 +106,6 @@ public class HotNewHeadView extends LinearLayout {
      * 精彩秀
      */
     private void showFines() {
-        for (int i = 0; i < 10; i++) {
-            FineShow club = new FineShow();
-            fineShows.add(club);
-        }
-
         rlvFanshow.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         fineShowAdapter = new FineShowAdapter(fineShows);
@@ -173,5 +167,11 @@ public class HotNewHeadView extends LinearLayout {
             advs.addAll(imgUrls);
         }
         showBanner();
+    }
+
+    public void setFineShowList(List<FineShowList> data) {
+        if (data != null && data.size() >0) {
+            fineShowAdapter.addData(data);
+        }
     }
 }

@@ -67,7 +67,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
     private void setNameRecy() {
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        namesAdapter = new NamesAdapter(MyTestData.getData());
+        namesAdapter = new NamesAdapter(null);
         rlNames.setAdapter(namesAdapter);
 
 
