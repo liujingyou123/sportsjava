@@ -104,6 +104,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     private ShallAdapter shallAdapter; //大家都在晒
     private NamesAdapter namesAdapter; //他们也报名了
     private ActivityDetailResponse.DataBean mData;
+    private List<DongTaiList> data = new ArrayList<>();
 
     public ActivityDetailHeaderView(Context context) {
         super(context);
@@ -123,13 +124,13 @@ public class ActivityDetailHeaderView extends LinearLayout {
     private void initView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_activity_detail_head, this);
         ButterKnife.bind(this, this);
-
-
-//        setAllRcy();
-//        setNameRecy();
+        setAllRcy();
     }
 
-    private void setAllRcy(List<DongTaiList> data) {
+    /**
+     * dajia都在晒
+     */
+    private void setAllRcy() {
         rvAllSee.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         shallAdapter = new ShallAdapter(data);
@@ -288,7 +289,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
     public void showAllShai(List<DongTaiList> data) {
-        setAllRcy(data);
+        shallAdapter.addData(data);
     }
 
     /**

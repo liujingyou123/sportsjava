@@ -74,8 +74,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             mPresenter = new ActivityDetailPresenter(this);
         }
         mPresenter.getActivityDetail(id);
-        mPresenter.getAllShai(null);
-//        mPresenter.getCommentList(id);
+        mPresenter.getAllShai(null); //TODO 测试时要传null ，真实要传ID
+        mPresenter.getCommentList("1");//TODO 测试时要传"1" ，真实要传ID
     }
 
     private void init() {
@@ -172,8 +172,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
 
     @Override
     public void showCommentList(CommentListResponse response) {
-        if (adapter != null) {
-//            adapter.addData(null);
+        if (adapter != null && response.getData() != null) {
+            adapter.addData(response.getData().getData());
         }
 
     }
