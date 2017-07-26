@@ -44,9 +44,14 @@
             style="@style/view_line"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ry_all"
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/rl_all"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ry_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.ajguan.library.EasyRefreshLayout>
+
 </LinearLayout>
