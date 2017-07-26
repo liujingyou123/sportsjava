@@ -45,14 +45,13 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/imv_pinglun"
+            android:id="@+id/imv_comment"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/icon_replay"
-            android:visibility="gone"/>
+            android:src="@mipmap/icon_replay" />
 
     </RelativeLayout>
 

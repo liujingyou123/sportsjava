@@ -30,6 +30,8 @@ public class CommentDialog extends BottomDialog {
 
     private Handler mhandler;
 
+    private int type = -1;
+
     public CommentDialog(@NonNull final Context context) {
         super(context);
         setContentView(R.layout.dialog_work_comment);
@@ -71,6 +73,14 @@ public class CommentDialog extends BottomDialog {
                 }
             }
         });
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setContent(String text) {

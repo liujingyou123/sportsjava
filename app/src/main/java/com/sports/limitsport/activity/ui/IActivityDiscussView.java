@@ -1,5 +1,6 @@
 package com.sports.limitsport.activity.ui;
 
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.CommentListResponse;
 
 /**
@@ -9,4 +10,10 @@ import com.sports.limitsport.model.CommentListResponse;
 
 public interface IActivityDiscussView {
     void showCommentList(CommentListResponse response);
+
+    void showPublishActivityComent(boolean isSuccess);
+
+    void showReplayComment(boolean isSuccess);
+
+    void onError(Throwable e);
 }

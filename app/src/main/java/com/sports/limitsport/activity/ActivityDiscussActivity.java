@@ -19,10 +19,12 @@ import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
 import com.sports.limitsport.activity.presenter.ActivityDiscussPresenter;
 import com.sports.limitsport.activity.ui.IActivityDiscussView;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.CustomLoadMoreView;
 
@@ -57,6 +59,8 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     private int pageNumber = 1;
     private int totalSize;
 
+    private CommentList commentList; //回复评论对象
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +80,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 finish();
                 break;
             case R.id.btn_comment:
+                commentDialog.setType(1);
                 commentDialog.show();
                 break;
         }
@@ -85,7 +90,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
-            id ="1";//TODO  测试用传"1"
+            id = "1";//TODO  测试用传"1"
         }
     }
 
@@ -133,6 +138,15 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
             }
         });
 
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                commentList = (CommentList) adapter.getItem(position);
+                commentDialog.setType(2);
+                commentDialog.show();
+            }
+        });
+
         commentDialog = new CommentDialog(this);
         commentDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -153,6 +167,13 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         commentDialog.setOkDoneListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commentDialog.dismiss();
+                int type = commentDialog.getType();
+                if (1 == type) { //评论活动
+                    mPresenter.publishActivityComment(id, commentDialog.getContent());
+                } else if (2 == type) { //回复评论
+                    mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
+                }
 //                mPresenter.commentTopic(topicId, commentDialog.getContent());
             }
         });
@@ -177,6 +198,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     public void showCommentList(CommentListResponse response) {
         if (response.getData() != null) {
             totalSize = response.getData().getTotalSize();
+            XLog.e("is resreshing = ");
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
@@ -192,6 +214,31 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 }
             }
         }
+
+    }
+
+    @Override
+    public void showPublishActivityComent(boolean isSuccess) {
+        if (isSuccess) {
+            ToastUtil.showTrueToast(this, "评论成功");
+            rlAll.autoRefresh();
+        } else {
+            ToastUtil.showTrueToast(this, "评论失败");
+        }
+    }
+
+    @Override
+    public void showReplayComment(boolean isSuccess) {
+        if (isSuccess) {
+            ToastUtil.showTrueToast(this, "回复成功");
+            rlAll.autoRefresh();
+        } else {
+            ToastUtil.showTrueToast(this, "回复失败");
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
 
     }
 

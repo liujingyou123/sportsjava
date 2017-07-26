@@ -21,4 +21,8 @@ public class URLConstants {
     public final static String URL_COMMENT_LIST = "api/comment/queryCommentList/v1.0.0";
     //精彩秀
     public final static String URL_FINESHOW_LIST = "api/wonderfullShow/queryWonderfullShowList/v1.0.0";
+    //发布评论
+    public final static String URL_PUBLISH_COMMENTS = "api/comment/publishComment/v1.0.0";
+    //回复评论
+    public final static String URL_REPLAY_COMMENTS = "api/comment/replayComment/v1.0.0";
 }

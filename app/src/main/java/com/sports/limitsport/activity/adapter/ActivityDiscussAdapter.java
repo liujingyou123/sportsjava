@@ -36,6 +36,8 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
         TextView tvComment = helper.getView(R.id.tv_comment);
         LinearLayout llRecall = helper.getView(R.id.ll_recall);
 
+        helper.addOnClickListener(R.id.imv_comment);
+
         tvName.setText(item.getCommentatorName());
         if (!TextViewUtil.isEmpty(item.getShowCreateTime())) {
             tvTime.setText(item.getShowCreateTime());

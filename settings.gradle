@@ -1,1 +1,1 @@
-include ':app', ':matisse', ':camerafragment'
+include ':app', ':matisse', ':camerafragment', ':refresh'

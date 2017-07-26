@@ -11,8 +11,6 @@ public class CommentList {
     private int commentType;
     private int commentatorId;
     private String commentatorName;
-    private Object commentedUserId;
-    private Object commentedUserName;
     private String content;
     private String createTime;
     private String headPortrait;
@@ -50,22 +48,6 @@ public class CommentList {
 
     public void setCommentatorName(String commentatorName) {
         this.commentatorName = commentatorName;
-    }
-
-    public Object getCommentedUserId() {
-        return commentedUserId;
-    }
-
-    public void setCommentedUserId(Object commentedUserId) {
-        this.commentedUserId = commentedUserId;
-    }
-
-    public Object getCommentedUserName() {
-        return commentedUserName;
-    }
-
-    public void setCommentedUserName(Object commentedUserName) {
-        this.commentedUserName = commentedUserName;
     }
 
     public String getContent() {

@@ -1,10 +1,12 @@
 package com.sports.limitsport.net;
 
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.ActivityResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.model.CommentRequest;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
@@ -52,4 +54,12 @@ public interface IpServices {
     //精彩秀列表
     @POST(URLConstants.URL_FINESHOW_LIST)
     Observable<FineShowListResponse> getFineShowList(@Body HashMap<String, String> hashMap);
+
+    //发布评论
+    @POST(URLConstants.URL_PUBLISH_COMMENTS)
+    Observable<BaseResponse> publistComments(@Body HashMap<String, String> hashMap);
+
+    //发布评论
+    @POST(URLConstants.URL_REPLAY_COMMENTS)
+    Observable<BaseResponse> replayComments(@Body HashMap<String, String> hashMap);
 }
