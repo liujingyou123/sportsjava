@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.FineShowList;
 
 import java.util.List;
 
@@ -15,13 +16,13 @@ import java.util.List;
  * Created by liuworkmac on 17/7/7.
  */
 
-public class MyCollectFanShowAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public MyCollectFanShowAdapter(@Nullable List<String> data) {
+public class MyCollectFanShowAdapter extends BaseQuickAdapter<FineShowList, BaseViewHolder> {
+    public MyCollectFanShowAdapter(@Nullable List<FineShowList> data) {
         super(R.layout.item_adapter_mycollectfanshow, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, FineShowList item) {
         ImageView imvCover = helper.getView(R.id.imv_cover);
         ImageView imvHead = helper.getView(R.id.imv_head);
 

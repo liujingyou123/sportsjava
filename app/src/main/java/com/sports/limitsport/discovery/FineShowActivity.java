@@ -12,8 +12,15 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.discovery.presenter.FineShowPresenter;
+import com.sports.limitsport.discovery.ui.IFineShowView;
 import com.sports.limitsport.mine.adapter.MyCollectFanShowAdapter;
+import com.sports.limitsport.model.FineShowList;
+import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.util.MyTestData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,12 +31,14 @@ import butterknife.OnClick;
  * 精彩秀列表
  */
 
-public class FineShowActivity extends BaseActivity {
+public class FineShowActivity extends BaseActivity implements IFineShowView {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.rclv)
     RecyclerView rclv;
     private MyCollectFanShowAdapter adapter;
+    private FineShowPresenter mPresenter;
+    private List<FineShowList> data = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +63,7 @@ public class FineShowActivity extends BaseActivity {
         });
         rclv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyCollectFanShowAdapter(MyTestData.getData());
+        adapter = new MyCollectFanShowAdapter(data);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -71,5 +80,20 @@ public class FineShowActivity extends BaseActivity {
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    public void showFineShow(FineShowListResponse response) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+
+        mPresenter = null;
     }
 }

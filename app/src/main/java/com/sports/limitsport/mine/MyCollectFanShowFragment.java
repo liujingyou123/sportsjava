@@ -55,7 +55,7 @@ public class MyCollectFanShowFragment extends Fragment {
         });
         rclv.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyCollectFanShowAdapter(MyTestData.getData());
+        adapter = new MyCollectFanShowAdapter(null);
         adapter.bindToRecyclerView(rclv);
 
         adapter.setEmptyView(emptyView);

@@ -227,15 +227,15 @@ public class ActivityDetailHeaderView extends LinearLayout {
             if ("0".equals(mData.getRefundRule())) { //随时可退
                 tvPayback.setText("随时可退");
                 tags.add("随时可退");
-                tvRefundRule.setText("随时可退");
+                tvRefundRule.setText("该活动随时可退");
             } else if ("1".equals(mData.getRefundRule())) { //限时退款
                 tvPayback.setText("限时退款");
                 tags.add("限时退款");
-                tvRefundRule.setText("限时退款");
+                tvRefundRule.setText("该活动限时退款");
             } else if ("2".equals(mData.getRefundRule())) { //不可退款
                 tvPayback.setText("不可退款");
                 tags.add("不可退款");
-                tvRefundRule.setText("不可退款");
+                tvRefundRule.setText("该活动不可退款");
             }
         }
         tvDes.setText(mData.getActivityDetail());
@@ -247,20 +247,21 @@ public class ActivityDetailHeaderView extends LinearLayout {
 
         //他们也报名了
         setNameRecy(mData.getApplicantList());
+        tvSignNum.setText(mData.getApplicantNumber()+"");
 
         tvDate.setText(mData.getStartDate() + "-" + mData.getEndDate());
         tvSignEnd.setText(mData.getSignEndDate());
         tvAddress.setText(mData.getAddress());
 
         if (mData.getTicketsList() != null) {
-            tvTicketTypeNum.setText(mData.getTicketsList().size() + "");
+            tvTicketTypeNum.setText("本次活动分为"+mData.getTicketsList().size() + "种:");
             for (int i = 0; i < mData.getTicketsList().size(); i++) {
                 ActivityDetailResponse.DataBean.TicketsListBean ticketsListBean = mData.getTicketsList().get(i);
                 TextView textView = new TextView(getContext());
                 textView.setTextAppearance(getContext(), R.style.text_normal_gray);
                 textView.setMaxLines(1);
                 textView.setPadding(0, UnitUtil.dip2px(getContext(), 5), 0, 0);
-                textView.setText(ticketsListBean.getName() + ":¥" + ticketsListBean.getMoney() + "(" + ticketsListBean.getDescContent() + ")");
+                textView.setText(ticketsListBean.getName() + "：¥" + ticketsListBean.getMoney() + " (" + ticketsListBean.getDescContent() + ")");
                 llTickets.addView(textView);
             }
 
@@ -283,7 +284,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
         tg.setAdapter(tagDetailAdapter);
 
         tvEndtime.setText(mData.getSignEndDate());
-        tvLastNum.setText("最少成团人数");
+        tvLastNum.setText(mData.getLastGroups()+"人");
     }
 
     public void showAllShai(List<DongTaiList> data) {

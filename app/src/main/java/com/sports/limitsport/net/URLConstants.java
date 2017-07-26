@@ -8,7 +8,7 @@ public class URLConstants {
     //活动列表
     public final static String URL_ACTIVITY_LIST = "api/activity/selectAllActivityList/v1.0.0";
     //活动详情
-    public final static String URL_ACTIVITY_DETAIL = "api/activity/selectActivityList/v1.0.0";
+    public final static String URL_ACTIVITY_DETAIL = "api/activity/getActivityDetail/v1.0.0";
     //俱乐部列表接口
     public final static String URL_CLUBS_LIST = "api/club/queryClubList/v1.0.0";
     //轮播图

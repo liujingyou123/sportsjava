@@ -87,6 +87,8 @@ public class ActivityDetailResponse extends BaseResponse{
         private String xpostion;
         private String ypostion;
         private String id;
+        private int lastGroups;
+        private String status;
         /**
          * city : 上海
          * coutry : 中国
@@ -376,6 +378,22 @@ public class ActivityDetailResponse extends BaseResponse{
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public int getLastGroups() {
+            return lastGroups;
+        }
+
+        public void setLastGroups(int lastGroups) {
+            this.lastGroups = lastGroups;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public static class TicketsListBean {

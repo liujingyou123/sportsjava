@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
@@ -23,7 +21,6 @@ import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
@@ -46,6 +43,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     RecyclerView rlvDiscuss;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
+    @BindView(R.id.rl_bottom)
+    RelativeLayout rlBottom;
     private ActivityDetailHeaderView activityDetailHeaderView;
     private ActivityDiscussAdapter adapter;
     private String id;
@@ -75,8 +74,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             mPresenter = new ActivityDetailPresenter(this);
         }
         mPresenter.getActivityDetail(id);
-        mPresenter.getAllShai(id);
-        mPresenter.getCommentList(id);
+//        mPresenter.getAllShai(id);
+//        mPresenter.getCommentList(id);
     }
 
     private void init() {
@@ -153,6 +152,12 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     @Override
     public void showActivityDetail(ActivityDetailResponse response) {
         if (response != null && response.getData() != null) {
+
+            if ("1".equals(response.getData().getStatus())) { //报名中
+                rlBottom.setVisibility(View.VISIBLE);
+            } else {
+                rlBottom.setVisibility(View.GONE);
+            }
             response.getData().setId(id);
             activityDetailHeaderView.showDetail(response.getData());
         }
