@@ -76,8 +76,8 @@ public class MapActivity extends BaseActivity {
             address = intent.getStringExtra("address");
 
             try {
-                lon = Long.parseLong(lonStr);
-                lat = Long.parseLong(latStr);
+                lon = Double.parseDouble(lonStr);
+                lat = Double.parseDouble(latStr);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -105,7 +105,7 @@ public class MapActivity extends BaseActivity {
         textView.setTextColor(Color.parseColor("#FF4795FB"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         textView.setBackgroundResource(R.mipmap.icon_position);
-        textView.setText(" 阿活动后给你送噶都洒过德国队撒个蛋糕大噶时 ");
+        textView.setText(" "+address+" ");
         textView.setGravity(Gravity.CENTER);
 //        textView.setPadding(0, UnitUtil.dip2px(this, 7),0, UnitUtil.dip2px(this, 7));
         LatLng pt = mMarkerA.getPosition();
