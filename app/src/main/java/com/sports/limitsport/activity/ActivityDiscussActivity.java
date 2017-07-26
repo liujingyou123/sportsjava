@@ -23,6 +23,7 @@ import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     private ActivityDiscussPresenter mPresenter;
     private String id;// 活动ID
     private int pageNumber = 1;
+    private int totalSize;
 
 
     @Override
@@ -83,6 +85,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
+            id ="1";//TODO  测试用传"1"
         }
     }
 
@@ -104,7 +107,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         adapter.bindToRecyclerView(rlvDiscuss);
         adapter.setEmptyView(emptyView);
 
-        adapter.setLoadMoreView(new CustomLoadMoreView());
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
@@ -158,35 +161,38 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     private void loadMore() {
         if (mPresenter != null) {
             pageNumber++;
-            mPresenter.getCommentList(id, pageNumber+"");
+            mPresenter.getCommentList(id, pageNumber + "");
         }
     }
 
     private void refresh() {
         if (mPresenter != null) {
             pageNumber = 1;
-            mPresenter.getCommentList(id, pageNumber+"");
+            mPresenter.getCommentList(id, pageNumber + "");
         }
     }
 
 
     @Override
     public void showCommentList(CommentListResponse response) {
-        if (rlAll.isRefreshing()) {
-            data.clear();
-            //TODO 等数据结构完全 调用
-//            data.addAll(baseStaggeredEntities);
-            adapter.notifyDataSetChanged();
-            rlAll.refreshComplete();
-        } else {
-            //TODO 等数据结构完全 调用
-//            adapter.addData(baseStaggeredEntities);
-//            if (adapter.getData().size() >= totalSize) {
-//                adapter.loadMoreEnd();
-//            } else {
-//                adapter.loadMoreComplete();
-//            }
+        if (response.getData() != null) {
+            totalSize = response.getData().getTotalSize();
+            if (rlAll.isRefreshing()) {
+                data.clear();
+                data.addAll(response.getData().getData());
+
+                adapter.notifyDataSetChanged();
+                rlAll.refreshComplete();
+            } else {
+                adapter.addData(response.getData().getData());
+                if (adapter.getData().size() >= totalSize) {
+                    adapter.loadMoreEnd();
+                } else {
+                    adapter.loadMoreComplete();
+                }
+            }
         }
+
     }
 
     @Override

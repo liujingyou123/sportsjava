@@ -47,6 +47,7 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
 
         if (item.getReplyList() != null && item.getReplyList().size() > 0) {
+            llRecall.removeAllViews();
             llRecall.setVisibility(View.VISIBLE);
             for (int i = 0; i < item.getReplyList().size(); i++) {
                 CommentList.ReplyList replyList = item.getReplyList().get(i);
