@@ -74,7 +74,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             mPresenter = new ActivityDetailPresenter(this);
         }
         mPresenter.getActivityDetail(id);
-//        mPresenter.getAllShai(id);
+        mPresenter.getAllShai(null);
 //        mPresenter.getCommentList(id);
     }
 
@@ -165,8 +165,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
 
     @Override
     public void showAllShiList(DongTaiListResponse response) {
-        if (response != null) {
-            activityDetailHeaderView.showAllShai(null);
+        if (response != null && response.getData() != null) {
+            activityDetailHeaderView.showAllShai(response.getData().getData());
         }
     }
 
