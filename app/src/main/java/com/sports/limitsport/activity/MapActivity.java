@@ -1,6 +1,7 @@
 package com.sports.limitsport.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
@@ -48,6 +49,7 @@ public class MapActivity extends BaseActivity {
     private Marker mMarkerA;
     private double lon = 31.2449306174; // 经度
     private double lat = 121.4972996021; // 纬度
+    private String address;
 
 
     BitmapDescriptor bdA = BitmapDescriptorFactory
@@ -58,11 +60,28 @@ public class MapActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
+        getIntentData();
         mBaiduMap = bmapView.getMap();
         imvFocusHouseBack.setVisibility(View.VISIBLE);
         tvFocusHouse.setText("活动地点");
         location();
         initLocationMap();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            String lonStr = intent.getStringExtra("lon");
+            String latStr = intent.getStringExtra("lat");
+            address = intent.getStringExtra("address");
+
+            try {
+                lon = Long.parseLong(lonStr);
+                lat = Long.parseLong(latStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void location() {

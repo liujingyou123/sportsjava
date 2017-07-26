@@ -193,8 +193,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 getContext().startActivity(intent2);
                 break;
             case R.id.ll_location:
-                Intent intent1 = new Intent(getContext(), MapActivity.class);
-                getContext().startActivity(intent1);
+                gotoMapActivity();
                 break;
             case R.id.rl_discuss:
                 gotoDiscussActivity();
@@ -315,5 +314,16 @@ public class ActivityDetailHeaderView extends LinearLayout {
         Intent intent = new Intent(getContext(), ActivityDiscussActivity.class);
         intent.putExtra("id", mData.getId());
         getContext().startActivity(intent);
+    }
+
+    /**
+     * 前往地图页
+     */
+    private void gotoMapActivity() {
+        Intent intent1 = new Intent(getContext(), MapActivity.class);
+        intent1.putExtra("lon", mData.getXpostion());
+        intent1.putExtra("lat", mData.getYpostion());
+        intent1.putExtra("address",mData.getAddress());
+        getContext().startActivity(intent1);
     }
 }
