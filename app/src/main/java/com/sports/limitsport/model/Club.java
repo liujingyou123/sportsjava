@@ -5,25 +5,51 @@ package com.sports.limitsport.model;
  */
 
 public class Club {
-    private String id;
+    private String authEntity;
+    private String authStatus;
+    private String clubImgUrl;
+    private String clubIntroduction;
     private String clubName;
-    private String clubType;// 1:滑雪 2:滑板 3：冲浪 4：跑酷
-    private String clubTypeName;//俱乐部类型名称
-    private String clubIntroduction; //俱乐部简介
-    private String logoUrl; //俱乐部logo
-    private String resourceType;//图片资源类型 1：图片 2：视频
-    private String thumbnailUrl; //俱乐部图片缩略图url
-    private String vedioThumbnailUrl; //视频首图缩略图url
-    private String clubMemberNum; //俱乐部成员数
-    private String isJoin;//是否已参加 1:已加入 0:未加入
-    private String isActivity;//是否活动中 1:活动中 0:没有活动
+    private String clubType;
+    private String clubTypeName;
+    private String clubVedioUrl;
+    private String id;
+    private String isActivity;
+    private String isJoin;
+    private String logoUrl;
+    private String memberNum;
+    private String resourceType;
 
-    public String getId() {
-        return id;
+    public String getAuthEntity() {
+        return authEntity;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAuthEntity(String authEntity) {
+        this.authEntity = authEntity;
+    }
+
+    public String getAuthStatus() {
+        return authStatus;
+    }
+
+    public void setAuthStatus(String authStatus) {
+        this.authStatus = authStatus;
+    }
+
+    public String getClubImgUrl() {
+        return clubImgUrl;
+    }
+
+    public void setClubImgUrl(String clubImgUrl) {
+        this.clubImgUrl = clubImgUrl;
+    }
+
+    public String getClubIntroduction() {
+        return clubIntroduction;
+    }
+
+    public void setClubIntroduction(String clubIntroduction) {
+        this.clubIntroduction = clubIntroduction;
     }
 
     public String getClubName() {
@@ -50,52 +76,28 @@ public class Club {
         this.clubTypeName = clubTypeName;
     }
 
-    public String getClubIntroduction() {
-        return clubIntroduction;
+    public Object getClubVedioUrl() {
+        return clubVedioUrl;
     }
 
-    public void setClubIntroduction(String clubIntroduction) {
-        this.clubIntroduction = clubIntroduction;
+    public void setClubVedioUrl(String clubVedioUrl) {
+        this.clubVedioUrl = clubVedioUrl;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
+    public String getId() {
+        return id;
     }
 
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getResourceType() {
-        return resourceType;
+    public String getIsActivity() {
+        return isActivity;
     }
 
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public String getVedioThumbnailUrl() {
-        return vedioThumbnailUrl;
-    }
-
-    public void setVedioThumbnailUrl(String vedioThumbnailUrl) {
-        this.vedioThumbnailUrl = vedioThumbnailUrl;
-    }
-
-    public String getClubMemberNum() {
-        return clubMemberNum;
-    }
-
-    public void setClubMemberNum(String clubMemberNum) {
-        this.clubMemberNum = clubMemberNum;
+    public void setIsActivity(String isActivity) {
+        this.isActivity = isActivity;
     }
 
     public String getIsJoin() {
@@ -106,11 +108,27 @@ public class Club {
         this.isJoin = isJoin;
     }
 
-    public String getIsActivity() {
-        return isActivity;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 
-    public void setIsActivity(String isActivity) {
-        this.isActivity = isActivity;
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getMemberNum() {
+        return memberNum;
+    }
+
+    public void setMemberNum(String memberNum) {
+        this.memberNum = memberNum;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
     }
 }

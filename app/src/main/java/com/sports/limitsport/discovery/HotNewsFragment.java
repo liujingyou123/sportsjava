@@ -109,8 +109,7 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     public void showFineShowList(FineShowListResponse response) {
         if (response != null) {
             if (hotNewHeadView != null) {
-                //TODO  添加正确的数据结构  不能传null;
-                hotNewHeadView.setFineShowList(null);
+                hotNewHeadView.setFineShowList(response.getData());
             }
         }
     }

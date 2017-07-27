@@ -10,6 +10,19 @@ import java.util.List;
 
 public class AdvertiseInfoResponse extends BaseResponse {
 
+
+    /**
+     * adPicUrl :
+     * adType : 2
+     * content : 头条轮播图
+     * innerUrlId : 1a
+     * name : 头条轮播图
+     * orderNum : 1
+     * position : 1
+     * toUrl : aaa.com
+     * toUrlType : 1
+     */
+
     private List<DataBean> data;
 
     public List<DataBean> getData() {
@@ -21,29 +34,15 @@ public class AdvertiseInfoResponse extends BaseResponse {
     }
 
     public static class DataBean {
-        private String name;
-        private String toUrlType; //  0-外部 1-内部连接
         private String adPicUrl;
-        private String toUrl;
-        private String innerUrlId;
+        private int adType;
         private String content;
-        private String orderNum;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getToUrlType() {
-            return toUrlType;
-        }
-
-        public void setToUrlType(String toUrlType) {
-            this.toUrlType = toUrlType;
-        }
+        private String innerUrlId;
+        private String name;
+        private int orderNum;
+        private int position;
+        private String toUrl;
+        private int toUrlType;
 
         public String getAdPicUrl() {
             return adPicUrl;
@@ -53,20 +52,12 @@ public class AdvertiseInfoResponse extends BaseResponse {
             this.adPicUrl = adPicUrl;
         }
 
-        public String getToUrl() {
-            return toUrl;
+        public int getAdType() {
+            return adType;
         }
 
-        public void setToUrl(String toUrl) {
-            this.toUrl = toUrl;
-        }
-
-        public String getInnerUrlId() {
-            return innerUrlId;
-        }
-
-        public void setInnerUrlId(String innerUrlId) {
-            this.innerUrlId = innerUrlId;
+        public void setAdType(int adType) {
+            this.adType = adType;
         }
 
         public String getContent() {
@@ -77,12 +68,52 @@ public class AdvertiseInfoResponse extends BaseResponse {
             this.content = content;
         }
 
-        public String getOrderNum() {
+        public String getInnerUrlId() {
+            return innerUrlId;
+        }
+
+        public void setInnerUrlId(String innerUrlId) {
+            this.innerUrlId = innerUrlId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getOrderNum() {
             return orderNum;
         }
 
-        public void setOrderNum(String orderNum) {
+        public void setOrderNum(int orderNum) {
             this.orderNum = orderNum;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public String getToUrl() {
+            return toUrl;
+        }
+
+        public void setToUrl(String toUrl) {
+            this.toUrl = toUrl;
+        }
+
+        public int getToUrlType() {
+            return toUrlType;
+        }
+
+        public void setToUrlType(int toUrlType) {
+            this.toUrlType = toUrlType;
         }
     }
 }
