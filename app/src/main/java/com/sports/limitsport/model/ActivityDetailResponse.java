@@ -122,7 +122,7 @@ public class ActivityDetailResponse extends BaseResponse{
          * version : 0
          */
 
-        private List<TicketsListBean> ticketsList;
+        private List<TicketList> ticketsList;
 
         public String getActivityDetail() {
             return activityDetail;
@@ -364,11 +364,11 @@ public class ActivityDetailResponse extends BaseResponse{
             this.applicantList = applicantList;
         }
 
-        public List<TicketsListBean> getTicketsList() {
+        public List<TicketList> getTicketsList() {
             return ticketsList;
         }
 
-        public void setTicketsList(List<TicketsListBean> ticketsList) {
+        public void setTicketsList(List<TicketList> ticketsList) {
             this.ticketsList = ticketsList;
         }
 
@@ -396,144 +396,5 @@ public class ActivityDetailResponse extends BaseResponse{
             this.status = status;
         }
 
-        public static class TicketsListBean {
-            private int activityId;
-            private long createTime;
-            private Object creater;
-            private String descContent;
-            private int id;
-            private int isFree;
-            private Object modifier;
-            private Object modifyTime;
-            private int money;
-            private String name;
-            private Object sequence;
-            private int soldNumber;
-            private int status;
-            private int userPurchase;
-            private int version;
-
-            public int getActivityId() {
-                return activityId;
-            }
-
-            public void setActivityId(int activityId) {
-                this.activityId = activityId;
-            }
-
-            public long getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(long createTime) {
-                this.createTime = createTime;
-            }
-
-            public Object getCreater() {
-                return creater;
-            }
-
-            public void setCreater(Object creater) {
-                this.creater = creater;
-            }
-
-            public String getDescContent() {
-                return descContent;
-            }
-
-            public void setDescContent(String descContent) {
-                this.descContent = descContent;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public int getIsFree() {
-                return isFree;
-            }
-
-            public void setIsFree(int isFree) {
-                this.isFree = isFree;
-            }
-
-            public Object getModifier() {
-                return modifier;
-            }
-
-            public void setModifier(Object modifier) {
-                this.modifier = modifier;
-            }
-
-            public Object getModifyTime() {
-                return modifyTime;
-            }
-
-            public void setModifyTime(Object modifyTime) {
-                this.modifyTime = modifyTime;
-            }
-
-            public int getMoney() {
-                return money;
-            }
-
-            public void setMoney(int money) {
-                this.money = money;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public Object getSequence() {
-                return sequence;
-            }
-
-            public void setSequence(Object sequence) {
-                this.sequence = sequence;
-            }
-
-            public int getSoldNumber() {
-                return soldNumber;
-            }
-
-            public void setSoldNumber(int soldNumber) {
-                this.soldNumber = soldNumber;
-            }
-
-            public int getStatus() {
-                return status;
-            }
-
-            public void setStatus(int status) {
-                this.status = status;
-            }
-
-            public int getUserPurchase() {
-                return userPurchase;
-            }
-
-            public void setUserPurchase(int userPurchase) {
-                this.userPurchase = userPurchase;
-            }
-
-            public int getVersion() {
-                return version;
-            }
-
-            public void setVersion(int version) {
-                this.version = version;
-            }
-
-
-        }
     }
 }

@@ -44,25 +44,18 @@ public class SignUpFooterView extends RelativeLayout {
     private void initView() {
         LayoutInflater.from(getContext()).inflate(R.layout.sign_up_footer_view, this);
         ButterKnife.bind(this, this);
-//        imvServer.setSelected(true);
     }
 
-//    @OnClick({R.id.imv_server, R.id.tv_server})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.imv_server:
-//                if (imvServer.isSelected()) {
-//                    imvServer.setSelected(false);
-//                } else {
-//                    imvServer.setSelected(true);
-//                }
-//                break;
-//            case R.id.tv_server:
-//                break;
-//        }
-//    }
 
     public void setNumCheckViewEnable(boolean enable) {
         ncv.setCanEnable(enable);
+    }
+
+    public NumCheckView getNumCheckView() {
+        return ncv;
+    }
+
+    public void setTvTicketDes(String des) {
+        tvTicketDes.setText(des);
     }
 }

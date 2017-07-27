@@ -25,6 +25,7 @@ import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.util.StatusBarUtil;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
 
@@ -186,6 +187,14 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
      */
     private void gotoSignUpActivity() {
         Intent intentSign = new Intent(ActivityDetailActivity.this, SignUpActivity.class);
+        intentSign.putExtra("id", mData.getId());
+        intentSign.putExtra("title",mData.getName());
+
+        if (TextViewUtil.isEmpty(mData.getCoverUrl())) { //视频
+            intentSign.putExtra("imgCover", mData.getActivityVideoImg());
+        } else {
+            intentSign.putExtra("imgCover", mData.getCoverUrl());
+        }
         startActivity(intentSign);
     }
 

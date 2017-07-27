@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="注 : 包含 3日标准费1300元以及保险200元"
+        android:text=""
         android:textColor="#FFFFFFFF"
         android:textSize="12sp" />
 

@@ -28,6 +28,7 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.ApplicantListBean;
 import com.sports.limitsport.model.DongTaiList;
+import com.sports.limitsport.model.TicketList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
@@ -256,7 +257,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
         if (mData.getTicketsList() != null) {
             tvTicketTypeNum.setText("本次活动分为"+mData.getTicketsList().size() + "种:");
             for (int i = 0; i < mData.getTicketsList().size(); i++) {
-                ActivityDetailResponse.DataBean.TicketsListBean ticketsListBean = mData.getTicketsList().get(i);
+                TicketList ticketsListBean = mData.getTicketsList().get(i);
                 TextView textView = new TextView(getContext());
                 textView.setTextAppearance(getContext(), R.style.text_normal_gray);
                 textView.setMaxLines(1);

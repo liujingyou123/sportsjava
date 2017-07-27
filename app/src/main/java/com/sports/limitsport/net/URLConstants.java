@@ -25,4 +25,6 @@ public class URLConstants {
     public final static String URL_PUBLISH_COMMENTS = "api/comment/publishComment/v1.0.0";
     //回复评论
     public final static String URL_REPLAY_COMMENTS = "api/comment/replayComment/v1.0.0";
+    //票种列表
+    public final static String URL_TICKET_LIST= "api/activity/ticket/selectTickest/v1.0.0";
 }

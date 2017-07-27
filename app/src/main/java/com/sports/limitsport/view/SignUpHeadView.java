@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
@@ -20,6 +21,11 @@ import butterknife.ButterKnife;
 public class SignUpHeadView extends RelativeLayout {
     @BindView(R.id.imv_cover)
     ImageView imvCover;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_ticket_type)
+    TextView tvTicketType;
+
     public SignUpHeadView(Context context) {
         super(context);
         initView();
@@ -38,6 +44,17 @@ public class SignUpHeadView extends RelativeLayout {
     private void initView() {
         LayoutInflater.from(getContext()).inflate(R.layout.sign_up_header_view, this);
         ButterKnife.bind(this, this);
-        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
+    }
+
+    public void setImvCover(String imvCoverUrl) {
+        Batman.getInstance().fromNet(imvCoverUrl, imvCover);
+    }
+
+    public void setTvName(String name) {
+        tvName.setText(name);
+    }
+
+    public void setTvTicketType(String msg) {
+        tvTicketType.setText(msg);
     }
 }
