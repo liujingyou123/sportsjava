@@ -8,12 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
 import com.sports.limitsport.activity.presenter.ActivityDetailPresenter;
 import com.sports.limitsport.activity.ui.IActivityDetailView;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
@@ -45,11 +48,17 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     RelativeLayout rlTitle;
     @BindView(R.id.rl_bottom)
     RelativeLayout rlBottom;
+    @BindView(R.id.tv_price_bottom)
+    TextView tvPriceBottom;
     private ActivityDetailHeaderView activityDetailHeaderView;
     private ActivityDiscussAdapter adapter;
     private String id;
     private ActivityDetailPresenter mPresenter;
     private List<CommentList> data = new ArrayList<>();
+    private CommentDialog commentDialog;
+    private CommentList commentList;
+    private ActivityDetailResponse.DataBean mData;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,11 +97,31 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         adapter.bindToRecyclerView(rlvDiscuss);
         adapter.setEmptyView(R.layout.empty_discuss);
 
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (commentDialog != null && !commentDialog.isShowing()) {
+                    commentList = (CommentList) adapter.getItem(position);
+                    commentDialog.show();
+                }
+            }
+        });
+
         rlvDiscuss.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 setColor();
+            }
+        });
+
+        commentDialog = new CommentDialog(this);
+
+        commentDialog.setOkDoneListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentDialog.dismiss();
+                mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
             }
         });
     }
@@ -117,7 +146,11 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 finish();
                 break;
             case R.id.btn_done:
-                showAlreadySignUpDialog();
+                if (mData.getSignStatus() == 0) {
+                    gotoSignUpActivity();
+                } else if (mData.getSignStatus() == 1) {
+                    showAlreadySignUpDialog();
+                }
                 break;
             case R.id.imv_report:
                 ReportDialog dialog = new ReportDialog(this);
@@ -142,17 +175,24 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-                Intent intentSign = new Intent(ActivityDetailActivity.this, SignUpActivity.class);
-                startActivity(intentSign);
+                gotoSignUpActivity();
             }
         });
         dialog.show();
     }
 
+    /**
+     * 跳转报名列表页
+     */
+    private void gotoSignUpActivity() {
+        Intent intentSign = new Intent(ActivityDetailActivity.this, SignUpActivity.class);
+        startActivity(intentSign);
+    }
+
     @Override
     public void showActivityDetail(ActivityDetailResponse response) {
         if (response != null && response.getData() != null) {
-
+            mData = response.getData();
             if ("1".equals(response.getData().getStatus())) { //报名中
                 rlBottom.setVisibility(View.VISIBLE);
             } else {
@@ -160,6 +200,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             }
             response.getData().setId(id);
             activityDetailHeaderView.showDetail(response.getData());
+
+            tvPriceBottom.setText(mData.getMoney());
         }
     }
 
@@ -179,10 +221,14 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     }
 
     @Override
-    public void onError(Throwable e) {
+    public void showReplayComment(boolean isSuccess) {
 
     }
 
+    @Override
+    public void onError(Throwable e) {
+
+    }
 
     @Override
     protected void onPause() {

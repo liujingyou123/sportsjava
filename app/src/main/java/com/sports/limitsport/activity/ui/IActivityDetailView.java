@@ -12,5 +12,6 @@ public interface IActivityDetailView {
     void showActivityDetail(ActivityDetailResponse response);
     void showAllShiList(DongTaiListResponse response);
     void showCommentList(CommentListResponse response);
+    void showReplayComment(boolean isSuccess);
     void onError(Throwable e);
 }

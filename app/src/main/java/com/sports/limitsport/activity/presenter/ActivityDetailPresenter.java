@@ -1,6 +1,7 @@
 package com.sports.limitsport.activity.presenter;
 
 import com.sports.limitsport.activity.ui.IActivityDetailView;
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
@@ -94,6 +95,40 @@ public class ActivityDetailPresenter {
                 super.onError(e);
                 if (mIActivityDetailView != null) {
                     mIActivityDetailView.onError(e);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 回复活动评论
+     *
+     * @param replyCommentId 回复评论ID
+     * @param replyUserId    回复对象ID
+     * @param replyUserName  回复对象名称
+     * @param replyContent   回复内容
+     */
+    public void replayComment(String replyCommentId, String replyUserId, String replyUserName, String replyContent) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("replyCommentId", replyCommentId);
+        hashMap.put("replyUserId", replyUserId);
+        hashMap.put("replyUserName", replyUserName);
+        hashMap.put("replyContent", replyContent);
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIActivityDetailView != null) {
+                    mIActivityDetailView.showReplayComment(true);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIActivityDetailView != null) {
+                    mIActivityDetailView.showReplayComment(false);
                 }
             }
         });
