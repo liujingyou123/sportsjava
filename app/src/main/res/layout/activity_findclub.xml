@@ -5,8 +5,16 @@
     android:orientation="vertical">
 
     <include layout="@layout/common_title" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rl_clubs"
+
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/rl_all"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_clubs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.ajguan.library.EasyRefreshLayout>
+
 </LinearLayout>

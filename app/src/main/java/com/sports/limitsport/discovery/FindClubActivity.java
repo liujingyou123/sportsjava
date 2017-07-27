@@ -8,12 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.discovery.adapter.FindClubAdapter;
-import com.sports.limitsport.model.Club;
 import com.sports.limitsport.discovery.model.FindClubSection;
+import com.sports.limitsport.discovery.presenter.FindClubPresenter;
+import com.sports.limitsport.discovery.ui.IFindClubView;
+import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.Club;
+import com.sports.limitsport.model.ClubListResponse;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.SpacesItemHDecoration;
 
 import java.util.ArrayList;
@@ -27,17 +33,20 @@ import butterknife.OnClick;
  * Created by liuworkmac on 17/7/11.
  */
 
-public class FindClubActivity extends BaseActivity {
+public class FindClubActivity extends BaseActivity implements IFindClubView {
     @BindView(R.id.tv_focus_right)
     TextView tvFocusRight;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.rl_clubs)
     RecyclerView rlClubs;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
 
     private FindClubAdapter adapter;
     private List<FindClubSection> clubs = new ArrayList<>();
-
+    private FindClubPresenter mPresenter;
+    private int pageNumber = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +55,16 @@ public class FindClubActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         showClubs();
+
+        getData();
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new FindClubPresenter(this);
+        }
+        mPresenter.getAllClubsList(pageNumber);
+        mPresenter.getTodayClubsList();
     }
 
     private void initView() {
@@ -67,22 +86,12 @@ public class FindClubActivity extends BaseActivity {
     }
 
     private void showClubs() {
-        for (int i = 0; i < 30; i++) {
-            Club club = new Club();
-            FindClubSection findClubSection = new FindClubSection(club);
-            if (i == 0) {
-                findClubSection.isHeader = true;
-                findClubSection.header = "今日推荐";
-            } else if (i == 5) {
-                findClubSection.isHeader = true;
-                findClubSection.header = "全部俱乐部";
-            }
-
-            clubs.add(findClubSection);
-        }
         rlClubs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         adapter = new FindClubAdapter(clubs);
+        adapter.bindToRecyclerView(rlClubs);
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
+
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -90,10 +99,90 @@ public class FindClubActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        rlClubs.setAdapter(adapter);
 
 
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlClubs.addItemDecoration(decoration);
+
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, rlClubs);
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+    }
+
+    private void loadMore() {
+        if (mPresenter != null) {
+            pageNumber++;
+            mPresenter.getAllClubsList(pageNumber);
+
+        }
+    }
+
+    private void refresh() {
+        if (mPresenter != null) {
+            pageNumber = 1;
+            mPresenter.getAllClubsList(pageNumber);
+        }
+    }
+
+
+    @Override
+    public void showAllClubsList(ClubListResponse response) {
+        if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
+            Club club = new Club();
+            FindClubSection findClubSection = new FindClubSection(club);
+            findClubSection.isHeader = true;
+            findClubSection.header = "全部俱乐部";
+            adapter.addData(0, findClubSection);
+
+            List<FindClubSection> tmps = clubToSection(response.getData().getData());
+            adapter.addData(1, tmps);
+        }
+    }
+
+    @Override
+    public void showTodayClubsList(ClubListResponse response) {
+        if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
+            Club club = new Club();
+            FindClubSection findClubSection = new FindClubSection(club);
+            findClubSection.isHeader = true;
+            findClubSection.header = "今日推荐";
+            adapter.addData(0, findClubSection);
+
+            List<FindClubSection> tmps = clubToSection(response.getData().getData());
+            adapter.addData(1, tmps);
+        }
+
+    }
+
+
+    private List<FindClubSection> clubToSection(List<Club> data) {
+        List<FindClubSection> ret = new ArrayList<>();
+        if (data != null && data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                FindClubSection findClubSection = new FindClubSection(data.get(i));
+                ret.add(findClubSection);
+            }
+        }
+        return ret;
     }
 }
