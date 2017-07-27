@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="1500"
+            android:text="¥0"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -63,7 +63,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/imv_cover"
-                    android:text="南山俱乐部 大云山潜水第九期"
+                    android:text="@string/text_default"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
 
@@ -75,7 +75,7 @@
                     android:layout_below="@id/tv_name"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@id/imv_cover"
-                    android:text="标准票"
+                    android:text=""
                     android:textColor="#ffffff"
                     android:textSize="12sp" />
 
@@ -141,7 +141,8 @@
                     android:gravity="center_vertical"
                     android:text="微信"
                     android:textColor="#FFFFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
 
                 <RadioGroup
                     android:layout_width="wrap_content"
@@ -165,7 +166,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
                         android:layout_weight="1"
-                        android:button="@drawable/paytype_raido" />
+                        android:button="@drawable/paytype_raido"
+                        android:visibility="gone"/>
                 </RadioGroup>
             </RelativeLayout>
 

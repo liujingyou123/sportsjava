@@ -8,10 +8,11 @@
     <include layout="@layout/common_title" />
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="恭喜您！购票成功！"
+        android:text=""
         android:textColor="#ffffff"
         android:textSize="16sp"
         android:drawableLeft="@drawable/bg_zhifu_result_status"
@@ -20,6 +21,7 @@
 
 
     <TextView
+        android:id="@+id/tv_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

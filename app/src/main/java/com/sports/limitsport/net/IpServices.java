@@ -10,6 +10,8 @@ import com.sports.limitsport.model.CommentRequest;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.OrderRequest;
+import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.TicketListResponse;
 
 import java.util.HashMap;
@@ -67,4 +69,8 @@ public interface IpServices {
     //票种列表
     @POST(URLConstants.URL_TICKET_LIST)
     Observable<TicketListResponse> getTicketList(@Body HashMap<String, String> hashMap);
+
+    //订单支付
+    @POST(URLConstants.URL_PAY_ORDER)
+    Observable<PayOrderResponse> payOrder(@Body OrderRequest param);
 }

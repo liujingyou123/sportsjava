@@ -3,10 +3,18 @@ package com.sports.limitsport.activity.presenter;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.sports.limitsport.activity.ui.IPayOrderView;
+import com.sports.limitsport.model.OrderRequest;
+import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.PayResult;
+import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.Ironman;
+import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -24,6 +32,12 @@ public class PayPresenter {
     private Subscription mPaySb;
     private Activity activity;
     private Alipay alipay;
+    private IPayOrderView mIPayOrderView;
+
+    public PayPresenter(IPayOrderView mIPayOrderView) {
+        this.activity = (Activity) mIPayOrderView;
+        this.mIPayOrderView = mIPayOrderView;
+    }
 
     private Alipay getAlipay() {
         if (alipay == null) {
@@ -32,7 +46,7 @@ public class PayPresenter {
         return alipay;
     }
 
-    private void aliPay(String orderInfo) {
+    public void aliPay(String orderInfo) {
         unsubscribePay();
         final String orderInfotmp = orderInfo;
         mPaySb = Observable.just(orderInfo)
@@ -45,7 +59,7 @@ public class PayPresenter {
                     @Override
                     public void call(PayResult payResult) {
                         if (doPayResult(payResult)) {
-                            comfirmPayResult(payResult.getRawResult());
+                            comfirmPayResult(payResult);
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -64,9 +78,40 @@ public class PayPresenter {
 
 
     /**
+     * 提交支付订单
+     *
+     * @param request
+     */
+    public void payOrder(OrderRequest request) {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).payOrder(request), new NetSubscriber<PayOrderResponse>() {
+            @Override
+            public void response(PayOrderResponse response) {
+                if (mIPayOrderView != null) {
+                    mIPayOrderView.showPayOrderResult(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIPayOrderView != null) {
+                    mIPayOrderView.onError(e);
+                }
+            }
+        });
+    }
+
+    public void clear() {
+        if (mPaySb != null && !mPaySb.isUnsubscribed()) {
+            mPaySb.unsubscribe();
+        }
+        mIPayOrderView = null;
+    }
+
+    /**
      * ＊ 验签
      */
-    public void comfirmPayResult(Map<String, String> params) {
+    public void comfirmPayResult(PayResult payResult) {
 //        params.put("payType", payType);
 //        mConfirmResult = Ironman.getInstance()
 //                .createConsultantService(OrderService.class)
@@ -80,6 +125,21 @@ public class PayPresenter {
 //                        }
 //                    }
 //                });
+
+        String result = payResult.getResult();
+        String orderNo = null;
+        if (!TextUtils.isEmpty(result)) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                orderNo = jsonObject.optString("out_trade_no");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (mIPayOrderView != null) {
+
+            mIPayOrderView.showPayResult(true, orderNo);
+        }
 
     }
 

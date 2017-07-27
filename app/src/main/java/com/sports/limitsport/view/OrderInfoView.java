@@ -10,8 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.model.OrderInfo;
-import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.SignList;
 import com.sports.limitsport.util.UnitUtil;
 
 import butterknife.BindView;
@@ -31,7 +30,7 @@ public class OrderInfoView extends LinearLayout {
     @BindView(R.id.et_ids)
     ExtendedEditText etIds;
 
-    private OrderInfo orderInfo;
+    private SignList orderInfo;
 
     public OrderInfoView(Context context) {
         super(context);
@@ -87,7 +86,7 @@ public class OrderInfoView extends LinearLayout {
 
             @Override
             public void afterTextChanged(Editable s) {
-                orderInfo.names = s.toString();
+                orderInfo.name = s.toString();
             }
         });
 
@@ -111,7 +110,7 @@ public class OrderInfoView extends LinearLayout {
     }
 
 
-    public void showOrderInfo(OrderInfo orderInfo, boolean isEdit) {
+    public void showOrderInfo(SignList orderInfo, boolean isEdit) {
         showOrderInfo(orderInfo);
         if (!isEdit) {
             etPhone.setEnabled(false);
@@ -121,7 +120,7 @@ public class OrderInfoView extends LinearLayout {
     }
 
 
-    public void showOrderInfo(OrderInfo orderInfo) {
+    public void showOrderInfo(SignList orderInfo) {
         if (orderInfo == null) {
             return;
         }
@@ -129,9 +128,12 @@ public class OrderInfoView extends LinearLayout {
         String position = UnitUtil.formatDec(orderInfo.id);
         tvNum.setText("用户" + position);
         etPhone.setText(orderInfo.phone);
-        etName.setText(orderInfo.names);
+        etName.setText(orderInfo.name);
         etIds.setText(orderInfo.idCard);
     }
 
+    public SignList getOrderInfo() {
+        return orderInfo;
+    }
 
 }

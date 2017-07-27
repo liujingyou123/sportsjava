@@ -131,6 +131,9 @@ public class NumCheckView extends LinearLayout {
     public void setDefaultNum(int defaultNum) {
         this.num = defaultNum;
         tvNum.setText(""+num);
+        if (num > minNum) {
+            imvSub.setEnabled(true);
+        }
     }
 
     public void setNumTextSize(int textSize) {

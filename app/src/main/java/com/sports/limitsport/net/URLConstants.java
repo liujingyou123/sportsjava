@@ -27,4 +27,6 @@ public class URLConstants {
     public final static String URL_REPLAY_COMMENTS = "api/comment/replayComment/v1.0.0";
     //票种列表
     public final static String URL_TICKET_LIST= "api/activity/ticket/selectTickest/v1.0.0";
+    //订单支付
+    public final static String URL_PAY_ORDER= "api/activityOrder/payOrder/v1.0.0";
 }

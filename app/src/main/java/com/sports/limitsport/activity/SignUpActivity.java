@@ -127,6 +127,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
                 if (ticketList != null) {
                     selectTicket = new SelectTicket();
 
+                    selectTicket.id = ticketList.getId()+"";
                     selectTicket.maxNum = ticketList.getSoldNumber();
                     selectTicket.des = ticketList.getDescContent();
                     selectTicket.name = ticketList.getName();
@@ -201,10 +202,14 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
     };
 
     /**
-     * 签完订单支付页
+     * 前往订单支付页
      */
     private void gotoPayOrder() {
         Intent intent = new Intent(this, PayOrderActivity.class);
+        intent.putExtra("id",id);
+        intent.putExtra("title", title);
+        intent.putExtra("imgCover",imgCover);
+        intent.putExtra("selectTicket",selectTicket);
         startActivity(intent);
     }
 

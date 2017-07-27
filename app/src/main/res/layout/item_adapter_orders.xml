@@ -39,7 +39,8 @@
             android:textColor="#ffffff"
             android:textColorHint="#555555"
             android:textSize="14sp"
-            android:background="@null"/>
+            android:background="@null"
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"/>
     </LinearLayout>
 
     <LinearLayout
@@ -69,7 +70,8 @@
             android:textColor="#ffffff"
             android:textColorHint="#555555"
             android:textSize="14sp"
-            android:background="@null"/>
+            android:background="@null"
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"/>
     </LinearLayout>
 
     <LinearLayout
@@ -99,6 +101,7 @@
             android:textColor="#ffffff"
             android:textColorHint="#555555"
             android:textSize="14sp"
-            android:background="@null"/>
+            android:background="@null"
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"/>
     </LinearLayout>
 </merge>
