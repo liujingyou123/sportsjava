@@ -190,8 +190,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 getContext().startActivity(intent);
                 break;
             case R.id.tv_sign_num:
-                Intent intent2 = new Intent(getContext(), SignUpListActivity.class);
-                getContext().startActivity(intent2);
+                gotoSignUpList();
                 break;
             case R.id.ll_location:
                 gotoMapActivity();
@@ -326,5 +325,14 @@ public class ActivityDetailHeaderView extends LinearLayout {
         intent1.putExtra("lat", mData.getYpostion());
         intent1.putExtra("address",mData.getAddress());
         getContext().startActivity(intent1);
+    }
+
+    /**
+     * 前往报名列表
+     */
+    private void gotoSignUpList() {
+        Intent intent2 = new Intent(getContext(), SignUpListActivity.class);
+        intent2.putExtra("id", mData.getId());
+        getContext().startActivity(intent2);
     }
 }

@@ -10,10 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.model.OrderInfo;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.SignList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.OrderInfoView;
 
@@ -74,10 +74,10 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void showOrders() {
-        OrderInfo orderInfo = new OrderInfo();
+        SignList orderInfo = new SignList();
         int childViewCount = llOrders.getChildCount();
         orderInfo.id = childViewCount + 1;
-        orderInfo.names = "中国";
+        orderInfo.name = "中国";
         orderInfo.idCard = " 410311199001025648";
         orderInfo.phone = "18798769870";
         OrderInfoView view = new OrderInfoView(this);

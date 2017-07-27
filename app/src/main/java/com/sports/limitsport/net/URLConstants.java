@@ -26,7 +26,9 @@ public class URLConstants {
     //回复评论
     public final static String URL_REPLAY_COMMENTS = "api/comment/replayComment/v1.0.0";
     //票种列表
-    public final static String URL_TICKET_LIST= "api/activity/ticket/selectTickest/v1.0.0";
+    public final static String URL_TICKET_LIST = "api/activity/ticket/selectTickest/v1.0.0";
     //订单支付
-    public final static String URL_PAY_ORDER= "api/activityOrder/payOrder/v1.0.0";
+    public final static String URL_PAY_ORDER = "api/activityOrder/payOrder/v1.0.0";
+    //活动报名列表
+    public final static String URL_SIGN_UP_LIST = "api/activity/sign/selectActivitySign/v1.0.0";
 }
