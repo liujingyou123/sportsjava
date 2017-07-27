@@ -20,7 +20,7 @@
         android:paddingRight="7dp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:text="报名"
+        android:text=""
         android:textColor="#FFFFFFFF"
         android:textSize="10sp" />
 
@@ -41,7 +41,7 @@
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/imv_head"
         android:gravity="center_vertical"
-        android:text="Ricky Ricky"
+        android:text=""
         android:textColor="#FFFFFFFF"
         android:textSize="12sp" />
 
@@ -52,7 +52,7 @@
         android:layout_above="@id/imv_head"
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="5dp"
-        android:text="南山俱乐部 大云山潜水第九期"
+        android:text=""
         android:textColor="#FFFFFFFF"
         android:textSize="18sp" />
 
@@ -64,7 +64,7 @@
         android:layout_alignTop="@id/tv_name"
         android:layout_marginRight="15dp"
         android:gravity="center_vertical"
-        android:text="12345"
+        android:text=""
         android:textColor="#FFFFFFFF"
         android:textSize="12sp"
         android:drawableLeft="@mipmap/icon_jingcaixiu_hot"
