@@ -19,6 +19,9 @@ import com.sports.limitsport.discovery.presenter.HotNewsPresenter;
 import com.sports.limitsport.discovery.ui.IHotNewsView;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.NewPersonListResponse;
+import com.sports.limitsport.model.SignList;
+import com.sports.limitsport.model.SignUpUser;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.view.HotNewHeadView;
 
@@ -40,6 +43,7 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     private NewPersionAdapter adapter;
     private HotNewsPresenter mPresenter;
     private HotNewHeadView hotNewHeadView;
+    private List<SignUpUser> data = new ArrayList<>();
 
     @Nullable
     @Override
@@ -64,12 +68,13 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
         mPresenter.getClubsList();
         mPresenter.getAdvList();
         mPresenter.getFineShow();
+        mPresenter.getNewPersionList();
     }
 
     private void initView() {
         hotNewHeadView = new HotNewHeadView(this.getContext());
         rlvNew.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new NewPersionAdapter(MyTestData.getData());
+        adapter = new NewPersionAdapter(data);
         adapter.addHeaderView(hotNewHeadView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvNew);
@@ -77,9 +82,12 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 XLog.e("onItemChildClick");
-//                view.setEnabled(false);
-                Intent intent = new Intent(HotNewsFragment.this.getContext(), PersonInfoActivity.class);
-                HotNewsFragment.this.getContext().startActivity(intent);
+                SignUpUser item = (SignUpUser) adapter.getItem(position);
+                if (item != null) {
+                    if ("0".equals(item.getStatus()) || "2".equals(item.getStatus())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+                        gotoPersonInfo(item.getId() + "");
+                    }
+                }
             }
         });
     }
@@ -112,6 +120,22 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
                 hotNewHeadView.setFineShowList(response.getData());
             }
         }
+    }
+
+    @Override
+    public void showNewPersonList(NewPersonListResponse response) {
+        if (response != null && response.getData() != null) {
+            adapter.addData(response.getData().getData());
+        }
+    }
+
+    /**
+     * 进入个人主页
+     */
+    private void gotoPersonInfo(String id) {
+        Intent intent = new Intent(getContext(), PersonInfoActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     @Override

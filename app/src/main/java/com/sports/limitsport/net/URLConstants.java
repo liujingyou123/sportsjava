@@ -31,4 +31,6 @@ public class URLConstants {
     public final static String URL_PAY_ORDER = "api/activityOrder/payOrder/v1.0.0";
     //活动报名列表
     public final static String URL_SIGN_UP_LIST = "api/activity/sign/selectActivitySign/v1.0.0";
+    //新人报到列表
+    public final static String URL_NEW_PERSON_LIST = "api/user/verify/selectNewUserList/v1.0.0";
 }

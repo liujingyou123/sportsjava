@@ -9,15 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.discovery.adapter.FineShowListAdapter;
 import com.sports.limitsport.discovery.presenter.FineShowPresenter;
 import com.sports.limitsport.discovery.ui.IFineShowView;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyCollectFanShowAdapter;
 import com.sports.limitsport.model.FineShowList;
 import com.sports.limitsport.model.FineShowListResponse;
-import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+import com.sports.limitsport.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +40,12 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
     TextView tvFocusHouse;
     @BindView(R.id.rclv)
     RecyclerView rclv;
-    private MyCollectFanShowAdapter adapter;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
+    private FineShowListAdapter adapter;
     private FineShowPresenter mPresenter;
     private List<FineShowList> data = new ArrayList<>();
+    private int pageNumber = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +53,14 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
         setContentView(R.layout.activity_fineshow);
         ButterKnife.bind(this);
         initView();
+        getData();
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new FineShowPresenter(this);
+        }
+        mPresenter.getFineShow(pageNumber);
     }
 
     private void initView() {
@@ -54,16 +69,11 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
         TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
         TextView tvGo = (TextView) emptyView.findViewById(R.id.tv_go);
         tvTip.setText("好像什么都没有～");
-        tvGo.setText("去逛逛");
-        emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tvGo.setVisibility(View.GONE);
 
-            }
-        });
         rclv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyCollectFanShowAdapter(data);
+        adapter = new FineShowListAdapter(data);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -72,9 +82,48 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
             }
         });
         adapter.bindToRecyclerView(rclv);
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setEmptyView(emptyView);
 
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, rclv);
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+
+    }
+
+    private void loadMore() {
+        if (mPresenter != null) {
+            pageNumber++;
+            mPresenter.getFineShow(pageNumber);
+        }
+    }
+
+    private void refresh() {
+        pageNumber = 1;
+        if (mPresenter != null) {
+            mPresenter.getFineShow(pageNumber);
+        }
     }
 
     @OnClick(R.id.imv_focus_house_back)
@@ -84,6 +133,21 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
 
     @Override
     public void showFineShow(FineShowListResponse response) {
+        if (response != null) {
+            if (rlAll.isRefreshing()) {
+                data.clear();
+                data.addAll(response.getData());
+                adapter.notifyDataSetChanged();
+                rlAll.refreshComplete();
+            } else {
+                adapter.addData(response.getData());
+                if (response.getData() == null || response.getData().size() < 11) {
+                    adapter.loadMoreEnd();
+                } else {
+                    adapter.loadMoreComplete();
+                }
+            }
+        }
 
     }
 

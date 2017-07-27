@@ -5,7 +5,9 @@ import com.sports.limitsport.model.Club;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.discovery.ui.IHotNewsView;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.net.NoneNetSubscriber;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.ToolsUtil;
@@ -95,6 +97,29 @@ public class HotNewsPresenter {
 //        getTestAdvData();
     }
 
+
+    /**
+     * 获取新人报到
+     */
+    public void getNewPersionList() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", "1");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getNewPersonList(hashMap), new NetSubscriber<NewPersonListResponse>() {
+            @Override
+            public void response(NewPersonListResponse response) {
+                if (mIHotNewsView != null) {
+                    mIHotNewsView.showNewPersonList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+//        getTestAdvData();
+    }
 
     private void getTestAdvData() {
         AdvertiseInfoResponse response = new AdvertiseInfoResponse();

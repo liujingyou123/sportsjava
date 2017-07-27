@@ -10,6 +10,7 @@ import com.sports.limitsport.model.CommentRequest;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.OrderRequest;
 import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.SignUpListResponse;
@@ -78,4 +79,8 @@ public interface IpServices {
     //报名列表
     @POST(URLConstants.URL_SIGN_UP_LIST)
     Observable<SignUpListResponse> getSignUpList(@Body HashMap<String, String> param);
+
+    //新人列表
+    @POST(URLConstants.URL_NEW_PERSON_LIST)
+    Observable<NewPersonListResponse> getNewPersonList(@Body HashMap<String, String> param);
 }

@@ -135,8 +135,7 @@ public class HotNewHeadView extends LinearLayout {
                 getContext().startActivity(intent1);
                 break;
             case R.id.tv_news:
-                Intent intent2 = new Intent(getContext(), NewPersonReportActivity.class);
-                getContext().startActivity(intent2);
+                gotoNewPersonReport();
                 break;
         }
     }
@@ -155,6 +154,14 @@ public class HotNewHeadView extends LinearLayout {
     private void gotoFineShowDetail() {
         Intent intent = new Intent(getContext(), FineShowDetailActivity.class);
         getContext().startActivity(intent);
+    }
+
+    /**
+     * 前往新人报到页
+     */
+    private void gotoNewPersonReport() {
+        Intent intent2 = new Intent(getContext(), NewPersonReportActivity.class);
+        getContext().startActivity(intent2);
     }
 
     public void setClubsList(List<Club> data) {
