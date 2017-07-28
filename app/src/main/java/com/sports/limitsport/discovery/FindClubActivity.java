@@ -47,6 +47,7 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
     private List<FindClubSection> clubs = new ArrayList<>();
     private FindClubPresenter mPresenter;
     private int pageNumber = 1;
+    private int totalSize;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         if (mPresenter == null) {
             mPresenter = new FindClubPresenter(this);
         }
-        mPresenter.getAllClubsList(pageNumber);
+//        mPresenter.getAllClubsList(pageNumber);
         mPresenter.getTodayClubsList();
     }
 
@@ -140,7 +141,8 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
     private void refresh() {
         if (mPresenter != null) {
             pageNumber = 1;
-            mPresenter.getAllClubsList(pageNumber);
+            mPresenter.getTodayClubsList();
+//            mPresenter.getAllClubsList(pageNumber);
         }
     }
 
@@ -148,28 +150,56 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
     @Override
     public void showAllClubsList(ClubListResponse response) {
         if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
-            Club club = new Club();
-            FindClubSection findClubSection = new FindClubSection(club);
-            findClubSection.isHeader = true;
-            findClubSection.header = "全部俱乐部";
-            adapter.addData(0, findClubSection);
+            totalSize = response.getData().getTotalSize();
+            if (rlAll.isRefreshing()) {
 
-            List<FindClubSection> tmps = clubToSection(response.getData().getData());
-            adapter.addData(1, tmps);
+                Club club = new Club();
+                FindClubSection findClubSection = new FindClubSection(club);
+                findClubSection.isHeader = true;
+                findClubSection.header = "全部俱乐部";
+
+                List<FindClubSection> tmps = clubToSection(response.getData().getData());
+                tmps.add(0, findClubSection);
+                adapter.addData(tmps);
+                rlAll.refreshComplete();
+            } else {
+                List<FindClubSection> tmps = clubToSection(response.getData().getData());
+                adapter.addData(tmps);
+                if (adapter.getData().size() >= totalSize) {
+                    adapter.loadMoreEnd();
+                } else {
+                    adapter.loadMoreComplete();
+                }
+            }
         }
     }
 
     @Override
     public void showTodayClubsList(ClubListResponse response) {
         if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
+
             Club club = new Club();
             FindClubSection findClubSection = new FindClubSection(club);
             findClubSection.isHeader = true;
             findClubSection.header = "今日推荐";
-            adapter.addData(0, findClubSection);
 
             List<FindClubSection> tmps = clubToSection(response.getData().getData());
-            adapter.addData(1, tmps);
+
+            clubs.clear();
+            clubs.add(0, findClubSection);
+            clubs.addAll(1, tmps);
+            adapter.notifyDataSetChanged();
+
+            mPresenter.getAllClubsList(pageNumber);
+
+
+//            Club club = new Club();
+//            FindClubSection findClubSection = new FindClubSection(club);
+//            findClubSection.isHeader = true;
+//            adapter.addData(0, findClubSection);
+//
+//            List<FindClubSection> tmps = clubToSection(response.getData().getData());
+//            adapter.addData(1, tmps);
         }
 
     }
