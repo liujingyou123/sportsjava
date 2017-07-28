@@ -6,10 +6,11 @@ import com.sports.limitsport.model.ActivityResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.CommentListResponse;
-import com.sports.limitsport.model.CommentRequest;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.Hobby;
+import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.OrderRequest;
 import com.sports.limitsport.model.PayOrderResponse;
@@ -19,6 +20,7 @@ import com.sports.limitsport.model.TicketListResponse;
 import java.util.HashMap;
 
 import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -83,4 +85,21 @@ public interface IpServices {
     //新人列表
     @POST(URLConstants.URL_NEW_PERSON_LIST)
     Observable<NewPersonListResponse> getNewPersonList(@Body HashMap<String, String> param);
+
+    //登录
+    @POST(URLConstants.URL_LOGIN)
+    Observable<UserInfo> loginIn(@Body HashMap<String, String> param);
+
+    //个人爱好
+    @Headers("Content-Type: application/json")
+    @POST(URLConstants.URL_HOBBY_LIST)
+    Observable<Hobby> getHobbys();
+
+    //更新用户信息
+    @POST(URLConstants.URL_UPDATE_USER_INFO)
+    Observable<BaseResponse> updateUserInfo(@Body HashMap<String, String> param);
+
+    //更新用户信息
+    @POST(URLConstants.URL_USER_INFO)
+    Observable<BaseResponse> updateUserInfo(@Body HashMap<String, String> param);
 }

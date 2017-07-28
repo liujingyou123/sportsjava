@@ -36,7 +36,6 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        Log.d("main", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
         fm = getSupportFragmentManager();
         tabView.setOnTabSelectedListener(this);
         tabView.setTabResIds(new int[]{R.drawable.selector_bottom_tab_activity

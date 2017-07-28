@@ -56,7 +56,7 @@ public class SetActivity extends BaseActivity {
     }
 
     private void test() {
-        Intent intent = new Intent(this, IdentifyActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, IdentifyActivity.class);
+//        startActivity(intent);
     }
 }

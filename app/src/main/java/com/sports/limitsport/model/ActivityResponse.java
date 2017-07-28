@@ -12,7 +12,7 @@ public class ActivityResponse extends BaseResponse{
 
 
     /**
-     * data : [{"activityVideo":"http://v.youku.com/v_show/id_XODEzNDI1ODYw.html","activityVideoImg":"www.sohu.com","address":"上海地铁9号线九亭地铁站4号口","coverUrl":"www.e-cology.com.cn","endDate":"2017-07-24","id":2,"maxMoney":"1300.00","minMoney":"999.00","name":"黄山3天2日旅行","startDate":"2017-07-19","status":"1","ticketNum":200,"week":"4"}]
+     * data : [{"activityVideo":"http://v.youku.com/v_show/id_XODEzNDI1ODYw.html","activityVideoImg":"www.sohu.com","address":"上海地铁9号线九亭地铁站4号口","coverUrl":"www.e-cology.com.cn","endDate":"07月24日","endTime":"12:00","id":2,"maxMoney":"1300.00","minMoney":"999.00","name":"黄山3天2日旅行","startDate":"07月19日","startTime":"12:00","status":"1","ticketNum":200,"week":"4"}]
      * pageNumber : 1
      * pageSize : 10
      * query : 1
@@ -43,12 +43,14 @@ public class ActivityResponse extends BaseResponse{
          * activityVideoImg : www.sohu.com
          * address : 上海地铁9号线九亭地铁站4号口
          * coverUrl : www.e-cology.com.cn
-         * endDate : 2017-07-24
+         * endDate : 07月24日
+         * endTime : 12:00
          * id : 2
          * maxMoney : 1300.00
          * minMoney : 999.00
          * name : 黄山3天2日旅行
-         * startDate : 2017-07-19
+         * startDate : 07月19日
+         * startTime : 12:00
          * status : 1
          * ticketNum : 200
          * week : 4

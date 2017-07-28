@@ -10,11 +10,13 @@ public class Act {
     private String address;
     private String coverUrl;
     private String endDate;
+    private String endTime;
     private int id;
     private String maxMoney;
     private String minMoney;
     private String name;
     private String startDate;
+    private String startTime;
     private String status;
     private int ticketNum;
     private String week;
@@ -61,6 +63,14 @@ public class Act {
         this.endDate = endDate;
     }
 
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     public int getId() {
         return id;
     }
@@ -99,6 +109,14 @@ public class Act {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public String getStatus() {

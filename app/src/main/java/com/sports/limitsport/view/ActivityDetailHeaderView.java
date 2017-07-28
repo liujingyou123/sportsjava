@@ -101,6 +101,8 @@ public class ActivityDetailHeaderView extends LinearLayout {
     TextView tvRefundRule;
     @BindView(R.id.tv_last_num)
     TextView tvLastNum;
+    @BindView(R.id.tv_date_end)
+    TextView tvDateEnd;
 
     private ShallAdapter shallAdapter; //大家都在晒
     private NamesAdapter namesAdapter; //他们也报名了
@@ -247,21 +249,22 @@ public class ActivityDetailHeaderView extends LinearLayout {
 
         //他们也报名了
         setNameRecy(mData.getApplicantList());
-        tvSignNum.setText(mData.getApplicantNumber()+"");
+        tvSignNum.setText(mData.getApplicantNumber() + "");
 
-        tvDate.setText(mData.getStartDate() + "-" + mData.getEndDate());
+        tvDate.setText(mData.getStartDate() + " " + UnitUtil.stringToWeek(mData.getWeek()) + " " + mData.getStartTime());
+        tvDateEnd.setText(mData.getEndDate() + " " + mData.getEndTime());
         tvSignEnd.setText(mData.getSignEndDate());
         tvAddress.setText(mData.getAddress());
 
         if (mData.getTicketsList() != null) {
-            tvTicketTypeNum.setText("本次活动分为"+mData.getTicketsList().size() + "种:");
+            tvTicketTypeNum.setText("本次活动分为" + mData.getTicketsList().size() + "种:");
             for (int i = 0; i < mData.getTicketsList().size(); i++) {
                 TicketList ticketsListBean = mData.getTicketsList().get(i);
                 TextView textView = new TextView(getContext());
                 textView.setTextAppearance(getContext(), R.style.text_normal_gray);
                 textView.setMaxLines(1);
                 textView.setPadding(0, UnitUtil.dip2px(getContext(), 5), 0, 0);
-                textView.setText(ticketsListBean.getName() + "：¥" + ticketsListBean.getMoney() + " (" + ticketsListBean.getDescContent() + ")");
+                textView.setText(ticketsListBean.getName() + "：¥" + UnitUtil.formatSNum(ticketsListBean.getMoney()) + " (" + ticketsListBean.getDescContent() + ")");
                 llTickets.addView(textView);
             }
 
@@ -284,7 +287,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
         tg.setAdapter(tagDetailAdapter);
 
         tvEndtime.setText(mData.getSignEndDate());
-        tvLastNum.setText(mData.getLastGroups()+"人");
+        tvLastNum.setText(mData.getLastGroups() + "人");
     }
 
     public void showAllShai(List<DongTaiList> data) {
@@ -323,7 +326,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
         Intent intent1 = new Intent(getContext(), MapActivity.class);
         intent1.putExtra("lon", mData.getXpostion());
         intent1.putExtra("lat", mData.getYpostion());
-        intent1.putExtra("address",mData.getAddress());
+        intent1.putExtra("address", mData.getAddress());
         getContext().startActivity(intent1);
     }
 

@@ -19,7 +19,7 @@
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:background="#ffff00" />
+        android:src="@mipmap/icon_add_head"/>
 
     <RadioGroup
         android:id="@+id/rg_male"
@@ -90,6 +90,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/et_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="支持2－16位英文，数字，符号"
@@ -121,9 +122,10 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/et_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="请选择所在城市"
+                android:hint="请输入所在城市"
                 android:text=""
                 android:textColor="#FFFFFFFF"
                 android:textColorHint="#FFA5A4A4"
@@ -151,13 +153,13 @@
                 android:textColor="#FFFFFFFF"
                 android:textSize="16sp" />
 
-            <EditText
+            <TextView
+                android:id="@+id/tv_birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="请选择出生年月"
                 android:text=""
                 android:textColor="#FFFFFFFF"
-                android:textColorHint="#FFA5A4A4"
                 android:textSize="14sp"
                 android:layout_marginLeft="15dp"
                 android:background="@null"/>

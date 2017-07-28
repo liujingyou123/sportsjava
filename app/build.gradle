@@ -70,6 +70,8 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     compile 'com.youth.banner:banner:1.4.9'
+    compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/baidumapapi_base_v4_3_1.jar')
     compile files('libs/baidumapapi_cloud_v4_3_1.jar')
@@ -95,4 +97,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/alipaySdk-20170710.jar')
     compile project(':refresh')
+    compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
 }

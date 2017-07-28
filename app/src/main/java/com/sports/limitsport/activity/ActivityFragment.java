@@ -114,6 +114,8 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                 if (act != null) {
                     Intent intent = new Intent(ActivityFragment.this.getContext(), ActivityDetailActivity.class);
                     intent.putExtra("id", act.getId() + "");
+                    intent.putExtra("week", act.getWeek());
+                    intent.putExtra("minMoney", act.getMinMoney());
                     ActivityFragment.this.startActivity(intent);
                 }
             }

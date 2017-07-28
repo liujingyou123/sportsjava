@@ -33,6 +33,7 @@ public class MineFragment extends BaseFragment {
     Unbinder unbinder;
     private MineAdapter mineAdapter;
     private List<Dongtai> data = new ArrayList<>();
+    private MineHeaderView headerView;
 
     @Nullable
     @Override
@@ -45,9 +46,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initView() {
-
-        View headerView = new MineHeaderView(this.getContext());
-
+        headerView = new MineHeaderView(this.getContext());
         ryMine.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
 
         mineAdapter = new MineAdapter(data);

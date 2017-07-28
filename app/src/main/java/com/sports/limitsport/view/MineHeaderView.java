@@ -6,7 +6,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.mine.MyActivitysActivity;
@@ -32,6 +35,36 @@ import butterknife.OnClick;
 public class MineHeaderView extends LinearLayout {
     @BindView(R.id.tg)
     TagCloudLayout tg;
+    @BindView(R.id.imv_head)
+    ImageView imvHead;
+    @BindView(R.id.imv_gender)
+    ImageView imvGender;
+    @BindView(R.id.imv_go)
+    ImageView imvGo;
+    @BindView(R.id.tv_fensi)
+    TextView tvFensi;
+    @BindView(R.id.ll_fensi)
+    LinearLayout llFensi;
+    @BindView(R.id.ll_guanzhu)
+    LinearLayout llGuanzhu;
+    @BindView(R.id.rl_top)
+    RelativeLayout rlTop;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
+    @BindView(R.id.tv_des)
+    TextView tvDes;
+    @BindView(R.id.tv_fav)
+    TextView tvFav;
+    @BindView(R.id.tv_club)
+    TextView tvClub;
+    @BindView(R.id.tv_activity)
+    TextView tvActivity;
+    @BindView(R.id.tv_guanzhu)
+    TextView tvGuanzhu;
+    @BindView(R.id.tv_Dongtai)
+    TextView tvDongtai;
 
     public MineHeaderView(Context context) {
         super(context);
@@ -89,6 +122,28 @@ public class MineHeaderView extends LinearLayout {
                 Intent intent5 = new Intent(getContext(), MyActivitysActivity.class);
                 getContext().startActivity(intent5);
                 break;
+        }
+    }
+
+    /**
+     * @param type 0:游客模式 1:非游客模式
+     */
+    public void setType(int type) {
+        if (type == 0) {
+            imvHead.setImageResource(R.mipmap.icon_gerenzhuye_morentouxiang);
+            imvGender.setVisibility(View.GONE);
+            tvFensi.setText("0");
+            tvGuanzhu.setText("0");
+            tvName.setText("游客模式");
+            tvLocation.setText("未知");
+            tvDes.setText("向小伙伴们介绍一下自己吧～");
+            tg.setVisibility(View.GONE);
+            tvFav.setText("收藏(0)");
+            tvClub.setText("俱乐部(0)");
+            tvActivity.setText("活动(0)");
+            tvDongtai.setText("全部动态(0)");
+        } else {
+
         }
     }
 }

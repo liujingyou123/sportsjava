@@ -17,16 +17,18 @@ public class ActivityDetailResponse extends BaseResponse{
      * activityVideo : http://v.youku.com/v_show/id_XODEzNDI1ODYw.html
      * activityVideoImg : www.sohu.com
      * address : 中国上海浦东新区杨高中路2010弄12号601
-     * applicantList : [{"city":"上海","coutry":"中国","headPortrait":"http://img1.imgtn.bdimg.com/it/u=2670034815,688956640&fm=26&gp=0.jpg","id":8,"idCard":null,"introduction":null,"name":"廖智明11","phone":null,"sex":"0","status":null,"tickets":null}]
+     * applicantList : [{"city":"上海","coutry":"中国","headPortrait":"http://img1.imgtn.bdimg.com/it/u=2670034815,688956640&fm=26&gp=0.jpg","id":8,"idCard":null,"introduction":null,"name":"廖智明121","phone":null,"sex":"0","status":"0","tickets":null}]
      * applicantNumber : 1
      * authStatus : 1
      * collectionLocation : 上海地铁9号线九亭地铁站4号口
      * costIncluded : 保险费300元
      * coverUrl : www.e-cology.com.cn
-     * endDate : 2017-07-24 00:00:00
+     * endDate : 2017年07月24日
+     * endTime : 00:00
      * insuranceDetail : 保险费300元
      * insuranceInformation : 1
-     * money : 1300.0 - 999.0
+     * lastGroups : 12
+     * money :  ￥ 999.0 -  ￥ 1300.0
      * moneyType : 1
      * name : 黄山3天2日旅行
      * organizerAddress : null
@@ -38,9 +40,12 @@ public class ActivityDetailResponse extends BaseResponse{
      * ownItemsDetail : 泳帽，泳镜
      * refundDate : null
      * refundRule : 1
-     * signEndDate : 2017-07-22
+     * signEndDate : 2017年07月22日
+     * signEndTime : 00:00
      * signStatus : 0
-     * startDate : 2017-07-19 00:00:00
+     * startDate : 2017年07月19日
+     * startTime : 00:00
+     * status : 1
      * ticketsList : [{"activityId":2,"createTime":1500543846000,"creater":null,"descContent":"2122","id":2,"isFree":0,"modifier":null,"modifyTime":null,"money":1300,"name":"尊享票","sequence":null,"soldNumber":100,"status":0,"userPurchase":5,"version":0},{"activityId":2,"createTime":1500543793000,"creater":null,"descContent":"2122","id":1,"isFree":0,"modifier":null,"modifyTime":null,"money":999,"name":"标准票","sequence":null,"soldNumber":100,"status":0,"userPurchase":5,"version":0}]
      * xpostion : 145.65
      * ypostion : 111.32
@@ -57,6 +62,7 @@ public class ActivityDetailResponse extends BaseResponse{
     }
 
     public static class DataBean {
+        private String id;
         private String activityDetail;
         private String activityVideo;
         private String activityVideoImg;
@@ -67,28 +73,33 @@ public class ActivityDetailResponse extends BaseResponse{
         private String costIncluded;
         private String coverUrl;
         private String endDate;
+        private String endTime;
         private String insuranceDetail;
         private String insuranceInformation;
+        private int lastGroups;
         private String money;
         private String moneyType;
         private String name;
-        private Object organizerAddress;
+        private String organizerAddress;
         private String organizerClub;
         private int organizerClubId;
         private String organizerHeadPor;
         private String organizerdesc;
         private int ownItems;
         private String ownItemsDetail;
-        private Object refundDate;
+        private String refundDate;
         private String refundRule;
         private String signEndDate;
+        private String signEndTime;
         private int signStatus;
         private String startDate;
+        private String startTime;
+        private String status;
         private String xpostion;
         private String ypostion;
-        private String id;
-        private int lastGroups;
-        private String status;
+
+        private String week;
+        private String minMoney;
         /**
          * city : 上海
          * coutry : 中国
@@ -96,10 +107,10 @@ public class ActivityDetailResponse extends BaseResponse{
          * id : 8
          * idCard : null
          * introduction : null
-         * name : 廖智明11
+         * name : 廖智明121
          * phone : null
          * sex : 0
-         * status : null
+         * status : 0
          * tickets : null
          */
 
@@ -204,6 +215,14 @@ public class ActivityDetailResponse extends BaseResponse{
             this.endDate = endDate;
         }
 
+        public String getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(String endTime) {
+            this.endTime = endTime;
+        }
+
         public String getInsuranceDetail() {
             return insuranceDetail;
         }
@@ -218,6 +237,14 @@ public class ActivityDetailResponse extends BaseResponse{
 
         public void setInsuranceInformation(String insuranceInformation) {
             this.insuranceInformation = insuranceInformation;
+        }
+
+        public int getLastGroups() {
+            return lastGroups;
+        }
+
+        public void setLastGroups(int lastGroups) {
+            this.lastGroups = lastGroups;
         }
 
         public String getMoney() {
@@ -244,11 +271,11 @@ public class ActivityDetailResponse extends BaseResponse{
             this.name = name;
         }
 
-        public Object getOrganizerAddress() {
+        public String getOrganizerAddress() {
             return organizerAddress;
         }
 
-        public void setOrganizerAddress(Object organizerAddress) {
+        public void setOrganizerAddress(String organizerAddress) {
             this.organizerAddress = organizerAddress;
         }
 
@@ -300,11 +327,11 @@ public class ActivityDetailResponse extends BaseResponse{
             this.ownItemsDetail = ownItemsDetail;
         }
 
-        public Object getRefundDate() {
+        public String getRefundDate() {
             return refundDate;
         }
 
-        public void setRefundDate(Object refundDate) {
+        public void setRefundDate(String refundDate) {
             this.refundDate = refundDate;
         }
 
@@ -324,6 +351,14 @@ public class ActivityDetailResponse extends BaseResponse{
             this.signEndDate = signEndDate;
         }
 
+        public String getSignEndTime() {
+            return signEndTime;
+        }
+
+        public void setSignEndTime(String signEndTime) {
+            this.signEndTime = signEndTime;
+        }
+
         public int getSignStatus() {
             return signStatus;
         }
@@ -338,6 +373,22 @@ public class ActivityDetailResponse extends BaseResponse{
 
         public void setStartDate(String startDate) {
             this.startDate = startDate;
+        }
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public String getXpostion() {
@@ -372,6 +423,22 @@ public class ActivityDetailResponse extends BaseResponse{
             this.ticketsList = ticketsList;
         }
 
+        public String getWeek() {
+            return week;
+        }
+
+        public void setWeek(String week) {
+            this.week = week;
+        }
+
+        public String getMinMoney() {
+            return minMoney;
+        }
+
+        public void setMinMoney(String minMoney) {
+            this.minMoney = minMoney;
+        }
+
         public String getId() {
             return id;
         }
@@ -379,22 +446,5 @@ public class ActivityDetailResponse extends BaseResponse{
         public void setId(String id) {
             this.id = id;
         }
-
-        public int getLastGroups() {
-            return lastGroups;
-        }
-
-        public void setLastGroups(int lastGroups) {
-            this.lastGroups = lastGroups;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
     }
 }

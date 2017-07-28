@@ -59,6 +59,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     private CommentDialog commentDialog;
     private CommentList commentList;
     private ActivityDetailResponse.DataBean mData;
+    private String week;
+    private String minMoney;
 
 
     @Override
@@ -76,6 +78,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
+            week = intent.getStringExtra("week");
+            minMoney = intent.getStringExtra("minMoney");
         }
     }
 
@@ -208,6 +212,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 rlBottom.setVisibility(View.GONE);
             }
             response.getData().setId(id);
+            response.getData().setWeek(week);
+            response.getData().setMinMoney(minMoney);
             activityDetailHeaderView.showDetail(response.getData());
 
             tvPriceBottom.setText(mData.getMoney());

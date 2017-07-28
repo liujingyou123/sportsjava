@@ -78,11 +78,9 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
         Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imvCover);
 
         tvName.setText(item.getName());
-        Calendar calendar = UnitUtil.dateToCalendar(UnitUtil.stringToDate(item.getStartDate()));
-        if (calendar != null) {
-            tvTime.setText(UnitUtil.formatDecDouble(calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日"
-                    + " " + UnitUtil.stringToWeek(item.getWeek()));
-        }
+//        Calendar calendar = UnitUtil.dateToCalendar(UnitUtil.stringToDate(item.getStartDate()));
+        tvTime.setText(item.getStartDate()
+                + " " + UnitUtil.stringToWeek(item.getWeek()) + " " + item.getStartTime());
         tvAddress.setText("活动地:" + item.getAddress());
 
     }

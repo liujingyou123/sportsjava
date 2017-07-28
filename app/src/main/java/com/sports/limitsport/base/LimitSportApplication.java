@@ -3,8 +3,10 @@ package com.sports.limitsport.base;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.net.NetworkClient;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -22,10 +24,11 @@ public class LimitSportApplication extends Application {
         super.onCreate();
         limitsportapplication = this;
         SDKInitializer.initialize(getApplicationContext());
+        AliOss.getInstance().init(this);
         NetworkClient.init(this);
         Batman.getInstance().init(this);
         UMShareAPI.get(this);
-
+        SharedPrefsUtil.initSharedPrefers(this);
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
     }

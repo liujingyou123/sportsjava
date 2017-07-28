@@ -4,6 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.util.SharedPrefsUtil;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 
@@ -24,12 +27,10 @@ public class TokenInterceptor implements Interceptor {
         Request.Builder newBuilder = newRequest.newBuilder();
         if (!TextUtils.isEmpty(tokenKey)) {
             newBuilder.addHeader("X-token", tokenKey);
-//            newRequest = newRequest.newBuilder()
-//                    .addHeader("X-token", tokenKey).build();
+
         }
 
         newBuilder.addHeader("Content-Type", "application/json");
-//        newRequest = newRequest.newBuilder().addHeader("Content-Type", "application/json").build();
         newRequest = newBuilder.build();
         MediaType mediaType = newRequest.body().contentType();
         try {
@@ -49,15 +50,16 @@ public class TokenInterceptor implements Interceptor {
 
     private String getTokenKey() {
         String token = null;
-//        try {
-//            if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().data != null) {
-//                token = SharedPrefsUtil.getUserInfo().data.accessToken;
-//            }
-//        } catch (Exception e) {
-//            token = "";
-//            e.printStackTrace();
-//        }
+        try {
+            if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData() != null) {
+                token = SharedPrefsUtil.getUserInfo().getData().getAccessToken();
+            }
+        } catch (Exception e) {
+            token = "";
+            e.printStackTrace();
+        }
+        XLog.d("token-->" + token);
 //        Log.d(getClass().getSimpleName(), "token-->" + token);
-        return "1BBE46B083F46901E9D05014CE792C08";//"0CB9F815528983E3707F944A9113AADD"
+        return token;//"1BBE46B083F46901E9D05014CE792C08"
     }
 }

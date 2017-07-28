@@ -31,7 +31,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignBottom="@id/imv_head"
-                android:layout_alignRight="@id/imv_head" />
+                android:layout_alignRight="@id/imv_head"
+                android:src="@drawable/bg_gender_sel"/>
 
             <ImageView
                 android:id="@+id/imv_go"
@@ -86,7 +87,7 @@
                     android:textSize="8sp" />
 
                 <TextView
-                    android:id="@+id/guan_zhu"
+                    android:id="@+id/tv_guanzhu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
@@ -209,6 +210,7 @@
             android:background="@drawable/bg_bottom_shadow" />
 
         <TextView
+            android:id="@+id/tv_Dongtai"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"

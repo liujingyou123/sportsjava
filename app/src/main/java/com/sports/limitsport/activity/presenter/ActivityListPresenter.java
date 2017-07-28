@@ -37,22 +37,11 @@ public class ActivityListPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-        if (mIActivityListView != null) {
-            mIActivityListView.onError(e);
-        }
+                if (mIActivityListView != null) {
+                    mIActivityListView.onError(e);
+                }
             }
         });
-
-//        List<Act> acts = getTestData();
-//
-//        ActivityResponse response = new ActivityResponse();
-//        ActivityResponse.DataBean dataBean = new ActivityResponse.DataBean();
-//        dataBean.setTotalSize(100);
-//        dataBean.setData(acts);
-//        response.setData(dataBean);
-//        if (mIActivityListView != null) {
-//            mIActivityListView.showList(response);
-//        }
 
     }
 

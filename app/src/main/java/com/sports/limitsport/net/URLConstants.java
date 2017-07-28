@@ -33,4 +33,12 @@ public class URLConstants {
     public final static String URL_SIGN_UP_LIST = "api/activity/sign/selectActivitySign/v1.0.0";
     //新人报到列表
     public final static String URL_NEW_PERSON_LIST = "api/user/verify/selectNewUserList/v1.0.0";
+    //登录接口
+    public final static String URL_LOGIN = "api/user/verify/loginVerify/v1.0.0";
+    //个人爱好
+    public final static String URL_HOBBY_LIST = "api/personal/hobby/selectPersonalHobbyList/v1.0.0";
+    //更新用户信息
+    public final static String URL_UPDATE_USER_INFO = "api/user/verify/updateUserInfo/v1.0.0";
+    //个人信息
+    public final static String URL_USER_INFO = "api/user/verify/userInfo/v1.0.0";
 }

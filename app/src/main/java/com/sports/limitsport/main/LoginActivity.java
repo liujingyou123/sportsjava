@@ -16,16 +16,28 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.model.UserInfo;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.NetworkUtil;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.StringUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CountDownButton;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import rx.Subscription;
 
 /**
  * Created by liuworkmac on 17/7/18.
@@ -62,10 +74,14 @@ public class LoginActivity extends BaseActivity {
 
     private String userPhone;
     private String smsVerifyCode;
-    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
-    private int requestCodeCount;//获取验证码次数
+    private String messageId = "1111111111";
+//
+//    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
+//    private int requestCodeCount;//获取验证码次数
 
-    private boolean isFirstPic;
+//    private boolean isFirstPic;
+
+    private Subscription mLogSb;
 
 
     @Override
@@ -81,7 +97,7 @@ public class LoginActivity extends BaseActivity {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        login.setEnabled(false);
+        login.setEnabled(true);
 
         initCountDownButton();
 
@@ -137,15 +153,16 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 if (check(false)) {
                     counting();
-                    verifyCodeView.requestFocus();
-                    if (requestCodeCount >= CODE_LIMIT_COUNT) {
-                        showPicCode();
-                    } else {
-                        getVerifyCode();
-                        if (!isFirstPic) {// 如果还没有图片验证码,就预加载一张
-                            getPicCode();
-                        }
-                    }
+                    getVerifyCode();
+
+//                    verifyCodeView.requestFocus();
+//                    if (requestCodeCount >= CODE_LIMIT_COUNT) {
+//                        showPicCode();
+//                    } else {
+//                        if (!isFirstPic) {// 如果还没有图片验证码,就预加载一张
+//                            getPicCode();
+//                        }
+//                    }
                 }
             }
         });
@@ -190,7 +207,7 @@ public class LoginActivity extends BaseActivity {
 
 
     // 获取图片验证码
-    private void getPicCode() {
+//    private void getPicCode() {
 //        HashMap<String, Object> params = new HashMap<>();
 //        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
 //        UserManager.getInstance().getPicCode(params, new NetworkCallback<ImageVerifyCode>() {
@@ -209,7 +226,7 @@ public class LoginActivity extends BaseActivity {
 //
 //            }
 //        });
-    }
+//    }
 
 
     private boolean check(boolean login) {
@@ -235,22 +252,87 @@ public class LoginActivity extends BaseActivity {
         countDown.start();
     }
 
-    private void showPicCode() {
-        if (!isFirstPic && imageVerifyCode.getVisibility() == View.GONE) {
-            getPicCode();
-        }
-        imageVerifyCode.setVisibility(View.VISIBLE);
-    }
+//    private void showPicCode() {
+//        if (!isFirstPic && imageVerifyCode.getVisibility() == View.GONE) {
+//            getPicCode();
+//        }
+//        imageVerifyCode.setVisibility(View.VISIBLE);
+//    }
 
     @OnClick({R.id.tv_skip, R.id.login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                gotoMainActivity();
                 break;
             case R.id.login:
+//                gotoIdentifyActivity();
+                if (check(false)) {
+                    login();
+                }
                 break;
         }
+    }
+
+    private void login() {
+        userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
+        smsVerifyCode = verifyCodeView.getText().toString().trim();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userPhone", userPhone);
+        params.put("smsVerifyCode", smsVerifyCode);
+        params.put("messageId", messageId);
+
+        params.put("deviceId", JPushInterface.getRegistrationID(context.getApplicationContext()));
+        params.put("osType", "1");//0-iOS 1-Android
+
+        mLogSb = ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).loginIn(params), new LoadingNetSubscriber<UserInfo>() {
+            @Override
+            public void response(UserInfo response) {
+
+                if (response != null && response.isSuccess() && response.getData() != null) {
+
+                    response.getData().setUserPhone(userPhone);
+                    SharedPrefsUtil.saveUserInfo(response);
+
+
+                    LoginActivity.this.finish();
+
+                    if (response.getData().getIsPerfect() == 0) { //
+                        gotoMainActivity();
+                    } else  {
+                        gotoIdentifyActivity();
+                    }
+                } else {
+                    verifyCodeView.setText("");
+                    ToastUtil.show(context, response == null ? "null response" : response.errMsg);
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                verifyCodeView.setText("");
+                ToastUtil.show(context, e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLogSb != null && mLogSb.isUnsubscribed()) {
+            mLogSb.unsubscribe();
+        }
+    }
+
+    private void gotoIdentifyActivity() {
+        Intent intent = new Intent(this, IdentifyActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
