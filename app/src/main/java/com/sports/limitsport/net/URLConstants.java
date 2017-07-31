@@ -51,4 +51,6 @@ public class URLConstants {
     public final static String URL_COLLECT = "api/personCollection/addCollection/v1.0.0";
     //通知列表
     public final static String URL_NOTICE_LIST = "api/notice/queryActivityNotice/v1.0.0";
+    //互动消息列表
+    public final static String URL_HUDONG_LIST = "api/notice/queryInteractive/v1.0.0";
 }

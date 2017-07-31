@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.sports.limitsport.util.UnitUtil;
+
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -225,7 +227,7 @@ public final class Batman {
      * @param failedImage  失败图片
      */
     public void getImageWithRoundLeft(String url, ImageView imageView, int defaultImage, int failedImage, int radius) {
-        mButler.fromNetWithTransfromat(mContext, url, imageView, new RoundedCornersTransformation(mContext, 30, 0,
+        mButler.fromNetWithTransfromat(mContext, url, imageView, new RoundedCornersTransformation(mContext, radius == 0 ? 15 : radius, 0,
                 RoundedCornersTransformation.CornerType.LEFT), defaultImage, failedImage, 0, 0);
     }
 }
