@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     RelativeLayout rlBottom;
     @BindView(R.id.tv_price_bottom)
     TextView tvPriceBottom;
+    @BindView(R.id.imv_fav)
+    ImageView imvFav;
     private ActivityDetailHeaderView activityDetailHeaderView;
     private ActivityDiscussAdapter adapter;
     private String id;
@@ -166,7 +169,9 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 dialog1.show();
                 break;
             case R.id.imv_fav:
-                ToastUtil.showTrueToast(this, "收藏成功");
+                if (mPresenter != null) {
+                    mPresenter.collect(id);
+                }
                 break;
         }
     }
@@ -192,7 +197,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     private void gotoSignUpActivity() {
         Intent intentSign = new Intent(ActivityDetailActivity.this, SignUpActivity.class);
         intentSign.putExtra("id", mData.getId());
-        intentSign.putExtra("title",mData.getName());
+        intentSign.putExtra("title", mData.getName());
 
         if (TextViewUtil.isEmpty(mData.getCoverUrl())) { //视频
             intentSign.putExtra("imgCover", mData.getActivityVideoImg());
@@ -243,6 +248,17 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     @Override
     public void onError(Throwable e) {
 
+    }
+
+    @Override
+    public void collectReslut(boolean b) {
+        if (b) {
+            ToastUtil.showTrueToast(this, "收藏成功");
+            imvFav.setSelected(true);
+        } else {
+            ToastUtil.showTrueToast(this, "收藏失败");
+            imvFav.setSelected(false);
+        }
     }
 
     @Override

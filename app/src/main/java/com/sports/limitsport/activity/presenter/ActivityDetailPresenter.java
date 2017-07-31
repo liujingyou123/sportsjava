@@ -6,6 +6,7 @@ import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.net.NoneNetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
@@ -129,6 +130,33 @@ public class ActivityDetailPresenter {
                 super.onError(e);
                 if (mIActivityDetailView != null) {
                     mIActivityDetailView.showReplayComment(false);
+                }
+            }
+        });
+    }
+
+    /**
+     * 收藏
+     * @param id 活动ID
+     */
+    public void collect(String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("collectionId", id);
+        hashMap.put("type", "1");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).collect(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIActivityDetailView != null) {
+                    mIActivityDetailView.collectReslut(true);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIActivityDetailView != null) {
+                    mIActivityDetailView.collectReslut(false);
                 }
             }
         });

@@ -118,4 +118,8 @@ public interface IpServices {
     //设置互动消息
     @POST(URLConstants.URL_SET_MESSAGE)
     Observable<BaseResponse> setMessageNotice(@Body HashMap<String, String> param);
+
+    //收藏
+    @POST(URLConstants.URL_COLLECT)
+    Observable<BaseResponse> collect(@Body HashMap<String, String> param);
 }
