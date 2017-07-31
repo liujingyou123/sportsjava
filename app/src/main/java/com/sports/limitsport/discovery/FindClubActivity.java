@@ -101,7 +101,6 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
             }
         });
 
-
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlClubs.addItemDecoration(decoration);
 
@@ -153,18 +152,17 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
             totalSize = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
 
-                Club club = new Club();
-                FindClubSection findClubSection = new FindClubSection(club);
-                findClubSection.isHeader = true;
-                findClubSection.header = "全部俱乐部";
-
                 List<FindClubSection> tmps = clubToSection(response.getData().getData());
-                tmps.add(0, findClubSection);
-                adapter.addData(tmps);
+                clubs.clear();
+                clubsTmp.addAll(tmps);
+
+                clubs.addAll(clubsTmp);
+                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
                 List<FindClubSection> tmps = clubToSection(response.getData().getData());
-                adapter.addData(tmps);
+                clubsTmp.addAll(tmps);
+                adapter.addData(clubsTmp);
                 if (adapter.getData().size() >= totalSize) {
                     adapter.loadMoreEnd();
                 } else {
@@ -173,6 +171,8 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
             }
         }
     }
+
+    private List<FindClubSection> clubsTmp = new ArrayList<>();
 
     @Override
     public void showTodayClubsList(ClubListResponse response) {
@@ -185,11 +185,16 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
 
             List<FindClubSection> tmps = clubToSection(response.getData().getData());
 
-            clubs.clear();
-            clubs.add(0, findClubSection);
-            clubs.addAll(1, tmps);
-            adapter.notifyDataSetChanged();
 
+            clubsTmp.clear();
+            clubsTmp.add(0, findClubSection);
+            clubsTmp.addAll(1, tmps);
+
+            Club clubAll = new Club();
+            FindClubSection findClubSectionAll = new FindClubSection(clubAll);
+            findClubSectionAll.isHeader = true;
+            findClubSectionAll.header = "全部俱乐部";
+            clubsTmp.add(findClubSectionAll);
             mPresenter.getAllClubsList(pageNumber);
 
 
