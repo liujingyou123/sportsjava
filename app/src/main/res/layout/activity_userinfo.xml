@@ -54,12 +54,52 @@
                 style="@style/view_line"
                 android:layout_marginLeft="15dp" />
 
-            <com.sports.limitsport.view.mine.ItemView
+            <RelativeLayout
                 android:id="@+id/it_nicheng"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                apps:LabelOne="昵称"
-                apps:LabelTwo="请输入"></com.sports.limitsport.view.mine.ItemView>
+                android:background="@color/bg_title">
+
+                <TextView
+                    android:id="@+id/tv_nicheng_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="昵称"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/imv_go_nicheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/icon_eventdetail_more" />
+
+                <EditText
+                    android:id="@+id/tv_nicheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/imv_go_nicheng"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:hint="请输入"
+                    android:minWidth="100dp"
+                    android:text=""
+                    android:textColor="@color/color_gray_white_s"
+                    android:textSize="14sp" />
+
+                <View
+                    style="@style/view_line"
+                    android:layout_below="@id/tv_nicheng_tip"
+                    android:layout_marginLeft="15dp" />
+            </RelativeLayout>
 
             <com.sports.limitsport.view.mine.ItemView
                 android:id="@+id/it_gender"
@@ -75,15 +115,55 @@
                 apps:LabelOne="出生年月"
                 apps:LabelTwo="请选择"></com.sports.limitsport.view.mine.ItemView>
 
-            <com.sports.limitsport.view.mine.ItemView
-                android:id="@+id/it_loc"
+            <RelativeLayout
+                android:id="@+id/it_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                apps:LabelOne="所在城市"
-                apps:LabelTwo="请选择"></com.sports.limitsport.view.mine.ItemView>
+                android:background="@color/bg_title">
+
+                <TextView
+                    android:id="@+id/tv_city_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="所在城市"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/imv_go_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/icon_eventdetail_more" />
+
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/imv_go_city"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:hint="请输入"
+                    android:minWidth="100dp"
+                    android:text=""
+                    android:textColor="@color/color_gray_white_s"
+                    android:textSize="14sp" />
+
+                <View
+                    style="@style/view_line"
+                    android:layout_below="@id/tv_city_tip"
+                    android:layout_marginLeft="15dp" />
+            </RelativeLayout>
 
             <com.sports.limitsport.view.mine.ItemView
-                android:id="@+id/it_ha"
+                android:id="@+id/it_hobby"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="个人爱好"

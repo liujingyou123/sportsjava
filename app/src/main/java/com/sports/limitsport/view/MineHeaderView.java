@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.mine.MyActivitysActivity;
 import com.sports.limitsport.mine.MyClubsActivity;
 import com.sports.limitsport.mine.MyCollectionActivity;
@@ -19,9 +20,13 @@ import com.sports.limitsport.mine.MyFansListActivity;
 import com.sports.limitsport.mine.MyFocusListActivity;
 import com.sports.limitsport.mine.UserInfoActivity;
 import com.sports.limitsport.mine.adapter.TagFavAdapter;
+import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,15 +89,12 @@ public class MineHeaderView extends LinearLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_head_mine, this);
         ButterKnife.bind(this, this);
-        setData();
     }
 
-    private void setData() {
-        List<String> mData = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            mData.add("" + i);
+    private void setTagData(List<String> data) {
+        if (data != null) {
+            tg.setAdapter(new TagFavAdapter(getContext(), data));
         }
-        tg.setAdapter(new TagFavAdapter(getContext(), mData));
     }
 
     @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity})
@@ -142,8 +144,56 @@ public class MineHeaderView extends LinearLayout {
             tvClub.setText("俱乐部(0)");
             tvActivity.setText("活动(0)");
             tvDongtai.setText("全部动态(0)");
-        } else {
+        }
+    }
 
+    public void setData(UserInfoResponse response) {
+        if (response != null && response.getData() != null) {
+            UserInfoResponse.DataBean dataBean = response.getData();
+            Batman.getInstance().getImageWithCircle(dataBean.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
+            if ("男".equals(dataBean.getSex())) { //男的
+                imvGender.setVisibility(VISIBLE);
+                imvGender.setSelected(false);
+
+            } else if ("女".equals(dataBean.getSex())) {//女的
+                imvGender.setVisibility(VISIBLE);
+                imvGender.setSelected(true);
+
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getFansNum())) {
+                tvFensi.setText(dataBean.getFansNum());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getAttentionNum())) {
+                tvGuanzhu.setText(dataBean.getAttentionNum());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getName())) {
+                tvName.setText(dataBean.getName());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getCity())) {
+                tvLocation.setText(dataBean.getCity());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getIntroduction())) {
+                tvDes.setText(dataBean.getIntroduction());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getHobby())) {
+                String[] strs = dataBean.getHobby().split(",");
+                setTagData(Arrays.asList(strs));
+            }
+
+            //TODO 接口没有返回
+            tvFav.setText("收藏(0)");
+            tvClub.setText("俱乐部(0)");
+            tvActivity.setText("活动(0)");
+
+            if (!TextViewUtil.isEmpty(dataBean.getActivityNum())) {
+                tvDongtai.setText("全部动态(" + dataBean.getActivityNum() + ")");
+            }
         }
     }
 }

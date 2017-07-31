@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,23 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseResponse;
+import com.sports.limitsport.dialog.DateSelectDialog;
+import com.sports.limitsport.dialog.GenderSelectDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.main.SelectOwnHobbyActivity;
+import com.sports.limitsport.mine.model.EventBusUserInfo;
+import com.sports.limitsport.mine.presenter.UserInfoPresenter;
+import com.sports.limitsport.mine.ui.IUserInfoView;
+import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.ToolsUtil;
+import com.sports.limitsport.view.mine.ItemView;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
@@ -33,32 +46,64 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by liuworkmac on 17/7/4.
  */
 
-public class UserInfoActivity extends BaseActivity {
+public class UserInfoActivity extends BaseActivity implements IUserInfoView {
+    private static final int REQUEST_CODE_CHOOSE = 23;
+    private static final int REQUEST_CODE_HOBBYS = 24;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.tv_focus_right)
     TextView tvFocusRight;
     @BindView(R.id.sv)
     ScrollView sv;
-    @BindView(R.id.et_induce)
-    EditText etInduce;
     @BindView(R.id.tv_num)
     TextView tvNum;
-    private static final int REQUEST_CODE_CHOOSE = 23;
     @BindView(R.id.imv_head)
     ImageView imvHead;
+    @BindView(R.id.tv_nicheng)
+    EditText tvNicheng;
+    @BindView(R.id.it_gender)
+    ItemView itGender;
+    @BindView(R.id.it_birth)
+    ItemView itBirth;
+    @BindView(R.id.tv_city)
+    TextView tvCity;
+    @BindView(R.id.it_hobby)
+    ItemView itHobby;
+    @BindView(R.id.et_induce)
+    EditText etInduce;
+
+    private UserInfoPresenter mPresenter;
+
+    private List<HashMap<String, String>> listHobbys;
+
+    private UserInfoResponse.DataBean dataBean;
+
+    private String headPath;
+    private String gender;
+    private String name;
+    private String city;
+    private String birth;
+    private String hobbysU;
+    private String introduce;
+    private Subscription mSubscription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +111,15 @@ public class UserInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_userinfo);
         ButterKnife.bind(this);
         initView();
+        getData();
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new UserInfoPresenter(this);
+        }
+        mPresenter.getUserInfo();
+        ;
     }
 
     private void initView() {
@@ -98,10 +152,46 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s != null) {
-                    tvNum.setText(s.length() + "字");
+                    tvNum.setText(s.length() + "／100字");
                 }
             }
         });
+
+        itGender.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GenderSelectDialog dialog = new GenderSelectDialog(UserInfoActivity.this, new GenderSelectDialog.SelectResultListener() {
+                    @Override
+                    public void onResult(String data, int position) {
+                        itGender.setLableTwo(data);
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+        itBirth.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateSelectDialog dialog = new DateSelectDialog(UserInfoActivity.this, new DateSelectDialog.SelectResultListener() {
+                    @Override
+                    public void onResult(String date) {
+                        itBirth.setLableTwo(date);
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+        itHobby.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserInfoActivity.this, SelectOwnHobbyActivity.class);
+                intent.putExtra("type", "1");
+                startActivityForResult(intent, REQUEST_CODE_HOBBYS);
+            }
+        });
+
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right, R.id.imv_go, R.id.imv_head})
@@ -111,6 +201,13 @@ public class UserInfoActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_focus_right:
+                if (check()) {
+                    if (TextViewUtil.isEmpty(headPath)) {
+                        saveUserInfo();
+                    } else {
+                        doUploadPic();
+                    }
+                }
                 break;
             case R.id.imv_go:
             case R.id.imv_head:
@@ -161,10 +258,23 @@ public class UserInfoActivity extends BaseActivity {
             }
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             Uri resultUri = UCrop.getOutput(data);
+            headPath = resultUri.getPath();
             Batman.getInstance().getImageWithCircle(resultUri.getPath(), imvHead, R.mipmap.icon_gerenziliao_wutouxiang, R.mipmap.icon_gerenziliao_wutouxiang);
 
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
+        } else if (requestCode == REQUEST_CODE_HOBBYS && resultCode == RESULT_OK) {
+            listHobbys = (List<HashMap<String, String>>) data.getSerializableExtra("hobbys");
+
+            if (listHobbys != null) {
+                StringBuilder sp = new StringBuilder();
+                for (int i = 0; i < listHobbys.size(); i++) {
+                    HashMap<String, String> hashMap = listHobbys.get(i);
+                    sp.append("　");
+                    sp.append(hashMap.get("name"));
+                }
+                itHobby.setLableTwo(sp.toString());
+            }
         }
     }
 
@@ -193,5 +303,182 @@ public class UserInfoActivity extends BaseActivity {
         options.setActiveWidgetColor(ContextCompat.getColor(context, R.color.color_text_green));
         options.setToolbarWidgetColor(ContextCompat.getColor(context, R.color.white));
         return uCrop.withOptions(options);
+    }
+
+    @Override
+    public void showUserInfo(UserInfoResponse response) {
+        if (response != null && response.getData() != null) {
+            dataBean = response.getData();
+            Batman.getInstance().getImageWithCircle(dataBean.getHeadPortrait(), imvHead, R.mipmap.icon_gerenziliao_wutouxiang, R.mipmap.icon_gerenziliao_wutouxiang);
+
+            if (!TextViewUtil.isEmpty(dataBean.getName())) {
+                tvNicheng.setText(dataBean.getName());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getSex())) {
+                itGender.setLableTwo(dataBean.getSex());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getBrithDate())) {
+                itBirth.setLableTwo(dataBean.getBrithDate());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getCity())) {
+                tvCity.setText(dataBean.getCity());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getHobby())) {
+                String[] strs = dataBean.getHobby().split(",");
+                StringBuilder sp = new StringBuilder();
+                for (int i = 0; i < strs.length; i++) {
+                    sp.append("　");
+                    sp.append(strs[i]);
+                }
+                itHobby.setLableTwo(sp.toString());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getIntroduction())) {
+                etInduce.setText(dataBean.getIntroduction());
+            }
+        }
+    }
+
+    private boolean check() {
+        String genderTmp = itGender.getLableTwo().trim();
+        if (TextViewUtil.isEmpty(genderTmp)) {
+            ToastUtil.showFalseToast(this, "请选择性别");
+            return false;
+        }
+
+        if ("男".equals(genderTmp)) {
+            gender = "0";
+        } else if ("女".equals(genderTmp)) {
+            gender = "1";
+        }
+
+        String nameTmp = tvNicheng.getText().toString();
+        if (TextViewUtil.isEmpty(nameTmp)) {
+            ToastUtil.showFalseToast(this, "请输入昵称");
+            return false;
+        }
+        name = nameTmp;
+
+        String citytmp = tvCity.getText().toString();
+        if (TextViewUtil.isEmpty(citytmp)) {
+            ToastUtil.showFalseToast(this, "请输入城市");
+            return false;
+        }
+        city = citytmp;
+
+        String birthtmp = itBirth.getLableTwo();
+        if (TextViewUtil.isEmpty(birthtmp)) {
+            ToastUtil.showFalseToast(this, "请选择出生年月");
+            return false;
+        }
+        birth = birthtmp;
+        if (listHobbys != null) {
+            hobbysU = null;
+            for (int i = 0; i < listHobbys.size(); i++) {
+                HashMap<String, String> hashMap = listHobbys.get(i);
+                if (TextViewUtil.isEmpty(hobbysU)) {
+                    hobbysU = hashMap.get("id") + "";
+                } else {
+                    hobbysU = hobbysU + "," + hashMap.get("id") + "";
+                }
+            }
+        } else {
+            hobbysU = dataBean.getHobby();
+        }
+
+        if (etInduce.getText() != null) {
+            introduce = etInduce.getText().toString();
+        }
+
+        return true;
+    }
+
+    private void saveUserInfo() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("headPortrait", dataBean.getHeadPortrait());
+        hashMap.put("name", name);
+        hashMap.put("hobby", hobbysU);
+        hashMap.put("sex", gender);
+        hashMap.put("brithDate", birth);
+        hashMap.put("coutry", "中国");
+        hashMap.put("city", city);
+        hashMap.put("introduction", introduce);
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).updateUserInfo(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (response != null && response.isSuccess()) {
+                    ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料成功");
+                    EventBusUserInfo params = new EventBusUserInfo();
+                    params.isResfreh = true;
+                    EventBus.getDefault().post(params);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料失败");
+            }
+        });
+    }
+
+    private void doUploadPic() {
+        mSubscription = Observable.just(headPath).map(new Func1<String, String>() {
+            @Override
+            public String call(String s) {
+                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_HEAD_PORTRAIT, s);
+            }
+        }).flatMap(new Func1<String, Observable<BaseResponse>>() {
+            @Override
+            public Observable<BaseResponse> call(String s) {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("headPortrait", s);
+                hashMap.put("name", name);
+                hashMap.put("hobby", hobbysU);
+                hashMap.put("sex", gender);
+                hashMap.put("brithDate", birth);
+                hashMap.put("coutry", "中国");
+                hashMap.put("city", city);
+                hashMap.put("introduction", introduce);
+
+                return ToolsUtil.createService(IpServices.class).updateUserInfo(hashMap);
+            }
+        }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (response != null && response.isSuccess()) {
+                    ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料成功");
+                    EventBusUserInfo params = new EventBusUserInfo();
+                    params.isResfreh = true;
+                    EventBus.getDefault().post(params);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料失败");
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+
+        if (mSubscription != null && mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+
+        mPresenter = null;
+
     }
 }

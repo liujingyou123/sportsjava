@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.aliyunoss.AliOss;
@@ -20,6 +21,7 @@ import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,8 @@ import rx.functions.Func1;
 public class SelectOwnHobbyActivity extends BaseActivity {
     @BindView(R.id.rl_hobby)
     RecyclerView rlHobby;
+    @BindView(R.id.tv_skip)
+    TextView tvSkip;
     private HobbyAdapter adapter;
     private List<Hobby.DataBean> mData = new ArrayList<>();
     private String headPath;
@@ -47,6 +51,10 @@ public class SelectOwnHobbyActivity extends BaseActivity {
     private String birth;
     private String hobbys;
     private Subscription mSubscription;
+
+    private String type; // 1:从个人资料页 进入
+
+    private List<HashMap<String, String>> hobbysList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +75,7 @@ public class SelectOwnHobbyActivity extends BaseActivity {
             name = intent.getStringExtra("name");
             city = intent.getStringExtra("city");
             birth = intent.getStringExtra("birth");
+            type = intent.getStringExtra("type");
         }
     }
 
@@ -77,12 +86,23 @@ public class SelectOwnHobbyActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_done:
-                doUploadPic();
+                if ("1".equals(type)) {
+                    getHobby();
+                    Intent intent = new Intent();
+                    intent.putExtra("hobbys", (Serializable) hobbysList);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    doUploadPic();
+                }
                 break;
         }
     }
 
     private void initView() {
+        if ("1".equals(type)) {
+            tvSkip.setVisibility(View.GONE);
+        }
         rlHobby.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new HobbyAdapter(mData);
         rlHobby.setAdapter(adapter);
@@ -104,12 +124,18 @@ public class SelectOwnHobbyActivity extends BaseActivity {
     }
 
     private void getHobby() {
+        hobbysList.clear();
         for (int i = 0; i < adapter.mSelectedPositions.size(); i++) {
+            HashMap<String, String> hashMap = new HashMap<>();
             int position = adapter.mSelectedPositions.get(i);
+            Hobby.DataBean dataBean = adapter.getItem(position);
+            hashMap.put("id", dataBean.getId() + "");
+            hashMap.put("name", dataBean.getHobby());
+            hobbysList.add(hashMap);
             if (TextViewUtil.isEmpty(hobbys)) {
-                hobbys = adapter.getItem(position).getId() + "";
+                hobbys = dataBean.getId() + "";
             } else {
-                hobbys = hobbys + "," + adapter.getItem(position).getId() + "";
+                hobbys = hobbys + "," + dataBean.getId() + "";
             }
         }
     }

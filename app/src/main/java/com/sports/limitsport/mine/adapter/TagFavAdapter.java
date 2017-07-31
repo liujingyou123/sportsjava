@@ -64,9 +64,6 @@ public class TagFavAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-//        viewHolder.tvTagsA.setText("dddddd");
-
-
         String tmp = mData.get(position);
         viewHolder.tvTagsF.setText(tmp);
         return convertView;

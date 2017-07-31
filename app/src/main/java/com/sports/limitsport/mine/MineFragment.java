@@ -13,7 +13,15 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.mine.adapter.MineAdapter;
 import com.sports.limitsport.mine.model.Dongtai;
+import com.sports.limitsport.mine.model.EventBusUserInfo;
+import com.sports.limitsport.mine.presenter.MinePresenter;
+import com.sports.limitsport.mine.ui.IMineView;
+import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.view.MineHeaderView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +35,59 @@ import butterknife.Unbinder;
  * Created by liuworkmac on 17/6/21.
  */
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements IMineView {
     @BindView(R.id.ry_mine)
     RecyclerView ryMine;
     Unbinder unbinder;
     private MineAdapter mineAdapter;
     private List<Dongtai> data = new ArrayList<>();
     private MineHeaderView headerView;
+    private MinePresenter mPresenter;
+    private boolean isGetData;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, null);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         unbinder = ButterKnife.bind(this, view);
-        testData();
         initView();
+        getData();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isGetData) {
+            isGetData = false;
+            if (mPresenter != null) {
+                mPresenter.getUserInfo();
+            }
+        }
+    }
+
+    @Subscribe
+    public void getUserEdit(EventBusUserInfo param) {
+        if (param != null && param.isResfreh) {
+            isGetData = param.isResfreh;
+        }
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new MinePresenter(this);
+        }
+
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mPresenter.getUserInfo();
+        } else {
+            if (headerView != null) {
+                headerView.setType(0);
+            }
+        }
     }
 
     private void initView() {
@@ -53,33 +98,7 @@ public class MineFragment extends BaseFragment {
         mineAdapter.addHeaderView(headerView);
         mineAdapter.setHeaderAndEmpty(true);
         mineAdapter.bindToRecyclerView(ryMine);
-//        ryMine.setAdapter(mineAdapter);
         mineAdapter.setEmptyView(R.layout.empty_dongtai);
-    }
-
-    private void testData() {
-        for (int i = 0; i < 5; i++) {
-            Dongtai dongtai = new Dongtai();
-            dongtai.imgUrl = "http://img1.juimg.com/160806/355860-160P620130540.jpg";
-            dongtai.des = "如果有天堂，应该是这样的，做最棒的自己。";
-            List<String> activitys = new ArrayList<>();
-            activitys.add("松花湖滑雪第二期");
-            activitys.add("南极探险题一起");
-            activitys.add("被迹象学弟");
-
-            List<String> recall = new ArrayList<>();
-            recall.add("南极探险题一起");
-            recall.add("被迹象学弟");
-            dongtai.activitys = activitys;
-            dongtai.recalls = recall;
-            data.add(dongtai);
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.imv_focus_right})
@@ -93,6 +112,27 @@ public class MineFragment extends BaseFragment {
                 Intent intent = new Intent(this.getContext(), NoticeFirstLevelActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+
+        mPresenter = null;
+    }
+
+    @Override
+    public void showUserInfo(UserInfoResponse response) {
+        if (headerView != null) {
+            headerView.setData(response);
         }
     }
 }

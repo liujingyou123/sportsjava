@@ -27,12 +27,16 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|right"
         android:text=""
         android:textColor="@color/color_gray_white_s"
         android:textSize="14sp"
         android:layout_toLeftOf="@id/imv_go"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:maxLines="1"
+        android:layout_toRightOf="@id/tv_labelone"
+        android:layout_marginLeft="15dp"
+        android:ellipsize="end"/>
 
     <View
         style="@style/view_line"

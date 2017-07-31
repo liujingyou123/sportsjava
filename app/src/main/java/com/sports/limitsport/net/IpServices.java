@@ -16,6 +16,7 @@ import com.sports.limitsport.model.OrderRequest;
 import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.SignUpListResponse;
 import com.sports.limitsport.model.TicketListResponse;
+import com.sports.limitsport.model.UserInfoResponse;
 
 import java.util.HashMap;
 
@@ -99,7 +100,8 @@ public interface IpServices {
     @POST(URLConstants.URL_UPDATE_USER_INFO)
     Observable<BaseResponse> updateUserInfo(@Body HashMap<String, String> param);
 
-    //更新用户信息
+    //用户信息
+    @Headers("Content-Type: application/json")
     @POST(URLConstants.URL_USER_INFO)
-    Observable<BaseResponse> updateUserInfo(@Body HashMap<String, String> param);
+    Observable<UserInfoResponse> getUserInfo();
 }

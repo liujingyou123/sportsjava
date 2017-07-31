@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ public class ItemView extends RelativeLayout {
     TextView tvLabelone;
     @BindView(R.id.tv_labeltwo)
     TextView tvLabeltwo;
+    @BindView(R.id.imv_go)
+    ImageView imvGo;
 
     public ItemView(Context context) {
         super(context);
@@ -64,4 +67,12 @@ public class ItemView extends RelativeLayout {
     }
 
 
+    public String getLableTwo() {
+        return tvLabeltwo.getText() != null ? tvLabeltwo.getText().toString() : null;
+    }
+
+    public void setClickListener(OnClickListener onClickListener) {
+        tvLabeltwo.setOnClickListener(onClickListener);
+        imvGo.setOnClickListener(onClickListener);
+    }
 }
