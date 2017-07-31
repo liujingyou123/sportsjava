@@ -32,6 +32,7 @@ public class EachCommentAdapter extends BaseQuickAdapter<HuDongNoticeList, BaseV
         TextView tvTime = helper.getView(R.id.tv_time);
         TextView tvDetail = helper.getView(R.id.tv_detail);
         TextView tvReplay = helper.getView(R.id.tv_replay);
+        helper.addOnClickListener(R.id.imv_replay);
 
         if (!TextViewUtil.isEmpty(item.getFirstImgUrl())) {
             imageCover.setVisibility(View.VISIBLE);

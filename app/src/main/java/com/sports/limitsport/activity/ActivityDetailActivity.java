@@ -129,7 +129,9 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             @Override
             public void onClick(View v) {
                 commentDialog.dismiss();
-                mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
+                if (commentList != null) {
+                    mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
+                }
             }
         });
     }
@@ -242,7 +244,11 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
 
     @Override
     public void showReplayComment(boolean isSuccess) {
-
+        if (isSuccess) {
+            ToastUtil.showTrueToast(this, "评论成功");
+        } else {
+            ToastUtil.showTrueToast(this, "评论失败");
+        }
     }
 
     @Override
