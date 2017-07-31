@@ -41,4 +41,6 @@ public class URLConstants {
     public final static String URL_UPDATE_USER_INFO = "api/user/verify/updateUserInfo/v1.0.0";
     //个人信息
     public final static String URL_USER_INFO = "api/user/verify/userInfo/v1.0.0";
+    //个人设置查询
+    public final static String URL_PERSION_SETTING = "api/user/verify/userSetUpInfo/v1.0.0";
 }

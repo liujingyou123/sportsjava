@@ -11,8 +11,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="18dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,39 +23,41 @@
             android:textColor="#FFFFFFFF"
             android:textSize="14sp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sc_system"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:switchMinWidth="20dp"
-            android:textOn=""
-            android:textOff=""
-            android:thumb="@drawable/thumb"
-            android:track="@drawable/track"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp" />
+            android:layout_marginRight="15dp"
+            apps:switchMinWidth="20dp"
+            apps:thumbTintMode="src_in"
+            apps:track="@drawable/track"
+            android:textOff=""
+            android:textOn=""
+            android:thumb="@drawable/thumb" />
     </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="开启后可以收到极限领秀为你推送的精选消息，还有您关注的俱乐部最新动态哦。"
-        android:textColor="#FFA5A4A4"
-        android:textSize="12sp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:text="开启后可以收到极限领秀为你推送的精选消息，还有您关注的俱乐部最新动态哦。"
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp" />
 
     <View
         style="@style/view_line"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="18dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,38 +68,41 @@
             android:textColor="#FFFFFFFF"
             android:textSize="14sp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sc_each"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:switchMinWidth="20dp"
-            android:textOn=""
-            android:textOff=""
-            android:thumb="@drawable/thumb"
-            android:track="@drawable/track"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp" />
+            android:layout_marginRight="15dp"
+            apps:switchMinWidth="20dp"
+            apps:thumbTintMode="src_in"
+            android:textOff=""
+            android:textOn=""
+            android:thumb="@drawable/thumb"
+            apps:track="@drawable/track" />
     </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="开启后可以收到小伙伴之间的评论、点赞、关注消息提示哦。"
-        android:textColor="#FFA5A4A4"
-        android:textSize="12sp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:text="开启后可以收到小伙伴之间的评论、点赞、关注消息提示哦。"
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp" />
 
     <View
         style="@style/view_line"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp" />
 
     <com.sports.limitsport.view.mine.ItemView
         android:id="@+id/it_push"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         apps:LabelOne="接受极限领秀精彩推送"
         apps:LabelTwo="已开启"></com.sports.limitsport.view.mine.ItemView>
 
@@ -106,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         apps:LabelOne="清除缓存"
-        apps:LabelTwo="44.5M"></com.sports.limitsport.view.mine.ItemView>
+        apps:LabelTwo=""></com.sports.limitsport.view.mine.ItemView>
 
     <com.sports.limitsport.view.mine.ItemView
         android:id="@+id/it_aboutus"
@@ -118,10 +123,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
     <TextView
         android:id="@+id/btn_done"
         style="@style/bt_done"
-        android:text="退出登录"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:text="退出登录" />
 </LinearLayout>

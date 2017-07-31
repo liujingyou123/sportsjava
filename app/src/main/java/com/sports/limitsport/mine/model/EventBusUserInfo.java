@@ -5,5 +5,6 @@ package com.sports.limitsport.mine.model;
  */
 
 public class EventBusUserInfo {
-    public boolean isResfreh;
+    public boolean isResfreh; // 个人信息刷新
+    public boolean isResfrehDongtai; // 懂他刷新
 }

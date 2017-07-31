@@ -17,6 +17,7 @@ import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.SignUpListResponse;
 import com.sports.limitsport.model.TicketListResponse;
 import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.model.UserSettingInfoResponse;
 
 import java.util.HashMap;
 
@@ -104,4 +105,9 @@ public interface IpServices {
     @Headers("Content-Type: application/json")
     @POST(URLConstants.URL_USER_INFO)
     Observable<UserInfoResponse> getUserInfo();
+
+    //用户个人设置
+    @Headers("Content-Type: application/json")
+    @POST(URLConstants.URL_PERSION_SETTING)
+    Observable<UserSettingInfoResponse> getUserSettingInfo();
 }
