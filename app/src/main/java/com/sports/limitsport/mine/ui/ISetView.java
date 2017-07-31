@@ -9,4 +9,8 @@ import com.sports.limitsport.model.UserSettingInfoResponse;
 public interface ISetView {
 
     void showUserSettingInfo(UserSettingInfoResponse response);
+
+    void setSystemNotice(boolean success);
+
+    void setMessageNotice(boolean success);
 }

@@ -43,4 +43,8 @@ public class URLConstants {
     public final static String URL_USER_INFO = "api/user/verify/userInfo/v1.0.0";
     //个人设置查询
     public final static String URL_PERSION_SETTING = "api/user/verify/userSetUpInfo/v1.0.0";
+    //设置系统通知开关
+    public final static String URL_SET_SYSTEM_NOTICE = "api/user/verify/userSetUpReceiveNotice/v1.0.0";
+    //设置系统通知开关
+    public final static String URL_SET_MESSAGE = "api/user/verify/userSetUpReceiveNews/v1.0.0";
 }

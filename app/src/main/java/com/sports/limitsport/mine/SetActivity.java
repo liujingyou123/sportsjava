@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
@@ -59,6 +60,34 @@ public class SetActivity extends BaseActivity implements ISetView {
                 showDeleteAlert();
             }
         });
+
+        scSystem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (mPresenter != null) {
+                        mPresenter.setSystemNotice("0");
+                    }
+                } else {
+                    if (mPresenter != null) {
+                        mPresenter.setSystemNotice("1");
+                    }
+                }
+            }
+        });
+
+        scEach.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (mPresenter != null) {
+                        mPresenter.setMessage("0");
+                    }
+                } else {
+                    mPresenter.setMessage("1");
+                }
+            }
+        });
     }
 
     public void getData() {
@@ -112,6 +141,15 @@ public class SetActivity extends BaseActivity implements ISetView {
                 scEach.setChecked(false);
             }
         }
+    }
+
+    @Override
+    public void setSystemNotice(boolean success) {
+    }
+
+    @Override
+    public void setMessageNotice(boolean success) {
+
     }
 
     void showDeleteAlert() {

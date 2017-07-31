@@ -110,4 +110,12 @@ public interface IpServices {
     @Headers("Content-Type: application/json")
     @POST(URLConstants.URL_PERSION_SETTING)
     Observable<UserSettingInfoResponse> getUserSettingInfo();
+
+    //设置系统通知开关
+    @POST(URLConstants.URL_SET_SYSTEM_NOTICE)
+    Observable<BaseResponse> setSystemNotice(@Body HashMap<String, String> param);
+
+    //设置互动消息
+    @POST(URLConstants.URL_SET_MESSAGE)
+    Observable<BaseResponse> setMessageNotice(@Body HashMap<String, String> param);
 }
