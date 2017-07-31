@@ -2,51 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/bg_black_round_circle"
+    android:layout_marginBottom="6dp"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp"
     android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp">
+    android:background="@drawable/bg_black_round_circle"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp">
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="活动开始提醒"
-            android:textColor="#FFFFFFFF"
-            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017/07/20"
-            android:textColor="#FFA5A4A4"
-            android:textSize="10sp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:text="sss"
+            android:textColor="#FFA5A4A4"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_time"
+            android:text="dddd"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp"
+            android:maxLines="1"/>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="您关注的南山俱乐部发布了新活动—东北山区滑雪第八期，快来看看吧！"
-        android:textColor="#FFA5A4A4"
-        android:textSize="14sp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:text=""
+        android:textColor="#FFA5A4A4"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/imv_cover"
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="2dp"
-        android:scaleType="fitXY"
-        android:layout_marginRight="2dp"/>
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="fitXY" />
 
 </LinearLayout>

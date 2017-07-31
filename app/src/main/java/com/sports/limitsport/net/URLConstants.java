@@ -49,4 +49,6 @@ public class URLConstants {
     public final static String URL_SET_MESSAGE = "api/user/verify/userSetUpReceiveNews/v1.0.0";
     //收藏
     public final static String URL_COLLECT = "api/personCollection/addCollection/v1.0.0";
+    //通知列表
+    public final static String URL_NOTICE_LIST = "api/notice/queryActivityNotice/v1.0.0";
 }
