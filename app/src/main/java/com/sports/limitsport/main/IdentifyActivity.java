@@ -51,7 +51,7 @@ public class IdentifyActivity extends BaseActivity {
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.et_city)
-    EditText etCity;
+    TextView etCity;
     @BindView(R.id.tv_birth)
     TextView tvBirth;
     private String headPath;

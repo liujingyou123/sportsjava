@@ -121,12 +121,12 @@
                 android:textColor="#FFFFFFFF"
                 android:textSize="16sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="请输入所在城市"
-                android:text=""
+                android:text="上海"
                 android:textColor="#FFFFFFFF"
                 android:textColorHint="#FFA5A4A4"
                 android:textSize="14sp"
