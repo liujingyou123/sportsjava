@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.model.EventBusLogin;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
@@ -83,13 +84,23 @@ public class LoginActivity extends BaseActivity {
 
     private Subscription mLogSb;
 
+    private String inputType;  //进入类型
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
+        getIntentData();
         initView();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            inputType = intent.getStringExtra("type");
+        }
     }
 
     private void initView() {
@@ -97,7 +108,7 @@ public class LoginActivity extends BaseActivity {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        login.setEnabled(true);
+        login.setEnabled(false);
 
         initCountDownButton();
 
@@ -263,7 +274,10 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                gotoMainActivity();
+                if (TextViewUtil.isEmpty(inputType)) {
+                    gotoMainActivity();
+                }
+                finish();
                 break;
             case R.id.login:
 //                gotoIdentifyActivity();
@@ -294,14 +308,17 @@ public class LoginActivity extends BaseActivity {
                     response.getData().setUserPhone(userPhone);
                     SharedPrefsUtil.saveUserInfo(response);
 
-
-                    LoginActivity.this.finish();
-
-                    if (response.getData().getIsPerfect() == 0) { //
-                        gotoMainActivity();
-                    } else  {
-                        gotoIdentifyActivity();
+                    if (TextViewUtil.isEmpty(inputType)) {
+                        if (response.getData().getIsPerfect() == 0) { //已完善
+                            gotoMainActivity();
+                        } else {
+                            gotoIdentifyActivity();
+                        }
                     }
+                    EventBusLogin params = new EventBusLogin();
+                    params.isLogin = true;
+                    EventBus.getDefault().post(params);
+                    LoginActivity.this.finish();
                 } else {
                     verifyCodeView.setText("");
                     ToastUtil.show(context, response == null ? "null response" : response.errMsg);

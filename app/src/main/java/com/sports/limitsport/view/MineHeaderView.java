@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.MyActivitysActivity;
 import com.sports.limitsport.mine.MyClubsActivity;
 import com.sports.limitsport.mine.MyCollectionActivity;
@@ -21,6 +22,7 @@ import com.sports.limitsport.mine.MyFocusListActivity;
 import com.sports.limitsport.mine.UserInfoActivity;
 import com.sports.limitsport.mine.adapter.TagFavAdapter;
 import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 
@@ -70,6 +72,7 @@ public class MineHeaderView extends LinearLayout {
     TextView tvGuanzhu;
     @BindView(R.id.tv_Dongtai)
     TextView tvDongtai;
+    private int type;
 
     public MineHeaderView(Context context) {
         super(context);
@@ -97,8 +100,11 @@ public class MineHeaderView extends LinearLayout {
         }
     }
 
-    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity})
+    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity, R.id.tv_name})
     public void onViewClicked(View view) {
+        if (!checkIsLogin()) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.imv_go:
                 Intent intent = new Intent(getContext(), UserInfoActivity.class);
@@ -124,19 +130,30 @@ public class MineHeaderView extends LinearLayout {
                 Intent intent5 = new Intent(getContext(), MyActivitysActivity.class);
                 getContext().startActivity(intent5);
                 break;
+            case R.id.tv_name:
+                if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent6 = new Intent(getContext(), UserInfoActivity.class);
+                    getContext().startActivity(intent6);
+                }
+                break;
         }
     }
 
     /**
-     * @param type 0:游客模式 1:非游客模式
+     * @param type 0:游客模式 1:已完善用户信息 2:为完善用户信息
      */
     public void setType(int type) {
-        if (type == 0) {
+        this.type = type;
+        if (type == 0 || type == 2) {
             imvHead.setImageResource(R.mipmap.icon_gerenzhuye_morentouxiang);
             imvGender.setVisibility(View.GONE);
             tvFensi.setText("0");
             tvGuanzhu.setText("0");
-            tvName.setText("游客模式");
+            if (type == 0) {
+                tvName.setText("游客模式");
+            } else if (type == 2) {
+                tvName.setText("尚未设置昵称");
+            }
             tvLocation.setText("未知");
             tvDes.setText("向小伙伴们介绍一下自己吧～");
             tg.setVisibility(View.GONE);
@@ -195,5 +212,15 @@ public class MineHeaderView extends LinearLayout {
                 tvDongtai.setText("全部动态(" + dataBean.getActivityNum() + ")");
             }
         }
+    }
+
+    private boolean checkIsLogin() {
+        if (SharedPrefsUtil.getUserInfo() == null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.putExtra("type", "login");
+            getContext().startActivity(intent);
+            return false;
+        }
+        return true;
     }
 }

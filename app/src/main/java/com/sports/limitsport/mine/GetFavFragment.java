@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,6 +21,7 @@ import com.sports.limitsport.model.HuDongNoticeListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
@@ -62,7 +64,13 @@ public class GetFavFragment extends Fragment {
 
     private void initView() {
         View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_commentlist, null);
-        emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
+        TextView etEmpty = (TextView) emptyView.findViewById(R.id.tv_empty);
+        TextView tvGo = (TextView) emptyView.findViewById(R.id.tv_go);
+        if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+            etEmpty.setText("好像什么都没有");
+            tvGo.setVisibility(View.GONE);
+        }
+        tvGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);

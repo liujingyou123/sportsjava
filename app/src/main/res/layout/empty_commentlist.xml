@@ -14,7 +14,8 @@
             android:textColor="#FF616161"
             android:textSize="12sp"
             android:drawablePadding="30dp"
-            android:drawableTop="@mipmap/defaultgraph_nocontent" />
+            android:drawableTop="@mipmap/defaultgraph_nocontent"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/tv_go"

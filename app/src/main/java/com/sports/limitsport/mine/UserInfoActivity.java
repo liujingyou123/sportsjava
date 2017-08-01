@@ -32,9 +32,11 @@ import com.sports.limitsport.main.SelectOwnHobbyActivity;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.UserInfoPresenter;
 import com.sports.limitsport.mine.ui.IUserInfoView;
+import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
@@ -398,6 +400,10 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
     }
 
     private void saveUserInfo() {
+        if (TextViewUtil.isEmpty(dataBean.getHeadPortrait())) {
+            ToastUtil.showFalseToast(this, "请选择头像");
+            return;
+        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("headPortrait", dataBean.getHeadPortrait());
         hashMap.put("name", name);
@@ -413,9 +419,13 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             public void response(BaseResponse response) {
                 if (response != null && response.isSuccess()) {
                     ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料成功");
+                    UserInfo userInfo = SharedPrefsUtil.getUserInfo();
+                    userInfo.getData().setIsPerfect(0);
+                    SharedPrefsUtil.saveUserInfo(userInfo);
                     EventBusUserInfo params = new EventBusUserInfo();
                     params.isResfreh = true;
                     EventBus.getDefault().post(params);
+
                 }
             }
 
@@ -453,6 +463,9 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             public void response(BaseResponse response) {
                 if (response != null && response.isSuccess()) {
                     ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料成功");
+                    UserInfo userInfo = SharedPrefsUtil.getUserInfo();
+                    userInfo.getData().setIsPerfect(0);
+                    SharedPrefsUtil.saveUserInfo(userInfo);
                     EventBusUserInfo params = new EventBusUserInfo();
                     params.isResfreh = true;
                     EventBus.getDefault().post(params);

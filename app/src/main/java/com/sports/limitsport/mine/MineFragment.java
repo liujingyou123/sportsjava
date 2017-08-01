@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.MineAdapter;
 import com.sports.limitsport.mine.model.Dongtai;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.MinePresenter;
 import com.sports.limitsport.mine.ui.IMineView;
+import com.sports.limitsport.model.EventBusLogin;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.view.MineHeaderView;
@@ -43,7 +46,7 @@ public class MineFragment extends BaseFragment implements IMineView {
     private List<Dongtai> data = new ArrayList<>();
     private MineHeaderView headerView;
     private MinePresenter mPresenter;
-    private boolean isGetData;
+    private boolean isGetData = true;
 
     @Nullable
     @Override
@@ -54,18 +57,24 @@ public class MineFragment extends BaseFragment implements IMineView {
         }
         unbinder = ButterKnife.bind(this, view);
         initView();
-        getData();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        XLog.e("onResume");
         if (isGetData) {
             isGetData = false;
-            if (mPresenter != null) {
-                mPresenter.getUserInfo();
-            }
+            getData();
+        }
+    }
+
+    @Subscribe
+    public void getLoginIn(EventBusLogin param) {
+        XLog.e("param.isLogin = " + param.isLogin);
+        if (param != null && param.isLogin) {
+            isGetData = param.isLogin;
         }
     }
 
@@ -81,8 +90,12 @@ public class MineFragment extends BaseFragment implements IMineView {
             mPresenter = new MinePresenter(this);
         }
 
-        if (SharedPrefsUtil.getUserInfo() != null) {
+        if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
             mPresenter.getUserInfo();
+        } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+            if (headerView != null) {
+                headerView.setType(2);
+            }
         } else {
             if (headerView != null) {
                 headerView.setType(0);
@@ -109,6 +122,12 @@ public class MineFragment extends BaseFragment implements IMineView {
                 startActivity(intent1);
                 break;
             case R.id.imv_focus_right:
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra("type", "login");
+                    startActivity(intent);
+                    return;
+                }
                 Intent intent = new Intent(this.getContext(), NoticeFirstLevelActivity.class);
                 startActivity(intent);
                 break;
