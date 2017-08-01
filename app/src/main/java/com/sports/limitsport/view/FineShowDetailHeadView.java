@@ -86,7 +86,7 @@ public class FineShowDetailHeadView extends LinearLayout {
                 shareDialog.show();
                 break;
             case R.id.imv_report:
-                ReportDialog reportDialog = new ReportDialog(getContext());
+                ReportDialog reportDialog = new ReportDialog(getContext(), "1", null);
                 reportDialog.show();
                 break;
         }

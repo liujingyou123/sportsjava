@@ -125,11 +125,19 @@ public interface IpServices {
     @POST(URLConstants.URL_COLLECT)
     Observable<BaseResponse> collect(@Body HashMap<String, String> param);
 
+    //取消收藏
+    @POST(URLConstants.URL_CANCEL_COLLECT)
+    Observable<BaseResponse> cancelCollect(@Body HashMap<String, String> param);
+
     //收藏
     @POST(URLConstants.URL_NOTICE_LIST)
     Observable<NoticeListResponse> getNoticeList(@Body HashMap<String, String> param);
 
-    //收藏
+    //互动列表
     @POST(URLConstants.URL_HUDONG_LIST)
     Observable<HuDongNoticeListResponse> getHuDongList(@Body HashMap<String, String> param);
+
+    //举报
+    @POST(URLConstants.URL_TIP_OFF)
+    Observable<BaseResponse> tipOff(@Body HashMap<String, String> param);
 }

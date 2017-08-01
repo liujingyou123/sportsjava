@@ -48,7 +48,7 @@ public class ClubBaseInfoActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this);
+                ReportDialog dialog = new ReportDialog(this, "1", null);
                 dialog.show();
                 break;
             case R.id.imv_share:

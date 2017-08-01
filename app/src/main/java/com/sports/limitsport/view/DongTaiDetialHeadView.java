@@ -85,7 +85,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
                 shareDialog.show();
                 break;
             case R.id.imv_report:
-                ReportDialog reportDialog = new ReportDialog(getContext());
+                ReportDialog reportDialog = new ReportDialog(getContext(), "2", null);
                 reportDialog.show();
                 break;
             case R.id.tv_sign_num:

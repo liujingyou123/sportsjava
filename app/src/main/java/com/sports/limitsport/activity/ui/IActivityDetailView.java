@@ -20,4 +20,6 @@ public interface IActivityDetailView {
     void onError(Throwable e);
 
     void collectReslut(boolean b);
+
+    void cancelCollectReslut(boolean b);
 }

@@ -163,7 +163,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 }
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this);
+                ReportDialog dialog = new ReportDialog(this, "0", id);
                 dialog.show();
                 break;
             case R.id.imv_share:
@@ -171,9 +171,16 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 dialog1.show();
                 break;
             case R.id.imv_fav:
-                if (mPresenter != null) {
-                    mPresenter.collect(id);
+                if (imvFav.isSelected()) {
+                    if (mPresenter != null) {
+                        mPresenter.unCollect(id);
+                    }
+                } else {
+                    if (mPresenter != null) {
+                        mPresenter.collect(id);
+                    }
                 }
+
                 break;
         }
     }
@@ -264,6 +271,17 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         } else {
             ToastUtil.showTrueToast(this, "收藏失败");
             imvFav.setSelected(false);
+        }
+    }
+
+    @Override
+    public void cancelCollectReslut(boolean b) {
+        if (b) {
+            ToastUtil.showTrueToast(this, "已取消收藏");
+            imvFav.setSelected(false);
+        } else {
+            ToastUtil.showTrueToast(this, "取消收藏失败");
+            imvFav.setSelected(true);
         }
     }
 

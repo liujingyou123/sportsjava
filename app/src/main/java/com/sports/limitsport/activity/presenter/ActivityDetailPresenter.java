@@ -55,7 +55,7 @@ public class ActivityDetailPresenter {
         hashMap.put("activityId", id);
         hashMap.put("pageNumber", "1");
         hashMap.put("pageSize", "10");
-        hashMap.put("type","0");
+        hashMap.put("type", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getDongTaiList(hashMap), new NoneNetSubscriber<DongTaiListResponse>() {
             @Override
             public void response(DongTaiListResponse response) {
@@ -76,6 +76,7 @@ public class ActivityDetailPresenter {
 
     /**
      * 评论列表
+     *
      * @param id
      */
     public void getCommentList(String id) {
@@ -137,6 +138,7 @@ public class ActivityDetailPresenter {
 
     /**
      * 收藏
+     *
      * @param id 活动ID
      */
     public void collect(String id) {
@@ -161,6 +163,37 @@ public class ActivityDetailPresenter {
             }
         });
     }
+
+
+    /**
+     * 收藏
+     *
+     * @param id 活动ID
+     */
+    public void unCollect(String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("collectionId", id);
+        hashMap.put("type", "1");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelCollect(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIActivityDetailView != null) {
+                    mIActivityDetailView.cancelCollectReslut(true);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIActivityDetailView != null) {
+                    mIActivityDetailView.cancelCollectReslut(false);
+                }
+            }
+        });
+    }
+
+
 
     public void clear() {
         mIActivityDetailView = null;

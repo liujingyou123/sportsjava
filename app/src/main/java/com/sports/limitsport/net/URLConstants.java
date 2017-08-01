@@ -49,8 +49,15 @@ public class URLConstants {
     public final static String URL_SET_MESSAGE = "api/user/verify/userSetUpReceiveNews/v1.0.0";
     //收藏
     public final static String URL_COLLECT = "api/personCollection/addCollection/v1.0.0";
+    //取消收藏
+    public final static String URL_CANCEL_COLLECT = "api/personCollection/cancelCollection/v1.0.0";
     //通知列表
     public final static String URL_NOTICE_LIST = "api/notice/queryActivityNotice/v1.0.0";
     //互动消息列表
     public final static String URL_HUDONG_LIST = "api/notice/queryInteractive/v1.0.0";
+    //我的粉丝
+    public final static String URL_MY_FANS_LIST = "api/notice/queryInteractive/v1.0.0";
+    //举报
+    public final static String URL_TIP_OFF = "api/tipoff/addTipOff/v1.0.0";
+
 }
