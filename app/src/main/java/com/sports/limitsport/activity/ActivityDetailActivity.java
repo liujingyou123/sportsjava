@@ -25,6 +25,7 @@ import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
@@ -92,7 +93,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         }
         mPresenter.getActivityDetail(id);
         mPresenter.getAllShai(null); //TODO 测试时要传null ，真实要传ID
-        mPresenter.getCommentList("1");//TODO 测试时要传"1" ，真实要传ID
+        mPresenter.getCommentList(id);//TODO 测试时要传"1" ，真实要传ID
     }
 
     private void init() {
@@ -216,6 +217,31 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         startActivity(intentSign);
     }
 
+    private void setReplayData() {
+        for (int i = 0; i < adapter.getData().size(); i++) {
+
+            if (adapter.getData().get(i).equals(commentList)) {
+                CommentList.ReplyList replyList = new CommentList.ReplyList();
+                replyList.setCommentUserId(SharedPrefsUtil.getUserInfo().getData().getUserId() + "");
+
+                //TODO 现在没有USERname  等登录接口增加
+                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getUserId()+"");
+                replyList.setReplyContent(commentDialog.getContent());
+                replyList.setReplyUserName(commentList.getCommentatorName());
+                replyList.setReplyCommentId(commentList.getId() + "");
+                replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                if (adapter.getData().get(i).getReplyList() != null) {
+                    adapter.getData().get(i).getReplyList().add(0, replyList);
+                } else {
+                    List<CommentList.ReplyList> lists = new ArrayList<>();
+                    lists.add(replyList);
+                    adapter.getData().get(i).setReplyList(lists);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
     @Override
     public void showActivityDetail(ActivityDetailResponse response) {
         if (response != null && response.getData() != null) {
@@ -252,9 +278,10 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     @Override
     public void showReplayComment(boolean isSuccess) {
         if (isSuccess) {
-            ToastUtil.showTrueToast(this, "评论成功");
+            ToastUtil.showTrueToast(this, "回复评论成功");
+            setReplayData();
         } else {
-            ToastUtil.showTrueToast(this, "评论失败");
+            ToastUtil.showTrueToast(this, "回复评论失败");
         }
     }
 

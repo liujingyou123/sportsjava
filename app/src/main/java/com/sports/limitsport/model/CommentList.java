@@ -98,6 +98,21 @@ public class CommentList {
         this.replyList = replyList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CommentList that = (CommentList) o;
+
+        return id == that.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 
     public static class ReplyList {
         private String commentUserId;

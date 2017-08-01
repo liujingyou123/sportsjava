@@ -28,6 +28,7 @@ public class UserInfo extends BaseResponse {
         private int userId;
         private String userPhone;
         private int isPerfect;//0:已完善 1:未完善
+        private String userName;
 
         public String getAccessToken() {
             return accessToken;
@@ -59,6 +60,14 @@ public class UserInfo extends BaseResponse {
 
         public void setIsPerfect(int isPerfect) {
             this.isPerfect = isPerfect;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
         }
     }
 }

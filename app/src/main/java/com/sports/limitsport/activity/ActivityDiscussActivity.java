@@ -24,6 +24,7 @@ import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.CustomLoadMoreView;
@@ -90,7 +91,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
-            id = "1";//TODO  测试用传"1"
+//            id = "1";//TODO  测试用传"1"
         }
     }
 
@@ -202,7 +203,6 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-
                 adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
@@ -220,6 +220,8 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     @Override
     public void showPublishActivityComent(boolean isSuccess) {
         if (isSuccess) {
+            commentDialog.setContent("");
+            btnComment.setText("我要来发言…");
             ToastUtil.showTrueToast(this, "评论成功");
             rlAll.autoRefresh();
         } else {
@@ -230,10 +232,39 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     @Override
     public void showReplayComment(boolean isSuccess) {
         if (isSuccess) {
+            setReplayData();
+            commentDialog.setContent("");
+            btnComment.setText("我要来发言…");
             ToastUtil.showTrueToast(this, "回复成功");
-            rlAll.autoRefresh();
+//            rlAll.autoRefresh();
         } else {
             ToastUtil.showTrueToast(this, "回复失败");
+        }
+    }
+
+    private void setReplayData() {
+        for (int i = 0; i < adapter.getData().size(); i++) {
+
+            if (adapter.getData().get(i).equals(commentList)) {
+                CommentList.ReplyList replyList = new CommentList.ReplyList();
+                replyList.setCommentUserId(SharedPrefsUtil.getUserInfo().getData().getUserId() + "");
+
+                //TODO 现在没有USERname  等登录接口增加
+                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getUserId()+"");
+                replyList.setReplyContent(commentDialog.getContent());
+                replyList.setReplyUserName(commentList.getCommentatorName());
+                replyList.setReplyCommentId(commentList.getId() + "");
+                replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                if (adapter.getData().get(i).getReplyList() != null) {
+                    adapter.getData().get(i).getReplyList().add(0, replyList);
+                } else {
+                    List<CommentList.ReplyList> lists = new ArrayList<>();
+                    lists.add(replyList);
+                    adapter.getData().get(i).setReplyList(lists);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            }
         }
     }
 
