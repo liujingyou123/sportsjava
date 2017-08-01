@@ -69,13 +69,22 @@ public class ClubDetailActivity extends BaseActivity {
     @BindView(R.id.rl_top)
     RelativeLayout rlTop;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
+    private String id;//俱乐部ID
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clubdetail);
         ButterKnife.bind(this);
+        getIntentData();
         initView();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getStringExtra("id");
+        }
     }
 
     private void initView() {
@@ -100,8 +109,8 @@ public class ClubDetailActivity extends BaseActivity {
      * 设置item
      */
     private void setupViewPager() {
-        mTab.add(new ClubDetailPageItem("在线活动", "0"));
-        mTab.add(new ClubDetailPageItem("精彩回顾", "1"));
+        mTab.add(new ClubDetailPageItem("在线活动", "0", id));
+        mTab.add(new ClubDetailPageItem("精彩回顾", "1", id));
         viewPager.setAdapter(new SlidingTabPagerAdapter(this.getSupportFragmentManager(), mTab));
         idTab.setViewPager(viewPager);
 //        viewPager.setCurrentItem(0);

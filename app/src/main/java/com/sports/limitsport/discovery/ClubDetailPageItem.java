@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.sports.limitsport.util.SlidingTagPagerItem;
@@ -9,8 +10,10 @@ import com.sports.limitsport.util.SlidingTagPagerItem;
  */
 
 public class ClubDetailPageItem extends SlidingTagPagerItem {
-    public ClubDetailPageItem(String mTitle, String mMsg) {
+    private String id;
+    public ClubDetailPageItem(String mTitle, String mMsg, String id) {
         super(mTitle, mMsg);
+        this.id = id;
     }
 
     @Override
@@ -18,6 +21,9 @@ public class ClubDetailPageItem extends SlidingTagPagerItem {
         Fragment fragment = null;
         if ("0".equals(getMsg())) {
             fragment = new TabActivityFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            fragment.setArguments(bundle);
         } else if ("1".equals(getMsg())) {
             fragment = new TabHistoryFragment();
         }

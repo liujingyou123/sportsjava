@@ -1,6 +1,7 @@
 package com.sports.limitsport.discovery;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,13 +33,22 @@ public class FineShowDetailActivity extends BaseActivity {
     TextView btnComment;
     private FineShowCommentAdapter adapter;
     private CommentDialog commentDialog;
+    private String id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_fineshow);
         ButterKnife.bind(this);
+        getIntentData();
         initView();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getStringExtra("id");
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment})

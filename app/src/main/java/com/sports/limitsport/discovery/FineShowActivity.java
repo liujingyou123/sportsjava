@@ -77,7 +77,9 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                FineShowList fineShowList = (FineShowList) adapter.getItem(position);
                 Intent intent = new Intent(FineShowActivity.this, FineShowDetailActivity.class);
+                intent.putExtra("id", fineShowList.getId()+"");
                 startActivity(intent);
             }
         });

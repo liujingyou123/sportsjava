@@ -10,9 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
-import com.sports.limitsport.mine.adapter.MyCollectActivityAdapter;
-import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.discovery.adapter.ClubActivityAdapter;
+import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.Act;
+import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.util.ToolsUtil;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,15 +37,28 @@ public class TabActivityFragment extends Fragment {
     @BindView(R.id.rlv)
     RecyclerView rlv;
     Unbinder unbinder;
-    private MyCollectActivityAdapter adapter;
+    private ClubActivityAdapter adapter;
+    private int pageNumber = 1;
+    private int totalSize;
+    private List<Act> data = new ArrayList<>();
+    private String clubId;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tabactivity, null);
         unbinder = ButterKnife.bind(this, view);
+        getBundleData();
         initView();
+        getActivityList();
         return view;
+    }
+
+    private void getBundleData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            clubId = bundle.getString("id");
+        }
     }
 
 
@@ -44,10 +68,54 @@ public class TabActivityFragment extends Fragment {
         tvTip.setText("还没有发布活动哦～");
         rlv.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyCollectActivityAdapter(MyTestData.getData());
+        adapter = new ClubActivityAdapter(data);
         adapter.bindToRecyclerView(rlv);
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setEmptyView(R.layout.empty_noticelist);
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, rlv);
+    }
+
+    private void loadMore() {
+        pageNumber++;
+        getActivityList();
+
+    }
+
+    public void getActivityList() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("club", clubId);
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getJoinActivityList(hashMap), new NetSubscriber<ActivityResponse>() {
+            @Override
+            public void response(ActivityResponse response) {
+                if (response.getData() != null) {
+                    totalSize = response.getData().getTotalSize();
+                }
+                if (response.getData() != null) {
+                    adapter.addData(response.getData().getData());
+                }
+                if (adapter.getData().size() >= totalSize) {
+                    adapter.loadMoreEnd();
+                } else {
+                    adapter.loadMoreComplete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
 
     }
 

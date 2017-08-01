@@ -307,6 +307,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
      */
     private void gotoOrigDetail() {
         Intent intent = new Intent(getContext(), ClubDetailActivity.class);
+        intent.putExtra("id", mData.getOrganizerClubId()+"");
         getContext().startActivity(intent);
     }
 

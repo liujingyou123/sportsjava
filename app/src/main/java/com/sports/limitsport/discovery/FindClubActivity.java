@@ -96,8 +96,14 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(FindClubActivity.this, ClubDetailActivity.class);
-                startActivity(intent);
+                FindClubSection findClubSection = (FindClubSection) adapter.getItem(position);
+                Club club = findClubSection.t;
+                if (club != null) {
+                    Intent intent = new Intent(FindClubActivity.this, ClubDetailActivity.class);
+                    intent.putExtra("id", club.getId());
+                    startActivity(intent);
+                }
+
             }
         });
 
