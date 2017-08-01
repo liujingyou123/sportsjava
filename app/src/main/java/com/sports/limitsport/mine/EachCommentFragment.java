@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,12 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.EachCommentAdapter;
-import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.HuDongNoticeList;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -67,7 +68,8 @@ public class EachCommentFragment extends Fragment {
         emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);
+                startActivity(intent);
             }
         });
         rlComments.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));

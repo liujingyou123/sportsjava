@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sports.limitsport.R;
-import com.sports.limitsport.mine.adapter.FocusMeAdapter;
 import com.sports.limitsport.mine.adapter.GetFavAdapter;
-import com.sports.limitsport.mine.model.FocusMe;
+import com.sports.limitsport.model.HuDongNoticeList;
+import com.sports.limitsport.notice.EditNewDongTaiActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class GetFavFragment extends Fragment {
     Unbinder unbinder;
 
     private GetFavAdapter adapter;
-    private List<FocusMe> data = new ArrayList<>();
+    private List<HuDongNoticeList> data = new ArrayList<>();
 
 
     @Nullable
@@ -40,17 +41,10 @@ public class GetFavFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_getfav, null);
         unbinder = ButterKnife.bind(this, view);
-        testData();
         initView();
         return view;
     }
 
-    private void testData() {
-        for (int i = 0; i < 5; i++) {
-            FocusMe dongtai = new FocusMe();
-            data.add(dongtai);
-        }
-    }
 
     private void initView() {
 
@@ -58,7 +52,8 @@ public class GetFavFragment extends Fragment {
         emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);
+                startActivity(intent);
             }
         });
         rlFocus.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
