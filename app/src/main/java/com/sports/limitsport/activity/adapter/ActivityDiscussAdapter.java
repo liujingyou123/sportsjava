@@ -66,6 +66,9 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
     }
 
     private TextView getTextView(String commenter, String recaller, String content) {
+        if (TextViewUtil.isEmpty(commenter)) {
+            commenter = "";
+        }
         TextView textView = new TextView(mContext);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         textView.setTextColor(Color.parseColor("#FFA5A4A4"));
@@ -79,7 +82,11 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
             textView.setText(commenter + "：@" + recaller + " " + content);
         }
 
-        TextViewUtil.setPartialColor(textView, 0, commenter.length() + 1, Color.parseColor("#ffffff"));
+        if ("官方".equals(commenter)) {
+            TextViewUtil.setPartialColor(textView, 0, commenter.length() + 1, Color.parseColor("#4795FB"));
+        } else {
+            TextViewUtil.setPartialColor(textView, 0, commenter.length() + 1, Color.parseColor("#ffffff"));
+        }
         return textView;
     }
 }

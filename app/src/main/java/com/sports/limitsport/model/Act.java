@@ -1,10 +1,14 @@
 package com.sports.limitsport.model;
 
+import com.sports.limitsport.base.SelectEntity;
+
+import java.io.Serializable;
+
 /**
  * Created by liuworkmac on 17/6/21.
  */
 
-public class Act {
+public class Act extends SelectEntity implements Serializable{
     private String activityVideo;
     private String activityVideoImg;
     private String address;

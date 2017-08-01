@@ -140,4 +140,8 @@ public interface IpServices {
     //举报
     @POST(URLConstants.URL_TIP_OFF)
     Observable<BaseResponse> tipOff(@Body HashMap<String, String> param);
+
+    //参加过的活动
+    @POST(URLConstants.URL_JIONED_ACTIVITYS)
+    Observable<ActivityResponse> getJoinActivityList(@Body HashMap<String, String> hashMap);
 }

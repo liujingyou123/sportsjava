@@ -59,5 +59,6 @@ public class URLConstants {
     public final static String URL_MY_FANS_LIST = "api/notice/queryInteractive/v1.0.0";
     //举报
     public final static String URL_TIP_OFF = "api/tipoff/addTipOff/v1.0.0";
-
+    //参加过的活动
+    public final static String URL_JIONED_ACTIVITYS = "api/activity/selectActivityList/v1.0.0";
 }

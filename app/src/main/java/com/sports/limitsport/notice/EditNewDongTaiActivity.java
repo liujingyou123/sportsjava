@@ -23,6 +23,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.Act;
 import com.sports.limitsport.notice.model.SelectMedia;
 import com.sports.limitsport.util.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -62,6 +63,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private static final int REQUEST_CODE_AT = 200;
     private static final int REQUEST_CODE_ACTIVITY = 201;
     private SelectMedia selectMedia;
+    private Act selectAct;
 
 
     @Override
@@ -237,8 +239,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
             etContent.setText(etContent.getText().toString() + "@" + name);
             etContent.setSelection(etContent.getText().toString().length());
         } else if (requestCode == REQUEST_CODE_ACTIVITY && resultCode == RESULT_OK) {
-            String activity = data.getStringExtra("activity");
-            etContent.setText("#" + activity + "#" + etContent.getText().toString());
+            selectAct = (Act) data.getSerializableExtra("activity");
+            etContent.setText("#" + selectAct.getName() + "#" + etContent.getText().toString());
             etContent.setSelection(etContent.getText().toString().length());
         }
     }

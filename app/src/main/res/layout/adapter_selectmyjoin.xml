@@ -29,7 +29,7 @@
         android:layout_alignTop="@id/imv_cover"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="2dp"
-        android:text="南山俱乐部 大云山潜水第九期"
+        android:text=""
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:maxLines="1"
