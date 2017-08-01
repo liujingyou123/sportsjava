@@ -49,7 +49,7 @@ public class GenderSelectDialog extends BottomSelectDialog implements WheelPicke
     @Override
     public void onItemSelected(WheelPicker picker, Object data, int position) {
         gender = (String) data;
-        position = position;
+        this.position = position;
     }
 
     private void initListener() {
@@ -65,10 +65,11 @@ public class GenderSelectDialog extends BottomSelectDialog implements WheelPicke
         data_gender.add("男");
         data_gender.add("女");
 
-
         wpGender.setData(data_gender);
         wpGender.setSelectedItemPosition(0);
 
+        gender = "男";
+        position = 0;
     }
 
     public interface SelectResultListener {

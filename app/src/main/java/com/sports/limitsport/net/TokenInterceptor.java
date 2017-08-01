@@ -60,6 +60,6 @@ public class TokenInterceptor implements Interceptor {
         }
         XLog.d("token-->" + token);
 //        Log.d(getClass().getSimpleName(), "token-->" + token);
-        return "1BBE46B083F46901E9D05014CE792C08";//"1BBE46B083F46901E9D05014CE792C08"
+        return token;//"1BBE46B083F46901E9D05014CE792C08"
     }
 }

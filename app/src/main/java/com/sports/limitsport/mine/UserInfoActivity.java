@@ -120,8 +120,10 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
         if (mPresenter == null) {
             mPresenter = new UserInfoPresenter(this);
         }
-        mPresenter.getUserInfo();
-        ;
+        if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
+            mPresenter.getUserInfo();
+        }
+
     }
 
     private void initView() {
@@ -346,8 +348,20 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
     }
 
     private boolean check() {
+        if ((dataBean == null || TextViewUtil.isEmpty(dataBean.getHeadPortrait())) && TextViewUtil.isEmpty(headPath)) {
+            ToastUtil.showFalseToast(this, "请选择头像");
+            return false;
+        }
+
+        String nameTmp = tvNicheng.getText().toString();
+        if (TextViewUtil.isEmpty(nameTmp)) {
+            ToastUtil.showFalseToast(this, "请输入昵称");
+            return false;
+        }
+        name = nameTmp;
+
         String genderTmp = itGender.getLableTwo().trim();
-        if (TextViewUtil.isEmpty(genderTmp)) {
+        if (!"男".equals(genderTmp) && !"女".equals(genderTmp)) {
             ToastUtil.showFalseToast(this, "请选择性别");
             return false;
         }
@@ -358,12 +372,6 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             gender = "1";
         }
 
-        String nameTmp = tvNicheng.getText().toString();
-        if (TextViewUtil.isEmpty(nameTmp)) {
-            ToastUtil.showFalseToast(this, "请输入昵称");
-            return false;
-        }
-        name = nameTmp;
 
         String citytmp = tvCity.getText().toString();
         if (TextViewUtil.isEmpty(citytmp)) {
@@ -373,7 +381,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
         city = citytmp;
 
         String birthtmp = itBirth.getLableTwo();
-        if (TextViewUtil.isEmpty(birthtmp)) {
+        if (TextViewUtil.isEmpty(birthtmp) || "请选择出生年月".equals(birthtmp) || "请选择".equals(birthtmp)) {
             ToastUtil.showFalseToast(this, "请选择出生年月");
             return false;
         }
@@ -389,7 +397,9 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
                 }
             }
         } else {
-            hobbysU = dataBean.getHobby();
+            if (dataBean != null) {
+                hobbysU = dataBean.getHobby();
+            }
         }
 
         if (etInduce.getText() != null) {
@@ -400,10 +410,6 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
     }
 
     private void saveUserInfo() {
-        if (TextViewUtil.isEmpty(dataBean.getHeadPortrait())) {
-            ToastUtil.showFalseToast(this, "请选择头像");
-            return;
-        }
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("headPortrait", dataBean.getHeadPortrait());
         hashMap.put("name", name);
