@@ -55,8 +55,6 @@ public class URLConstants {
     public final static String URL_NOTICE_LIST = "api/notice/queryActivityNotice/v1.0.0";
     //互动消息列表
     public final static String URL_HUDONG_LIST = "api/notice/queryInteractive/v1.0.0";
-    //我的粉丝
-    public final static String URL_MY_FANS_LIST = "api/notice/queryInteractive/v1.0.0";
     //举报
     public final static String URL_TIP_OFF = "api/tipoff/addTipOff/v1.0.0";
     //参加过的活动
@@ -65,5 +63,6 @@ public class URLConstants {
     public final static String URL_FOCUS_FANS = "api/personal/attenttion/actionFans/v1.0.0";
     //新消息通知列表
     public final static String URL_NEW_NOTICE = "api/notice/getHaveNewNotice/v1.0.0";
-
+    //我的粉丝
+    public final static String URL_MY_FANS_LIST = "api/personal/attenttion/myFansList/v1.0.0";
 }

@@ -39,10 +39,10 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_btn_selector"
+        android:background="@drawable/bg_btn_sel"
         android:gravity="center"
-        android:text="已关注"
-        android:textColor="@color/color_btn_selector"
+        android:text=""
+        android:textColor="@color/color_btn_sel"
         android:textSize="14sp" />
     <TextView
         android:id="@+id/tv_location"

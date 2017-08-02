@@ -8,6 +8,7 @@ import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
@@ -153,4 +154,8 @@ public interface IpServices {
     @Headers("Content-Type: application/json")
     @POST(URLConstants.URL_NEW_NOTICE)
     Observable<NewNoticeResponse> getNewNotice();
+
+    //我的粉丝
+    @POST(URLConstants.URL_MY_FANS_LIST)
+    Observable<FansListResponse> getMyFansList(@Body HashMap<String, String> hashMap);
 }
