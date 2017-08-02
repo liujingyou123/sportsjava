@@ -7,6 +7,7 @@ import com.sports.limitsport.discovery.ui.IHotNewsView;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.net.NoneNetSubscriber;
 import com.sports.limitsport.util.MyTestData;
@@ -105,7 +106,7 @@ public class HotNewsPresenter {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", "1");
         hashMap.put("pageSize", "10");
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getNewPersonList(hashMap), new NetSubscriber<NewPersonListResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getNewPersonList(hashMap), new LoadingNetSubscriber<NewPersonListResponse>() {
             @Override
             public void response(NewPersonListResponse response) {
                 if (mIHotNewsView != null) {

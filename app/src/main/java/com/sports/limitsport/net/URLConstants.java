@@ -63,4 +63,7 @@ public class URLConstants {
     public final static String URL_JIONED_ACTIVITYS = "api/activity/selectActivityList/v1.0.0";
     //添加取消粉丝移除关注接口
     public final static String URL_FOCUS_FANS = "api/personal/attenttion/actionFans/v1.0.0";
+    //新消息通知列表
+    public final static String URL_NEW_NOTICE = "api/notice/getHaveNewNotice/v1.0.0";
+
 }

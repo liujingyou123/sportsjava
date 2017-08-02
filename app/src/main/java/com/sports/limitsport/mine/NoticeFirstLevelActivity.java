@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.model.NewNoticeResponse;
+import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.util.ToolsUtil;
 
 import java.util.List;
 
@@ -101,5 +106,24 @@ public class NoticeFirstLevelActivity extends BaseActivity {
                 showFragment(2);
                 break;
         }
+    }
+
+    private void getNewNotice() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getNewNotice(), new NetSubscriber<NewNoticeResponse>() {
+            @Override
+            public void response(NewNoticeResponse response) {
+                if (response != null && response.isSuccess() && response.getData() != null) {
+                    if (response.getData().getSystem() > 0 || response.getData().getActivity() > 0) {
+                        imvNoticeTip.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+
     }
 }

@@ -18,6 +18,7 @@ import com.sports.limitsport.discovery.JoinActivityActivity;
 import com.sports.limitsport.discovery.JoinClubActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.mine.adapter.TagFavAdapter;
+import com.sports.limitsport.model.EventBusUserModel;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
@@ -27,6 +28,8 @@ import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -254,17 +257,22 @@ public class PersonInfoHeaderView extends LinearLayout {
                         ToastUtil.showTrueToast(getContext(), "关注成功");
                         tvFocus.setText("取消关注");
                         tvFocus.setSelected(false);
-                        //TODO
-//                        status = "1";
-//                        status = "3";
+
+                        if ("2".equals(status)) {
+                            status = "3";
+                        } else {
+                            status = "1";
+                        }
 
                     } else {
                         ToastUtil.showTrueToast(getContext(), "已取消关注");
                         tvFocus.setText("+关注");
                         tvFocus.setSelected(true);
-                        //TODO
-//                        status = "0";
-//                        status = "2";
+                        if ("3".equals(status)) {
+                            status = "2";
+                        } else {
+                            status = "0";
+                        }
                     }
 
                 } else {
@@ -274,6 +282,10 @@ public class PersonInfoHeaderView extends LinearLayout {
                         ToastUtil.showTrueToast(getContext(), "取消关注失败");
                     }
                 }
+
+                EventBusUserModel param = new EventBusUserModel();
+                param.isRefresh = true;
+                EventBus.getDefault().post(param);
             }
 
             @Override

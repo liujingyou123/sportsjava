@@ -18,10 +18,13 @@ import com.sports.limitsport.discovery.ui.IHotNewsView;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.ClubListResponse;
+import com.sports.limitsport.model.EventBusUserModel;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.SignUpUser;
 import com.sports.limitsport.view.HotNewHeadView;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,30 +46,42 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     private HotNewHeadView hotNewHeadView;
     private List<SignUpUser> data = new ArrayList<>();
 
+    private boolean isGetData = true;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hot_news, null);
         unbinder = ButterKnife.bind(this, view);
         initView();
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         getData();
+        return view;
     }
 
     private void getData() {
         if (mPresenter == null) {
             mPresenter = new HotNewsPresenter(this);
         }
+//        mPresenter.getClubsList();
+//        mPresenter.getAdvList();
+//        mPresenter.getFineShow();
+    }
 
-        mPresenter.getClubsList();
-        mPresenter.getAdvList();
-        mPresenter.getFineShow();
-        mPresenter.getNewPersionList();
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mPresenter != null && isGetData) {
+            isGetData = false;
+            mPresenter.getNewPersionList();
+        }
+    }
+
+    @Subscribe
+    public void getStatusChange(EventBusUserModel params) {
+        if (params != null && params.isRefresh) {
+            isGetData = true;
+        }
     }
 
     private void initView() {

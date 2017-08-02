@@ -11,6 +11,7 @@ import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
+import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.model.NewPersonListResponse;
@@ -147,4 +148,9 @@ public interface IpServices {
     //添加取消粉丝移除关注接口
     @POST(URLConstants.URL_FOCUS_FANS)
     Observable<BaseResponse> focusFans(@Body HashMap<String, String> hashMap);
+
+    //新消息通知列表
+    @Headers("Content-Type: application/json")
+    @POST(URLConstants.URL_NEW_NOTICE)
+    Observable<NewNoticeResponse> getNewNotice();
 }
