@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine.ui;
 
+import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.UserInfoResponse;
 
 /**
@@ -8,4 +9,6 @@ import com.sports.limitsport.model.UserInfoResponse;
 
 public interface IMineView {
     void showUserInfo(UserInfoResponse response);
+
+    void showNewNotice(NewNoticeResponse response);
 }

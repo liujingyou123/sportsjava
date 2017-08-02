@@ -39,6 +39,16 @@
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
+        <ImageView
+            android:id="@+id/imv_new_notice_tip"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/bg_red_six"
+            android:visibility="gone" />
+
         <View
             style="@style/view_line"
             android:layout_alignParentBottom="true" />

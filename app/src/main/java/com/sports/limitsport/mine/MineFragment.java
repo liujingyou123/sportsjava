@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
@@ -19,6 +20,7 @@ import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.MinePresenter;
 import com.sports.limitsport.mine.ui.IMineView;
 import com.sports.limitsport.model.EventBusLogin;
+import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.view.MineHeaderView;
@@ -42,6 +44,8 @@ public class MineFragment extends BaseFragment implements IMineView {
     @BindView(R.id.ry_mine)
     RecyclerView ryMine;
     Unbinder unbinder;
+    @BindView(R.id.imv_new_notice_tip)
+    ImageView imvNewNoticeTip;
     private MineAdapter mineAdapter;
     private List<Dongtai> data = new ArrayList<>();
     private MineHeaderView headerView;
@@ -67,6 +71,10 @@ public class MineFragment extends BaseFragment implements IMineView {
         if (isGetData) {
             isGetData = false;
             getData();
+        }
+
+        if (mPresenter != null) {
+            mPresenter.getNewNotice();
         }
     }
 
@@ -152,6 +160,19 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void showUserInfo(UserInfoResponse response) {
         if (headerView != null) {
             headerView.setData(response);
+        }
+    }
+
+    @Override
+    public void showNewNotice(NewNoticeResponse response) {
+        if (response != null && response.isSuccess() && response.getData() != null) {
+            NewNoticeResponse.DataBean dataBean = response.getData();
+            if (dataBean.getSystem() > 0 || dataBean.getActivity() > 0 || dataBean.getComment() > 0 || dataBean.getAite() > 0 || dataBean.getFans() > 0 || dataBean.getPraise() > 0) {
+                imvNewNoticeTip.setVisibility(View.VISIBLE);
+            } else {
+                imvNewNoticeTip.setVisibility(View.GONE);
+            }
+
         }
     }
 }
