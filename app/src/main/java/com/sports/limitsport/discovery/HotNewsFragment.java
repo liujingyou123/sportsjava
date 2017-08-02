@@ -96,7 +96,7 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 SignUpUser item = (SignUpUser) adapter.getItem(position);
                 if (item != null) {
-                    gotoPersonInfo(item.getId() + "", item.getStatus());//0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+                    gotoPersonInfo(item.getId() + "");//0:互相不关注 1:我关注他 2:他关注我 3:互相关注
 
                 }
             }
@@ -143,10 +143,9 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     /**
      * 进入个人主页
      */
-    private void gotoPersonInfo(String id, String status) {
+    private void gotoPersonInfo(String id) {
         Intent intent = new Intent(getContext(), PersonInfoActivity.class);
         intent.putExtra("userId", id);
-        intent.putExtra("status", status);
         startActivity(intent);
     }
 

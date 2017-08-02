@@ -158,4 +158,8 @@ public interface IpServices {
     //我的粉丝
     @POST(URLConstants.URL_MY_FANS_LIST)
     Observable<FansListResponse> getMyFansList(@Body HashMap<String, String> hashMap);
+
+    //我的关注
+    @POST(URLConstants.URL_MY_FOCUS_LIST)
+    Observable<FansListResponse> getMyFoucsList(@Body HashMap<String, String> hashMap);
 }

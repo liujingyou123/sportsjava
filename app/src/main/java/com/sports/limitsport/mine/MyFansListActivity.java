@@ -68,12 +68,7 @@ public class MyFansListActivity extends BaseActivity {
     private void initView() {
         tvFocusHouse.setText("我的粉丝");
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_commentlist, null);
-        emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        emptyView.findViewById(R.id.tv_go).setVisibility(View.GONE);
         rvFocus.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyFansAdapter(data);
         adapter.bindToRecyclerView(rvFocus);

@@ -53,6 +53,7 @@ public class UserInfoResponse extends BaseResponse {
         private int myActivityNum;
         private String name;
         private String sex;
+        private String isAttenttion; //0:未关注 1已关注
 
         public int getActivityNum() {
             return activityNum;
@@ -172,6 +173,14 @@ public class UserInfoResponse extends BaseResponse {
 
         public void setSex(String sex) {
             this.sex = sex;
+        }
+
+        public String getIsAttenttion() {
+            return isAttenttion;
+        }
+
+        public void setIsAttenttion(String isAttenttion) {
+            this.isAttenttion = isAttenttion;
         }
     }
 }

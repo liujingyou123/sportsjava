@@ -92,8 +92,7 @@ public class PersonInfoHeaderView extends LinearLayout {
     TextView tvPrice;
     @BindView(R.id.imv_club_go)
     ImageView imvClubGo;
-    private String status;
-    private UserInfoResponse response;
+    private UserInfoResponse mResponse;
 
     public PersonInfoHeaderView(Context context) {
         super(context);
@@ -122,11 +121,11 @@ public class PersonInfoHeaderView extends LinearLayout {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus:
-                if (response != null) {
-                    if ("0".equals(status) || "2".equals(status)) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
-                        foucesFans("0", response.getData().getId() + "");
+                if (mResponse != null) {
+                    if ("0".equals(mResponse.getData().getIsAttenttion())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+                        foucesFans("0", mResponse.getData().getId() + "");
                     } else {
-                        foucesFans("2", response.getData().getId() + "");
+                        foucesFans("2", mResponse.getData().getId() + "");
                     }
                 }
 
@@ -160,10 +159,9 @@ public class PersonInfoHeaderView extends LinearLayout {
 
     }
 
-    public void setData(UserInfoResponse response, String status) {
+    public void setData(UserInfoResponse response) {
         if (response != null && response.getData() != null) {
-            this.status = status;
-            this.response = response;
+            this.mResponse = response;
             UserInfoResponse.DataBean dataBean = response.getData();
             Batman.getInstance().getImageWithCircle(dataBean.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
             if ("男".equals(dataBean.getSex())) { //男的
@@ -198,15 +196,11 @@ public class PersonInfoHeaderView extends LinearLayout {
                 setTagData(Arrays.asList(strs));
             }
 
-            if ("0".equals(status) || "2".equals(status)) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+            if ("0".equals(response.getData().getIsAttenttion())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
                 tvFocus.setVisibility(VISIBLE);
                 tvFocus.setText("+关注");
                 tvFocus.setSelected(true);
-            } else if ("1".equals(status)) {
-                tvFocus.setVisibility(VISIBLE);
-                tvFocus.setText("取消关注");
-                tvFocus.setSelected(false);
-            } else if ("3".equals(status)) {
+            } else if ("1".equals(response.getData().getIsAttenttion())) {
                 tvFocus.setVisibility(VISIBLE);
                 tvFocus.setText("取消关注");
                 tvFocus.setSelected(false);
@@ -257,22 +251,13 @@ public class PersonInfoHeaderView extends LinearLayout {
                         ToastUtil.showTrueToast(getContext(), "关注成功");
                         tvFocus.setText("取消关注");
                         tvFocus.setSelected(false);
-
-                        if ("2".equals(status)) {
-                            status = "3";
-                        } else {
-                            status = "1";
-                        }
+                        mResponse.getData().setIsAttenttion("1");
 
                     } else {
                         ToastUtil.showTrueToast(getContext(), "已取消关注");
                         tvFocus.setText("+关注");
                         tvFocus.setSelected(true);
-                        if ("3".equals(status)) {
-                            status = "2";
-                        } else {
-                            status = "0";
-                        }
+                        mResponse.getData().setIsAttenttion("0");
                     }
 
                 } else {

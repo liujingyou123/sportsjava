@@ -35,7 +35,6 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
     private List<Dongtai> data = new ArrayList<>();
     private MineAdapter mineAdapter;
     private String userId = "";
-    private String status;
     private PersonInfoPresenter mPresenter;
     private PersonInfoHeaderView headerView;
 
@@ -54,7 +53,6 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
         Intent intent = getIntent();
         if (intent != null) {
             userId = intent.getStringExtra("userId");
-            status = intent.getStringExtra("status");
         }
     }
 
@@ -97,7 +95,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
     @Override
     public void showUserInfo(UserInfoResponse response) {
         if (headerView != null) {
-            headerView.setData(response, status);
+            headerView.setData(response);
         }
     }
 
