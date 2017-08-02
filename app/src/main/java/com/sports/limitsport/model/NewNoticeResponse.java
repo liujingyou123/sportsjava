@@ -2,6 +2,8 @@ package com.sports.limitsport.model;
 
 import com.sports.limitsport.base.BaseResponse;
 
+import java.io.Serializable;
+
 /**
  * Created by liuworkmac on 17/8/2.
  */
@@ -27,7 +29,7 @@ public class NewNoticeResponse extends BaseResponse {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private int activity;
         private int aite;
         private int comment;

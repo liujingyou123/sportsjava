@@ -6,20 +6,20 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.model.NewNoticeResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -27,34 +27,38 @@ import butterknife.Unbinder;
  */
 
 public class HudongFragment extends Fragment {
-    //    @BindView(R.id.tv_comment)
-//    TextView tvComment;
-//    @BindView(R.id.tv_me)
-//    TextView tvMe;
-//    @BindView(R.id.tv_fans)
-//    TextView tvFans;
-//    @BindView(R.id.tv_fav)
-//    TextView tvFav;
     Unbinder unbinder;
     @BindView(R.id.tb)
     TabLayout tb;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
-//
-//    private EachCommentFragment eachCommentFragment; //评论
-//    private FocusMeFragment focusMeFragment; //@我
-//    private FansFragment fansFragment; //粉丝
-//    private GetFavFragment getFavFragment;//获赞
+
     List<String> titles = new ArrayList<>();
+    @BindView(R.id.imv_at_tip)
+    ImageView imvAtTip;
+    @BindView(R.id.imv_fans_tip)
+    ImageView imvFansTip;
+    @BindView(R.id.imv_zan_tip)
+    ImageView imvZanTip;
+    @BindView(R.id.imv_comment_tip)
+    ImageView imvCommentTip;
+    private NewNoticeResponse.DataBean mDataBean;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fudong, null);
         unbinder = ButterKnife.bind(this, view);
-//        initView();
+        getBundleData();
         initView();
         return view;
+    }
+
+    private void getBundleData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mDataBean = (NewNoticeResponse.DataBean) bundle.getSerializable("notice");
+        }
     }
 
     private void initView() {
@@ -62,11 +66,6 @@ public class HudongFragment extends Fragment {
         titles.add("@我");
         titles.add("粉丝");
         titles.add("获赞");
-//
-//        tb.addTab(tb.newTab().setText("评论"));
-//        tb.addTab(tb.newTab().setText("@我"));
-//        tb.addTab(tb.newTab().setText("粉丝"));
-//        tb.addTab(tb.newTab().setText("获赞"));
 
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new EachCommentFragment());
@@ -77,93 +76,48 @@ public class HudongFragment extends Fragment {
         FragAdapter adapter = new FragAdapter(getChildFragmentManager(), fragments);
         viewpager.setAdapter(adapter);
         tb.setupWithViewPager(viewpager);
-    }
 
-//    private void initView() {
-//        setSelect(1);
-//    }
+        tb.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+//                XLog.e("onTabSelected");
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        if (mDataBean != null) {
+            if (mDataBean.getComment() > 0) {
+                imvCommentTip.setVisibility(View.VISIBLE);
+            }
+
+            if (mDataBean.getAite() > 0) {
+                imvAtTip.setVisibility(View.VISIBLE);
+            }
+
+            if (mDataBean.getFans() > 0) {
+                imvFansTip.setVisibility(View.VISIBLE);
+            }
+
+            if (mDataBean.getPraise() > 0) {
+                imvZanTip.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
-
-//    @OnClick({R.id.tv_comment, R.id.tv_me, R.id.tv_fans, R.id.tv_fav})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.tv_comment:
-//                setSelect(1);
-//                break;
-//            case R.id.tv_me:
-//                setSelect(2);
-//                break;
-//            case R.id.tv_fans:
-//                setSelect(3);
-//                break;
-//            case R.id.tv_fav:
-//                setSelect(4);
-//                break;
-//        }
-//    }
-//
-//    private void setSelect(int index) {
-//        tvComment.setSelected(false);
-//        tvMe.setSelected(false);
-//        tvFans.setSelected(false);
-//        tvFav.setSelected(false);
-//        if (index == 1) {
-//            tvComment.setSelected(true);
-//            if (eachCommentFragment == null) {
-//                eachCommentFragment = new EachCommentFragment();
-//            }
-//
-//            addFragment(eachCommentFragment);
-//        } else if (index == 2) {
-//            tvMe.setSelected(true);
-//            if (focusMeFragment == null) {
-//                focusMeFragment = new FocusMeFragment();
-//            }
-//            addFragment(focusMeFragment);
-//        } else if (index == 3) {
-//            tvFans.setSelected(true);
-//            if (fansFragment == null) {
-//                fansFragment = new FansFragment();
-//            }
-//            addFragment(fansFragment);
-//        } else if (index == 4) {
-//            tvFav.setSelected(true);
-//            if (getFavFragment == null) {
-//                getFavFragment = new GetFavFragment();
-//            }
-//            addFragment(getFavFragment);
-//        }
-//    }
-//
-//    protected void addFragment(Fragment fragment) {
-//        String tag = fragment.getClass().getName();
-//        FragmentManager fm = this.getChildFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        int count = fm.getBackStackEntryCount();
-//        if (count >= 1) {
-//
-//            ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
-//        }
-//        if (fm.findFragmentByTag(tag) == null) {
-//            ft.add(R.id.fl_content, fragment, tag);
-//        }
-//        ft.show(fragment);
-//        List<Fragment> list = fm.getFragments();
-//        if (list != null) {
-//            for (int i = 0; i < list.size(); i++) {
-//                if (list.get(i) != null && list.get(i) != fragment) {
-//                    ft.hide(list.get(i));
-//                }
-//            }
-//        }
-//        ft.addToBackStack(tag);
-//        ft.commit();
-//    }
 
     class FragAdapter extends FragmentPagerAdapter {
 

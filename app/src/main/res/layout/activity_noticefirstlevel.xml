@@ -55,7 +55,8 @@
                 android:layout_width="6dp"
                 android:layout_height="6dp"
                 android:src="@drawable/bg_red_six"
-                android:layout_toRightOf="@id/tv_hudong" />
+                android:layout_toRightOf="@id/tv_hudong"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <View

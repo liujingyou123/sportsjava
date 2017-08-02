@@ -14,7 +14,7 @@
             android:scaleType="centerInside"
             android:layout_marginTop="18dp"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/icon_notice_official"/>
+            android:src="@mipmap/icon_notice_official" />
         <TextView
             android:id="@+id/tv_huodong_notice"
             android:layout_width="wrap_content"
@@ -57,7 +57,8 @@
             android:src="@drawable/bg_red_six"
             android:layout_toRightOf="@id/tv_huodong_notice"
             android:layout_alignTop="@id/tv_huodong_notice"
-            android:layout_marginTop="-2dp"/>
+            android:layout_marginTop="-2dp"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -114,6 +115,7 @@
             android:src="@drawable/bg_red_six"
             android:layout_toRightOf="@id/tv_sys_notice"
             android:layout_alignTop="@id/tv_sys_notice"
-            android:layout_marginTop="-2dp"/>
+            android:layout_marginTop="-2dp"
+            android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>

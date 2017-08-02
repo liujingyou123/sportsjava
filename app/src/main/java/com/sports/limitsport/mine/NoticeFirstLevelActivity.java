@@ -9,13 +9,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.model.EventBusNewNotice;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -40,12 +45,15 @@ public class NoticeFirstLevelActivity extends BaseActivity {
     private NoticeSubFirstFragment noticeSubFirstFragment;
     private HudongFragment hudongFragment;
 
+    private NewNoticeResponse.DataBean mDataBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticefirstlevel);
         ButterKnife.bind(this);
         showFragment(1);
+        getNewNotice();
     }
 
     private void showFragment(int type) {
@@ -61,6 +69,9 @@ public class NoticeFirstLevelActivity extends BaseActivity {
             if (hudongFragment == null) {
                 hudongFragment = new HudongFragment();
             }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("notice", mDataBean);
+            hudongFragment.setArguments(bundle);
             addFragment(hudongFragment);
             tvNotice.setSelected(false);
             tvHudong.setSelected(true);
@@ -109,13 +120,34 @@ public class NoticeFirstLevelActivity extends BaseActivity {
     }
 
     private void getNewNotice() {
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getNewNotice(), new NetSubscriber<NewNoticeResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getNewNotice(), new LoadingNetSubscriber<NewNoticeResponse>() {
             @Override
             public void response(NewNoticeResponse response) {
                 if (response != null && response.isSuccess() && response.getData() != null) {
-                    if (response.getData().getSystem() > 0 || response.getData().getActivity() > 0) {
+                    NewNoticeResponse.DataBean dataBean = response.getData();
+//                    dataBean.setActivity(1);
+//                    dataBean.setAite(1);
+//                    dataBean.setComment(1);
+//                    dataBean.setFans(1);
+//                    dataBean.setPraise(1);
+//                    dataBean.setSystem(1);
+                    mDataBean = dataBean;
+                    if (dataBean.getSystem() > 0 || dataBean.getActivity() > 0) {
                         imvNoticeTip.setVisibility(View.VISIBLE);
                     }
+
+                    if (dataBean.getComment() > 0 || dataBean.getAite() > 0 || dataBean.getFans() > 0 || dataBean.getPraise() > 0) {
+                        imvHudongTip.setVisibility(View.VISIBLE);
+                    }
+
+                    EventBusNewNotice param = new EventBusNewNotice();
+                    param.activity = dataBean.getActivity();
+                    param.aite = dataBean.getAite();
+                    param.comment = dataBean.getComment();
+                    param.fans = dataBean.getFans();
+                    param.praise = dataBean.getPraise();
+                    param.system = dataBean.getSystem();
+                    EventBus.getDefault().post(param);
                 }
             }
 
