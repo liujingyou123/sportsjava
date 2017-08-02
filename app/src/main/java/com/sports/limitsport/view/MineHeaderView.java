@@ -178,13 +178,11 @@ public class MineHeaderView extends LinearLayout {
 
             }
 
-            if (!TextViewUtil.isEmpty(dataBean.getFansNum())) {
-                tvFensi.setText(dataBean.getFansNum());
-            }
+            tvFensi.setText(dataBean.getFansNum()+"");
 
-            if (!TextViewUtil.isEmpty(dataBean.getAttentionNum())) {
-                tvGuanzhu.setText(dataBean.getAttentionNum());
-            }
+
+            tvGuanzhu.setText(dataBean.getAttentionNum()+"");
+
 
             if (!TextViewUtil.isEmpty(dataBean.getName())) {
                 tvName.setText(dataBean.getName());
@@ -203,14 +201,11 @@ public class MineHeaderView extends LinearLayout {
                 setTagData(Arrays.asList(strs));
             }
 
-            //TODO 接口没有返回
-            tvFav.setText("收藏(0)");
-            tvClub.setText("俱乐部(0)");
-            tvActivity.setText("活动(0)");
+            tvFav.setText("收藏(" + dataBean.getCollectionNum() + ")");
+            tvClub.setText("俱乐部(" + dataBean.getClubNum() + ")");
+            tvActivity.setText("活动(" + dataBean.getActivityNum() + ")");
 
-            if (!TextViewUtil.isEmpty(dataBean.getActivityNum())) {
-                tvDongtai.setText("全部动态(" + dataBean.getActivityNum() + ")");
-            }
+            tvDongtai.setText("全部动态(" + dataBean.getMyActivityNum() + ")");
         }
     }
 

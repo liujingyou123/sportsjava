@@ -8,14 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.discovery.JoinActivityActivity;
 import com.sports.limitsport.discovery.JoinClubActivity;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.mine.adapter.TagFavAdapter;
+import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.tagview.TagCloudLayout;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +53,44 @@ public class PersonInfoHeaderView extends LinearLayout {
     LinearLayout llClubsAll;
     @BindView(R.id.tv_dongtai_tip)
     TextView tvDongtaiTip;
+    @BindView(R.id.imv_gender)
+    ImageView imvGender;
+    @BindView(R.id.tv_focus)
+    TextView tvFocus;
+    @BindView(R.id.tv_fensi)
+    TextView tvFensi;
+    @BindView(R.id.ll_fensi)
+    LinearLayout llFensi;
+    @BindView(R.id.tv_guanzhu)
+    TextView tvGuanzhu;
+    @BindView(R.id.ll_guanzhu)
+    LinearLayout llGuanzhu;
+    @BindView(R.id.rl_top)
+    RelativeLayout rlTop;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
+    @BindView(R.id.tv_des)
+    TextView tvDes;
+    @BindView(R.id.tg)
+    TagCloudLayout tg;
+    @BindView(R.id.imv_activity_go)
+    ImageView imvActivityGo;
+    @BindView(R.id.tv_status)
+    TextView tvStatus;
+    @BindView(R.id.tv_activity_name)
+    TextView tvActivityName;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.tv_address)
+    TextView tvAddress;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
+    @BindView(R.id.imv_club_go)
+    ImageView imvClubGo;
+    private String status;
+    private UserInfoResponse response;
 
     public PersonInfoHeaderView(Context context) {
         super(context);
@@ -66,7 +119,15 @@ public class PersonInfoHeaderView extends LinearLayout {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus:
-                showCancleFocusDailog();
+                if (response != null) {
+                    if ("0".equals(status) || "2".equals(status)) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+                        foucesFans("0", response.getData().getId() + "");
+                    } else {
+                        foucesFans("2", response.getData().getId() + "");
+                    }
+                }
+
+//                showCancleFocusDailog();
                 break;
             case R.id.imv_activity_go:
                 Intent intent = new Intent(this.getContext(), JoinActivityActivity.class);
@@ -96,6 +157,68 @@ public class PersonInfoHeaderView extends LinearLayout {
 
     }
 
+    public void setData(UserInfoResponse response, String status) {
+        if (response != null && response.getData() != null) {
+            this.status = status;
+            this.response = response;
+            UserInfoResponse.DataBean dataBean = response.getData();
+            Batman.getInstance().getImageWithCircle(dataBean.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
+            if ("男".equals(dataBean.getSex())) { //男的
+                imvGender.setVisibility(VISIBLE);
+                imvGender.setSelected(false);
+
+            } else if ("女".equals(dataBean.getSex())) {//女的
+                imvGender.setVisibility(VISIBLE);
+                imvGender.setSelected(true);
+
+            }
+
+            tvFensi.setText(dataBean.getFansNum() + "");
+
+            tvGuanzhu.setText(dataBean.getAttentionNum() + "");
+
+
+            if (!TextViewUtil.isEmpty(dataBean.getName())) {
+                tvName.setText(dataBean.getName());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getCity())) {
+                tvLocation.setText(dataBean.getCity());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getIntroduction())) {
+                tvDes.setText(dataBean.getIntroduction());
+            }
+
+            if (!TextViewUtil.isEmpty(dataBean.getHobby())) {
+                String[] strs = dataBean.getHobby().split(",");
+                setTagData(Arrays.asList(strs));
+            }
+
+            if ("0".equals(status) || "2".equals(status)) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+                tvFocus.setVisibility(VISIBLE);
+                tvFocus.setText("+关注");
+                tvFocus.setSelected(true);
+            } else if ("1".equals(status)) {
+                tvFocus.setVisibility(VISIBLE);
+                tvFocus.setText("取消关注");
+                tvFocus.setSelected(false);
+            } else if ("3".equals(status)) {
+                tvFocus.setVisibility(VISIBLE);
+                tvFocus.setText("取消关注");
+                tvFocus.setSelected(false);
+            } else {
+                tvFocus.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setTagData(List<String> data) {
+        if (data != null) {
+            tg.setAdapter(new TagFavAdapter(getContext(), data));
+        }
+    }
+
     public void setEmpty() {
         llActivity.setVisibility(View.GONE);
         llClubsAll.setVisibility(View.GONE);
@@ -112,5 +235,56 @@ public class PersonInfoHeaderView extends LinearLayout {
             }
         });
         dialog.show();
+    }
+
+    /**
+     * 0:添加 1:移除 2:取消关注
+     *
+     * @param type
+     */
+    private void foucesFans(final String type, String userId) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type", type);
+        hashMap.put("receiveUserId", userId);
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).focusFans(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (response != null && response.isSuccess()) {
+                    if ("0".equals(type)) {
+                        ToastUtil.showTrueToast(getContext(), "关注成功");
+                        tvFocus.setText("取消关注");
+                        tvFocus.setSelected(false);
+                        //TODO
+//                        status = "1";
+//                        status = "3";
+
+                    } else {
+                        ToastUtil.showTrueToast(getContext(), "已取消关注");
+                        tvFocus.setText("+关注");
+                        tvFocus.setSelected(true);
+                        //TODO
+//                        status = "0";
+//                        status = "2";
+                    }
+
+                } else {
+                    if ("0".equals(type)) {
+                        ToastUtil.showTrueToast(getContext(), "关注失败");
+                    } else {
+                        ToastUtil.showTrueToast(getContext(), "取消关注失败");
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if ("0".equals(type)) {
+                    ToastUtil.showTrueToast(getContext(), "关注失败");
+                } else {
+                    ToastUtil.showTrueToast(getContext(), "取消关注失败");
+                }
+            }
+        });
     }
 }

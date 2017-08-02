@@ -305,7 +305,7 @@ public class LoginActivity extends BaseActivity {
 
                 if (response != null && response.isSuccess() && response.getData() != null) {
 
-                    response.getData().setUserPhone(userPhone);
+                    response.getData().setPhone(userPhone);
                     SharedPrefsUtil.saveUserInfo(response);
 
                     if (TextViewUtil.isEmpty(inputType)) {

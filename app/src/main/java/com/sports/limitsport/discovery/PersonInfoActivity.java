@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +10,11 @@ import android.view.View;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.discovery.presenter.PersonInfoPresenter;
+import com.sports.limitsport.discovery.ui.IPersonInfoView;
 import com.sports.limitsport.mine.adapter.MineAdapter;
 import com.sports.limitsport.mine.model.Dongtai;
+import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.view.PersonInfoHeaderView;
 
 import java.util.ArrayList;
@@ -25,11 +29,15 @@ import butterknife.OnClick;
  * 个人主页
  */
 
-public class PersonInfoActivity extends BaseActivity {
+public class PersonInfoActivity extends BaseActivity implements IPersonInfoView {
     @BindView(R.id.ry_person)
     RecyclerView ryPerson;
     private List<Dongtai> data = new ArrayList<>();
     private MineAdapter mineAdapter;
+    private String userId = "";
+    private String status;
+    private PersonInfoPresenter mPresenter;
+    private PersonInfoHeaderView headerView;
 
 
     @Override
@@ -37,8 +45,24 @@ public class PersonInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personinfo);
         ButterKnife.bind(this);
-        testData();
+        getIntentData();
         initView();
+        getData();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            userId = intent.getStringExtra("userId");
+            status = intent.getStringExtra("status");
+        }
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new PersonInfoPresenter(this);
+        }
+        mPresenter.getUserInfo(userId);
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share})
@@ -56,28 +80,9 @@ public class PersonInfoActivity extends BaseActivity {
         }
     }
 
-    private void testData() {
-        for (int i = 0; i < 5; i++) {
-            Dongtai dongtai = new Dongtai();
-            dongtai.imgUrl = "http://img1.juimg.com/160806/355860-160P620130540.jpg";
-            dongtai.des = "如果有天堂，应该是这样的，做最棒的自己。";
-            List<String> activitys = new ArrayList<>();
-            activitys.add("松花湖滑雪第二期");
-            activitys.add("南极探险题一起");
-            activitys.add("被迹象学弟");
-
-            List<String> recall = new ArrayList<>();
-            recall.add("南极探险题一起");
-            recall.add("被迹象学弟");
-            dongtai.activitys = activitys;
-            dongtai.recalls = recall;
-            data.add(dongtai);
-        }
-    }
-
     private void initView() {
 
-        View headerView = new PersonInfoHeaderView(this);
+        headerView = new PersonInfoHeaderView(this);
 
         ryPerson.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -87,5 +92,22 @@ public class PersonInfoActivity extends BaseActivity {
         mineAdapter.bindToRecyclerView(ryPerson);
 
         mineAdapter.setEmptyView(R.layout.empty_dongtai_two);
+    }
+
+    @Override
+    public void showUserInfo(UserInfoResponse response) {
+        if (headerView != null) {
+            headerView.setData(response, status);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+
+        mPresenter = null;
     }
 }

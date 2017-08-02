@@ -32,7 +32,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignBottom="@id/imv_head"
-                android:layout_alignRight="@id/imv_head" />
+                android:layout_alignRight="@id/imv_head"
+                android:src="@drawable/bg_gender_sel"/>
 
             <TextView
                 android:id="@+id/tv_focus"
@@ -44,9 +45,10 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_btn_selector"
                 android:gravity="center"
-                android:text="+关注"
+                android:text=""
                 android:textColor="@color/color_btn_selector"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/ll_fensi"
@@ -69,7 +71,7 @@
                     android:id="@+id/tv_fensi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2055"
+                    android:text="0"
                     android:textColor="#FFFFFFFF"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -92,10 +94,10 @@
                     android:textSize="10sp" />
 
                 <TextView
-                    android:id="@+id/guan_zhu"
+                    android:id="@+id/tv_guanzhu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1234"
+                    android:text="0"
                     android:textColor="#FFFFFFFF"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -113,7 +115,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="游客模式"
+                android:text="@string/text_default"
                 android:textColor="#FFFFFFFF"
                 android:textSize="18sp"
                 />
@@ -136,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="向小伙伴们介绍一下自己吧～"
+            android:text="还没有个性签名"
             android:textColor="#A5A4A4"
             android:textSize="12sp"
             android:paddingLeft="15dp"/>

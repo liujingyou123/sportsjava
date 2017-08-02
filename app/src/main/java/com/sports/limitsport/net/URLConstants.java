@@ -61,4 +61,6 @@ public class URLConstants {
     public final static String URL_TIP_OFF = "api/tipoff/addTipOff/v1.0.0";
     //参加过的活动
     public final static String URL_JIONED_ACTIVITYS = "api/activity/selectActivityList/v1.0.0";
+    //添加取消粉丝移除关注接口
+    public final static String URL_FOCUS_FANS = "api/personal/attenttion/actionFans/v1.0.0";
 }

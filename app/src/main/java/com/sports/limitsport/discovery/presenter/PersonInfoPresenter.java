@@ -1,6 +1,6 @@
-package com.sports.limitsport.mine.presenter;
+package com.sports.limitsport.discovery.presenter;
 
-import com.sports.limitsport.mine.ui.IMineView;
+import com.sports.limitsport.discovery.ui.IPersonInfoView;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
@@ -9,27 +9,27 @@ import com.sports.limitsport.util.ToolsUtil;
 import java.util.HashMap;
 
 /**
- * Created by liuworkmac on 17/7/31.
+ * Created by liuworkmac on 17/8/2.
  */
 
-public class MinePresenter {
-    IMineView mIMineView;
+public class PersonInfoPresenter {
+    private IPersonInfoView mIPersonInfoView;
 
-    public MinePresenter(IMineView mIMineView) {
-        this.mIMineView = mIMineView;
+    public PersonInfoPresenter(IPersonInfoView mIPersonInfoView) {
+        this.mIPersonInfoView = mIPersonInfoView;
     }
 
     /**
      * 获取用户信息
      */
-    public void getUserInfo() {
+    public void getUserInfo(String userId) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("userId", "");
+        hashMap.put("userId", userId);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getUserInfo(hashMap), new NetSubscriber<UserInfoResponse>() {
             @Override
             public void response(UserInfoResponse response) {
-                if (mIMineView != null) {
-                    mIMineView.showUserInfo(response);
+                if (mIPersonInfoView != null) {
+                    mIPersonInfoView.showUserInfo(response);
                 }
             }
 
@@ -42,6 +42,6 @@ public class MinePresenter {
     }
 
     public void clear() {
-        mIMineView = null;
+        mIPersonInfoView = null;
     }
 }

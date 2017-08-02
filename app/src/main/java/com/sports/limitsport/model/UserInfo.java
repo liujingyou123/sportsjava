@@ -26,9 +26,10 @@ public class UserInfo extends BaseResponse {
     public static class DataBean {
         private String accessToken;
         private int userId;
-        private String userPhone;
+        private String phone;
         private int isPerfect;//0:已完善 1:未完善
-        private String userName;
+        private String name;
+
 
         public String getAccessToken() {
             return accessToken;
@@ -46,14 +47,6 @@ public class UserInfo extends BaseResponse {
             this.userId = userId;
         }
 
-        public String getUserPhone() {
-            return userPhone;
-        }
-
-        public void setUserPhone(String userPhone) {
-            this.userPhone = userPhone;
-        }
-
         public int getIsPerfect() {
             return isPerfect;
         }
@@ -62,12 +55,20 @@ public class UserInfo extends BaseResponse {
             this.isPerfect = isPerfect;
         }
 
-        public String getUserName() {
-            return userName;
+        public String getPhone() {
+            return phone;
         }
 
-        public void setUserName(String userName) {
-            this.userName = userName;
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 }

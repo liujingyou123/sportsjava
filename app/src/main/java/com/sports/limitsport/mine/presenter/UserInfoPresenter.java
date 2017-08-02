@@ -6,6 +6,8 @@ import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
 
+import java.util.HashMap;
+
 /**
  * Created by liuworkmac on 17/7/31.
  */
@@ -21,7 +23,9 @@ public class UserInfoPresenter {
      * 获取用户信息
      */
     public void getUserInfo() {
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getUserInfo(), new NetSubscriber<UserInfoResponse>() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("userId", "");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getUserInfo(hashMap), new NetSubscriber<UserInfoResponse>() {
             @Override
             public void response(UserInfoResponse response) {
                 if (mIUserInfoView != null) {

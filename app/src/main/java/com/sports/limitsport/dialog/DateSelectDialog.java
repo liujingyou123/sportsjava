@@ -136,7 +136,7 @@ public class DateSelectDialog extends BottomSelectDialog implements WheelPicker.
     public void onClick(View v) {
         if (v == btnCancel) {
         } else {
-            String dateStr = year + "-" + (month > 9 ? month : "0" + month) + "-" + (day > 9 ? day : "0" + day);
+            String dateStr = year + "/" + (month > 9 ? month : "0" + month) + "/" + (day > 9 ? day : "0" + day);
             listener.onResult(dateStr);
         }
 

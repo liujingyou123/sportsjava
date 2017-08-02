@@ -249,8 +249,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 CommentList.ReplyList replyList = new CommentList.ReplyList();
                 replyList.setCommentUserId(SharedPrefsUtil.getUserInfo().getData().getUserId() + "");
 
-                //TODO 现在没有USERname  等登录接口增加
-                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getUserId()+"");
+                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getName()+"");
                 replyList.setReplyContent(commentDialog.getContent());
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");

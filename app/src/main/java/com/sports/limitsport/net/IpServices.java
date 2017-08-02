@@ -104,9 +104,8 @@ public interface IpServices {
     Observable<BaseResponse> updateUserInfo(@Body HashMap<String, String> param);
 
     //用户信息
-    @Headers("Content-Type: application/json")
     @POST(URLConstants.URL_USER_INFO)
-    Observable<UserInfoResponse> getUserInfo();
+    Observable<UserInfoResponse> getUserInfo(@Body HashMap<String, String> param);
 
     //用户个人设置
     @Headers("Content-Type: application/json")
@@ -144,4 +143,8 @@ public interface IpServices {
     //参加过的活动
     @POST(URLConstants.URL_JIONED_ACTIVITYS)
     Observable<ActivityResponse> getJoinActivityList(@Body HashMap<String, String> hashMap);
+
+    //添加取消粉丝移除关注接口
+    @POST(URLConstants.URL_FOCUS_FANS)
+    Observable<BaseResponse> focusFans(@Body HashMap<String, String> hashMap);
 }

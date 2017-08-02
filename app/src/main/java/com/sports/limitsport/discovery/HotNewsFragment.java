@@ -13,16 +13,14 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.discovery.adapter.NewPersionAdapter;
-import com.sports.limitsport.model.AdvertiseInfoResponse;
-import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.discovery.presenter.HotNewsPresenter;
 import com.sports.limitsport.discovery.ui.IHotNewsView;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.AdvertiseInfoResponse;
+import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.NewPersonListResponse;
-import com.sports.limitsport.model.SignList;
 import com.sports.limitsport.model.SignUpUser;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.view.HotNewHeadView;
 
 import java.util.ArrayList;
@@ -78,15 +76,13 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
         adapter.addHeaderView(hotNewHeadView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvNew);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                XLog.e("onItemChildClick");
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 SignUpUser item = (SignUpUser) adapter.getItem(position);
                 if (item != null) {
-                    if ("0".equals(item.getStatus()) || "2".equals(item.getStatus())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
-                        gotoPersonInfo(item.getId() + "");
-                    }
+                    gotoPersonInfo(item.getId() + "", item.getStatus());//0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+
                 }
             }
         });
@@ -132,9 +128,10 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     /**
      * 进入个人主页
      */
-    private void gotoPersonInfo(String id) {
+    private void gotoPersonInfo(String id, String status) {
         Intent intent = new Intent(getContext(), PersonInfoActivity.class);
-        intent.putExtra("id", id);
+        intent.putExtra("userId", id);
+        intent.putExtra("status", status);
         startActivity(intent);
     }
 
