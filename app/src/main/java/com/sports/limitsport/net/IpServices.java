@@ -167,4 +167,8 @@ public interface IpServices {
     //我的关注
     @POST(URLConstants.URL_SMS_CODE)
     Observable<MessageResponse> getSmsCode(@Body HashMap<String, String> hashMap);
+
+    //点赞
+    @POST(URLConstants.URL_PRAISE)
+    Observable<BaseResponse> praise(@Body HashMap<String, String> hashMap);
 }

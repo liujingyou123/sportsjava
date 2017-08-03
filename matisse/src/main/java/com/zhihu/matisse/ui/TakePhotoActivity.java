@@ -53,15 +53,22 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
     MediaActionSwitchView photoVideoCameraSwitcher;
     RelativeLayout cameraLayout;
 
+    public static final int FLAG_ONLY_PHOTO = 0x00001;
+    public static final int FLAG_ONLY_VIDEO = 0x00002;
+    public static final int FLAG_BOTH_PHOTO_VIDEO = 0x0003;
+
     public static final String FRAGMENT_TAG = "camera";
     private static final int REQUEST_CAMERA_PERMISSIONS = 931;
     private static final int REQUEST_PREVIEW_CODE = 1001;
 
+    private int flag;
+    private boolean canChange;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_takephoto);
+        getIntentData();
         setCamera();
 
         settingsView = findView(R.id.settings_view);
@@ -89,6 +96,13 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
 //        }, 500);
     }
 
+    public void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            flag = intent.getIntExtra("flag", FLAG_BOTH_PHOTO_VIDEO);
+        }
+    }
+
     private <T> T findView(int id) {
         return (T) findViewById(id);
     }
@@ -104,10 +118,16 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
     @RequiresPermission(Manifest.permission.CAMERA)
     public void addCamera() {
 //        cameraLayout.setVisibility(View.VISIBLE);
-
         Configuration.Builder builder = new Configuration.Builder();
         builder.setCamera(Configuration.CAMERA_FACE_REAR);
         builder.setMediaAction(Configuration.MEDIA_ACTION_VIDEO);
+        if (flag == FLAG_BOTH_PHOTO_VIDEO) {
+            canChange = true;
+        } else if (flag == FLAG_ONLY_VIDEO) {
+            canChange = false;
+        } else if (flag == FLAG_ONLY_PHOTO) {
+            canChange = true;
+        }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -191,6 +211,19 @@ public class TakePhotoActivity extends AppCompatActivity implements View.OnClick
 
                     recordButton.displayVideoRecordStateReady();
                     flashSwitchView.setVisibility(View.GONE);
+
+                    if (flag == FLAG_ONLY_VIDEO || flag == FLAG_ONLY_PHOTO) {
+                        photoVideoCameraSwitcher.setVisibility(View.INVISIBLE);
+                    }
+                    if (canChange) {
+                        canChange = false;
+                        final CameraFragmentApi cameraFragment5 = getCameraFragment();
+                        if (cameraFragment5 != null) {
+                            cameraFragment5.switchActionPhotoVideo();
+                        }
+                    }
+
+
                 }
 
                 @Override

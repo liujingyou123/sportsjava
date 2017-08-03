@@ -28,7 +28,8 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.DateSelectDialog;
 import com.sports.limitsport.dialog.GenderSelectDialog;
 import com.sports.limitsport.image.Batman;
-import com.sports.limitsport.main.SelectOwnHobbyActivity;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.SelectOwnHobbyFragment;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.UserInfoPresenter;
 import com.sports.limitsport.mine.ui.IUserInfoView;
@@ -190,7 +191,8 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
         itHobby.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserInfoActivity.this, SelectOwnHobbyActivity.class);
+                Intent intent = new Intent(UserInfoActivity.this,IdentifyMainActivity.class);
+                intent.putExtra("flag", IdentifyMainActivity.FLAG_HOBBY);
                 intent.putExtra("type", "1");
                 startActivityForResult(intent, REQUEST_CODE_HOBBYS);
             }

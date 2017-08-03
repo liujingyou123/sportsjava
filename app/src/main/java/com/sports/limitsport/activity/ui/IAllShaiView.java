@@ -14,4 +14,6 @@ public interface IAllShaiView {
     void onFocusReslult(boolean b, String id);
 
     void showPublishActivityComent(boolean b);
+
+    void onPraiseResult(boolean b);
 }

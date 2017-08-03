@@ -1,16 +1,19 @@
 package com.sports.limitsport.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.aliyunoss.AliOss;
-import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.main.adapter.HobbyAdapter;
 import com.sports.limitsport.main.adapter.HobbySpaceItemDecoration;
@@ -39,7 +42,7 @@ import rx.functions.Func1;
  * Created by jingyouliu on 17/7/9.
  */
 
-public class SelectOwnHobbyActivity extends BaseActivity {
+public class SelectOwnHobbyFragment extends BaseFragment {
     @BindView(R.id.rl_hobby)
     RecyclerView rlHobby;
     @BindView(R.id.tv_skip)
@@ -54,30 +57,31 @@ public class SelectOwnHobbyActivity extends BaseActivity {
     private String hobbys;
     private Subscription mSubscription;
 
-    private String type; // 1:从个人资料页 进入
+    private String type; // 不为空 从非认证页进入  1:从 个人资料页进入
 
     private List<HashMap<String, String>> hobbysList = new ArrayList<>();
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selectownhabbits);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_selectownhabbits, null);
+        ButterKnife.bind(this, view);
         getIntentData();
         initView();
 
         getHobbys();
+        return view;
     }
 
     private void getIntentData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            headPath = intent.getStringExtra("headPath");
-            gender = intent.getStringExtra("gender");
-            name = intent.getStringExtra("name");
-            city = intent.getStringExtra("city");
-            birth = intent.getStringExtra("birth");
-            type = intent.getStringExtra("type");
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            headPath = bundle.getString("headPath");
+            gender = bundle.getString("gender");
+            name = bundle.getString("name");
+            city = bundle.getString("city");
+            birth = bundle.getString("birth");
+            type = bundle.getString("type");
         }
     }
 
@@ -85,17 +89,21 @@ public class SelectOwnHobbyActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                Intent intent1 = new Intent(SelectOwnHobbyActivity.this, MainActivity.class);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent1);
+                if (!TextViewUtil.isEmpty(type)) {
+                    getActivity().finish();
+                } else {
+                    Intent intent1 = new Intent(getContext(), MainActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent1);
+                }
                 break;
             case R.id.tv_done:
                 if ("1".equals(type)) {
                     getHobby();
                     Intent intent = new Intent();
                     intent.putExtra("hobbys", (Serializable) hobbysList);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().finish();
                 } else {
                     doUploadPic();
                 }
@@ -104,13 +112,11 @@ public class SelectOwnHobbyActivity extends BaseActivity {
     }
 
     private void initView() {
-        if ("1".equals(type)) {
-            tvSkip.setVisibility(View.GONE);
-        }
-        rlHobby.setLayoutManager(new GridLayoutManager(this, 3));
+
+        rlHobby.setLayoutManager(new GridLayoutManager(getContext(), 3));
         adapter = new HobbyAdapter(mData);
         rlHobby.setAdapter(adapter);
-        rlHobby.addItemDecoration(new HobbySpaceItemDecoration(UnitUtil.dip2px(this, 10)));
+        rlHobby.addItemDecoration(new HobbySpaceItemDecoration(UnitUtil.dip2px(getContext(), 10)));
     }
 
     public void getHobbys() {
@@ -175,16 +181,22 @@ public class SelectOwnHobbyActivity extends BaseActivity {
                         userInfo.getData().setIsPerfect(0);
                     }
                     SharedPrefsUtil.saveUserInfo(userInfo);
-                    Intent intent = new Intent(SelectOwnHobbyActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+
+                    if (!TextViewUtil.isEmpty(type)) {
+                        getActivity().finish();
+                    } else {
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+
                 }
             }
         });
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (mSubscription != null && mSubscription.isUnsubscribed()) {
             mSubscription.unsubscribe();

@@ -18,18 +18,18 @@ import com.sports.limitsport.activity.presenter.AllShaiPresenter;
 import com.sports.limitsport.activity.ui.IAllShaiView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.main.IdentifyActivity;
+import com.sports.limitsport.main.IdentifyFragment;
+import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
-import com.sports.limitsport.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,32 +116,46 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (SharedPrefsUtil.getUserInfo() == null) {
                     Intent intent = new Intent(AllShaiActivity.this, LoginActivity.class);
-                    intent.putExtra("type", "1");
+                    intent.putExtra("type", "2");
                     startActivity(intent);
                     return;
                 } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
-                    Intent intent = new Intent(AllShaiActivity.this, IdentifyActivity.class);
-                    intent.putExtra("type", "1");
+                    Intent intent = new Intent(AllShaiActivity.this, IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
                     startActivity(intent);
-                }
-                DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
-                if (dongTaiList != null) {
-                    if (view.getId() == R.id.tv_focus) {
-                        if (dongTaiList.getAttentionFlag() == 0) {
-                            if (mPresenter != null) {
-                                mPresenter.foucesFans(dongTaiList.getPublishUserId() + "", dongTaiList.getId() + "");
+                } else {
+                    DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                    if (dongTaiList != null) {
+                        if (view.getId() == R.id.tv_focus) {
+                            if (dongTaiList.getAttentionFlag() == 0) {
+                                if (mPresenter != null) {
+                                    mPresenter.foucesFans(dongTaiList.getPublishUserId() + "", dongTaiList.getId() + "");
+                                }
+                            } else if (dongTaiList.getAttentionFlag() == 1) {
+                                Intent intent = new Intent(AllShaiActivity.this, PersonInfoActivity.class);
+                                intent.putExtra("userId", dongTaiList.getPublishUserId());
+                                startActivity(intent);
                             }
-                        } else if (dongTaiList.getAttentionFlag() == 1) {
-                            Intent intent = new Intent(AllShaiActivity.this, PersonInfoActivity.class);
-                            intent.putExtra("userId", dongTaiList.getPublishUserId());
-                            startActivity(intent);
-                        }
 
-                    } else if (view.getId() == R.id.imv_pinglun) {
-                        selectId = dongTaiList.getId();
-                        commentDialog.show();
+                        } else if (view.getId() == R.id.imv_pinglun) {
+                            selectId = dongTaiList.getId();
+                            commentDialog.show();
+                        } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
+                            selectId = dongTaiList.getId();
+                            if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
+
+                            } else {
+                                if (mPresenter != null) {
+                                    mPresenter.praise(dongTaiList.getId()+"");
+                                }
+                            }
+                        } else if (view.getId() == R.id.imv_report) {
+                            ReportDialog reportDialog = new ReportDialog(AllShaiActivity.this, "2", dongTaiList.getId()+"");
+                            reportDialog.show();
+                        }
                     }
                 }
+
             }
         });
 
@@ -269,6 +283,29 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
             commentDialog.setContent("");
         } else {
             ToastUtil.showTrueToast(this, "评论失败");
+        }
+    }
+
+    @Override
+    public void onPraiseResult(boolean b) {
+        if (b) {
+            doPraise();
+        } else {
+            ToastUtil.showTrueToast(this, "点赞失败");
+        }
+    }
+
+    private void doPraise() {
+        for (int i = 0; i < allShaiAdapter.getData().size(); i++) {
+            if (selectId == allShaiAdapter.getData().get(i).getId()) {
+                if ("1".equals(allShaiAdapter.getData().get(i).getPraiseFlag())) {
+                    allShaiAdapter.getData().get(i).setPraiseFlag("0");
+                } else {
+                    allShaiAdapter.getData().get(i).setPraiseFlag("1");
+                }
+                allShaiAdapter.notifyDataSetChanged();
+                break;
+            }
         }
     }
 

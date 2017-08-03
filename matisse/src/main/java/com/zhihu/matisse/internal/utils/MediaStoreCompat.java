@@ -29,6 +29,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.os.EnvironmentCompat;
 
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.internal.entity.SelectionSpec;
 import com.zhihu.matisse.ui.TakePhotoActivity;
 
 import java.io.File;
@@ -46,6 +47,7 @@ public class MediaStoreCompat {
     private CaptureStrategy mCaptureStrategy;
     private Uri mCurrentPhotoUri;
     private String mCurrentPhotoPath;
+    private SelectionSpec mSpec;
 
     public MediaStoreCompat(Activity activity) {
         mContext = new WeakReference<>(activity);
@@ -70,6 +72,10 @@ public class MediaStoreCompat {
 
     public void setCaptureStrategy(CaptureStrategy strategy) {
         mCaptureStrategy = strategy;
+    }
+
+    public void setSelectionSpec(SelectionSpec spec) {
+        mSpec = spec;
     }
 
     public void dispatchCaptureIntent(Context context, int requestCode) {
@@ -106,6 +112,14 @@ public class MediaStoreCompat {
 //        }
 
         Intent intent = new Intent(context, TakePhotoActivity.class);
+        if (mSpec != null && mSpec.onlyShowImages()) {
+            intent.putExtra("flag", TakePhotoActivity.FLAG_ONLY_PHOTO);
+        } else if (mSpec != null && mSpec.onlyShowVideos()) {
+            intent.putExtra("flag", TakePhotoActivity.FLAG_ONLY_VIDEO);
+        } else {
+            intent.putExtra("flag", TakePhotoActivity.FLAG_BOTH_PHOTO_VIDEO);
+        }
+
         if (mFragment != null) {
             mFragment.get().startActivityForResult(intent, requestCode);
         } else {

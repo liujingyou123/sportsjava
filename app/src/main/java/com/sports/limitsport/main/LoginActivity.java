@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
-import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.EventBusLogin;
-import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.model.MessageResponse;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.net.IpServices;
@@ -79,15 +77,10 @@ public class LoginActivity extends BaseActivity {
     private String userPhone;
     private String smsVerifyCode;
     private String messageId = "1111111111";
-//
-//    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
-//    private int requestCodeCount;//获取验证码次数
-
-//    private boolean isFirstPic;
 
     private Subscription mLogSb;
 
-    private String inputType;  //进入类型
+    private String type;  //进入类型
 
 
     @Override
@@ -102,7 +95,7 @@ public class LoginActivity extends BaseActivity {
     private void getIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
-            inputType = intent.getStringExtra("type");
+            type = intent.getStringExtra("type");
         }
     }
 
@@ -252,7 +245,7 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                if (TextViewUtil.isEmpty(inputType)) {
+                if (TextViewUtil.isEmpty(type)) {
                     gotoMainActivity();
                 }
                 finish();
@@ -286,7 +279,7 @@ public class LoginActivity extends BaseActivity {
                     response.getData().setPhone(userPhone);
                     SharedPrefsUtil.saveUserInfo(response);
 
-                    if (TextViewUtil.isEmpty(inputType)) {
+                    if (TextViewUtil.isEmpty(type)) {
                         if (response.getData().getIsPerfect() == 0) { //已完善
                             gotoMainActivity();
                         } else {
@@ -322,7 +315,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void gotoIdentifyActivity() {
-        Intent intent = new Intent(this, IdentifyActivity.class);
+        Intent intent = new Intent(this, IdentifyMainActivity.class);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
 

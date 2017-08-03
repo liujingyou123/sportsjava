@@ -1,6 +1,7 @@
 package com.sports.limitsport.main;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -11,14 +12,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
-import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.dialog.DateSelectDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.TextViewUtil;
@@ -42,7 +45,7 @@ import rx.functions.Action1;
  * 注册
  */
 
-public class IdentifyActivity extends BaseActivity {
+public class IdentifyFragment extends BaseFragment {
     @BindView(R.id.imv_head)
     ImageView imvHead;
     private static final int REQUEST_CODE_CHOOSE = 23;
@@ -59,21 +62,23 @@ public class IdentifyActivity extends BaseActivity {
     private String name;
     private String city;
     private String birth;
-    private String inputType;  //进入类型
+    private String type;  //进入类型
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_identify);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_identify, null);
+        ButterKnife.bind(this, view);
         getIntentData();
         init();
+        return view;
     }
 
+
     private void getIntentData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            inputType = intent.getStringExtra("type");
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            type = bundle.getString("type");
         }
     }
 
@@ -81,10 +86,10 @@ public class IdentifyActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                if (!TextViewUtil.isEmpty(inputType)) {
-                    finish();
+                if (!TextViewUtil.isEmpty(type)) {
+                    getActivity().finish();
                 } else {
-                    Intent intent1 = new Intent(IdentifyActivity.this, MainActivity.class);
+                    Intent intent1 = new Intent(getContext(), MainActivity.class);
                     intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent1);
                 }
@@ -94,17 +99,20 @@ public class IdentifyActivity extends BaseActivity {
                 break;
             case R.id.tv_done:
                 if (check()) {
-                    Intent intent = new Intent(this, SelectOwnHobbyActivity.class);
-                    intent.putExtra("headPath", headPath);
-                    intent.putExtra("gender", gender);
-                    intent.putExtra("name", name);
-                    intent.putExtra("city", city);
-                    intent.putExtra("birth", birth);
-                    startActivity(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("headPath", headPath);
+                    bundle.putString("gender", gender);
+                    bundle.putString("name", name);
+                    bundle.putString("city", city);
+                    bundle.putString("birth", birth);
+                    bundle.putString("type", type);
+                    SelectOwnHobbyFragment fragment = new SelectOwnHobbyFragment();
+                    fragment.setArguments(bundle);
+                    addFragment(fragment, true);
                 }
                 break;
             case R.id.tv_birth:
-                DateSelectDialog dialog = new DateSelectDialog(this, new DateSelectDialog.SelectResultListener() {
+                DateSelectDialog dialog = new DateSelectDialog(getContext(), new DateSelectDialog.SelectResultListener() {
                     @Override
                     public void onResult(String date) {
                         birth = date;
@@ -130,12 +138,12 @@ public class IdentifyActivity extends BaseActivity {
     }
 
     public void showPicker() {
-        RxPermissions rxPermissions = new RxPermissions(this);
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
         rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
             @Override
             public void call(Boolean aBoolean) {
                 if (aBoolean) {
-                    Matisse.from(IdentifyActivity.this)
+                    Matisse.from(IdentifyFragment.this)
                             .choose(MimeType.ofImage())
                             .capture(true)
                             .captureStrategy(
@@ -149,7 +157,7 @@ public class IdentifyActivity extends BaseActivity {
                             .imageEngine(new GlideEngine())
                             .forResult(REQUEST_CODE_CHOOSE);
                 } else {
-                    ToastUtil.show(IdentifyActivity.this, "Permission request denied");
+                    ToastUtil.show(getContext(), "Permission request denied");
                 }
             }
         });
@@ -157,9 +165,9 @@ public class IdentifyActivity extends BaseActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == Activity.RESULT_OK) {
             final String type = data.getStringExtra("type");
             String path = data.getStringExtra("path");
             final String uri = data.getStringExtra("uri");
@@ -169,7 +177,7 @@ public class IdentifyActivity extends BaseActivity {
                 Uri destinationUri = Uri.fromFile(new File(context.getCacheDir(), System.currentTimeMillis() + "_" + "head.jpg"));
                 startCrop(Uri.parse(uri), destinationUri);
             }
-        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+        } else if (resultCode == Activity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             Uri resultUri = UCrop.getOutput(data);
             headPath = resultUri.getPath();
             Batman.getInstance().getImageWithCircle(resultUri.getPath(), imvHead, R.mipmap.icon_gerenziliao_wutouxiang, R.mipmap.icon_gerenziliao_wutouxiang);
@@ -185,7 +193,7 @@ public class IdentifyActivity extends BaseActivity {
         uCrop.withAspectRatio(1, 1);
 
         uCrop = advancedConfig(uCrop);
-        uCrop.start(this);
+        uCrop.start(getContext(), this);
     }
 
     private UCrop advancedConfig(@NonNull UCrop uCrop) {
@@ -208,29 +216,29 @@ public class IdentifyActivity extends BaseActivity {
 
     private boolean check() {
         if (TextViewUtil.isEmpty(headPath)) {
-            ToastUtil.showFalseToast(this, "请选择头像");
+            ToastUtil.showFalseToast(getContext(), "请选择头像");
             return false;
         }
 
         if (TextViewUtil.isEmpty(gender)) {
-            ToastUtil.showFalseToast(this, "请选择性别");
+            ToastUtil.showFalseToast(getContext(), "请选择性别");
             return false;
         }
 
         name = etName.getText().toString();
         if (TextViewUtil.isEmpty(name)) {
-            ToastUtil.showFalseToast(this, "请输入昵称");
+            ToastUtil.showFalseToast(getContext(), "请输入昵称");
             return false;
         }
 
         city = etCity.getText().toString();
         if (TextViewUtil.isEmpty(city)) {
-            ToastUtil.showFalseToast(this, "请输入城市");
+            ToastUtil.showFalseToast(getContext(), "请输入城市");
             return false;
         }
 
         if (TextViewUtil.isEmpty(birth)) {
-            ToastUtil.showFalseToast(this, "请选择出生年月");
+            ToastUtil.showFalseToast(getContext(), "请选择出生年月");
             return false;
         }
         return true;

@@ -25,7 +25,7 @@ public class LauncherActivity extends BaseActivity {
                 Intent intent = null;
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     //TODO 调试用
-//                    intent = new Intent(LauncherActivity.this, IdentifyActivity.class);
+//                    intent = new Intent(LauncherActivity.this, IdentifyFragment.class);
                     intent = new Intent(LauncherActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(LauncherActivity.this, LoginActivity.class);

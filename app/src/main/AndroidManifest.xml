@@ -136,13 +136,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".main.IdentifyActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".main.SelectOwnHobbyActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".discovery.FindClubActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -213,6 +206,9 @@
         <activity
             android:name=".view.H5Activity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".main.IdentifyMainActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- jpush -->

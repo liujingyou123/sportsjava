@@ -123,6 +123,37 @@ public class AllShaiPresenter {
         });
     }
 
+    /**
+     * 点赞
+     * @param articleId
+     */
+    public void praise(String articleId) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("articleId", articleId);
+        hashMap.put("praiseType", "2");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).praise(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIAllShaiView != null && response.isSuccess()) {
+                    mIAllShaiView.onPraiseResult(true);
+                } else {
+                    if (mIAllShaiView != null) {
+                        mIAllShaiView.onPraiseResult(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIAllShaiView != null) {
+                    mIAllShaiView.onPraiseResult(false);
+                }
+            }
+        });
+    }
+
     public void clear() {
         mIAllShaiView = null;
     }

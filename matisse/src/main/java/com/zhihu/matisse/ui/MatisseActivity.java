@@ -111,6 +111,7 @@ public class MatisseActivity extends AppCompatActivity implements
             if (mSpec.captureStrategy == null)
                 throw new RuntimeException("Don't forget to set CaptureStrategy.");
             mMediaStoreCompat.setCaptureStrategy(mSpec.captureStrategy);
+            mMediaStoreCompat.setSelectionSpec(mSpec);
         }
 
         mButtonPreview = (TextView) findViewById(R.id.button_preview);
