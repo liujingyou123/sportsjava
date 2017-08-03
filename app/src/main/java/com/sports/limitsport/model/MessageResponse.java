@@ -8,6 +8,11 @@ import com.sports.limitsport.base.BaseResponse;
 
 public class MessageResponse extends BaseResponse{
 
+
+    /**
+     * messageId : aecc11f68f7747c69b083b9f3d1ead92
+     */
+
     private DataBean data;
 
     public DataBean getData() {
@@ -18,7 +23,7 @@ public class MessageResponse extends BaseResponse{
         this.data = data;
     }
 
-    public static class DataBean{
+    public static class DataBean {
         private String messageId;
 
         public String getMessageId() {

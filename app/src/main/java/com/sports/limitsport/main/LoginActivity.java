@@ -200,8 +200,7 @@ public class LoginActivity extends BaseActivity {
     private void getVerifyCode() {
         HashMap<String, String> params = new HashMap<>();
         params.put("userPhone", userPhone);
-        params.put("sendType", "0");//0-短信 1-语音，默认0
-        params.put("useScene", "0");//0-登录
+        params.put("userCode", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getSmsCode(params), new NetSubscriber<MessageResponse>() {
             @Override
             public void response(MessageResponse response) {

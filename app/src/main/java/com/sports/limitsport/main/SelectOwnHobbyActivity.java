@@ -15,8 +15,10 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.main.adapter.HobbyAdapter;
 import com.sports.limitsport.main.adapter.HobbySpaceItemDecoration;
 import com.sports.limitsport.model.Hobby;
+import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
@@ -165,7 +167,14 @@ public class SelectOwnHobbyActivity extends BaseActivity {
             @Override
             public void response(BaseResponse response) {
                 if (response != null && response.isSuccess()) {
+
+                    UserInfo userInfo = SharedPrefsUtil.getUserInfo();
+                    if (userInfo != null) {
+                        userInfo.getData().setIsPerfect(0);
+                    }
+                    SharedPrefsUtil.saveUserInfo(userInfo);
                     Intent intent = new Intent(SelectOwnHobbyActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }

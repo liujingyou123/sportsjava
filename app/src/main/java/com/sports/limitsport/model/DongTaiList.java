@@ -19,7 +19,7 @@ public class DongTaiList {
     private String headPortrait;
     private int id;
     private String imgUrl;
-    private int praiseFlag;
+    private String praiseFlag;
     private int praiseNum;
     private int publishUserId;
     private String publishUserName;
@@ -132,11 +132,11 @@ public class DongTaiList {
         this.imgUrl = imgUrl;
     }
 
-    public int getPraiseFlag() {
+    public String getPraiseFlag() {
         return praiseFlag;
     }
 
-    public void setPraiseFlag(int praiseFlag) {
+    public void setPraiseFlag(String praiseFlag) {
         this.praiseFlag = praiseFlag;
     }
 
