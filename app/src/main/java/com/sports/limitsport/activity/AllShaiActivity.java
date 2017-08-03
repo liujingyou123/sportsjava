@@ -17,11 +17,18 @@ import com.sports.limitsport.activity.adapter.AllShaiAdapter;
 import com.sports.limitsport.activity.presenter.AllShaiPresenter;
 import com.sports.limitsport.activity.ui.IAllShaiView;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
@@ -51,6 +58,9 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
     private String id;//活动ID
     private List<DongTaiList> data = new ArrayList<>();
     private int totalSize;
+    private CommentDialog commentDialog;
+
+    private int selectId; //动态ID；
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +111,41 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
             }
         });
 
-        allShaiAdapter.setLoadMoreView(new CustomLoadMoreView());
+        allShaiAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(AllShaiActivity.this, LoginActivity.class);
+                    intent.putExtra("type", "1");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(AllShaiActivity.this, IdentifyActivity.class);
+                    intent.putExtra("type", "1");
+                    startActivity(intent);
+                }
+                DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                if (dongTaiList != null) {
+                    if (view.getId() == R.id.tv_focus) {
+                        if (dongTaiList.getAttentionFlag() == 0) {
+                            if (mPresenter != null) {
+                                mPresenter.foucesFans(dongTaiList.getPublishUserId() + "", dongTaiList.getId() + "");
+                            }
+                        } else if (dongTaiList.getAttentionFlag() == 1) {
+                            Intent intent = new Intent(AllShaiActivity.this, PersonInfoActivity.class);
+                            intent.putExtra("userId", dongTaiList.getPublishUserId());
+                            startActivity(intent);
+                        }
+
+                    } else if (view.getId() == R.id.imv_pinglun) {
+                        selectId = dongTaiList.getId();
+                        commentDialog.show();
+                    }
+                }
+            }
+        });
+
+        allShaiAdapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         allShaiAdapter.disableLoadMoreIfNotFullPage();
         allShaiAdapter.setEnableLoadMore(true);
@@ -124,6 +168,17 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
             public void onRefreshing() {
                 XLog.e("onRefreshing");
                 refresh();
+            }
+        });
+
+        commentDialog = new CommentDialog(this);
+
+        commentDialog.setOkDoneListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentDialog.dismiss();
+                mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+
             }
         });
     }
@@ -194,5 +249,54 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
     @Override
     public void onError(Throwable e) {
 
+    }
+
+    @Override
+    public void onFocusReslult(boolean b, String id) {
+        if (b) {
+            ToastUtil.showTrueToast(this, "关注成功");
+            doFuces(id);
+        } else {
+            ToastUtil.showTrueToast(this, "关注失败");
+        }
+    }
+
+    @Override
+    public void showPublishActivityComent(boolean b) {
+        if (b) {
+            ToastUtil.showTrueToast(this, "评论成功");
+            doComment();
+            commentDialog.setContent("");
+        } else {
+            ToastUtil.showTrueToast(this, "评论失败");
+        }
+    }
+
+    private void doComment() {
+        for (int i = 0; i < allShaiAdapter.getData().size(); i++) {
+            if (selectId == allShaiAdapter.getData().get(i).getId()) {
+                DongTaiList.CommentListBean commentListBean = new DongTaiList.CommentListBean();
+                commentListBean.setCommentatorName(SharedPrefsUtil.getUserInfo().getData().getName());
+                commentListBean.setContent(commentDialog.getContent());
+
+                List<DongTaiList.CommentListBean> listBeen = allShaiAdapter.getData().get(i).getCommentList();
+                if (listBeen == null) {
+                    listBeen = new ArrayList<>();
+                }
+                listBeen.add(0, commentListBean);
+                allShaiAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    private void doFuces(String mid) {
+        for (int i = 0; i < allShaiAdapter.getData().size(); i++) {
+            if (mid.equals(allShaiAdapter.getData().get(i).getId() + "")) {
+                allShaiAdapter.getData().get(i).setAttentionFlag(1);
+                allShaiAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

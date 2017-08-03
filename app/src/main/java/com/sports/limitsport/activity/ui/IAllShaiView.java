@@ -10,4 +10,8 @@ public interface IAllShaiView {
     void showAllShiList(DongTaiListResponse response);
 
     void onError(Throwable e);
+
+    void onFocusReslult(boolean b, String id);
+
+    void showPublishActivityComent(boolean b);
 }

@@ -59,20 +59,35 @@ public class IdentifyActivity extends BaseActivity {
     private String name;
     private String city;
     private String birth;
+    private String inputType;  //进入类型
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identify);
         ButterKnife.bind(this);
+        getIntentData();
         init();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            inputType = intent.getStringExtra("type");
+        }
     }
 
     @OnClick({R.id.tv_skip, R.id.imv_head, R.id.tv_done, R.id.tv_birth})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                finish();
+                if (!TextViewUtil.isEmpty(inputType)) {
+                    finish();
+                } else {
+                    Intent intent1 = new Intent(IdentifyActivity.this, MainActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent1);
+                }
                 break;
             case R.id.imv_head:
                 showPicker();

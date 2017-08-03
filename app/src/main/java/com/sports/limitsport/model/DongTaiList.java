@@ -9,7 +9,7 @@ import java.util.List;
 public class DongTaiList {
     private String activityId;
     private String activityName;
-    private String atUserList;
+    private List<AtUserList> atUserList;
     private int attentionFlag;
     private String clubId;
     private String clubName;
@@ -52,11 +52,11 @@ public class DongTaiList {
         this.activityName = activityName;
     }
 
-    public String getAtUserList() {
+    public List<AtUserList> getAtUserList() {
         return atUserList;
     }
 
-    public void setAtUserList(String atUserList) {
+    public void setAtUserList(List<AtUserList> atUserList) {
         this.atUserList = atUserList;
     }
 
@@ -239,5 +239,42 @@ public class DongTaiList {
         public void setContent(String content) {
             this.content = content;
         }
+    }
+
+    public static class AtUserList {
+        private String UserId;
+        private String name;
+
+        public String getUserId() {
+            return UserId;
+        }
+
+        public void setUserId(String userId) {
+            UserId = userId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DongTaiList that = (DongTaiList) o;
+
+        return id == that.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -85,7 +85,9 @@ public class SelectOwnHobbyActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                finish();
+                Intent intent1 = new Intent(SelectOwnHobbyActivity.this, MainActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent1);
                 break;
             case R.id.tv_done:
                 if ("1".equals(type)) {
