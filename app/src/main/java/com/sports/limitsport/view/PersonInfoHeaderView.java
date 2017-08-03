@@ -112,7 +112,7 @@ public class PersonInfoHeaderView extends LinearLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_head_person, this);
         ButterKnife.bind(this, this);
-        setData();
+//        setData();
         addClubs();
 //        setEmpty();
     }
@@ -205,7 +205,7 @@ public class PersonInfoHeaderView extends LinearLayout {
                 tvFocus.setText("取消关注");
                 tvFocus.setSelected(false);
             } else {
-                tvFocus.setVisibility(View.GONE);
+                tvFocus.setVisibility(View.INVISIBLE);
             }
         }
     }
