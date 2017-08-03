@@ -16,7 +16,10 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.EventBusLogin;
+import com.sports.limitsport.model.FansListResponse;
+import com.sports.limitsport.model.MessageResponse;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
@@ -195,50 +198,26 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void getVerifyCode() {
-//        HashMap<String, Object> params = new HashMap<>();
-//        params.put("userPhone", userPhone);
-//        params.put("sendType", 0);//0-短信 1-语音，默认0
-//        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
-//        UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
-//            @Override
-//            public void success(Message response) {
-//                messageId = response.data.messageId;
-//                requestCodeCount++;
-//                ToastUtil.show(context, "验证码发送成功");
-//            }
-//
-//            @Override
-//            public void failure(Throwable throwable) {
-//                if (getView() == null) return;
-//                countDown.reset();
-//                ToastUtil.show(context, throwable.getMessage());
-//            }
-//        });
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userPhone", userPhone);
+        params.put("sendType", "0");//0-短信 1-语音，默认0
+        params.put("useScene", "0");//0-登录
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getSmsCode(params), new NetSubscriber<MessageResponse>() {
+            @Override
+            public void response(MessageResponse response) {
+                messageId = response.getData().getMessageId();
+                ToastUtil.showFalseToast(context, "验证码发送成功");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                countDown.reset();
+                ToastUtil.showFalseToast(context, e.getMessage());
+            }
+        });
+
     }
-
-
-    // 获取图片验证码
-//    private void getPicCode() {
-//        HashMap<String, Object> params = new HashMap<>();
-//        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
-//        UserManager.getInstance().getPicCode(params, new NetworkCallback<ImageVerifyCode>() {
-//            @Override
-//            public void success(ImageVerifyCode response) {
-//                if (response != null && response.isSuccess()) {
-//                    isFirstPic = true;
-//                    picVerifyId = response.data.picVerifyId;
-//                    picVerifyCode = response.data.picVerifyCode;
-//                    picCode.setImageBitmap(fromBase64(response.data.base64Str));
-//                }
-//            }
-//
-//            @Override
-//            public void failure(Throwable throwable) {
-//
-//            }
-//        });
-//    }
-
 
     private boolean check(boolean login) {
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());

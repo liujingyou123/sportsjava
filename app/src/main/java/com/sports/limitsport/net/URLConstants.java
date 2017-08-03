@@ -67,4 +67,6 @@ public class URLConstants {
     public final static String URL_MY_FANS_LIST = "api/personal/attenttion/myFansList/v1.0.0";
     //我的关注
     public final static String URL_MY_FOCUS_LIST = "api/personal/attenttion/attionFansList/v1.0.0";
+    //短信验证吗
+    public final static String URL_SMS_CODE = "api/user/verify/sendSmsVerifyCode/v1.0.0";
 }

@@ -12,6 +12,7 @@ import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
+import com.sports.limitsport.model.MessageResponse;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
 import com.sports.limitsport.model.UserInfo;
@@ -162,4 +163,8 @@ public interface IpServices {
     //我的关注
     @POST(URLConstants.URL_MY_FOCUS_LIST)
     Observable<FansListResponse> getMyFoucsList(@Body HashMap<String, String> hashMap);
+
+    //我的关注
+    @POST(URLConstants.URL_SMS_CODE)
+    Observable<MessageResponse> getSmsCode(@Body HashMap<String, String> hashMap);
 }
