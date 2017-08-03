@@ -191,7 +191,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
         itHobby.setClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserInfoActivity.this,IdentifyMainActivity.class);
+                Intent intent = new Intent(UserInfoActivity.this, IdentifyMainActivity.class);
                 intent.putExtra("flag", IdentifyMainActivity.FLAG_HOBBY);
                 intent.putExtra("type", "1");
                 startActivityForResult(intent, REQUEST_CODE_HOBBYS);
@@ -472,6 +472,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
                 if (response != null && response.isSuccess()) {
                     ToastUtil.showTrueToast(UserInfoActivity.this, "修改个人资料成功");
                     UserInfo userInfo = SharedPrefsUtil.getUserInfo();
+                    userInfo.getData().setName(name);
                     userInfo.getData().setIsPerfect(0);
                     SharedPrefsUtil.saveUserInfo(userInfo);
                     EventBusUserInfo params = new EventBusUserInfo();

@@ -154,6 +154,37 @@ public class AllShaiPresenter {
         });
     }
 
+    /**
+     * 取消点赞
+     * @param articleId
+     */
+    public void cancelPraise(String articleId) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("articleId", articleId);
+        hashMap.put("praiseType", "2");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelPraise(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIAllShaiView != null && response.isSuccess()) {
+                    mIAllShaiView.onCancelPraiseResult(true);
+                } else {
+                    if (mIAllShaiView != null) {
+                        mIAllShaiView.onCancelPraiseResult(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIAllShaiView != null) {
+                    mIAllShaiView.onCancelPraiseResult(false);
+                }
+            }
+        });
+    }
+
     public void clear() {
         mIAllShaiView = null;
     }

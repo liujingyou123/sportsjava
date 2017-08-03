@@ -179,6 +179,7 @@ public class SelectOwnHobbyFragment extends BaseFragment {
                     UserInfo userInfo = SharedPrefsUtil.getUserInfo();
                     if (userInfo != null) {
                         userInfo.getData().setIsPerfect(0);
+                        userInfo.getData().setName(name);
                     }
                     SharedPrefsUtil.saveUserInfo(userInfo);
 

@@ -1,22 +1,40 @@
 package com.sports.limitsport.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.presenter.DongTaiDetailPresenter;
+import com.sports.limitsport.activity.ui.IDongTaiDetailView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.discovery.adapter.FineShowCommentAdapter;
+import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.model.CommentList;
+import com.sports.limitsport.model.CommentListResponse;
+import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.DongTaiDetialHeadView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,22 +45,50 @@ import butterknife.OnClick;
  * 动态详情
  */
 
-public class DongTaiDetailActivity extends BaseActivity {
+public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetailView {
     @BindView(R.id.rlv_comment)
     RecyclerView rlvComment;
     @BindView(R.id.btn_comment)
     TextView btnComment;
     @BindView(R.id.tv_send)
     TextView tvSend;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
     private FineShowCommentAdapter adapter;
     private CommentDialog commentDialog;
+    private DongTaiDetailPresenter mPresenter;
+    private DongTaiDetialHeadView headerView;
+    private String id; // 动态ID
+    private CommentList commentList; //回复评论对象
+    private int pageNumber = 1;
+    private List<CommentList> data = new ArrayList<>();
+    private int totalSize;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dongtai);
+        getIntentData();
         ButterKnife.bind(this);
         initView();
+        getData();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getStringExtra("id");
+        }
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new DongTaiDetailPresenter(this);
+        }
+
+        mPresenter.getDongTaiDetail(id);
+        mPresenter.getCommentList(id, pageNumber + "");
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment})
@@ -54,22 +100,105 @@ public class DongTaiDetailActivity extends BaseActivity {
             case R.id.tv_fav:
                 break;
             case R.id.btn_comment:
+                commentDialog.setType(1);
                 commentDialog.show();
                 break;
         }
     }
 
-
     private void initView() {
+        headerView = new DongTaiDetialHeadView(this);
+        headerView.setChildClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(DongTaiDetailActivity.this, LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(DongTaiDetailActivity.this, IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    if (headerView == null) {
+                        return;
+                    }
+                    DongTaiDetailResponse.DataBean data = headerView.getData();
+                    if (data != null) {
+                        if (view.getId() == R.id.tv_focus) {
+                            if (data.getAttentionFlag() == 0) {
+                                if (mPresenter != null) {
+                                    mPresenter.foucesFans(data.getPublishUserId() + "");
+                                }
+                            } else if (data.getAttentionFlag() == 1) {
+                                Intent intent = new Intent(DongTaiDetailActivity.this, PersonInfoActivity.class);
+                                intent.putExtra("userId", data.getPublishUserId());
+                                startActivity(intent);
+                            }
 
-        View headerView = new DongTaiDetialHeadView(this);
+                        } else if (view.getId() == R.id.imv_pinglun) {
+                            commentDialog.setType(1);
+                            commentDialog.show();
+                        } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
+                            if ("1".equals(data.getPraiseFlag())) { //1:已点赞 0:未点赞
+                                if (mPresenter != null) {
+                                    mPresenter.cancelPraise(data.getId() + "");
+                                }
+                            } else {
+                                if (mPresenter != null) {
+                                    mPresenter.praise(data.getId() + "");
+                                }
+                            }
+                        } else if (view.getId() == R.id.imv_report) {
+                            ReportDialog reportDialog = new ReportDialog(DongTaiDetailActivity.this, "2", data.getId() + "");
+                            reportDialog.show();
+                        }
+                    }
+                }
+            }
+        });
         rlvComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new FineShowCommentAdapter(MyTestData.getEmptyData());
+        adapter = new FineShowCommentAdapter(data);
         adapter.addHeaderView(headerView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvComment);
-//        ryMine.setAdapter(mineAdapter);
+
         adapter.setEmptyView(R.layout.empty_no_comment);
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
+
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, rlvComment);
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                commentList = (CommentList) adapter.getItem(position);
+                commentDialog.setType(2);
+                commentDialog.show();
+            }
+        });
 
         commentDialog = new CommentDialog(this);
         commentDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -91,8 +220,158 @@ public class DongTaiDetailActivity extends BaseActivity {
         commentDialog.setOkDoneListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mPresenter.commentTopic(topicId, commentDialog.getContent());
+                commentDialog.dismiss();
+                int type = commentDialog.getType();
+                if (1 == type) { //评论动态
+                    mPresenter.publishActivityComment(id, commentDialog.getContent());
+                } else if (2 == type) { //回复评论
+                    mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
+                }
             }
         });
+    }
+
+    private void loadMore() {
+        if (mPresenter != null) {
+            pageNumber++;
+            mPresenter.getCommentList(id, pageNumber + "");
+        }
+    }
+
+    private void refresh() {
+        if (mPresenter != null) {
+            pageNumber = 1;
+            mPresenter.getCommentList(id, pageNumber + "");
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
+    }
+
+    @Override
+    public void showDetail(DongTaiDetailResponse response) {
+        if (headerView != null && response != null) {
+            headerView.setData(response.getData());
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    @Override
+    public void onFocusReslult(boolean b) {
+        if (b) {
+            ToastUtil.showTrueToast(this, "关注成功");
+            if (headerView != null) {
+                headerView.setFocus();
+            }
+        } else {
+            ToastUtil.showTrueToast(this, "关注失败");
+        }
+    }
+
+    @Override
+    public void onPraiseResult(boolean b) {
+        if (b) {
+            if (headerView != null) {
+                headerView.setPraise();
+            }
+        } else {
+            ToastUtil.showTrueToast(this, "点赞失败");
+        }
+    }
+
+    @Override
+    public void onCancelPraiseResult(boolean b) {
+        if (b) {
+            if (headerView != null) {
+                headerView.setPraise();
+            }
+        } else {
+            ToastUtil.showTrueToast(this, "取消点赞失败");
+        }
+    }
+
+    @Override
+    public void showReplayComment(boolean isSuccess) {
+        if (isSuccess) {
+            setReplayData();
+            commentDialog.setContent("");
+            btnComment.setText("我要来发言…");
+            ToastUtil.showTrueToast(this, "回复成功");
+        } else {
+            ToastUtil.showTrueToast(this, "回复失败");
+        }
+    }
+
+    @Override
+    public void showPublishActivityComent(boolean b) {
+        if (b) {
+            commentDialog.setContent("");
+            btnComment.setText("我要来发言…");
+            ToastUtil.showTrueToast(this, "评论成功");
+            rlAll.autoRefresh();
+        } else {
+            ToastUtil.showTrueToast(this, "评论失败");
+        }
+    }
+
+    @Override
+    public void showCommentList(CommentListResponse response) {
+        if (response.getData() != null) {
+            totalSize = response.getData().getTotalSize();
+            if (headerView != null) {
+                headerView.setCommentNum(totalSize);
+            }
+            XLog.e("is resreshing = ");
+            if (rlAll.isRefreshing()) {
+                data.clear();
+                data.addAll(response.getData().getData());
+                adapter.notifyDataSetChanged();
+                rlAll.refreshComplete();
+            } else {
+                adapter.addData(response.getData().getData());
+                if (adapter.getData().size() >= totalSize) {
+                    adapter.loadMoreEnd();
+                } else {
+                    adapter.loadMoreComplete();
+                }
+            }
+        }
+
+    }
+
+    private void setReplayData() {
+        for (int i = 0; i < adapter.getData().size(); i++) {
+
+            if (adapter.getData().get(i).equals(commentList)) {
+                CommentList.ReplyList replyList = new CommentList.ReplyList();
+                replyList.setCommentUserId(SharedPrefsUtil.getUserInfo().getData().getUserId() + "");
+
+                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getName() + "");
+                replyList.setReplyContent(commentDialog.getContent());
+                replyList.setReplyUserName(commentList.getCommentatorName());
+                replyList.setReplyCommentId(commentList.getId() + "");
+                replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                if (adapter.getData().get(i).getReplyList() != null) {
+                    adapter.getData().get(i).getReplyList().add(0, replyList);
+                } else {
+                    List<CommentList.ReplyList> lists = new ArrayList<>();
+                    lists.add(replyList);
+                    adapter.getData().get(i).setReplyList(lists);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

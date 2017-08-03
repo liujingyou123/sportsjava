@@ -16,4 +16,6 @@ public interface IAllShaiView {
     void showPublishActivityComent(boolean b);
 
     void onPraiseResult(boolean b);
+
+    void onCancelPraiseResult(boolean b);
 }

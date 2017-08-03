@@ -71,4 +71,6 @@ public class URLConstants {
     public final static String URL_SMS_CODE = "api/user/verify/sendSmsVerifyCode/v1.0.0";
     //点赞
     public final static String URL_PRAISE = "api/praise/addPraise/v1.0.0";
+    //取消点赞
+    public final static String URL_CANCEL_PRAISE = "api/praise/cancelPraise/v1.0.0";
 }

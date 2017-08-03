@@ -28,25 +28,34 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@drawable/bg_nav_collect" />
+
         <TextView
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:singleLine="true"
+            android:text="动态详情"
             android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:text="动态详情"/>
+            android:textSize="16sp" />
+
         <View
             style="@style/view_line"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rlv_comment"
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/rl_all"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rlv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.ajguan.library.EasyRefreshLayout>
+
 
     <RelativeLayout
         android:id="@+id/ll_bottom"
@@ -65,12 +74,12 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/view_line"
             android:layout_centerVertical="true"
+            android:enabled="false"
+            android:gravity="center_vertical"
             android:padding="10dp"
             android:text="发布"
             android:textColor="@color/color_btn_selector"
-            android:textSize="14sp"
-            android:gravity="center_vertical"
-            android:enabled="false"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/btn_comment"

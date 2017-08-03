@@ -107,7 +107,10 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
         allShaiAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                gotoDongtaiDetail();
+                DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                if (dongTaiList != null) {
+                    gotoDongtaiDetail(dongTaiList.getId() + "");
+                }
             }
         });
 
@@ -143,14 +146,16 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
                         } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
                             selectId = dongTaiList.getId();
                             if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
-
+                                if (mPresenter != null) {
+                                    mPresenter.cancelPraise(dongTaiList.getId() + "");
+                                }
                             } else {
                                 if (mPresenter != null) {
-                                    mPresenter.praise(dongTaiList.getId()+"");
+                                    mPresenter.praise(dongTaiList.getId() + "");
                                 }
                             }
                         } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(AllShaiActivity.this, "2", dongTaiList.getId()+"");
+                            ReportDialog reportDialog = new ReportDialog(AllShaiActivity.this, "2", dongTaiList.getId() + "");
                             reportDialog.show();
                         }
                     }
@@ -215,8 +220,9 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
     /**
      * 前往动态详情页
      */
-    private void gotoDongtaiDetail() {
+    private void gotoDongtaiDetail(String id) {
         Intent intent = new Intent(this, DongTaiDetailActivity.class);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -295,14 +301,27 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
         }
     }
 
+    @Override
+    public void onCancelPraiseResult(boolean b) {
+        if (b) {
+            doPraise();
+        } else {
+            ToastUtil.showTrueToast(this, "取消点赞失败");
+        }
+    }
+
     private void doPraise() {
         for (int i = 0; i < allShaiAdapter.getData().size(); i++) {
             if (selectId == allShaiAdapter.getData().get(i).getId()) {
+                int num = allShaiAdapter.getData().get(i).getPraiseNum();
                 if ("1".equals(allShaiAdapter.getData().get(i).getPraiseFlag())) {
+                    num++;
                     allShaiAdapter.getData().get(i).setPraiseFlag("0");
                 } else {
+                    num--;
                     allShaiAdapter.getData().get(i).setPraiseFlag("1");
                 }
+                allShaiAdapter.getData().get(i).setPraiseNum(num);
                 allShaiAdapter.notifyDataSetChanged();
                 break;
             }

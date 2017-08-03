@@ -175,7 +175,6 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 } else if (2 == type) { //回复评论
                     mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
                 }
-//                mPresenter.commentTopic(topicId, commentDialog.getContent());
             }
         });
     }

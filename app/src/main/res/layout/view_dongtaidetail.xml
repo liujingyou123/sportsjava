@@ -28,7 +28,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/imv_head"
             android:singleLine="true"
-            android:text="路过的一直"
+            android:text="@string/text_default"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -57,7 +57,7 @@
             android:layout_toLeftOf="@id/tv_focus"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="1天前"
+            android:text=""
             android:textColor="#FFA5A4A4"
             android:textSize="12sp" />
     </RelativeLayout>
@@ -68,22 +68,24 @@
         android:layout_height="200dp" />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="如果有天堂，应该是个岛的模样；如果有天堂，应该是个岛。"
+        android:text=""
         android:textColor="#FFA5A4A4"
         android:textSize="14sp" />
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_at"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="8dp"
-        android:text="'@lover_ss'"
-        android:textColor="#FF4795FB"
-        android:textSize="13sp" />
+        android:orientation="horizontal">
+
+    </LinearLayout>
 
     <com.sports.limitsport.view.tagview.TagCloudLayout
         android:id="@+id/tg_tag"
@@ -100,15 +102,16 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp">
 
-        <View style="@style/view_line"
-            android:layout_marginRight="15dp"/>
+        <View
+            style="@style/view_line"
+            android:layout_marginRight="15dp" />
 
         <ImageView
             android:id="@+id/imv_zan"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/icon_weidianzan" />
+            android:src="@drawable/bg_dianzan" />
 
         <TextView
             android:id="@+id/tv_san"
@@ -118,8 +121,8 @@
             android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/imv_zan"
             android:gravity="center_vertical"
-            android:text="1,234"
-            android:textColor="#FFFFFFFF"
+            android:text="0"
+            android:textColor="@color/color_s_green"
             android:textSize="12sp" />
 
         <ImageView
@@ -147,14 +150,15 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/icon_dongtai_tipoff"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_dongtai_tipoff" />
 
         <View
             style="@style/view_line"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -196,19 +200,20 @@
     <View
         style="@style/view_line"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp" />
 
     <TextView
+        android:id="@+id/tv_comments_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
         android:drawableLeft="@mipmap/icon_replay"
         android:drawablePadding="4dp"
         android:gravity="center_vertical"
-        android:text="全部评论（19条）"
+        android:text="全部评论（0条）"
         android:textColor="#FFFFFFFF"
-        android:textSize="16sp"
-        android:layout_marginBottom="15dp"/>
+        android:textSize="16sp" />
 </LinearLayout>

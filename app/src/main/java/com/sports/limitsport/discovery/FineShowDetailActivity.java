@@ -72,7 +72,7 @@ public class FineShowDetailActivity extends BaseActivity {
 
         rlvComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new FineShowCommentAdapter(MyTestData.getData());
+        adapter = new FineShowCommentAdapter(null);
         adapter.addHeaderView(headerView);
         adapter.setHeaderAndEmpty(true);
         adapter.bindToRecyclerView(rlvComment);

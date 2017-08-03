@@ -287,7 +287,7 @@
 
         <TextView
             style="@style/text_normal_gray"
-            android:text="集合地点：" />
+            android:text="活动地点：" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -295,8 +295,8 @@
             android:layout_marginLeft="2dp"
             android:drawableLeft="@mipmap/icon_eventdetail_location"
             android:drawablePadding="2dp"
-            android:text="@string/text_default"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:text="@string/text_default" />
     </LinearLayout>
 
     <TextView

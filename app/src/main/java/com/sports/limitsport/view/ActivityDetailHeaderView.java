@@ -146,7 +146,8 @@ public class ActivityDetailHeaderView extends LinearLayout {
         shallAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                gotoDongtaiDetail();
+                DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                gotoDongtaiDetail(dongTaiList.getId()+"");
             }
         });
     }
@@ -297,8 +298,9 @@ public class ActivityDetailHeaderView extends LinearLayout {
     /**
      * 前往动态详情页
      */
-    private void gotoDongtaiDetail() {
+    private void gotoDongtaiDetail(String id) {
         Intent intent = new Intent(getContext(), DongTaiDetailActivity.class);
+        intent.putExtra("id",id);
         getContext().startActivity(intent);
     }
 
