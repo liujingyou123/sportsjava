@@ -1,5 +1,7 @@
 package com.sports.limitsport.model;
 
+import java.util.List;
+
 /**
  * Created by liuworkmac on 17/7/26.
  */
@@ -7,15 +9,17 @@ package com.sports.limitsport.model;
 public class DongTaiList {
     private String activityId;
     private String activityName;
+    private String atUserList;
+    private int attentionFlag;
     private String clubId;
     private String clubName;
     private String content;
-    private String createTime;
+    private long createTime;
     private int creater;
     private String headPortrait;
     private int id;
     private String imgUrl;
-    private String praiseFlag;
+    private int praiseFlag;
     private int praiseNum;
     private int publishUserId;
     private String publishUserName;
@@ -25,6 +29,12 @@ public class DongTaiList {
     private String title;
     private String vedioThumbnailUrl;
     private String vedioUrl;
+    /**
+     * commentatorName : 廖智明11
+     * content : 帅气
+     */
+
+    private List<CommentListBean> commentList;
 
     public String getActivityId() {
         return activityId;
@@ -40,6 +50,22 @@ public class DongTaiList {
 
     public void setActivityName(String activityName) {
         this.activityName = activityName;
+    }
+
+    public String getAtUserList() {
+        return atUserList;
+    }
+
+    public void setAtUserList(String atUserList) {
+        this.atUserList = atUserList;
+    }
+
+    public int getAttentionFlag() {
+        return attentionFlag;
+    }
+
+    public void setAttentionFlag(int attentionFlag) {
+        this.attentionFlag = attentionFlag;
     }
 
     public String getClubId() {
@@ -66,11 +92,11 @@ public class DongTaiList {
         this.content = content;
     }
 
-    public String getCreateTime() {
+    public long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
 
@@ -106,11 +132,11 @@ public class DongTaiList {
         this.imgUrl = imgUrl;
     }
 
-    public String getPraiseFlag() {
+    public int getPraiseFlag() {
         return praiseFlag;
     }
 
-    public void setPraiseFlag(String praiseFlag) {
+    public void setPraiseFlag(int praiseFlag) {
         this.praiseFlag = praiseFlag;
     }
 
@@ -184,5 +210,34 @@ public class DongTaiList {
 
     public void setVedioUrl(String vedioUrl) {
         this.vedioUrl = vedioUrl;
+    }
+
+    public List<CommentListBean> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<CommentListBean> commentList) {
+        this.commentList = commentList;
+    }
+
+    public static class CommentListBean {
+        private String commentatorName;
+        private String content;
+
+        public String getCommentatorName() {
+            return commentatorName;
+        }
+
+        public void setCommentatorName(String commentatorName) {
+            this.commentatorName = commentatorName;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
     }
 }

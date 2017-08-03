@@ -62,9 +62,9 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
         if (mPresenter == null) {
             mPresenter = new HotNewsPresenter(this);
         }
-//        mPresenter.getClubsList();
-//        mPresenter.getAdvList();
-//        mPresenter.getFineShow();
+        mPresenter.getClubsList();
+        mPresenter.getAdvList();
+        mPresenter.getFineShow();
     }
 
     @Override
