@@ -137,6 +137,7 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
     @Override
     public void showFineShow(MyCollectFineShowResponse response) {
         if (response != null && response.getData() != null) {
+            totail = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
