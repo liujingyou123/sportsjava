@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.discovery.adapter.NewPersionAdapter;
@@ -41,6 +42,8 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     Unbinder unbinder;
     @BindView(R.id.rlv_new)
     RecyclerView rlvNew;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
     private NewPersionAdapter adapter;
     private HotNewsPresenter mPresenter;
     private HotNewHeadView hotNewHeadView;
@@ -101,6 +104,30 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
                 }
             }
         });
+
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+    }
+
+    private void refresh() {
+        if (mPresenter != null) {
+            mPresenter.getClubsList();
+            mPresenter.getAdvList();
+            mPresenter.getFineShow();
+            mPresenter.getNewPersionList();
+        }
     }
 
     @Override
@@ -136,7 +163,14 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     @Override
     public void showNewPersonList(NewPersonListResponse response) {
         if (response != null && response.getData() != null) {
-            adapter.addData(response.getData().getData());
+            if (rlAll.isRefreshing()) {
+                data.clear();
+                data.addAll(response.getData().getData());
+                adapter.notifyDataSetChanged();
+                rlAll.refreshComplete();
+            } else {
+                adapter.addData(response.getData().getData());
+            }
         }
     }
 

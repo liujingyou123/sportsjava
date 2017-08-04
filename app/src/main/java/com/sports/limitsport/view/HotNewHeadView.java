@@ -147,7 +147,7 @@ public class HotNewHeadView extends LinearLayout {
      */
     private void gotoClubDetail(String id) {
         Intent intent = new Intent(getContext(), ClubDetailActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         getContext().startActivity(intent);
     }
 
@@ -169,7 +169,9 @@ public class HotNewHeadView extends LinearLayout {
     }
 
     public void setClubsList(List<Club> data) {
-        clubAdapter.addData(data);
+        clubs.clear();
+        clubs.addAll(data);
+        clubAdapter.notifyDataSetChanged();
     }
 
     public void setImgUrls(List<String> imgUrls) {
@@ -182,7 +184,9 @@ public class HotNewHeadView extends LinearLayout {
 
     public void setFineShowList(List<FineShowList> data) {
         if (data != null && data.size() > 0) {
-            fineShowAdapter.addData(data);
+            fineShows.clear();
+            fineShows.addAll(data);
+            fineShowAdapter.notifyDataSetChanged();
         }
     }
 }
