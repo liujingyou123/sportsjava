@@ -11,15 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.discovery.adapter.DongTaiAdapter;
-import com.sports.limitsport.discovery.model.DongTai;
 import com.sports.limitsport.discovery.presenter.NewNewsPresenter;
 import com.sports.limitsport.discovery.ui.INewNewsView;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
+import com.sports.limitsport.model.DongTaiList;
+import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.view.CustomLoadMoreView;
 import com.sports.limitsport.view.NewNewsHeadView;
 import com.sports.limitsport.view.SpacesItemDecorationS;
 
@@ -46,18 +52,21 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     @BindView(R.id.rlv_new)
     RecyclerView rlvNew;
     Unbinder unbinder;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
 
     private DongTaiAdapter adapter;
-    private List<DongTai> data = new ArrayList<>();
+    private List<DongTaiList> data = new ArrayList<>();
     private NewNewsHeadView newNewsHeadView;
     private NewNewsPresenter mPresenter;
+    private int totalSize;
+    private int pageNumber = 1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_news, null);
         unbinder = ButterKnife.bind(this, view);
-        getTestData();
         init();
         return view;
     }
@@ -71,8 +80,9 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     private void getData() {
         if (mPresenter == null) {
             mPresenter = new NewNewsPresenter(this);
-            mPresenter.getAdvList();
         }
+        mPresenter.getAdvList();
+        mPresenter.getDongTaiList(pageNumber);
     }
 
     private void init() {
@@ -83,6 +93,8 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
         rlvNew.setLayoutManager(layoutManager);
         adapter = new DongTaiAdapter(data);
         adapter.bindToRecyclerView(rlvNew);
+        adapter.setLoadMoreView(new CustomLoadMoreView());
+
         adapter.addHeaderView(newNewsHeadView);
         SpacesItemDecorationS decoration = new SpacesItemDecorationS(5);
         rlvNew.addItemDecoration(decoration);
@@ -90,91 +102,116 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                if (dongTaiList == null) {
+                    return;
+                }
                 if (view.getId() == R.id.imv_cover) {
-                    gotoDongTaiDetail();
+                    gotoDongTaiDetail(dongTaiList.getId() + "");
                 } else if (view.getId() == R.id.imv_head || view.getId() == R.id.tv_name) {
-                    gotoPersonInfo();
+                    gotoPersonInfo(dongTaiList.getPublishUserId() + "");
+                } else if (view.getId() == R.id.imv_zan || view.getId() == R.id.tv_san) {
+                    if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
+                        if (mPresenter != null) {
+                            mPresenter.cancelPraise(dongTaiList.getId() + "", "2");
+                        }
+                    } else {
+                        if (mPresenter != null) {
+                            mPresenter.praise(dongTaiList.getId() + "", "2");
+                        }
+                    }
                 }
             }
         });
 
-
-    }
-
-    private void getTestData() {
-        List<DongTai> mdata = new ArrayList<>();
-
-        DongTai act = new DongTai();
-        act.imageUrl = "http://img2.imgtn.bdimg.com/it/u=4144902998,2125657744&fm=11&gp=0.jpg";
-        mdata.add(act);
-
-        DongTai act2 = new DongTai();
-        act2.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
-        mdata.add(act2);
-
-        DongTai act3 = new DongTai();
-        act3.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-        mdata.add(act3);
-
-        for (int i = 0; i < 4; i++) {
-            DongTai act4 = new DongTai();
-            act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
-            mdata.add(act4);
-        }
-
-        DongTai act5 = new DongTai();
-        act5.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-        mdata.add(act5);
-
-        for (int i = 0; i < 5; i++) {
-            DongTai act4 = new DongTai();
-            act4.imageUrl = "http://pic.58pic.com/58pic/13/60/97/48Q58PIC92r_1024.jpg";
-            mdata.add(act4);
-        }
-
-        for (int i = 0; i < 4; i++) {
-            DongTai act4 = new DongTai();
-            act4.imageUrl = "http://sc.jb51.net/uploads/allimg/150623/14-150623111Z1308.jpg";
-            mdata.add(act4);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            DongTai act6 = new DongTai();
-            act6.imageUrl = "http://pic28.photophoto.cn/20130705/0036036843557471_b.jpg";
-            mdata.add(act6);
-        }
-        doLoadBitmap(mdata);
-    }
-
-    private void doLoadBitmap(List<DongTai> mData) {
-        Observable.from(mData).map(new Func1<DongTai, DongTai>() {
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
-            public DongTai call(DongTai dongTai) {
-                DongTai act4 = new DongTai();
-                Bitmap bitmap = Batman.getInstance().getBitMap(NewNewsFragment.this.getContext(), dongTai.imageUrl);
-                if (bitmap != null) {
-                    act4.width = bitmap.getWidth();
-                    act4.height = bitmap.getHeight();
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, rlvNew);
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+    }
+
+    private void loadMore() {
+        if (mPresenter != null) {
+            pageNumber++;
+            mPresenter.getDongTaiList(pageNumber);
+        }
+    }
+
+    private void refresh() {
+        pageNumber = 1;
+        if (mPresenter != null) {
+            mPresenter.getDongTaiList(pageNumber);
+        }
+    }
+
+
+    private void doLoadBitmap(List<DongTaiList> mData) {
+        Observable.from(mData).map(new Func1<DongTaiList, DongTaiList>() {
+            @Override
+            public DongTaiList call(DongTaiList dongTai) {
+                Bitmap bitmap = null;
+                if (dongTai.getResourceType() == 1) { //1 图片 2:视频
+                    bitmap = Batman.getInstance().getBitMap(NewNewsFragment.this.getContext(), dongTai.getImgUrl());
+                } else {
+                    bitmap = Batman.getInstance().getBitMap(NewNewsFragment.this.getContext(), dongTai.getVedioThumbnailUrl());
                 }
-                act4.imageUrl = dongTai.imageUrl;
-                return act4;
+
+                if (bitmap != null) {
+                    dongTai.setWidth(bitmap.getWidth());
+                    dongTai.setHeight(bitmap.getHeight());
+                } else {
+                    dongTai.setWidth(372);
+                    dongTai.setHeight(460);
+                }
+                return dongTai;
             }
-        }).collect(new Func0<List<DongTai>>() {
+        }).collect(new Func0<List<DongTaiList>>() {
             @Override
-            public List<DongTai> call() {
-                return new ArrayList<DongTai>();
+            public List<DongTaiList> call() {
+                return new ArrayList<DongTaiList>();
             }
-        }, new Action2<List<DongTai>, DongTai>() {
+        }, new Action2<List<DongTaiList>, DongTaiList>() {
             @Override
-            public void call(List<DongTai> dongTais, DongTai dongTai) {
+            public void call(List<DongTaiList> dongTais, DongTaiList dongTai) {
                 if (dongTais != null) {
                     dongTais.add(dongTai);
                 }
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<DongTai>>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List<DongTaiList>>() {
             @Override
-            public void call(List<DongTai> dongTais) {
-                adapter.addData(dongTais);
+            public void call(List<DongTaiList> dongTais) {
+                if (rlAll.isRefreshing()) {
+                    data.clear();
+                    data.addAll(dongTais);
+                    adapter.notifyDataSetChanged();
+                    rlAll.refreshComplete();
+                } else {
+                    adapter.addData(dongTais);
+                    if (adapter.getData().size() >= totalSize) {
+                        adapter.loadMoreEnd();
+                    } else {
+                        adapter.loadMoreComplete();
+                    }
+                }
             }
         });
     }
@@ -182,16 +219,18 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     /**
      * 动态详情
      */
-    private void gotoDongTaiDetail() {
+    private void gotoDongTaiDetail(String id) {
         Intent intent = new Intent(getContext(), DongTaiDetailActivity.class);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
     /**
      * 个人主页
      */
-    private void gotoPersonInfo() {
+    private void gotoPersonInfo(String userId) {
         Intent intent = new Intent(getContext(), PersonInfoActivity.class);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
@@ -205,6 +244,57 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
 
             if (newNewsHeadView != null) {
                 newNewsHeadView.setImagesList(tmp);
+            }
+        }
+    }
+
+    @Override
+    public void showAllDongTai(DongTaiListResponse response) {
+        if (response.getData() != null) {
+
+            totalSize = response.getData().getTotalSize();
+            List<DongTaiList> tmp = response.getData().getData();
+            doLoadBitmap(tmp);
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    @Override
+    public void onCancelPraiseResult(boolean b, String articleId, String type) {
+        if (b) {
+            doPraise(articleId);
+        } else {
+            ToastUtil.showTrueToast(getContext(), "取消点赞失败");
+        }
+    }
+
+    @Override
+    public void onPraiseResult(boolean b, String articleId, String type) {
+        if (b) {
+            doPraise(articleId);
+        } else {
+            ToastUtil.showTrueToast(getContext(), "点赞失败");
+        }
+    }
+
+    private void doPraise(String id) {
+        for (int i = 0; i < adapter.getData().size(); i++) {
+            if (id.equals(adapter.getData().get(i).getId() + "")) {
+                int num = adapter.getData().get(i).getPraiseNum();
+                if ("1".equals(adapter.getData().get(i).getPraiseFlag())) { //已点赞
+                    num--;
+                    adapter.getData().get(i).setPraiseFlag("0");
+                } else {
+                    num++;
+                    adapter.getData().get(i).setPraiseFlag("1");
+                }
+                adapter.getData().get(i).setPraiseNum(num);
+                adapter.notifyDataSetChanged();
+                break;
             }
         }
     }

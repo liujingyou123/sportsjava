@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -190,6 +191,9 @@ public final class Batman {
      * @return
      */
     public Bitmap getBitMap(Context context, String url) {
+        if (TextViewUtil.isEmpty(url)) {
+            return null;
+        }
         return mButler.getBitMap(context, url);
     }
 

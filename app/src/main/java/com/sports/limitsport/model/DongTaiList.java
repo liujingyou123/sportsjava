@@ -29,6 +29,8 @@ public class DongTaiList {
     private String title;
     private String vedioThumbnailUrl;
     private String vedioUrl;
+    private int width;
+    private int height;
     /**
      * commentatorName : 廖智明11
      * content : 帅气
@@ -218,6 +220,22 @@ public class DongTaiList {
 
     public void setCommentList(List<CommentListBean> commentList) {
         this.commentList = commentList;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public static class CommentListBean {
