@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.dialog.CitySelectDialog;
 import com.sports.limitsport.dialog.DateSelectDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.TextViewUtil;
@@ -63,6 +64,7 @@ public class IdentifyFragment extends BaseFragment {
     private String city;
     private String birth;
     private String type;  //进入类型
+    private String province;
 
     @Nullable
     @Override
@@ -82,7 +84,7 @@ public class IdentifyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_skip, R.id.imv_head, R.id.tv_done, R.id.tv_birth})
+    @OnClick({R.id.tv_skip, R.id.imv_head, R.id.tv_done, R.id.tv_birth, R.id.et_city})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
@@ -120,6 +122,17 @@ public class IdentifyFragment extends BaseFragment {
                     }
                 });
                 dialog.show();
+                break;
+            case R.id.et_city:
+                CitySelectDialog dialog1 = new CitySelectDialog(getContext(), new CitySelectDialog.SelectResultListener() {
+                    @Override
+                    public void onResult(String province, String city) {
+                        IdentifyFragment.this.province = province;
+                        IdentifyFragment.this.city = city;
+                        etCity.setText(province + " " + city);
+                    }
+                });
+                dialog1.show();
                 break;
         }
     }

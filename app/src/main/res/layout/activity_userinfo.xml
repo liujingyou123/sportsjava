@@ -150,9 +150,8 @@
                     android:layout_toLeftOf="@id/imv_go_city"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="请输入"
                     android:minWidth="100dp"
-                    android:text="上海"
+                    android:text="请选择"
                     android:textColor="@color/color_gray_white_s"
                     android:textSize="14sp" />
 

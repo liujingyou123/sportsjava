@@ -25,9 +25,11 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.base.BaseResponse;
+import com.sports.limitsport.dialog.CitySelectDialog;
 import com.sports.limitsport.dialog.DateSelectDialog;
 import com.sports.limitsport.dialog.GenderSelectDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.main.IdentifyFragment;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.SelectOwnHobbyFragment;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
@@ -107,6 +109,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
     private String hobbysU;
     private String introduce;
     private Subscription mSubscription;
+    private String province;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -200,7 +203,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
 
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right, R.id.imv_go, R.id.imv_head})
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right, R.id.imv_go, R.id.imv_head, R.id.tv_city})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -218,6 +221,17 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             case R.id.imv_go:
             case R.id.imv_head:
                 showPicker();
+                break;
+            case R.id.tv_city:
+                CitySelectDialog dialog1 = new CitySelectDialog(this, new CitySelectDialog.SelectResultListener() {
+                    @Override
+                    public void onResult(String province, String city) {
+                        UserInfoActivity.this.province = province;
+                        UserInfoActivity.this.city = city;
+                        tvCity.setText(province + " " + city);
+                    }
+                });
+                dialog1.show();
                 break;
         }
     }
@@ -376,8 +390,8 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
 
 
         String citytmp = tvCity.getText().toString();
-        if (TextViewUtil.isEmpty(citytmp)) {
-            ToastUtil.showFalseToast(this, "请输入城市");
+        if (TextViewUtil.isEmpty(citytmp) || "请选择".equals(citytmp)) {
+            ToastUtil.showFalseToast(this, "请选择城市");
             return false;
         }
         city = citytmp;
