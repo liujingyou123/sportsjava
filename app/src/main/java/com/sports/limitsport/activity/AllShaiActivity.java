@@ -318,7 +318,9 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
                     num++;
                     allShaiAdapter.getData().get(i).setPraiseFlag("0");
                 } else {
-                    num--;
+                    if (num > 0) {
+                        num--;
+                    }
                     allShaiAdapter.getData().get(i).setPraiseFlag("1");
                 }
                 allShaiAdapter.getData().get(i).setPraiseNum(num);

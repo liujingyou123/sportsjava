@@ -75,4 +75,6 @@ public class URLConstants {
     public final static String URL_PRAISE = "api/praise/addPraise/v1.0.0";
     //取消点赞
     public final static String URL_CANCEL_PRAISE = "api/praise/cancelPraise/v1.0.0";
+    //我收藏的动态列表
+    public final static String URL_MY_COLLECT_DONGTAI = "api/trend/queryTrendCollectList/v1.0.0";
 }

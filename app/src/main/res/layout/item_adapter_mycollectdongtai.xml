@@ -9,28 +9,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp">
 
         <ImageView
             android:id="@+id/imv_head"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp" />
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/icon_gerenzhuye_morentouxiang"/>
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/imv_head"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/imv_head"
             android:singleLine="true"
             android:text="路过的一直"
             android:textColor="#ffffff"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_focus"
@@ -58,8 +59,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="1天前"
-            android:textColor="#ffffff"
-            android:textSize="10sp" />
+            android:textColor="#FFA5A4A4"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <ImageView
@@ -68,22 +69,24 @@
         android:layout_height="200dp" />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="如果有天堂，应该是个岛的模样；如果有天堂，应该是个岛。"
+        android:text=""
         android:textColor="#FFA5A4A4"
         android:textSize="14sp" />
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_at"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="8dp"
-        android:text="'@lover_ss'"
-        android:textColor="#FF4795FB"
-        android:textSize="13sp" />
+        android:orientation="horizontal">
+
+    </LinearLayout>
 
     <com.sports.limitsport.view.tagview.TagCloudLayout
         android:id="@+id/tg_tag"
@@ -108,7 +111,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/icon_weidianzan" />
+            android:src="@drawable/bg_dianzan" />
 
         <TextView
             android:id="@+id/tv_san"
@@ -118,8 +121,8 @@
             android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/imv_zan"
             android:gravity="center_vertical"
-            android:text="1,234"
-            android:textColor="#FFFFFFFF"
+            android:text=""
+            android:textColor="@color/color_s_green"
             android:textSize="12sp" />
 
         <ImageView
@@ -132,12 +135,22 @@
             android:src="@mipmap/icon_replay" />
 
         <ImageView
+            android:id="@+id/imv_share"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/imv_pinglun"
             android:src="@mipmap/icon_dongtai_share" />
+
+
+        <ImageView
+            android:id="@+id/imv_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_dongtai_tipoff" />
 
         <View
             style="@style/view_line"

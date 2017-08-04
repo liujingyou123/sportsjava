@@ -180,4 +180,8 @@ public interface IpServices {
     //取消点赞
     @POST(URLConstants.URL_CANCEL_PRAISE)
     Observable<BaseResponse> cancelPraise(@Body HashMap<String, String> hashMap);
+
+    //我收藏动态列表
+    @POST(URLConstants.URL_MY_COLLECT_DONGTAI)
+    Observable<DongTaiListResponse> getMyCollectDongTaiList(@Body HashMap<String, String> hashMap);
 }

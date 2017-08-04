@@ -45,6 +45,7 @@ public class MyCollectFanShowFragment extends Fragment {
         View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_commentlist, null);
         TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
         TextView tvGo = (TextView) emptyView.findViewById(R.id.tv_go);
+        tvGo.setVisibility(View.GONE);
         tvTip.setText("好像什么都没有～");
         tvGo.setText("去逛逛");
         emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
