@@ -14,6 +14,7 @@ import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
 import com.sports.limitsport.model.MessageResponse;
+import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
 import com.sports.limitsport.model.UserInfo;
@@ -184,4 +185,8 @@ public interface IpServices {
     //我收藏动态列表
     @POST(URLConstants.URL_MY_COLLECT_DONGTAI)
     Observable<DongTaiListResponse> getMyCollectDongTaiList(@Body HashMap<String, String> hashMap);
+
+    //我收藏精彩秀列表
+    @POST(URLConstants.URL_MY_COLLECT_FINE_SHOW)
+    Observable<MyCollectFineShowResponse> getMyCollectFineShowList(@Body HashMap<String, String> hashMap);
 }
