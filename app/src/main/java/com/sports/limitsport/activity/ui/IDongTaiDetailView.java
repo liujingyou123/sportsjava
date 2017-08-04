@@ -15,9 +15,9 @@ public interface IDongTaiDetailView {
 
     void onFocusReslult(boolean b);
 
-    void onPraiseResult(boolean b);
+    void onPraiseResult(boolean b, String id, String type);
 
-    void onCancelPraiseResult(boolean b);
+    void onCancelPraiseResult(boolean b, String id, String type);
 
     void showReplayComment(boolean b);
 

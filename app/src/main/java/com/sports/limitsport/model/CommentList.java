@@ -17,6 +17,8 @@ public class CommentList {
     private int id;
     private String showCreateTime;
     private List<ReplyList> replyList;
+    private int praiseFlag;
+    private int praiseNum;
 
     public int getArticleId() {
         return articleId;
@@ -96,6 +98,22 @@ public class CommentList {
 
     public void setReplyList(List<ReplyList> replyList) {
         this.replyList = replyList;
+    }
+
+    public int getPraiseFlag() {
+        return praiseFlag;
+    }
+
+    public void setPraiseFlag(int praiseFlag) {
+        this.praiseFlag = praiseFlag;
+    }
+
+    public int getPraiseNum() {
+        return praiseNum;
+    }
+
+    public void setPraiseNum(int praiseNum) {
+        this.praiseNum = praiseNum;
     }
 
     @Override

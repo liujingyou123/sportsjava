@@ -105,21 +105,23 @@ public class DongTaiDetailPresenter {
 
     /**
      * 点赞
+     *
      * @param articleId
+     * @param type      1:精彩秀点赞 2:动态点赞 3:评论点赞
      */
-    public void praise(String articleId) {
+    public void praise(final String articleId, final String type) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("articleId", articleId);
-        hashMap.put("praiseType", "2");
+        hashMap.put("praiseType", type);
 
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).praise(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mIDongTaiDetailView != null && response.isSuccess()) {
-                    mIDongTaiDetailView.onPraiseResult(true);
+                    mIDongTaiDetailView.onPraiseResult(true, articleId, type);
                 } else {
                     if (mIDongTaiDetailView != null) {
-                        mIDongTaiDetailView.onPraiseResult(false);
+                        mIDongTaiDetailView.onPraiseResult(false, articleId, type);
                     }
                 }
             }
@@ -128,7 +130,7 @@ public class DongTaiDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onPraiseResult(false);
+                    mIDongTaiDetailView.onPraiseResult(false, articleId, type);
                 }
             }
         });
@@ -136,21 +138,22 @@ public class DongTaiDetailPresenter {
 
     /**
      * 取消点赞
+     *
      * @param articleId
      */
-    public void cancelPraise(String articleId) {
+    public void cancelPraise(final String articleId, final String type) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("articleId", articleId);
-        hashMap.put("praiseType", "2");
+        hashMap.put("praiseType", type);
 
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelPraise(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mIDongTaiDetailView != null && response.isSuccess()) {
-                    mIDongTaiDetailView.onCancelPraiseResult(true);
+                    mIDongTaiDetailView.onCancelPraiseResult(true, articleId, type);
                 } else {
                     if (mIDongTaiDetailView != null) {
-                        mIDongTaiDetailView.onCancelPraiseResult(false);
+                        mIDongTaiDetailView.onCancelPraiseResult(false, articleId, type);
                     }
                 }
             }
@@ -159,7 +162,7 @@ public class DongTaiDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onCancelPraiseResult(false);
+                    mIDongTaiDetailView.onCancelPraiseResult(false,articleId, type);
                 }
             }
         });

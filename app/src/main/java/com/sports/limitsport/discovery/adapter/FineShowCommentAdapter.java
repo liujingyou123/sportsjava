@@ -37,9 +37,21 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
         TextView tvTime = helper.getView(R.id.tv_time);
         TextView tvComment = helper.getView(R.id.tv_comment);
         LinearLayout llRecall = helper.getView(R.id.ll_recall);
+        ImageView imvZan = helper.getView(R.id.imv_zan);
+        TextView tvSan = helper.getView(R.id.tv_san);
 
         helper.addOnClickListener(R.id.imv_comment);
+        helper.addOnClickListener(R.id.imv_zan);
+        helper.addOnClickListener(R.id.tv_san);
 
+        if (1 == item.getPraiseFlag()) { //1:已点赞 0:未点赞
+            tvSan.setSelected(true);
+            imvZan.setSelected(true);
+        } else {
+            tvSan.setSelected(false);
+            imvZan.setSelected(false);
+        }
+        tvSan.setText(item.getPraiseNum()+"");
         tvName.setText(item.getCommentatorName());
         if (!TextViewUtil.isEmpty(item.getShowCreateTime())) {
             tvTime.setText(item.getShowCreateTime());

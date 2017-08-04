@@ -143,11 +143,11 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                         } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
                             if ("1".equals(data.getPraiseFlag())) { //1:已点赞 0:未点赞
                                 if (mPresenter != null) {
-                                    mPresenter.cancelPraise(data.getId() + "");
+                                    mPresenter.cancelPraise(data.getId() + "", "2");
                                 }
                             } else {
                                 if (mPresenter != null) {
-                                    mPresenter.praise(data.getId() + "");
+                                    mPresenter.praise(data.getId() + "", "2");
                                 }
                             }
                         } else if (view.getId() == R.id.imv_report) {
@@ -195,8 +195,22 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 commentList = (CommentList) adapter.getItem(position);
-                commentDialog.setType(2);
-                commentDialog.show();
+
+                if (view.getId() == R.id.imv_comment) {
+                    commentDialog.setType(2);
+                    commentDialog.show();
+                } else if (view.getId() == R.id.imv_zan || view.getId() == R.id.tv_san) {
+                    if (1 == commentList.getPraiseFlag()) { //1:已点赞 0:未点赞
+                        if (mPresenter != null) {
+                            mPresenter.cancelPraise(commentList.getId() + "", "3");
+                        }
+                    } else {
+                        if (mPresenter != null) {
+                            mPresenter.praise(commentList.getId() + "", "3");
+                        }
+                    }
+                }
+
             }
         });
 
@@ -280,21 +294,30 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     }
 
     @Override
-    public void onPraiseResult(boolean b) {
+    public void onPraiseResult(boolean b, String id, String type) {
         if (b) {
-            if (headerView != null) {
-                headerView.setPraise();
+            if ("2".equals(type)) {
+                if (headerView != null) {
+                    headerView.setPraise();
+                }
+            } else if ("3".equals(type)) {
+                doCommentPraise(id);
             }
+
         } else {
             ToastUtil.showTrueToast(this, "点赞失败");
         }
     }
 
     @Override
-    public void onCancelPraiseResult(boolean b) {
+    public void onCancelPraiseResult(boolean b, String id, String type) {
         if (b) {
-            if (headerView != null) {
-                headerView.setPraise();
+            if ("2".equals(type)) {
+                if (headerView != null) {
+                    headerView.setPraise();
+                }
+            } else if ("3".equals(type)) {
+                doCommentPraise(id);
             }
         } else {
             ToastUtil.showTrueToast(this, "取消点赞失败");
@@ -369,6 +392,24 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                     lists.add(replyList);
                     adapter.getData().get(i).setReplyList(lists);
                 }
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    private void doCommentPraise(String id) {
+        for (int i = 0; i < adapter.getData().size(); i++) {
+            if (id.equals(adapter.getData().get(i).getId() + "")) {
+                int num = adapter.getData().get(i).getPraiseNum();
+                if (adapter.getData().get(i).getPraiseFlag() == 1) { //已点赞
+                    num--;
+                    adapter.getData().get(i).setPraiseFlag(0);
+                } else {
+                    num++;
+                    adapter.getData().get(i).setPraiseFlag(1);
+                }
+                adapter.getData().get(i).setPraiseNum(num);
                 adapter.notifyDataSetChanged();
                 break;
             }

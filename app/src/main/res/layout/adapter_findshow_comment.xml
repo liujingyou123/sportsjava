@@ -63,7 +63,7 @@
             android:layout_toLeftOf="@id/imv_comment"
             android:gravity="center_vertical"
             android:text="0"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/color_s_green"
             android:textSize="12sp" />
 
         <ImageView
@@ -73,7 +73,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="4dp"
             android:layout_toLeftOf="@id/tv_san"
-            android:src="@mipmap/icon_weidianzan" />
+            android:src="@drawable/bg_dianzan" />
     </RelativeLayout>
 
     <TextView
