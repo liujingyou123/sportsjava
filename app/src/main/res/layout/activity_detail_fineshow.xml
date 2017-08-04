@@ -34,11 +34,19 @@
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rlv_comment"
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/rl_all"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rlv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+    </com.ajguan.library.EasyRefreshLayout>
+
 
     <RelativeLayout
         android:id="@+id/ll_bottom"
@@ -57,11 +65,11 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/view_line"
             android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:padding="10dp"
             android:text="发布"
             android:textColor="@color/color_green_gray"
-            android:textSize="14sp"
-            android:gravity="center_vertical"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/btn_comment"

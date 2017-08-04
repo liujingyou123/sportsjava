@@ -242,15 +242,15 @@ public class DongTaiList {
     }
 
     public static class AtUserList {
-        private String UserId;
+        private String userId;
         private String name;
 
         public String getUserId() {
-            return UserId;
+            return userId;
         }
 
         public void setUserId(String userId) {
-            UserId = userId;
+            userId = userId;
         }
 
         public String getName() {

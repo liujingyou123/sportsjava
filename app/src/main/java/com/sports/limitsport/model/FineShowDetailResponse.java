@@ -5,40 +5,35 @@ import com.sports.limitsport.base.BaseResponse;
 import java.util.List;
 
 /**
- * Created by liuworkmac on 17/7/26.
- * 动态详情
+ * Created by liuworkmac on 17/8/4.
  */
 
-public class DongTaiDetailResponse extends BaseResponse{
+public class FineShowDetailResponse extends BaseResponse {
 
     /**
-     * activityId : null
-     * activityName : null
-     * atUserList : null
+     * atUserList : [{"name":"廖智明11","userId":"8"},{"name":"罗志祥","userId":"9"},{"name":"吴","userId":"10"}]
      * atUsers : null
      * attentionFlag : 0
-     * clubId : null
-     * clubName : null
-     * collectionFlag : 0
-     * content : 挑战自我，从滑雪开始
-     * createTime : 1500563915000
-     * creater : 8
-     * headPortrait : null
+     * collectionFlag : 1
+     * content : 秀出你的人生
+     * createTime : 1501748124000
+     * headPortrait : http://img1.imgtn.bdimg.com/it/u=2670034815,688956640&fm=26&gp=0.jpg
      * id : 1
-     * imgUrl :
+     * imgUrl : www.baidu.com
+     * orderNum : null
      * praiseFlag : 0
-     * praiseNum : null
-     * publicType : 1
+     * praiseNum : 2
      * publishUserId : 8
      * publishUserName : 廖智明11
      * resourceType : 1
-     * showCreateTime : 2017-07-20
-     * thumbnailUrl : baidu.com
-     * title : 挑战自我
-     * trendType : null
-     * vedioImgUrl : null
+     * showCreateTime : 18小时前
+     * status : 1
+     * thumbnailUrl : null
+     * title : 精彩秀秀
+     * topFlag : 1
+     * type : 2
      * vedioThumbnailUrl : null
-     * vedioUrl : null
+     * vedioUrl :
      */
 
     private DataBean data;
@@ -52,57 +47,34 @@ public class DongTaiDetailResponse extends BaseResponse{
     }
 
     public static class DataBean {
-        private String activityId;
-        private String activityName;
-        private List<AtUserList> atUserList;
         private String atUsers;
         private int attentionFlag;
-        private String clubId;
-        private String clubName;
         private int collectionFlag;
         private String content;
         private long createTime;
-        private int creater;
         private String headPortrait;
         private int id;
         private String imgUrl;
+        private String orderNum;
         private String praiseFlag;
-        private String praiseNum;
-        private int publicType;
+        private int praiseNum;
         private int publishUserId;
         private String publishUserName;
         private int resourceType;
         private String showCreateTime;
+        private int status;
         private String thumbnailUrl;
         private String title;
-        private String trendType;
-        private String vedioImgUrl;
+        private int topFlag;
+        private int type;
         private String vedioThumbnailUrl;
         private String vedioUrl;
+        /**
+         * name : 廖智明11
+         * userId : 8
+         */
 
-        public String getActivityId() {
-            return activityId;
-        }
-
-        public void setActivityId(String activityId) {
-            this.activityId = activityId;
-        }
-
-        public String getActivityName() {
-            return activityName;
-        }
-
-        public void setActivityName(String activityName) {
-            this.activityName = activityName;
-        }
-
-        public List<AtUserList> getAtUserList() {
-            return atUserList;
-        }
-
-        public void setAtUserList(List<AtUserList> atUserList) {
-            this.atUserList = atUserList;
-        }
+        private List<AtUserListBean> atUserList;
 
         public String getAtUsers() {
             return atUsers;
@@ -118,22 +90,6 @@ public class DongTaiDetailResponse extends BaseResponse{
 
         public void setAttentionFlag(int attentionFlag) {
             this.attentionFlag = attentionFlag;
-        }
-
-        public String getClubId() {
-            return clubId;
-        }
-
-        public void setClubId(String clubId) {
-            this.clubId = clubId;
-        }
-
-        public String getClubName() {
-            return clubName;
-        }
-
-        public void setClubName(String clubName) {
-            this.clubName = clubName;
         }
 
         public int getCollectionFlag() {
@@ -160,14 +116,6 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.createTime = createTime;
         }
 
-        public int getCreater() {
-            return creater;
-        }
-
-        public void setCreater(int creater) {
-            this.creater = creater;
-        }
-
         public String getHeadPortrait() {
             return headPortrait;
         }
@@ -192,6 +140,14 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.imgUrl = imgUrl;
         }
 
+        public String getOrderNum() {
+            return orderNum;
+        }
+
+        public void setOrderNum(String orderNum) {
+            this.orderNum = orderNum;
+        }
+
         public String getPraiseFlag() {
             return praiseFlag;
         }
@@ -200,20 +156,12 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.praiseFlag = praiseFlag;
         }
 
-        public String getPraiseNum() {
+        public int getPraiseNum() {
             return praiseNum;
         }
 
-        public void setPraiseNum(String praiseNum) {
+        public void setPraiseNum(int praiseNum) {
             this.praiseNum = praiseNum;
-        }
-
-        public int getPublicType() {
-            return publicType;
-        }
-
-        public void setPublicType(int publicType) {
-            this.publicType = publicType;
         }
 
         public int getPublishUserId() {
@@ -248,7 +196,15 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.showCreateTime = showCreateTime;
         }
 
-        public String getThumbnailUrl() {
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public Object getThumbnailUrl() {
             return thumbnailUrl;
         }
 
@@ -264,20 +220,20 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.title = title;
         }
 
-        public String getTrendType() {
-            return trendType;
+        public int getTopFlag() {
+            return topFlag;
         }
 
-        public void setTrendType(String trendType) {
-            this.trendType = trendType;
+        public void setTopFlag(int topFlag) {
+            this.topFlag = topFlag;
         }
 
-        public String getVedioImgUrl() {
-            return vedioImgUrl;
+        public int getType() {
+            return type;
         }
 
-        public void setVedioImgUrl(String vedioImgUrl) {
-            this.vedioImgUrl = vedioImgUrl;
+        public void setType(int type) {
+            this.type = type;
         }
 
         public String getVedioThumbnailUrl() {
@@ -296,17 +252,17 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.vedioUrl = vedioUrl;
         }
 
-        public static class AtUserList {
-            private String userId;
+        public List<AtUserListBean> getAtUserList() {
+            return atUserList;
+        }
+
+        public void setAtUserList(List<AtUserListBean> atUserList) {
+            this.atUserList = atUserList;
+        }
+
+        public static class AtUserListBean {
             private String name;
-
-            public String getUserId() {
-                return userId;
-            }
-
-            public void setUserId(String userId) {
-                userId = userId;
-            }
+            private String userId;
 
             public String getName() {
                 return name;
@@ -314,6 +270,14 @@ public class DongTaiDetailResponse extends BaseResponse{
 
             public void setName(String name) {
                 this.name = name;
+            }
+
+            public String getUserId() {
+                return userId;
+            }
+
+            public void setUserId(String userId) {
+                this.userId = userId;
             }
         }
     }

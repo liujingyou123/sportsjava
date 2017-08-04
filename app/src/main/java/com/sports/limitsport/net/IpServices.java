@@ -9,6 +9,7 @@ import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.FansListResponse;
+import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
@@ -68,6 +69,10 @@ public interface IpServices {
     //精彩秀列表
     @POST(URLConstants.URL_FINESHOW_LIST)
     Observable<FineShowListResponse> getFineShowList(@Body HashMap<String, String> hashMap);
+
+    //精彩秀详情
+    @POST(URLConstants.URL_FINESHOW_DETAIL)
+    Observable<FineShowDetailResponse> getFineShowDetail(@Body HashMap<String, String> hashMap);
 
     //发布评论
     @POST(URLConstants.URL_PUBLISH_COMMENTS)

@@ -84,6 +84,7 @@ public class ActivityDetailPresenter {
         hashMap.put("articleId", id);
         hashMap.put("pageNumber", "1");
         hashMap.put("pageSize", "10");
+        hashMap.put("commentType", "3");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getCommentList(hashMap), new NetSubscriber<CommentListResponse>() {
             @Override
             public void response(CommentListResponse response) {

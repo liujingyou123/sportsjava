@@ -1,9 +1,10 @@
-package com.sports.limitsport.activity.presenter;
+package com.sports.limitsport.discovery.presenter;
 
-import com.sports.limitsport.activity.ui.IDongTaiDetailView;
 import com.sports.limitsport.base.BaseResponse;
+import com.sports.limitsport.discovery.ui.IFineShowDetailView;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
+import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -12,14 +13,14 @@ import com.sports.limitsport.util.ToolsUtil;
 import java.util.HashMap;
 
 /**
- * Created by liuworkmac on 17/8/3.
+ * Created by liuworkmac on 17/8/4.
  */
 
-public class DongTaiDetailPresenter {
-    IDongTaiDetailView mIDongTaiDetailView;
+public class FineShowDetailPresenter {
+    private IFineShowDetailView mIFineShowDetailView;
 
-    public DongTaiDetailPresenter(IDongTaiDetailView mIDongTaiDetailView) {
-        this.mIDongTaiDetailView = mIDongTaiDetailView;
+    public FineShowDetailPresenter(IFineShowDetailView mIFineShowDetailView) {
+        this.mIFineShowDetailView = mIFineShowDetailView;
     }
 
     /**
@@ -32,41 +33,41 @@ public class DongTaiDetailPresenter {
         hashMap.put("articleId", id);
         hashMap.put("pageNumber", pageNumber);
         hashMap.put("pageSize", "10");
-        hashMap.put("commentType", "2");
+        hashMap.put("commentType", "1");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getCommentList(hashMap), new NetSubscriber<CommentListResponse>() {
             @Override
             public void response(CommentListResponse response) {
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showCommentList(response);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showCommentList(response);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onError(e);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.onError(e);
                 }
             }
         });
     }
 
-    public void getDongTaiDetail(String id) {
+    public void getFineShowDetail(String id) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("id", id);
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getDongTailDetail(hashMap), new NetSubscriber<DongTaiDetailResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getFineShowDetail(hashMap), new NetSubscriber<FineShowDetailResponse>() {
             @Override
-            public void response(DongTaiDetailResponse response) {
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showDetail(response);
+            public void response(FineShowDetailResponse response) {
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showDetail(response);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onError(e);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.onError(e);
                 }
             }
         });
@@ -83,13 +84,13 @@ public class DongTaiDetailPresenter {
             @Override
             public void response(BaseResponse response) {
                 if (response != null && response.isSuccess()) {
-                    if (mIDongTaiDetailView != null) {
-                        mIDongTaiDetailView.onFocusReslult(true);
+                    if (mIFineShowDetailView != null) {
+                        mIFineShowDetailView.onFocusReslult(true);
                     }
 
                 } else {
-                    if (mIDongTaiDetailView != null) {
-                        mIDongTaiDetailView.onFocusReslult(false);
+                    if (mIFineShowDetailView != null) {
+                        mIFineShowDetailView.onFocusReslult(false);
                     }
                 }
             }
@@ -97,8 +98,8 @@ public class DongTaiDetailPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onFocusReslult(false);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.onFocusReslult(false);
                 }
             }
         });
@@ -118,11 +119,11 @@ public class DongTaiDetailPresenter {
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).praise(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if (mIDongTaiDetailView != null && response.isSuccess()) {
-                    mIDongTaiDetailView.onPraiseResult(true, articleId, type);
+                if (mIFineShowDetailView != null && response.isSuccess()) {
+                    mIFineShowDetailView.onPraiseResult(true, articleId, type);
                 } else {
-                    if (mIDongTaiDetailView != null) {
-                        mIDongTaiDetailView.onPraiseResult(false, articleId, type);
+                    if (mIFineShowDetailView != null) {
+                        mIFineShowDetailView.onPraiseResult(false, articleId, type);
                     }
                 }
             }
@@ -130,8 +131,8 @@ public class DongTaiDetailPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onPraiseResult(false, articleId, type);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.onPraiseResult(false, articleId, type);
                 }
             }
         });
@@ -141,6 +142,7 @@ public class DongTaiDetailPresenter {
      * 取消点赞
      *
      * @param articleId
+     * @param type      1:精彩秀点赞 2:动态点赞 3:评论点赞
      */
     public void cancelPraise(final String articleId, final String type) {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -150,11 +152,11 @@ public class DongTaiDetailPresenter {
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelPraise(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if (mIDongTaiDetailView != null && response.isSuccess()) {
-                    mIDongTaiDetailView.onCancelPraiseResult(true, articleId, type);
+                if (mIFineShowDetailView != null && response.isSuccess()) {
+                    mIFineShowDetailView.onCancelPraiseResult(true, articleId, type);
                 } else {
-                    if (mIDongTaiDetailView != null) {
-                        mIDongTaiDetailView.onCancelPraiseResult(false, articleId, type);
+                    if (mIFineShowDetailView != null) {
+                        mIFineShowDetailView.onCancelPraiseResult(false, articleId, type);
                     }
                 }
             }
@@ -162,8 +164,8 @@ public class DongTaiDetailPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onCancelPraiseResult(false, articleId, type);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.onCancelPraiseResult(false, articleId, type);
                 }
             }
         });
@@ -179,21 +181,21 @@ public class DongTaiDetailPresenter {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("articleId", articleId);
         hashMap.put("content", content);
-        hashMap.put("commentType", "2");
+        hashMap.put("commentType", "1");
 
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).publistComments(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showPublishActivityComent(true);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showPublishActivityComent(true);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showPublishActivityComent(false);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showPublishActivityComent(false);
                 }
             }
         });
@@ -218,16 +220,16 @@ public class DongTaiDetailPresenter {
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showReplayComment(true);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showReplayComment(true);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showReplayComment(false);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showReplayComment(false);
                 }
             }
         });
@@ -241,21 +243,21 @@ public class DongTaiDetailPresenter {
     public void collect(String id) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("collectionId", id);
-        hashMap.put("type", "3");
+        hashMap.put("type", "2");
 
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).collect(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.collectReslut(true);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.collectReslut(true);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.collectReslut(false);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.collectReslut(false);
                 }
             }
         });
@@ -270,27 +272,27 @@ public class DongTaiDetailPresenter {
     public void unCollect(String id) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("collectionId", id);
-        hashMap.put("type", "3");
+        hashMap.put("type", "2");
 
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelCollect(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.cancelCollectReslut(true);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.cancelCollectReslut(true);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.cancelCollectReslut(false);
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.cancelCollectReslut(false);
                 }
             }
         });
     }
 
     public void clear() {
-        mIDongTaiDetailView = null;
+        mIFineShowDetailView = null;
     }
 }

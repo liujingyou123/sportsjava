@@ -270,16 +270,6 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         }
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.clear();
-        }
-        mPresenter = null;
-    }
-
     @Override
     public void showDetail(DongTaiDetailResponse response) {
         if (headerView != null && response != null) {
@@ -441,4 +431,15 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             }
         }
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
+    }
+
 }

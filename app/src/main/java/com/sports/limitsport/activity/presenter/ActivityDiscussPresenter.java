@@ -31,6 +31,7 @@ public class ActivityDiscussPresenter {
         hashMap.put("articleId", id);
         hashMap.put("pageNumber", pageNumber);
         hashMap.put("pageSize", "10");
+        hashMap.put("commentType", "3");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getCommentList(hashMap), new NetSubscriber<CommentListResponse>() {
             @Override
             public void response(CommentListResponse response) {
