@@ -162,7 +162,7 @@ public class DongTaiDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onCancelPraiseResult(false,articleId, type);
+                    mIDongTaiDetailView.onCancelPraiseResult(false, articleId, type);
                 }
             }
         });
@@ -227,6 +227,63 @@ public class DongTaiDetailPresenter {
                 super.onError(e);
                 if (mIDongTaiDetailView != null) {
                     mIDongTaiDetailView.showReplayComment(false);
+                }
+            }
+        });
+    }
+
+    /**
+     * 收藏
+     *
+     * @param id 活动ID
+     */
+    public void collect(String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("collectionId", id);
+        hashMap.put("type", "3");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).collect(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIDongTaiDetailView != null) {
+                    mIDongTaiDetailView.collectReslut(true);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIDongTaiDetailView != null) {
+                    mIDongTaiDetailView.collectReslut(false);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 取消收藏
+     *
+     * @param id 活动ID
+     */
+    public void unCollect(String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("collectionId", id);
+        hashMap.put("type", "3");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelCollect(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIDongTaiDetailView != null) {
+                    mIDongTaiDetailView.cancelCollectReslut(true);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIDongTaiDetailView != null) {
+                    mIDongTaiDetailView.cancelCollectReslut(false);
                 }
             }
         });

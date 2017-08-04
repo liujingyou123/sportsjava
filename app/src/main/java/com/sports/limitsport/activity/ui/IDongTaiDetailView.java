@@ -24,4 +24,8 @@ public interface IDongTaiDetailView {
     void showPublishActivityComent(boolean b);
 
     void showCommentList(CommentListResponse response);
+
+    void cancelCollectReslut(boolean b);
+
+    void collectReslut(boolean b);
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -27,7 +28,6 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -54,6 +54,8 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     TextView tvSend;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.tv_fav)
+    ImageView tvFav;
     private FineShowCommentAdapter adapter;
     private CommentDialog commentDialog;
     private DongTaiDetailPresenter mPresenter;
@@ -98,6 +100,15 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                 finish();
                 break;
             case R.id.tv_fav:
+                if (tvFav.isSelected()) { //已收藏
+                    if (mPresenter != null) {
+                        mPresenter.unCollect(id);
+                    }
+                } else {
+                    if (mPresenter != null) {
+                        mPresenter.collect(id);
+                    }
+                }
                 break;
             case R.id.btn_comment:
                 commentDialog.setType(1);
@@ -371,6 +382,21 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             }
         }
 
+    }
+
+    @Override
+    public void cancelCollectReslut(boolean b) {
+        if (b) {
+            tvFav.setSelected(false);
+
+        }
+    }
+
+    @Override
+    public void collectReslut(boolean b) {
+        if (b) {
+            tvFav.setSelected(true);
+        }
     }
 
     private void setReplayData() {
