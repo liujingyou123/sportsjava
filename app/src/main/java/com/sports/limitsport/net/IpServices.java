@@ -195,5 +195,7 @@ public interface IpServices {
     @POST(URLConstants.URL_MY_COLLECT_ACTIVITYS_SHOW)
     Observable<MyCollectActivityResponse> getCollectActivityList(@Body HashMap<String, String> hashMap);
 
-    //
+    //活动列表
+    @POST(URLConstants.URL_CLUB_DETAIL)
+    Observable<MyCollectActivityResponse> getClubDetail(@Body HashMap<String, String> hashMap);
 }

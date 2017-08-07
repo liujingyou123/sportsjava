@@ -103,6 +103,8 @@ public class ActivityDetailHeaderView extends LinearLayout {
     TextView tvLastNum;
     @BindView(R.id.tv_date_end)
     TextView tvDateEnd;
+    @BindView(R.id.imv_auth)
+    ImageView imvAuth;
 
     private ShallAdapter shallAdapter; //大家都在晒
     private NamesAdapter namesAdapter; //他们也报名了
@@ -147,7 +149,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
-                gotoDongtaiDetail(dongTaiList.getId()+"");
+                gotoDongtaiDetail(dongTaiList.getId() + "");
             }
         });
     }
@@ -300,7 +302,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
      */
     private void gotoDongtaiDetail(String id) {
         Intent intent = new Intent(getContext(), DongTaiDetailActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         getContext().startActivity(intent);
     }
 
@@ -309,7 +311,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
      */
     private void gotoOrigDetail() {
         Intent intent = new Intent(getContext(), ClubDetailActivity.class);
-        intent.putExtra("id", mData.getOrganizerClubId()+"");
+        intent.putExtra("id", mData.getOrganizerClubId() + "");
         getContext().startActivity(intent);
     }
 

@@ -18,6 +18,8 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
+import com.sports.limitsport.discovery.presenter.ClubDetailPresenter;
+import com.sports.limitsport.discovery.ui.IClubDetailView;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.util.StatusBarUtil;
@@ -35,7 +37,7 @@ import butterknife.OnClick;
  * 俱乐部详情页
  */
 
-public class ClubDetailActivity extends BaseActivity {
+public class ClubDetailActivity extends BaseActivity implements IClubDetailView {
     @BindView(R.id.imv_cover)
     ImageView imvCover;
     @BindView(R.id.tv_club_tip)
@@ -70,6 +72,7 @@ public class ClubDetailActivity extends BaseActivity {
     RelativeLayout rlTop;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
     private String id;//俱乐部ID
+    private ClubDetailPresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class ClubDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         getIntentData();
         initView();
+        getData();
     }
 
     private void getIntentData() {
@@ -85,6 +89,13 @@ public class ClubDetailActivity extends BaseActivity {
         if (intent != null) {
             id = intent.getStringExtra("id");
         }
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ClubDetailPresenter(this);
+        }
+        mPresenter.getClubDetail(id);
     }
 
     private void initView() {
@@ -123,7 +134,7 @@ public class ClubDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this, "1",null);
+                ReportDialog dialog = new ReportDialog(this, "1", null);
                 dialog.show();
                 break;
             case R.id.imv_share:
@@ -144,5 +155,15 @@ public class ClubDetailActivity extends BaseActivity {
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+
+        mPresenter = null;
     }
 }

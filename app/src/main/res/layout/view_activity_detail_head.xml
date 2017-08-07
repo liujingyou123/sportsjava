@@ -144,12 +144,14 @@
             android:layout_height="wrap_content" />
 
         <ImageView
+            android:id="@+id/imv_auth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/imv_org_cover"
             android:layout_alignRight="@id/imv_org_cover"
             android:layout_marginTop="15dp"
-            android:src="@mipmap/icon_company_certification" />
+            android:src="@mipmap/icon_company_certification"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_org_name"

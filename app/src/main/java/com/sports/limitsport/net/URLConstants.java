@@ -81,4 +81,6 @@ public class URLConstants {
     public final static String URL_MY_COLLECT_FINE_SHOW = "api/wonderfullShow/queryMyCollectWonderfullShowList/v1.0.0";
     //我收藏的活动
     public final static String URL_MY_COLLECT_ACTIVITYS_SHOW = "api/activity/myCollectionActivity/v1.0.0";
+    //俱乐部详情
+    public final static String URL_CLUB_DETAIL= "api/club/queryClubInfo/v1.0.0";
 }
