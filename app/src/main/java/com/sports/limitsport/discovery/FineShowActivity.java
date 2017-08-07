@@ -17,11 +17,9 @@ import com.sports.limitsport.discovery.adapter.FineShowListAdapter;
 import com.sports.limitsport.discovery.presenter.FineShowPresenter;
 import com.sports.limitsport.discovery.ui.IFineShowView;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.mine.adapter.MyCollectFanShowAdapter;
 import com.sports.limitsport.model.FineShowList;
-import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
-import com.sports.limitsport.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +44,7 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
     private FineShowPresenter mPresenter;
     private List<FineShowList> data = new ArrayList<>();
     private int pageNumber = 1;
+    private int total;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +78,7 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FineShowList fineShowList = (FineShowList) adapter.getItem(position);
                 Intent intent = new Intent(FineShowActivity.this, FineShowDetailActivity.class);
-                intent.putExtra("id", fineShowList.getId()+"");
+                intent.putExtra("id", fineShowList.getId() + "");
                 startActivity(intent);
             }
         });
@@ -134,23 +133,38 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
     }
 
     @Override
-    public void showFineShow(FineShowListResponse response) {
-        if (response != null) {
+    public void showFineShow(MyCollectFineShowResponse response) {
+        if (response != null && response.getData() != null) {
+            total = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
-                data.clear();
-                data.addAll(response.getData());
-                adapter.notifyDataSetChanged();
+                if (response.getData().getData() != null) {
+                    data.clear();
+                    data.addAll(response.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
                 rlAll.refreshComplete();
             } else {
-                adapter.addData(response.getData());
-                if (response.getData() == null || response.getData().size() < 11) {
-                    adapter.loadMoreEnd();
-                } else {
-                    adapter.loadMoreComplete();
+                if (response.getData().getData() != null) {
+                    adapter.addData(response.getData().getData());
+                    if (response.getData() == null || adapter.getData().size() >= total) {
+                        adapter.loadMoreEnd();
+                    } else {
+                        adapter.loadMoreComplete();
+                    }
                 }
+
             }
         }
 
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
     }
 
     @Override

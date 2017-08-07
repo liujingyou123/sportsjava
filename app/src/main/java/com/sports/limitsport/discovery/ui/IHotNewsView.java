@@ -3,6 +3,7 @@ package com.sports.limitsport.discovery.ui;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewPersonListResponse;
 
 /**
@@ -14,7 +15,7 @@ public interface IHotNewsView {
 
     void showAdvList(AdvertiseInfoResponse response);
 
-    void showFineShowList(FineShowListResponse response);
+    void showFineShowList(MyCollectFineShowResponse response);
 
     void showNewPersonList(NewPersonListResponse response);
 }

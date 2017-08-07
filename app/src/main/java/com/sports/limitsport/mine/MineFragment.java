@@ -10,19 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.MineAdapter;
-import com.sports.limitsport.mine.model.Dongtai;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.MinePresenter;
 import com.sports.limitsport.mine.ui.IMineView;
+import com.sports.limitsport.model.DongTaiList;
+import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.EventBusLogin;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.MineHeaderView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,11 +54,19 @@ public class MineFragment extends BaseFragment implements IMineView {
     Unbinder unbinder;
     @BindView(R.id.imv_new_notice_tip)
     ImageView imvNewNoticeTip;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
     private MineAdapter mineAdapter;
-    private List<Dongtai> data = new ArrayList<>();
+    private List<DongTaiList> data = new ArrayList<>();
+
     private MineHeaderView headerView;
     private MinePresenter mPresenter;
     private boolean isGetData = true;
+    private int pageNumber = 1;
+    private CommentDialog commentDialog;
+    private int selectId;
+    private int totalSize;
+
 
     @Nullable
     @Override
@@ -61,6 +77,13 @@ public class MineFragment extends BaseFragment implements IMineView {
         }
         unbinder = ButterKnife.bind(this, view);
         initView();
+
+        if (mPresenter == null) {
+            mPresenter = new MinePresenter(this);
+        }
+
+        mPresenter.getDongTaiList(pageNumber);
+
         return view;
     }
 
@@ -70,7 +93,7 @@ public class MineFragment extends BaseFragment implements IMineView {
         XLog.e("onResume");
         if (isGetData) {
             isGetData = false;
-            getData();
+            getUserInfoData();
         }
 
         if (mPresenter != null) {
@@ -93,7 +116,7 @@ public class MineFragment extends BaseFragment implements IMineView {
         }
     }
 
-    private void getData() {
+    private void getUserInfoData() {
         if (mPresenter == null) {
             mPresenter = new MinePresenter(this);
         }
@@ -120,7 +143,114 @@ public class MineFragment extends BaseFragment implements IMineView {
         mineAdapter.setHeaderAndEmpty(true);
         mineAdapter.bindToRecyclerView(ryMine);
         mineAdapter.setEmptyView(R.layout.empty_dongtai);
+
+        mineAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                if (dongTaiList != null) {
+                    gotoDongtaiDetail(dongTaiList.getId() + "");
+                }
+            }
+        });
+
+        mineAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(getContext(), IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
+                    if (dongTaiList != null) {
+                        if (view.getId() == R.id.imv_pinglun) {
+                            selectId = dongTaiList.getId();
+                            commentDialog.show();
+                        } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
+                            selectId = dongTaiList.getId();
+                            if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
+                                if (mPresenter != null) {
+                                    mPresenter.cancelPraise(dongTaiList.getId() + "");
+                                }
+                            } else {
+                                if (mPresenter != null) {
+                                    mPresenter.praise(dongTaiList.getId() + "");
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+        mineAdapter.setLoadMoreView(new CustomLoadMoreNoEndView());
+
+        mineAdapter.disableLoadMoreIfNotFullPage();
+        mineAdapter.setEnableLoadMore(true);
+        mineAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, ryMine);
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+
+        commentDialog = new CommentDialog(getContext());
+
+        commentDialog.setOkDoneListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentDialog.dismiss();
+                mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+
+            }
+        });
     }
+
+    private void loadMore() {
+        if (mPresenter != null) {
+            pageNumber++;
+            mPresenter.getDongTaiList(pageNumber);
+        }
+    }
+
+    private void refresh() {
+        pageNumber = 1;
+        if (mPresenter != null) {
+            mPresenter.getDongTaiList(pageNumber);
+        }
+    }
+
+
+    /**
+     * 前往动态详情页
+     */
+    private void gotoDongtaiDetail(String id) {
+        Intent intent = new Intent(getContext(), DongTaiDetailActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
 
     @OnClick({R.id.imv_focus_house_back, R.id.imv_focus_right})
     public void onViewClicked(View view) {
@@ -173,6 +303,101 @@ public class MineFragment extends BaseFragment implements IMineView {
                 imvNewNoticeTip.setVisibility(View.GONE);
             }
 
+        }
+    }
+
+    @Override
+    public void showDongTaiList(DongTaiListResponse response) {
+        if (response != null && response.getData() != null) {
+            totalSize = response.getData().getTotalSize();
+            if (rlAll.isRefreshing()) {
+                data.clear();
+                data.addAll(response.getData().getData());
+                mineAdapter.notifyDataSetChanged();
+                rlAll.refreshComplete();
+            } else {
+                mineAdapter.addData(response.getData().getData());
+                if (mineAdapter.getData().size() >= totalSize) {
+                    mineAdapter.loadMoreEnd();
+                } else {
+                    mineAdapter.loadMoreComplete();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        }
+        mineAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void showPublishActivityComent(boolean b) {
+        if (b) {
+            ToastUtil.showTrueToast(getContext(), "评论成功");
+            doComment();
+            commentDialog.setContent("");
+        } else {
+            ToastUtil.showTrueToast(getContext(), "评论失败");
+        }
+    }
+
+    @Override
+    public void onPraiseResult(boolean b) {
+        if (b) {
+            doPraise();
+        } else {
+            ToastUtil.showTrueToast(getContext(), "点赞失败");
+        }
+    }
+
+    @Override
+    public void onCancelPraiseResult(boolean b) {
+        if (b) {
+            doPraise();
+        } else {
+            ToastUtil.showTrueToast(getContext(), "取消点赞失败");
+        }
+    }
+
+    private void doPraise() {
+        for (int i = 0; i < mineAdapter.getData().size(); i++) {
+            if (selectId == mineAdapter.getData().get(i).getId()) {
+                int num = mineAdapter.getData().get(i).getPraiseNum();
+                if ("1".equals(mineAdapter.getData().get(i).getPraiseFlag())) {
+                    num++;
+                    mineAdapter.getData().get(i).setPraiseFlag("0");
+                } else {
+                    if (num > 0) {
+                        num--;
+                    }
+                    mineAdapter.getData().get(i).setPraiseFlag("1");
+                }
+                mineAdapter.getData().get(i).setPraiseNum(num);
+                mineAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    private void doComment() {
+        for (int i = 0; i < mineAdapter.getData().size(); i++) {
+            if (selectId == mineAdapter.getData().get(i).getId()) {
+                DongTaiList.CommentListBean commentListBean = new DongTaiList.CommentListBean();
+                commentListBean.setCommentatorName(SharedPrefsUtil.getUserInfo().getData().getName());
+                commentListBean.setContent(commentDialog.getContent());
+
+                List<DongTaiList.CommentListBean> listBeen = mineAdapter.getData().get(i).getCommentList();
+                if (listBeen == null) {
+                    listBeen = new ArrayList<>();
+                }
+                listBeen.add(0, commentListBean);
+                mineAdapter.notifyDataSetChanged();
+                break;
+            }
         }
     }
 }

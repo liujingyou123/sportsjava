@@ -35,6 +35,14 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    productFlavors {
+        dev {
+            buildConfigField("String", "BASEURL", '"http://api.ex-fans.com/tst/ultimateapp/"')
+        }
+        pro {
+            buildConfigField("String", "BASEURL", '"http://api.ex-fans.com/ultimateapp/"')
+        }
+    }
 }
 
 

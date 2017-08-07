@@ -13,12 +13,8 @@ import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.presenter.PersonInfoPresenter;
 import com.sports.limitsport.discovery.ui.IPersonInfoView;
 import com.sports.limitsport.mine.adapter.MineAdapter;
-import com.sports.limitsport.mine.model.Dongtai;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.view.PersonInfoHeaderView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +28,6 @@ import butterknife.OnClick;
 public class PersonInfoActivity extends BaseActivity implements IPersonInfoView {
     @BindView(R.id.ry_person)
     RecyclerView ryPerson;
-    private List<Dongtai> data = new ArrayList<>();
     private MineAdapter mineAdapter;
     private String userId = "";
     private PersonInfoPresenter mPresenter;
@@ -84,7 +79,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
 
         ryPerson.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        mineAdapter = new MineAdapter(data);
+        mineAdapter = new MineAdapter(null);
         mineAdapter.addHeaderView(headerView);
         mineAdapter.setHeaderAndEmpty(true);
         mineAdapter.bindToRecyclerView(ryPerson);

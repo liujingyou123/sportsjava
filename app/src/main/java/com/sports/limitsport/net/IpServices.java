@@ -69,7 +69,7 @@ public interface IpServices {
 
     //精彩秀列表
     @POST(URLConstants.URL_FINESHOW_LIST)
-    Observable<FineShowListResponse> getFineShowList(@Body HashMap<String, String> hashMap);
+    Observable<MyCollectFineShowResponse> getFineShowList(@Body HashMap<String, String> hashMap);
 
     //精彩秀详情
     @POST(URLConstants.URL_FINESHOW_DETAIL)

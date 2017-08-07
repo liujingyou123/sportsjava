@@ -2,6 +2,7 @@ package com.sports.limitsport.discovery.presenter;
 
 import com.sports.limitsport.discovery.ui.IFineShowView;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.net.NoneNetSubscriber;
@@ -27,9 +28,9 @@ public class FineShowPresenter {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber+"");
         hashMap.put("pageSize", "10");
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getFineShowList(hashMap), new NetSubscriber<FineShowListResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getFineShowList(hashMap), new NetSubscriber<MyCollectFineShowResponse>() {
             @Override
-            public void response(FineShowListResponse response) {
+            public void response(MyCollectFineShowResponse response) {
                 if (mIFineShowView != null) {
                     mIFineShowView.showFineShow(response);
                 }
@@ -38,6 +39,8 @@ public class FineShowPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                mIFineShowView.onError(e);
+
             }
         });
     }

@@ -21,6 +21,7 @@ import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.EventBusUserModel;
 import com.sports.limitsport.model.FineShowListResponse;
+import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.SignUpUser;
 import com.sports.limitsport.view.HotNewHeadView;
@@ -152,10 +153,10 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     }
 
     @Override
-    public void showFineShowList(FineShowListResponse response) {
+    public void showFineShowList(MyCollectFineShowResponse response) {
         if (response != null) {
             if (hotNewHeadView != null) {
-                hotNewHeadView.setFineShowList(response.getData());
+                hotNewHeadView.setFineShowList(response.getData().getData());
             }
         }
     }

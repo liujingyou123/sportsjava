@@ -328,6 +328,14 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         if (headerView != null && response != null) {
             headerView.setData(response.getData());
         }
+
+        if (response.getData() != null) {
+            if (response.getData().getCollectionFlag() == 1) {
+                tvFav.setSelected(true);
+            } else {
+                tvFav.setSelected(false);
+            }
+        }
     }
 
     @Override
