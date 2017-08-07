@@ -79,4 +79,6 @@ public class URLConstants {
     public final static String URL_MY_COLLECT_DONGTAI = "api/trend/queryTrendCollectList/v1.0.0";
     //我收藏的精彩秀
     public final static String URL_MY_COLLECT_FINE_SHOW = "api/wonderfullShow/queryMyCollectWonderfullShowList/v1.0.0";
+    //我收藏的活动
+    public final static String URL_MY_COLLECT_ACTIVITYS_SHOW = "api/activity/myCollectionActivity/v1.0.0";
 }

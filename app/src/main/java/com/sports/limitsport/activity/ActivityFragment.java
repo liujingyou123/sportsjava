@@ -164,6 +164,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         Observable.from(mData).map(new Func1<Act, Act>() {
             @Override
             public Act call(Act baseStaggeredEntity) {
+                //TODO
                 baseStaggeredEntity.setCoverUrl("http://image.tianjimedia.com/uploadImages/2015/318/28/J0IUZ1ST711A.jpg");
                 Bitmap bitmap = Batman.getInstance().getBitMap(ActivityFragment.this.getContext(), baseStaggeredEntity.getCoverUrl());
                 if (bitmap != null) {

@@ -44,7 +44,7 @@ public class JoinActivityActivity extends BaseActivity {
     private void initView() {
         rlvactivity.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyCollectActivityAdapter(MyTestData.getData());
+        adapter = new MyCollectActivityAdapter(null);
         adapter.bindToRecyclerView(rlvactivity);
 
     }

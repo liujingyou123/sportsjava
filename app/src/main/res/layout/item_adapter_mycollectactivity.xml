@@ -17,13 +17,14 @@
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="报名中"
+            android:text=""
             android:textColor="#FFFFFFFF"
             android:textSize="10sp"
             android:layout_alignParentRight="true"
             android:layout_margin="15dp"
             android:background="@drawable/bg_round_black_2"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 
