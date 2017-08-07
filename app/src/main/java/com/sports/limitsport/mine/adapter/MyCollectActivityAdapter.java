@@ -64,7 +64,6 @@ public class MyCollectActivityAdapter extends BaseQuickAdapter<Act, BaseViewHold
 //        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
 
         tvName.setText(item.getName());
-//        Calendar calendar = UnitUtil.dateToCalendar(UnitUtil.stringToDate(item.getStartDate()));
         tvTime.setText(item.getStartDate()
                 + " " + UnitUtil.stringToWeek(item.getWeek()) + " " + item.getStartTime());
         tvAddress.setText("活动地:" + item.getAddress());
