@@ -244,7 +244,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
                 if (aBoolean) {
                     Matisse.from(UserInfoActivity.this)
                             .choose(MimeType.ofImage())
-                            .capture(false)
+                            .capture(true)
                             .captureStrategy(
                                     new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
                             .showSingleMediaType(true)
@@ -344,7 +344,10 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getCity())) {
-                tvCity.setText(dataBean.getCity());
+                tvCity.setText(dataBean.getProvince() + " " + dataBean.getCity());
+                city = dataBean.getCity();
+                province = dataBean.getProvince();
+
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getHobby())) {
@@ -394,7 +397,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             ToastUtil.showFalseToast(this, "请选择城市");
             return false;
         }
-        city = citytmp;
+//        city = citytmp;
 
         String birthtmp = itBirth.getLableTwo();
         if (TextViewUtil.isEmpty(birthtmp) || "请选择出生年月".equals(birthtmp) || "请选择".equals(birthtmp)) {
@@ -435,6 +438,8 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
         hashMap.put("coutry", "中国");
         hashMap.put("city", city);
         hashMap.put("introduction", introduce);
+        hashMap.put("province", province);
+
 
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).updateUserInfo(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
@@ -476,6 +481,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
                 hashMap.put("brithDate", birth);
                 hashMap.put("coutry", "中国");
                 hashMap.put("city", city);
+                hashMap.put("province", province);
                 hashMap.put("introduction", introduce);
 
                 return ToolsUtil.createService(IpServices.class).updateUserInfo(hashMap);

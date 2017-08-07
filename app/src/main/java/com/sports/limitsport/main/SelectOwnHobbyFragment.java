@@ -54,6 +54,7 @@ public class SelectOwnHobbyFragment extends BaseFragment {
     private String name;
     private String city;
     private String birth;
+    private String province;
     private String hobbys;
     private Subscription mSubscription;
 
@@ -82,6 +83,7 @@ public class SelectOwnHobbyFragment extends BaseFragment {
             city = bundle.getString("city");
             birth = bundle.getString("birth");
             type = bundle.getString("type");
+            province = bundle.getString("province");
         }
     }
 
@@ -168,6 +170,7 @@ public class SelectOwnHobbyFragment extends BaseFragment {
                 hashMap.put("brithDate", birth);
                 hashMap.put("coutry", "中国");
                 hashMap.put("city", city);
+                hashMap.put("province", province);
 
                 return ToolsUtil.createService(IpServices.class).updateUserInfo(hashMap);
             }

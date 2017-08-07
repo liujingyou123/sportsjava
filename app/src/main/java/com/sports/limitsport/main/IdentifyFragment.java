@@ -108,6 +108,7 @@ public class IdentifyFragment extends BaseFragment {
                     bundle.putString("city", city);
                     bundle.putString("birth", birth);
                     bundle.putString("type", type);
+                    bundle.putString("province", province);
                     SelectOwnHobbyFragment fragment = new SelectOwnHobbyFragment();
                     fragment.setArguments(bundle);
                     addFragment(fragment, true);
@@ -244,8 +245,8 @@ public class IdentifyFragment extends BaseFragment {
             return false;
         }
 
-        city = etCity.getText().toString();
-        if (TextViewUtil.isEmpty(city)) {
+//        city = etCity.getText().toString();
+        if (TextViewUtil.isEmpty(city) || TextViewUtil.isEmpty(province)) {
             ToastUtil.showFalseToast(getContext(), "请输入城市");
             return false;
         }

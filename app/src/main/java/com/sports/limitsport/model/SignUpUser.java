@@ -17,6 +17,7 @@ public class SignUpUser {
     private String sex;
     private String status;
     private String tickets;
+    private String province;
 
     public String getCity() {
         return city;
@@ -104,5 +105,13 @@ public class SignUpUser {
 
     public void setTickets(String tickets) {
         this.tickets = tickets;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

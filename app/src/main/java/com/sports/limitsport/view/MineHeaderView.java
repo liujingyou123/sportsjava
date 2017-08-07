@@ -178,10 +178,10 @@ public class MineHeaderView extends LinearLayout {
 
             }
 
-            tvFensi.setText(dataBean.getFansNum()+"");
+            tvFensi.setText(dataBean.getFansNum() + "");
 
 
-            tvGuanzhu.setText(dataBean.getAttentionNum()+"");
+            tvGuanzhu.setText(dataBean.getAttentionNum() + "");
 
 
             if (!TextViewUtil.isEmpty(dataBean.getName())) {
@@ -189,7 +189,7 @@ public class MineHeaderView extends LinearLayout {
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getCity())) {
-                tvLocation.setText(dataBean.getCity());
+                tvLocation.setText(dataBean.getProvince() + " " + dataBean.getCity());
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getIntroduction())) {
