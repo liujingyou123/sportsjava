@@ -9,7 +9,7 @@ import java.util.List;
  * 活动详情
  */
 
-public class ActivityDetailResponse extends BaseResponse{
+public class ActivityDetailResponse extends BaseResponse {
 
 
     /**
@@ -100,6 +100,7 @@ public class ActivityDetailResponse extends BaseResponse{
 
         private String week;
         private String minMoney;
+        private String isCollection;
         /**
          * city : 上海
          * coutry : 中国
@@ -445,6 +446,14 @@ public class ActivityDetailResponse extends BaseResponse{
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public String getIsCollection() {
+            return isCollection;
+        }
+
+        public void setIsCollection(String isCollection) {
+            this.isCollection = isCollection;
         }
     }
 }

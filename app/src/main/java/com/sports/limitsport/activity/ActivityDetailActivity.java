@@ -224,7 +224,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 CommentList.ReplyList replyList = new CommentList.ReplyList();
                 replyList.setCommentUserId(SharedPrefsUtil.getUserInfo().getData().getUserId() + "");
 
-                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getName()+"");
+                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getName() + "");
                 replyList.setReplyContent(commentDialog.getContent());
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");
@@ -241,6 +241,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             }
         }
     }
+
     @Override
     public void showActivityDetail(ActivityDetailResponse response) {
         if (response != null && response.getData() != null) {
@@ -256,6 +257,12 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             activityDetailHeaderView.showDetail(response.getData());
 
             tvPriceBottom.setText(mData.getMoney());
+
+            if ("1".equals(mData.getIsCollection())) {
+                imvFav.setSelected(true);
+            } else {
+                imvFav.setSelected(false);
+            }
         }
     }
 
