@@ -12,17 +12,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.ActivityDetailActivity;
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.NoticeDelDialog;
+import com.sports.limitsport.discovery.ClubDetailActivity;
 import com.sports.limitsport.discovery.JoinActivityActivity;
 import com.sports.limitsport.discovery.JoinClubActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.mine.adapter.TagFavAdapter;
+import com.sports.limitsport.model.Act;
+import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.model.Club;
+import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.EventBusUserModel;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
-import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
@@ -92,7 +97,12 @@ public class PersonInfoHeaderView extends LinearLayout {
     TextView tvPrice;
     @BindView(R.id.imv_club_go)
     ImageView imvClubGo;
+    @BindView(R.id.tv_activity_size)
+    TextView tvActivitySize;
+    @BindView(R.id.tv_club_size)
+    TextView tvClubSize;
     private UserInfoResponse mResponse;
+    private Act act;
 
     public PersonInfoHeaderView(Context context) {
         super(context);
@@ -113,7 +123,7 @@ public class PersonInfoHeaderView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_head_person, this);
         ButterKnife.bind(this, this);
 //        setData();
-        addClubs();
+//        addClubs();
 //        setEmpty();
     }
 
@@ -125,11 +135,10 @@ public class PersonInfoHeaderView extends LinearLayout {
                     if ("0".equals(mResponse.getData().getIsAttenttion())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
                         foucesFans("0", mResponse.getData().getId() + "");
                     } else {
-                        foucesFans("2", mResponse.getData().getId() + "");
+                        showCancleFocusDailog();
                     }
                 }
 
-//                showCancleFocusDailog();
                 break;
             case R.id.imv_activity_go:
                 Intent intent = new Intent(this.getContext(), JoinActivityActivity.class);
@@ -139,6 +148,15 @@ public class PersonInfoHeaderView extends LinearLayout {
                 Intent intent1 = new Intent(this.getContext(), JoinClubActivity.class);
                 this.getContext().startActivity(intent1);
                 break;
+            case R.id.ll_activity:
+                if (act != null) {
+                    Intent intent2 = new Intent(getContext(), ActivityDetailActivity.class);
+                    intent2.putExtra("id", act.getId() + "");
+                    intent2.putExtra("week", act.getWeek());
+                    intent2.putExtra("minMoney", act.getMinMoney());
+                    getContext().startActivity(intent2);
+                }
+                break;
         }
     }
 
@@ -147,16 +165,88 @@ public class PersonInfoHeaderView extends LinearLayout {
         Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
     }
 
-    public void addClubs() {
-        for (int i = 0; i < 2; i++) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_myclubs, null);
-            ImageView imvHead = (ImageView) view.findViewById(R.id.imv_head);
-            Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
-            LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 0, 0, UnitUtil.dip2px(getContext(), 15));
-            llClubs.addView(view, lp);
+    public void addClubs(List<Club> clubs) {
+        if (clubs != null) {
+            for (int i = 0; i < clubs.size(); i++) {
+                final Club club = clubs.get(i);
+                if (club != null) {
+                    View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_myclubs, null);
+                    view.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getContext(), ClubDetailActivity.class);
+                            intent.putExtra("id", club.getId());
+                            getContext().startActivity(intent);
+                        }
+                    });
+                    ImageView imvHead = (ImageView) view.findViewById(R.id.imv_head);
+                    TextView tvName = (TextView) view.findViewById(R.id.tv_name);
+                    TextView tvLocation = (TextView) view.findViewById(R.id.tv_location);
+                    TextView tvNum = (TextView) view.findViewById(R.id.tv_des);
+                    TextView tvTip = (TextView) view.findViewById(R.id.tv_tip);
+                    TextView tvFocus = (TextView) view.findViewById(R.id.tv_focus);
+                    tvFocus.setEnabled(true);
+                    tvFocus.setText("了解");
+                    tvName.setText(club.getClubName());
+                    tvLocation.setText(club.getClubIntroduction());
+                    tvNum.setText(club.getMemberNum() + "成员");
+                    if ("1".equals(club.getIsActivity())) {
+                        tvTip.setVisibility(View.VISIBLE);
+                    } else {
+                        tvTip.setVisibility(View.GONE);
+                    }
+
+                    Batman.getInstance().getImageWithCircle(club.getClubImgUrl(), imvHead, 0, 0);
+
+                    LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(0, 0, 0, UnitUtil.dip2px(getContext(), 15));
+                    llClubs.addView(view, lp);
+                }
+            }
         }
 
+
+    }
+
+    public void setActivityList(ActivityResponse response) {
+        if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
+            llActivity.setVisibility(View.VISIBLE);
+            tvActivitySize.setText("参加的活动(" + response.getData().getTotalSize() + ")");
+            act = response.getData().getData().get(0);
+            if (act != null) {
+                if ("0".equals(act.getMinMoney())) {
+                    tvPrice.setText("¥0");
+                } else {
+                    tvPrice.setText("¥" + UnitUtil.formatSNum(act.getMinMoney()) + " - ¥" + UnitUtil.formatSNum(act.getMaxMoney()));
+                }
+
+                if ("1".equals(act.getStatus())) { //报名中
+
+                    if (act.getTicketNum() > 0) {
+                        tvStatus.setVisibility(View.VISIBLE);
+                        tvStatus.setText("报名中");
+
+                    } else {
+                        tvStatus.setVisibility(View.VISIBLE);
+                        tvStatus.setText("名额已抢完");
+                    }
+
+                } else {
+                    tvStatus.setVisibility(View.GONE);
+                }
+
+                //TODO 测试
+                Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
+
+                //正式
+//        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
+
+                tvName.setText(act.getName());
+                tvTime.setText(act.getStartDate()
+                        + " " + UnitUtil.stringToWeek(act.getWeek()) + " " + act.getStartTime());
+                tvAddress.setText("活动地:" + act.getAddress());
+            }
+        }
     }
 
     public void setData(UserInfoResponse response) {
@@ -210,6 +300,14 @@ public class PersonInfoHeaderView extends LinearLayout {
         }
     }
 
+    public void setClubsList(ClubListResponse response) {
+        if (response != null && response.getData() != null && response.getData().getTotalSize() > 0) {
+            llClubsAll.setVisibility(VISIBLE);
+            tvClubSize.setText("参加的俱乐部(" + response.getData().getTotalSize() + ")");
+            addClubs(response.getData().getData());
+        }
+    }
+
     private void setTagData(List<String> data) {
         if (data != null) {
             tg.setAdapter(new TagFavAdapter(getContext(), data));
@@ -228,11 +326,12 @@ public class PersonInfoHeaderView extends LinearLayout {
         dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-
+                foucesFans("2", mResponse.getData().getId() + "");
             }
         });
         dialog.show();
     }
+
 
     /**
      * 0:添加 1:移除 2:取消关注

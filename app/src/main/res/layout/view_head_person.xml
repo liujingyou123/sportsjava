@@ -25,7 +25,7 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:background="@mipmap/icon_gerenzhuye_morentouxiang"
-                android:padding="3px"/>
+                android:padding="3px" />
 
             <ImageView
                 android:id="@+id/imv_gender"
@@ -33,7 +33,7 @@
                 android:layout_height="20dp"
                 android:layout_alignBottom="@id/imv_head"
                 android:layout_alignRight="@id/imv_head"
-                android:src="@drawable/bg_gender_sel"/>
+                android:src="@drawable/bg_gender_sel" />
 
             <TextView
                 android:id="@+id/tv_focus"
@@ -48,7 +48,7 @@
                 android:text=""
                 android:textColor="@color/color_btn_selector"
                 android:textSize="14sp"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <LinearLayout
                 android:id="@+id/ll_fensi"
@@ -117,8 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_default"
                 android:textColor="#FFFFFFFF"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_location"
@@ -138,19 +137,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:paddingLeft="15dp"
             android:text="还没有个性签名"
             android:textColor="#A5A4A4"
-            android:textSize="12sp"
-            android:paddingLeft="15dp"/>
+            android:textSize="12sp" />
 
         <com.sports.limitsport.view.tagview.TagCloudLayout
             android:id="@+id/tg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:paddingLeft="15dp"
             apps:lineSpacing="5dp"
-            apps:tagSpacing="5dp"
-            android:paddingLeft="15dp"></com.sports.limitsport.view.tagview.TagCloudLayout>
+            apps:tagSpacing="5dp"></com.sports.limitsport.view.tagview.TagCloudLayout>
 
     </LinearLayout>
 
@@ -158,6 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#151515" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
@@ -167,13 +167,16 @@
         android:id="@+id/ll_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp">
 
             <TextView
+                android:id="@+id/tv_activity_size"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -188,9 +191,9 @@
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_eventdetail_more"
+                android:layout_marginRight="10dp"
                 android:scaleType="centerInside"
-                android:layout_marginRight="10dp"/>
+                android:src="@mipmap/icon_eventdetail_more" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -206,53 +209,53 @@
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="报名中"
-                android:textColor="#FFFFFFFF"
-                android:textSize="10sp"
                 android:layout_alignParentRight="true"
                 android:layout_margin="15dp"
                 android:background="@drawable/bg_round_black_2"
-                android:padding="3dp"/>
+                android:padding="3dp"
+                android:text="报名中"
+                android:textColor="#FFFFFFFF"
+                android:textSize="10sp" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_activity_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:text="南山俱乐部 大云山潜水第九期"
             android:textColor="#FFFFFFFF"
-            android:textSize="18sp"
-            android:layout_margin="15dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:text="2017年04月22日 周六 13:30-15:00 "
             android:textColor="#FFA5A4A4"
-            android:textSize="12sp"
-            android:layout_marginLeft="15dp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
             android:text="活动地 : 浙江省湖州市大云山"
             android:textColor="#FFA5A4A4"
-            android:textSize="12sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1200-1500"
-            android:textColor="@color/color_text_green"
-            android:textSize="14sp"
+            android:layout_marginBottom="45dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="45dp"/>
+            android:text="1200-1500"
+            android:textColor="@color/color_text_green"
+            android:textSize="14sp" />
     </LinearLayout>
 
 
@@ -260,15 +263,17 @@
         android:id="@+id/ll_clubs_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-20dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="-20dp">
 
             <TextView
+                android:id="@+id/tv_club_size"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -283,17 +288,17 @@
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_eventdetail_more"
+                android:layout_marginRight="10dp"
                 android:scaleType="centerInside"
-                android:layout_marginRight="10dp"/>
+                android:src="@mipmap/icon_eventdetail_more" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_clubs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="-20dp"></LinearLayout>
+            android:layout_marginTop="-20dp"
+            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 
     <TextView
