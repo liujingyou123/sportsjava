@@ -26,6 +26,7 @@ import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.SignUpUser;
 import com.sports.limitsport.view.HotNewHeadView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hot_news, null);
         unbinder = ButterKnife.bind(this, view);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initView();
         getData();
         return view;
@@ -164,13 +168,11 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     @Override
     public void showNewPersonList(NewPersonListResponse response) {
         if (response != null && response.getData() != null) {
+            data.clear();
+            data.addAll(response.getData().getData());
+            adapter.notifyDataSetChanged();
             if (rlAll.isRefreshing()) {
-                data.clear();
-                data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
-            } else {
-                adapter.addData(response.getData().getData());
             }
         }
     }
@@ -188,6 +190,7 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
         if (mPresenter != null) {
             mPresenter.clear();
         }
