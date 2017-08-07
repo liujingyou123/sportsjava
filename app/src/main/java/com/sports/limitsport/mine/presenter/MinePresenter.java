@@ -72,6 +72,11 @@ public class MinePresenter {
 
     }
 
+    /**
+     * 动态
+     *
+     * @param pageNumber
+     */
     public void getDongTaiList(int pageNumber) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber + "");
@@ -131,6 +136,7 @@ public class MinePresenter {
 
     /**
      * 点赞
+     *
      * @param articleId
      */
     public void praise(String articleId) {
@@ -162,6 +168,7 @@ public class MinePresenter {
 
     /**
      * 取消点赞
+     *
      * @param articleId
      */
     public void cancelPraise(String articleId) {

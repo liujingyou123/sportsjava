@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#171717"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
 
         <RelativeLayout
             android:id="@+id/rl_top"
@@ -297,6 +298,7 @@
             android:id="@+id/ll_clubs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="-20dp"
             android:orientation="vertical"></LinearLayout>
     </LinearLayout>
@@ -305,6 +307,7 @@
         android:id="@+id/tv_dongtai_tip"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="-20dp"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="全部动态(10)"

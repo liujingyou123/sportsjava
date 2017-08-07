@@ -167,6 +167,7 @@ public class PersonInfoHeaderView extends LinearLayout {
 
     public void addClubs(List<Club> clubs) {
         if (clubs != null) {
+            llClubs.removeAllViews();
             for (int i = 0; i < clubs.size(); i++) {
                 final Club club = clubs.get(i);
                 if (club != null) {
@@ -314,10 +315,12 @@ public class PersonInfoHeaderView extends LinearLayout {
         }
     }
 
-    public void setEmpty() {
-        llActivity.setVisibility(View.GONE);
-        llClubsAll.setVisibility(View.GONE);
-        tvDongtaiTip.setVisibility(View.GONE);
+    public void setDongtaiSize(int dongTaiSize) {
+        tvDongtaiTip.setText("全部动态("+dongTaiSize+")");
+    }
+
+    public void setDongtaiGone() {
+        tvDongtaiTip.setVisibility(GONE);
     }
 
     public void showCancleFocusDailog() {

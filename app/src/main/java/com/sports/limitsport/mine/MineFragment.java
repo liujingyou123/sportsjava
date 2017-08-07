@@ -368,12 +368,12 @@ public class MineFragment extends BaseFragment implements IMineView {
             if (selectId == mineAdapter.getData().get(i).getId()) {
                 int num = mineAdapter.getData().get(i).getPraiseNum();
                 if ("1".equals(mineAdapter.getData().get(i).getPraiseFlag())) {
-                    num++;
-                    mineAdapter.getData().get(i).setPraiseFlag("0");
-                } else {
                     if (num > 0) {
                         num--;
                     }
+                    mineAdapter.getData().get(i).setPraiseFlag("0");
+                } else {
+                    num++;
                     mineAdapter.getData().get(i).setPraiseFlag("1");
                 }
                 mineAdapter.getData().get(i).setPraiseNum(num);

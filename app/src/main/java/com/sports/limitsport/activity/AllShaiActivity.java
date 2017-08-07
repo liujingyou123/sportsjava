@@ -315,12 +315,12 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
             if (selectId == allShaiAdapter.getData().get(i).getId()) {
                 int num = allShaiAdapter.getData().get(i).getPraiseNum();
                 if ("1".equals(allShaiAdapter.getData().get(i).getPraiseFlag())) {
-                    num++;
-                    allShaiAdapter.getData().get(i).setPraiseFlag("0");
-                } else {
                     if (num > 0) {
                         num--;
                     }
+                    allShaiAdapter.getData().get(i).setPraiseFlag("0");
+                } else {
+                    num++;
                     allShaiAdapter.getData().get(i).setPraiseFlag("1");
                 }
                 allShaiAdapter.getData().get(i).setPraiseNum(num);
