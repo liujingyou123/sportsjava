@@ -21,8 +21,9 @@ import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.discovery.presenter.ClubDetailPresenter;
 import com.sports.limitsport.discovery.ui.IClubDetailView;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.util.SlidingTagPagerItem;
-import com.sports.limitsport.util.StatusBarUtil;
+import com.sports.limitsport.view.CreatPersonView;
 import com.sports.limitsport.view.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -40,8 +41,6 @@ import butterknife.OnClick;
 public class ClubDetailActivity extends BaseActivity implements IClubDetailView {
     @BindView(R.id.imv_cover)
     ImageView imvCover;
-    @BindView(R.id.tv_club_tip)
-    TextView tvClubTip;
     @BindView(R.id.tv_club_name)
     TextView tvClubName;
     @BindView(R.id.ll_members)
@@ -70,9 +69,22 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     TextView tvMore;
     @BindView(R.id.rl_top)
     RelativeLayout rlTop;
+    @BindView(R.id.imv_club_logo)
+    ImageView imvClubLogo;
+    @BindView(R.id.imv_status)
+    ImageView imvStatus;
+    @BindView(R.id.imv_focus_house_back)
+    ImageView imvFocusHouseBack;
+    @BindView(R.id.imv_report)
+    ImageView imvReport;
+    @BindView(R.id.imv_share)
+    ImageView imvShare;
+    @BindView(R.id.imv_publish)
+    ImageView imvPublish;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
     private String id;//俱乐部ID
     private ClubDetailPresenter mPresenter;
+    private ClubDetailResponse.DataBean dataBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,7 +139,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 //        viewPager.setCurrentItem(0);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.tv_club_tip})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.imv_club_logo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -150,10 +162,61 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                     llMembersTwo.setVisibility(View.VISIBLE);
                 }
                 break;
-            case R.id.tv_club_tip:
+            case R.id.imv_club_logo:
                 Intent intent = new Intent(this, ClubBaseInfoActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Override
+    public void showClubDetail(ClubDetailResponse response) {
+        if (response != null) {
+            this.dataBean = response.getData();
+            Batman.getInstance().fromNet(dataBean.getClubImgUrl(), imvCover);
+            Batman.getInstance().getImageWithCircle(dataBean.getLogoUrl(), imvClubLogo, R.mipmap.icon_club_defaul, R.mipmap.icon_club_defaul);
+            tvClubName.setText(dataBean.getClubName());
+
+            if (dataBean.getManagerList() != null) {
+                if (dataBean.getManagerList().size() > 3) {
+                    tvMore.setVisibility(View.VISIBLE);
+                } else {
+                    tvMore.setVisibility(View.GONE);
+                }
+
+                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+                    CreatPersonView creatPersonView = new CreatPersonView(this);
+                    creatPersonView.setData(dataBean.getManagerList().get(i));
+
+                    if (i < 3) {
+                        llMembers.addView(creatPersonView, llMembers.getChildCount() - 1);
+                    } else {
+                        llMembersTwo.addView(creatPersonView);
+                    }
+                }
+            }
+
+            if (dataBean.getAuthEntity() == 2) {
+                imvStatus.setVisibility(View.VISIBLE);
+            } else {
+                imvStatus.setVisibility(View.GONE);
+            }
+
+            if (dataBean.getJoinClubFlag() == 1) { //1:是 0:否
+                btnDone.setText("退出俱乐部");
+            } else {
+                btnDone.setText("申请加入");
+            }
+
+            tvSignNum.setText(dataBean.getMemberNum() + "");
+            if (dataBean.getMemberRule() == 1) { //创始人
+                imvPublish.setVisibility(View.VISIBLE);
+                llBottom.setVisibility(View.GONE);
+            } else {
+                imvPublish.setVisibility(View.GONE);
+                llBottom.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 

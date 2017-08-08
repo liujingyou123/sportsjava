@@ -21,16 +21,11 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
-        }
     }
 
     @Override
     public void onError(Throwable e) {
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
-        }
+
 
         if (isTokenTimeOut(e)) {
 //            RxBus.get().post(RxBusTags.TAG_TIME_OUT, "1");

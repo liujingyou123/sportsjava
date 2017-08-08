@@ -1,58 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp">
 
     <ImageView
         android:id="@+id/imv_head"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp" />
+        android:layout_marginLeft="20dp" />
 
 
-    <TextView
-        android:id="@+id/tv_name"
+    <LinearLayout
+        android:id="@+id/ll_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/imv_head"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="6dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_toRightOf="@id/imv_head"
-        android:singleLine="true"
-        android:text="路过的一直"
-        android:textColor="#ffffff"
-        android:textSize="14sp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:maxLines="1"/>
 
-    <TextView
-        android:id="@+id/tv_jiaose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_btn_green"
-        android:gravity="center"
-        android:text="创始人"
-        android:textColor="@color/color_text_green"
-        android:textSize="10sp"
-        android:layout_toRightOf="@id/tv_name"
-        android:layout_marginLeft="5dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_alignTop="@id/tv_name"/>
+        <TextView
+            android:id="@+id/tv_jiaose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_btn_green_one_p"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text=""
+            android:textColor="@color/color_text_green"
+            android:textSize="10sp"
+            android:includeFontPadding="false" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/tv_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_name"
-        android:layout_below="@id/tv_name"
+        android:layout_alignLeft="@id/ll_name"
+        android:layout_below="@id/ll_name"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:layout_toLeftOf="@id/tv_focus"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="潜水爱好者，还喜欢散文和是个的始终后首个女工哦女歌手给你送上你"
+        android:text=""
         android:textColor="#FFA5A4A4"
         android:textSize="12sp" />
 </RelativeLayout>

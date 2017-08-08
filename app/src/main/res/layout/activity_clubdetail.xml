@@ -42,35 +42,33 @@
                         android:layout_margin="10dp"
                         android:background="@drawable/bg_black_round_circle">
 
-                        <TextView
-                            android:id="@+id/tv_club_tip"
+                        <ImageView
+                            android:id="@+id/imv_club_logo"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="20dp"
-                            android:background="@drawable/bg_tv_white_circle"
-                            android:gravity="center"
-                            android:text="G"
-                            android:textColor="#FF000000"
-                            android:textSize="22sp" />
+                            android:src="@mipmap/icon_club_defaul"/>
 
                         <ImageView
+                            android:id="@+id/imv_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignBottom="@id/tv_club_tip"
-                            android:layout_alignRight="@id/tv_club_tip"
+                            android:layout_alignBottom="@id/imv_club_logo"
+                            android:layout_alignRight="@id/imv_club_logo"
                             android:layout_marginTop="15dp"
-                            android:src="@mipmap/icon_company_certification" />
+                            android:src="@mipmap/icon_company_certification"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:id="@+id/tv_club_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_club_tip"
+                            android:layout_below="@id/imv_club_logo"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="南山滑雪俱乐部"
+                            android:text=""
                             android:textColor="#FFFFFFFF"
                             android:textSize="18sp" />
 
@@ -82,41 +80,40 @@
                             android:orientation="vertical"
                             android:layout_marginTop="15dp">
 
-                            <com.sports.limitsport.view.CreatPersonView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>
+                            <!--<com.sports.limitsport.view.CreatPersonView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>-->
 
-                            <com.sports.limitsport.view.CreatPersonView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+                            <!--<com.sports.limitsport.view.CreatPersonView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
 
-                            <com.sports.limitsport.view.CreatPersonView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+                            <!--<com.sports.limitsport.view.CreatPersonView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
                             <LinearLayout
                                 android:id="@+id/ll_members_two"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/tv_club_name"
                                 android:orientation="vertical"
-                                android:layout_marginTop="10dp"
                                 android:visibility="gone">
 
-                                <com.sports.limitsport.view.CreatPersonView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>
+                                <!--<com.sports.limitsport.view.CreatPersonView-->
+                                    <!--android:layout_width="match_parent"-->
+                                    <!--android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>-->
 
-                                <com.sports.limitsport.view.CreatPersonView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+                                <!--<com.sports.limitsport.view.CreatPersonView-->
+                                    <!--android:layout_width="match_parent"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
 
-                                <com.sports.limitsport.view.CreatPersonView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>
+                                <!--<com.sports.limitsport.view.CreatPersonView-->
+                                    <!--android:layout_width="match_parent"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
 
                             </LinearLayout>
 
@@ -132,7 +129,8 @@
                                 android:layout_marginBottom="15dp"
                                 android:layout_gravity="center_horizontal"
                                 android:drawableRight="@drawable/bg_tv_more"
-                                android:drawablePadding="4dp"/>
+                                android:drawablePadding="4dp"
+                                android:visibility="gone"/>
                         </LinearLayout>
 
 
@@ -166,7 +164,7 @@
                             android:layout_gravity="center_vertical"
                             android:background="@drawable/bg_circle_green"
                             android:gravity="center"
-                            android:text="1,234"
+                            android:text="0"
                             android:textColor="#ffffff"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -255,7 +253,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:background="@color/bg">
+        android:background="@color/bg"
+        android:visibility="gone">
 
         <View style="@style/view_line" />
 
@@ -264,7 +263,7 @@
             style="@style/bt_done"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:text="申请加入" />
+            android:text="" />
     </LinearLayout>
 
     <!-- 发布按钮 -->
@@ -276,7 +275,8 @@
         android:src="@mipmap/icon_clubxiangqing_fadongtai"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="80dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:visibility="gone"/>
 
 </FrameLayout>
 

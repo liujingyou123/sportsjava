@@ -3,6 +3,7 @@ package com.sports.limitsport.net;
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.CommentListResponse;
@@ -195,7 +196,7 @@ public interface IpServices {
     @POST(URLConstants.URL_MY_COLLECT_ACTIVITYS_SHOW)
     Observable<MyCollectActivityResponse> getCollectActivityList(@Body HashMap<String, String> hashMap);
 
-    //活动列表
+    //俱乐部详情
     @POST(URLConstants.URL_CLUB_DETAIL)
-    Observable<MyCollectActivityResponse> getClubDetail(@Body HashMap<String, String> hashMap);
+    Observable<ClubDetailResponse> getClubDetail(@Body HashMap<String, String> hashMap);
 }

@@ -13,16 +13,10 @@ public abstract class NoneNetSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
-        }
     }
 
     @Override
     public void onError(Throwable e) {
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
-        }
     }
 
     @Override

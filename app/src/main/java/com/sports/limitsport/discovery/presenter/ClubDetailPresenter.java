@@ -1,6 +1,7 @@
 package com.sports.limitsport.discovery.presenter;
 
 import com.sports.limitsport.discovery.ui.IClubDetailView;
+import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
@@ -22,11 +23,11 @@ public class ClubDetailPresenter {
     public void getClubDetail(String id) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("clubId", id);
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getClubDetail(hashMap), new NetSubscriber<ClubListResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getClubDetail(hashMap), new NetSubscriber<ClubDetailResponse>() {
             @Override
-            public void response(ClubListResponse response) {
-                if (mIFindClubView != null) {
-                    mIFindClubView.showAllClubsList(response);
+            public void response(ClubDetailResponse response) {
+                if (mIClubDetailView != null) {
+                    mIClubDetailView.showClubDetail(response);
                 }
             }
 
