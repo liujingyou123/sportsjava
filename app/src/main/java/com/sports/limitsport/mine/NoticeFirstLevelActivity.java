@@ -68,10 +68,10 @@ public class NoticeFirstLevelActivity extends BaseActivity {
         } else if (type == 2) {
             if (hudongFragment == null) {
                 hudongFragment = new HudongFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("notice", mDataBean);
+                hudongFragment.setArguments(bundle);
             }
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("notice", mDataBean);
-            hudongFragment.setArguments(bundle);
             addFragment(hudongFragment);
             tvNotice.setSelected(false);
             tvHudong.setSelected(true);

@@ -11,6 +11,7 @@ import com.sports.limitsport.util.SlidingTagPagerItem;
 
 public class ClubDetailPageItem extends SlidingTagPagerItem {
     private String id;
+
     public ClubDetailPageItem(String mTitle, String mMsg, String id) {
         super(mTitle, mMsg);
         this.id = id;
@@ -26,6 +27,9 @@ public class ClubDetailPageItem extends SlidingTagPagerItem {
             fragment.setArguments(bundle);
         } else if ("1".equals(getMsg())) {
             fragment = new TabHistoryFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            fragment.setArguments(bundle);
         }
         return fragment;
     }

@@ -62,6 +62,8 @@ public class DongTaiDetialHeadView extends LinearLayout {
     LinearLayout llAt;
     @BindView(R.id.tv_comments_num)
     TextView tvCommentsNum;
+    @BindView(R.id.tv_sign_num)
+    TextView tvSignNum;
     private NamesAdapter namesAdapter; //他们也报名了
     private CommentDialog commentDialog;
     private DongTaiDetailResponse.DataBean item;
@@ -86,7 +88,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_dongtaidetail, this);
         ButterKnife.bind(this, this);
 
-        setNameRecy();
+//        setNameRecy();
     }
 
     /**
@@ -153,8 +155,10 @@ public class DongTaiDetialHeadView extends LinearLayout {
 
         if (TextViewUtil.isEmpty(item.getPraiseNum())) {
             tvSan.setText("0");
+            tvSignNum.setText("0");
         } else {
             tvSan.setText(item.getPraiseNum() + "");
+            tvSignNum.setText(item.getPraiseNum() + "");
         }
         if ("1".equals(item.getPraiseFlag())) { //1:已点赞 0:未点赞
             tvSan.setSelected(true);
@@ -199,6 +203,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
         }
         item.setPraiseNum(numI + "");
         tvSan.setText(numI + "");
+        tvSignNum.setText(numI + "");
     }
 
     public DongTaiDetailResponse.DataBean getData() {

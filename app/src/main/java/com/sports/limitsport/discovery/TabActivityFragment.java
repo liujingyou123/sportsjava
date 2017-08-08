@@ -31,6 +31,7 @@ import butterknife.Unbinder;
 
 /**
  * Created by liuworkmac on 17/7/12.
+ * 俱乐部在线活动
  */
 
 public class TabActivityFragment extends Fragment {

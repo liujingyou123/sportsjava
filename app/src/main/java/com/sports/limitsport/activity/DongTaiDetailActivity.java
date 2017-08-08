@@ -88,7 +88,6 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         if (mPresenter == null) {
             mPresenter = new DongTaiDetailPresenter(this);
         }
-
         mPresenter.getDongTaiDetail(id);
         mPresenter.getCommentList(id, pageNumber + "");
     }

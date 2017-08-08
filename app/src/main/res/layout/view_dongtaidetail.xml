@@ -192,7 +192,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/bg_circle_green"
             android:gravity="center"
-            android:text="1,234"
+            android:text="0"
             android:textColor="#ffffff"
             android:textSize="10sp" />
     </LinearLayout>
