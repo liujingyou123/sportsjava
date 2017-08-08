@@ -148,8 +148,11 @@ public class PersonInfoHeaderView extends LinearLayout {
                 }
                 break;
             case R.id.imv_club_go:
-                Intent intent1 = new Intent(this.getContext(), JoinClubActivity.class);
-                this.getContext().startActivity(intent1);
+                if (mResponse != null) {
+                    Intent intent1 = new Intent(this.getContext(), JoinClubActivity.class);
+                    intent1.putExtra("userId", mResponse.getData().getId() + "");
+                    this.getContext().startActivity(intent1);
+                }
                 break;
             case R.id.ll_activity:
                 if (act != null) {
