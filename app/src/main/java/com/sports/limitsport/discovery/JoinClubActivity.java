@@ -40,7 +40,7 @@ public class JoinClubActivity extends BaseActivity {
     private void initView() {
         tvFocusHouse.setText("我参加的俱乐部");
         rlv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new MyClubsAdapter(MyTestData.getData());
+        adapter = new MyClubsAdapter(null);
         adapter.bindToRecyclerView(rlv);
 
         SpacesItemTopDecoration decoration = new SpacesItemTopDecoration(60);

@@ -1,13 +1,16 @@
 package com.sports.limitsport.discovery.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.Text;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.discovery.model.FindClubSection;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.Club;
 
 import java.util.List;
 
@@ -30,7 +33,31 @@ public class FindClubAdapter extends BaseSectionQuickAdapter<FindClubSection, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, FindClubSection item) {
-        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", (ImageView) helper.getView(R.id.imv_head), 0, 0);
+        ImageView imvHead = helper.getView(R.id.imv_head);
+        TextView tvName = helper.getView(R.id.tv_name);
+        TextView tvDes = helper.getView(R.id.tv_location);
+        TextView tvNumbers = helper.getView(R.id.tv_des);
+        TextView tvTip = helper.getView(R.id.tv_tip);
+        TextView tvFocus = helper.getView(R.id.tv_focus);
+
+        Club club = item.t;
+        Batman.getInstance().getImageWithCircle(club.getLogoUrl(), imvHead, 0, 0);
+        tvName.setText(club.getClubName());
+        tvDes.setText(club.getClubIntroduction());
+        tvNumbers.setText(club.getMemberNum() + "成员");
+        if ("1".equals(club.getIsActivity())) {//1:活动中 0:没有活动
+            tvTip.setVisibility(View.VISIBLE);
+        } else {
+            tvTip.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(club.getIsJoin())) { //1:已加入 0:未加入
+            tvFocus.setEnabled(false);
+            tvFocus.setText("已加入");
+        } else {
+            tvFocus.setEnabled(true);
+            tvFocus.setText("了解");
+        }
     }
 
 }

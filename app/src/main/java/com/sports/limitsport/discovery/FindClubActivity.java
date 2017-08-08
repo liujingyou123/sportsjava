@@ -31,6 +31,7 @@ import butterknife.OnClick;
 
 /**
  * Created by liuworkmac on 17/7/11.
+ * 发现俱乐部
  */
 
 public class FindClubActivity extends BaseActivity implements IFindClubView {
