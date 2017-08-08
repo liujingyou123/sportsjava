@@ -99,9 +99,12 @@ public class SelectMyJoinActivity extends BaseActivity {
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter madapter, View view, int position) {
                 XLog.e("position = " + position);
-                gotoActivityDetail();
+                Act act = (Act) madapter.getItem(position);
+                if (act != null) {
+                    gotoActivityDetail(act);
+                }
             }
         });
 
@@ -144,8 +147,11 @@ public class SelectMyJoinActivity extends BaseActivity {
     /**
      * 前往活动详情
      */
-    private void gotoActivityDetail() {
+    private void gotoActivityDetail(Act act) {
         Intent intent = new Intent(this, ActivityDetailActivity.class);
+        intent.putExtra("id", act.getId() + "");
+        intent.putExtra("week", act.getWeek());
+        intent.putExtra("minMoney", act.getMinMoney());
         startActivity(intent);
     }
 
@@ -182,6 +188,11 @@ public class SelectMyJoinActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                if (rlAll.isRefreshing()) {
+                    rlAll.refreshComplete();
+                } else {
+                    adapter.loadMoreFail();
+                }
             }
         });
 

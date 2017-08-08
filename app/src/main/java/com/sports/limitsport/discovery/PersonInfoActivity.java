@@ -81,9 +81,9 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
         if (mPresenter == null) {
             mPresenter = new PersonInfoPresenter(this);
         }
-//        mPresenter.getUserInfo(userId);
-//        mPresenter.getActivityList(userId);
-//        mPresenter.getAllClubsList(userId);
+        mPresenter.getUserInfo(userId);
+        mPresenter.getActivityList(userId);
+        mPresenter.getAllClubsList(userId);
         mPresenter.getDongTaiList(pageNumber, userId);
     }
 

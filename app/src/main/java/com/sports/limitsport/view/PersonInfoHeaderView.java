@@ -141,8 +141,11 @@ public class PersonInfoHeaderView extends LinearLayout {
 
                 break;
             case R.id.imv_activity_go:
-                Intent intent = new Intent(this.getContext(), JoinActivityActivity.class);
-                this.getContext().startActivity(intent);
+                if (mResponse != null) {
+                    Intent intent = new Intent(this.getContext(), JoinActivityActivity.class);
+                    intent.putExtra("userId", mResponse.getData().getId() + "");
+                    this.getContext().startActivity(intent);
+                }
                 break;
             case R.id.imv_club_go:
                 Intent intent1 = new Intent(this.getContext(), JoinClubActivity.class);
@@ -316,7 +319,7 @@ public class PersonInfoHeaderView extends LinearLayout {
     }
 
     public void setDongtaiSize(int dongTaiSize) {
-        tvDongtaiTip.setText("全部动态("+dongTaiSize+")");
+        tvDongtaiTip.setText("全部动态(" + dongTaiSize + ")");
     }
 
     public void setDongtaiGone() {
