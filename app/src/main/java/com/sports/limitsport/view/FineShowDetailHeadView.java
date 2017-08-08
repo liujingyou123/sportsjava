@@ -17,8 +17,6 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ElsePriseActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
-import com.sports.limitsport.dialog.ReportDialog;
-import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.ApplicantListBean;
@@ -94,7 +92,7 @@ public class FineShowDetailHeadView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_fineshowdetail_head, this);
         ButterKnife.bind(this, this);
 
-        setNameRecy();
+//        setNameRecy();
 
     }
 

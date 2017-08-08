@@ -6,6 +6,8 @@ import com.sports.limitsport.model.ActivityResponse;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
+import com.sports.limitsport.model.ClubMemberList;
+import com.sports.limitsport.model.ClubMembersResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
@@ -199,4 +201,8 @@ public interface IpServices {
     //俱乐部详情
     @POST(URLConstants.URL_CLUB_DETAIL)
     Observable<ClubDetailResponse> getClubDetail(@Body HashMap<String, String> hashMap);
+
+    //俱乐部成员列表
+    @POST(URLConstants.URL_CLUB_MEMBERS)
+    Observable<ClubMembersResponse> getClubMembers(@Body HashMap<String, String> hashMap);
 }

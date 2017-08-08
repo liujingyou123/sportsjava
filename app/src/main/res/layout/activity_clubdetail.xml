@@ -15,12 +15,13 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll"
-                android:background="@color/bg">
+                android:background="@color/bg"
+                app:layout_scrollFlags="scroll">
                 <!-- 设置图片-->
                 <!--添加一个定义了app:layout_collapseMode="parallax" 属性的ImageView，出现和消失会有过度-->
                 <ImageView
@@ -48,7 +49,7 @@
                             android:layout_height="45dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/icon_club_defaul"/>
+                            android:src="@mipmap/icon_club_defaul" />
 
                         <ImageView
                             android:id="@+id/imv_status"
@@ -58,7 +59,7 @@
                             android:layout_alignRight="@id/imv_club_logo"
                             android:layout_marginTop="15dp"
                             android:src="@mipmap/icon_company_certification"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_club_name"
@@ -77,22 +78,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_club_name"
-                            android:orientation="vertical"
-                            android:layout_marginTop="15dp">
+                            android:layout_marginTop="15dp"
+                            android:orientation="vertical">
 
                             <!--<com.sports.limitsport.view.CreatPersonView-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>-->
 
                             <!--<com.sports.limitsport.view.CreatPersonView-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
 
                             <!--<com.sports.limitsport.view.CreatPersonView-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
                             <LinearLayout
                                 android:id="@+id/ll_members_two"
                                 android:layout_width="match_parent"
@@ -102,18 +103,18 @@
                                 android:visibility="gone">
 
                                 <!--<com.sports.limitsport.view.CreatPersonView-->
-                                    <!--android:layout_width="match_parent"-->
-                                    <!--android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"></com.sports.limitsport.view.CreatPersonView>-->
 
                                 <!--<com.sports.limitsport.view.CreatPersonView-->
-                                    <!--android:layout_width="match_parent"-->
-                                    <!--android:layout_height="wrap_content"-->
-                                    <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
 
                                 <!--<com.sports.limitsport.view.CreatPersonView-->
-                                    <!--android:layout_width="match_parent"-->
-                                    <!--android:layout_height="wrap_content"-->
-                                    <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginTop="10dp"></com.sports.limitsport.view.CreatPersonView>-->
 
                             </LinearLayout>
 
@@ -121,16 +122,16 @@
                                 android:id="@+id/tv_more"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="15dp"
+                                android:layout_marginTop="15dp"
+                                android:drawablePadding="4dp"
+                                android:drawableRight="@drawable/bg_tv_more"
+                                android:gravity="center"
                                 android:text="更多管理者"
                                 android:textColor="#FFFFFFFF"
                                 android:textSize="12sp"
-                                android:gravity="center"
-                                android:layout_marginTop="15dp"
-                                android:layout_marginBottom="15dp"
-                                android:layout_gravity="center_horizontal"
-                                android:drawableRight="@drawable/bg_tv_more"
-                                android:drawablePadding="4dp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
                         </LinearLayout>
 
 
@@ -152,10 +153,16 @@
 
                     <LinearLayout
                         android:id="@+id/ll_players"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:orientation="horizontal">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rl_numbers"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
                         <TextView
                             android:id="@+id/tv_sign_num"
@@ -200,9 +207,9 @@
                         android:id="@+id/imv_share"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_toLeftOf="@id/imv_report"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
+                        android:layout_toLeftOf="@id/imv_report"
                         android:scaleType="centerInside"
                         android:src="@mipmap/icon_nav_share" />
 
@@ -252,8 +259,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical"
         android:background="@color/bg"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <View style="@style/view_line" />
@@ -268,15 +275,15 @@
 
     <!-- 发布按钮 -->
     <ImageView
+        android:id="@+id/imv_publish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerInside"
-        android:id="@+id/imv_publish"
-        android:src="@mipmap/icon_clubxiangqing_fadongtai"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="15dp"
-        android:visibility="gone"/>
+        android:scaleType="centerInside"
+        android:src="@mipmap/icon_clubxiangqing_fadongtai"
+        android:visibility="gone" />
 
 </FrameLayout>
 

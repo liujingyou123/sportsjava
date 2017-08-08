@@ -140,8 +140,8 @@
 
         <ImageView
             android:id="@+id/imv_org_cover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="55dp"
+            android:layout_height="55dp" />
 
         <ImageView
             android:id="@+id/imv_auth"
@@ -151,14 +151,14 @@
             android:layout_alignRight="@id/imv_org_cover"
             android:layout_marginTop="15dp"
             android:src="@mipmap/icon_company_certification"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_org_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:layout_toRightOf="@id/imv_org_cover"
             android:text="@string/text_default"
             android:textColor="#ffffff"

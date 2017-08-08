@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/imv_head"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp" />
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imv_head"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toRightOf="@id/imv_head"
         android:singleLine="true"
         android:text=""
@@ -63,7 +63,7 @@
         android:layout_alignLeft="@id/tv_name"
         android:layout_below="@id/tv_location"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toLeftOf="@id/tv_focus"
         android:ellipsize="end"
         android:maxLines="1"

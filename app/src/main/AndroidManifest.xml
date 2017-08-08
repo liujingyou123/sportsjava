@@ -68,11 +68,12 @@
                 android:resource="@xml/file_paths_public"></meta-data>
         </provider>
 
-        <activity android:name=".main.LoginActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".main.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.ActivityDetailActivity"
@@ -93,7 +94,7 @@
         <activity
             android:name=".activity.PayOrderActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.PaySuccessActivity"
             android:screenOrientation="portrait" />
@@ -207,26 +208,31 @@
             android:name=".view.H5Activity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".main.IdentifyMainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".main.IdentifyMainActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".discovery.ClubMembersActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- jpush -->
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
-            android:theme="@style/MyDialogStyle"
-            android:exported="false">
-        </activity>
+            android:exported="false"
+            android:theme="@style/MyDialogStyle"></activity>
 
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.sports.limitsport" />
             </intent-filter>
@@ -236,8 +242,8 @@
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
-            android:process=":mult"
-            android:exported="false">
+            android:exported="false"
+            android:process=":mult">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -282,13 +288,15 @@
         </receiver>
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name=".jpush.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
@@ -299,8 +307,12 @@
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="5e413c2b8a85466ebc2ef11a" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="5e413c2b8a85466ebc2ef11a" /> <!--  </>值来自开发者平台取得的AppKey-->
 
     </application>
 

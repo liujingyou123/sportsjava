@@ -8,6 +8,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,14 +19,18 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.discovery.adapter.ClubMemberAdapter;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.discovery.presenter.ClubDetailPresenter;
 import com.sports.limitsport.discovery.ui.IClubDetailView;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.ClubDetailResponse;
+import com.sports.limitsport.model.ClubMemberList;
+import com.sports.limitsport.model.ClubMembersResponse;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.view.CreatPersonView;
 import com.sports.limitsport.view.SlidingTabLayout;
+import com.sports.limitsport.view.SpacesItemHDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,10 +87,14 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     ImageView imvShare;
     @BindView(R.id.imv_publish)
     ImageView imvPublish;
+    @BindView(R.id.rl_numbers)
+    RecyclerView rlNumbers;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
     private String id;//俱乐部ID
     private ClubDetailPresenter mPresenter;
     private ClubDetailResponse.DataBean dataBean;
+    private List<ClubMemberList> data = new ArrayList<>();
+    private ClubMemberAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,11 +118,10 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
             mPresenter = new ClubDetailPresenter(this);
         }
         mPresenter.getClubDetail(id);
+        mPresenter.getMembers(id);
     }
 
     private void initView() {
-        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
-
         collapsingToolbar.setTitle(" ");
         setupViewPager();
 
@@ -126,6 +135,14 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 }
             }
         });
+
+        rlNumbers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        adapter = new ClubMemberAdapter(data);
+        adapter.bindToRecyclerView(rlNumbers);
+
+        SpacesItemHDecoration decoration = new SpacesItemHDecoration(3);
+        rlNumbers.addItemDecoration(decoration);
     }
 
     /**
@@ -139,7 +156,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 //        viewPager.setCurrentItem(0);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.imv_club_logo})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.imv_club_logo, R.id.tv_sign_num})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -165,6 +182,11 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
             case R.id.imv_club_logo:
                 Intent intent = new Intent(this, ClubBaseInfoActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.tv_sign_num:
+                Intent intent1 = new Intent(this, ClubMembersActivity.class);
+                intent1.putExtra("id", id);
+                startActivity(intent1);
                 break;
         }
     }
@@ -217,6 +239,13 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 llBottom.setVisibility(View.VISIBLE);
             }
 
+        }
+    }
+
+    @Override
+    public void showClubMembers(ClubMembersResponse response) {
+        if (adapter != null && response != null && response.getData() != null) {
+            adapter.addData(response.getData().getData());
         }
     }
 

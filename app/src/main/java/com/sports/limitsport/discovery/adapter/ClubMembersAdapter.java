@@ -1,4 +1,4 @@
-package com.sports.limitsport.activity.adapter;
+package com.sports.limitsport.discovery.adapter;
 
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,22 +9,21 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
-import com.sports.limitsport.model.SignUpUser;
-import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.model.ClubMemberList;
 
 import java.util.List;
 
 /**
- * Created by liuworkmac on 17/6/23.
+ * Created by liuworkmac on 17/8/8.
  */
 
-public class SignUpAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHolder> {
-    public SignUpAdapter(@Nullable List<SignUpUser> data) {
+public class ClubMembersAdapter extends BaseQuickAdapter<ClubMemberList, BaseViewHolder> {
+    public ClubMembersAdapter(@Nullable List<ClubMemberList> data) {
         super(R.layout.adapter_myfocus, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SignUpUser item) {
+    protected void convert(BaseViewHolder helper, ClubMemberList item) {
 
         ImageView imvHead = helper.getView(R.id.imv_head);
         ImageView imvGender = helper.getView(R.id.imv_gender);
@@ -40,7 +39,7 @@ public class SignUpAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHolder> 
             imvGender.setSelected(true);
         }
 
-        tvName.setText(item.getName());
+        tvName.setText(item.getMemberName());
 
         helper.addOnClickListener(R.id.tv_focus);
 
@@ -58,6 +57,6 @@ public class SignUpAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHolder> 
         }
 
         tvLocation.setText(item.getProvince() + " " + item.getCity());
-        tvDes.setText(item.getIntroduction());
+        tvDes.setText(item.getUserIntroduction());
     }
 }
