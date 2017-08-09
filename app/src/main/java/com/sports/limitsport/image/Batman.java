@@ -139,6 +139,7 @@ public final class Batman {
         mButler.fromLocal(mContext, filePath, imageView, -1, -1, 0, 0);
     }
 
+
     /**
      * 加载Asset图片
      *
@@ -195,6 +196,20 @@ public final class Batman {
             return null;
         }
         return mButler.getBitMap(context, url);
+    }
+
+    /**
+     * 同步获取bitmap
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
+    public Bitmap getBitMap(Context context, Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        return mButler.getBitMap(context, uri);
     }
 
     /**

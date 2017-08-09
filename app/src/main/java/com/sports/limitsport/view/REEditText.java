@@ -100,6 +100,19 @@ public class REEditText extends EditText {
         append(object.getText());
     }
 
+    public String getContent() {
+        String str = null;
+        if (reObjects != null && reObjects.size() > 0) {
+            String objectText = reObjects.get(0).getText();
+            String content = getText().toString();
+            int lastPos = content.indexOf(objectText);
+            str = getText().toString().substring(0, lastPos);
+        } else {
+            str = getText().toString();
+        }
+
+        return str;
+    }
 
     public void clear(String type) {
         if (reObjects != null && reObjects.size() > 0) {

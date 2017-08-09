@@ -60,7 +60,7 @@ public class AliOss {
     }
 
     // 从本地文件上传，采用阻塞的同步接口
-    public String putObjectFromLocalFile(String uploadFilePath) {
+    public String putObjectFromLocalFile(String virtualDir,String uploadFilePath) {
 
         if (TextUtils.isEmpty(uploadFilePath)) {
             return null;
@@ -68,7 +68,7 @@ public class AliOss {
 
         String uploadObject = null;
         if (!TextUtils.isEmpty(uploadFilePath)) {
-            uploadObject = uploadFilePath.substring(uploadFilePath.lastIndexOf("/") + 1);
+            uploadObject = virtualDir+System.currentTimeMillis()+uploadFilePath.substring(uploadFilePath.lastIndexOf("/") + 1);
         }
         // 构造上传请求
         PutObjectRequest put = new PutObjectRequest(bucket, uploadObject, uploadFilePath);

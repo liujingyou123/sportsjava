@@ -23,6 +23,7 @@ public interface ImageButler {
     void fromNet(Context context, String url, BatmanCallBack callBack);
 
     void loadUri(Context context, Uri uri, ImageView imageView);
+
     /**
      * 加载网络图片
      *
@@ -82,8 +83,11 @@ public interface ImageButler {
      */
     Bitmap getBitMap(Context context, String url);
 
+    Bitmap getBitMap(Context context, Uri url);
+
     /**
      * 获取transformation
+     *
      * @param context
      * @param url
      * @param imageView

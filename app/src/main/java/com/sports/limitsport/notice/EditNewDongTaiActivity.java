@@ -19,15 +19,30 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.sports.limitsport.R;
+import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.mine.UserInfoActivity;
+import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.model.Act;
+import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.model.ReObject;
+import com.sports.limitsport.model.UserInfo;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.notice.model.SelectMedia;
+import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.REEditText;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yalantis.ucrop.UCrop;
@@ -37,14 +52,20 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.ui.PreviewActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by liuworkmac on 17/7/13.
@@ -71,6 +92,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private Act selectAct;
     private List<Integer> mSelectPosition;
     private int activityPosition = -1;
+    private Subscription mSubscription;
+    private List<FansList> mSelect;
 
 
     @Override
@@ -119,6 +142,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 dialog.show();
                 break;
             case R.id.tv_focus_right:
+                publish();
                 break;
             case R.id.imv_close_pic:
                 selectMedia = null;
@@ -242,7 +266,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
-            List<FansList> mSelect = (List<FansList>) data.getSerializableExtra("name");
+            mSelect = (List<FansList>) data.getSerializableExtra("name");
             mSelectPosition = (List<Integer>) data.getSerializableExtra("select");
             if (mSelect != null && mSelect.size() > 0) {
                 etContent.clear("1");
@@ -312,5 +336,160 @@ public class EditNewDongTaiActivity extends BaseActivity {
         options.setActiveWidgetColor(ContextCompat.getColor(context, R.color.color_text_green));
         options.setToolbarWidgetColor(ContextCompat.getColor(context, R.color.white));
         return uCrop.withOptions(options);
+    }
+
+    private void publish() {
+        if (check()) {
+            if (selectMedia != null) {
+                doUploadSource();
+            } else {
+                publishDongTai();
+            }
+        }
+    }
+
+    /**
+     * 上传图片或视频
+     */
+    private void doUploadSource() {
+        mSubscription = Observable.just(selectMedia).map(new Func1<SelectMedia, SelectMedia>() {
+            @Override
+            public SelectMedia call(SelectMedia selectMedia) {
+                if (!TextViewUtil.isEmpty(selectMedia.path)) {
+                    selectMedia.url = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.path);
+                }
+
+                if (!"photo".equals(selectMedia.type)) {
+                    Bitmap bitmap = Batman.getInstance().getBitMap(EditNewDongTaiActivity.this, selectMedia.uri);
+                    if (bitmap != null) {
+                        selectMedia.videImg = ToolsUtil.saveImageToGallery(EditNewDongTaiActivity.this, bitmap);
+                    }
+                }
+
+                XLog.e("selectMedia.videImg =" + selectMedia.videImg);
+                if (!TextViewUtil.isEmpty(selectMedia.videImg)) {
+                    selectMedia.vidImgUrl = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.videImg);
+                }
+                return selectMedia;
+            }
+        }).flatMap(new Func1<SelectMedia, Observable<BaseResponse>>() {
+            @Override
+            public Observable<BaseResponse> call(SelectMedia selectMedia) {
+                HashMap<String, Object> params = getParams();
+
+                if ("photo".equals(selectMedia.type)) {
+                    params.put("resourceType", "1");
+                    params.put("imgUrl", selectMedia.url);
+                } else {
+                    params.put("resourceType", "1");
+                    params.put("vedioUrl", selectMedia.url);
+                    params.put("vedioImgUrl", selectMedia.vidImgUrl);
+                    params.put("vedioThumbnailUrl", selectMedia.vidImgUrl);
+
+                }
+
+                return ToolsUtil.createService(IpServices.class).publishDongTai(params);
+            }
+        }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (response != null && response.isSuccess()) {
+                    ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布失败");
+            }
+        });
+    }
+
+//
+//    private void doUploadPic() {
+//        mSubscription = Observable.just(selectMedia.path).map(new Func1<String, String>() {
+//            @Override
+//            public String call(String s) {
+//                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_HEAD_PORTRAIT, s);
+//            }
+//        }).flatMap(new Func1<String, Observable<BaseResponse>>() {
+//            @Override
+//            public Observable<BaseResponse> call(String s) {
+//                HashMap<String, Object> params = getParams();
+//                params.put("resourceType", "1");
+//                params.put("imgUrl", s);
+//                return ToolsUtil.createService(IpServices.class).publishDongTai(params);
+//            }
+//        }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
+//            @Override
+//            public void response(BaseResponse response) {
+//                if (response != null && response.isSuccess()) {
+//                    ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                super.onError(e);
+//                ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布失败");
+//            }
+//        });
+//    }
+
+
+    private boolean check() {
+        if (selectMedia == null && TextViewUtil.isEmpty(etContent.getContent())) {
+            ToastUtil.showFalseToast(this, "请输入内容");
+            return false;
+        }
+        return true;
+    }
+
+    private HashMap<String, Object> getParams() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("content", etContent.getContent());
+        if (selectAct != null) {
+            hashMap.put("activityId", selectAct.getId());
+            hashMap.put("activityName", selectAct.getName());
+        }
+
+        if (tvType.isSelected()) { //私密
+            hashMap.put("publicType", "0");
+        } else {
+            hashMap.put("publicType", "1");
+        }
+
+        StringBuffer sb = null;
+        if (mSelect != null && mSelect.size() > 0) {
+            sb = new StringBuffer();
+            for (int i = 0; i < mSelect.size(); i++) {
+                sb.append(mSelect.get(i).getId());
+                if (i != mSelect.size() - 1) {
+                    sb.append(",");
+                }
+            }
+        }
+
+        if (sb != null) {
+            hashMap.put("notifyUserList", sb.toString());
+        }
+
+        return hashMap;
+    }
+
+    public void publishDongTai() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).publishDongTai(getParams()), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+
+            }
+        });
     }
 }
