@@ -14,61 +14,67 @@
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imv_cover"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:text="@string/text_default"
         android:textColor="#ffffff"
         android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_below="@id/imv_cover"/>
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_address"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:text=""
-        android:textColor="#919191"
-        android:textSize="12sp"
-        android:visibility="gone"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_status_tip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="3dp"
-        android:text=""
-        android:textColor="#919191"
-        android:textSize="12sp"
-        android:drawableLeft="@mipmap/icon_home_over"
-        android:drawablePadding="3dp"
-        android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textColor="#919191"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_date"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:text=""
-        android:textColor="#919191"
-        android:textSize="12sp"
-        android:maxLines="1"/>
+        <TextView
+            android:id="@+id/tv_status_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@mipmap/icon_home_over"
+            android:drawablePadding="3dp"
+            android:text=""
+            android:textColor="#919191"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#919191"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/ll_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_address"
+        android:layout_below="@id/ll_address"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="12dp"
@@ -98,14 +104,16 @@
             android:text=""
             android:textColor="@color/color_text_green"
             android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_signing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/bg_signing"
         android:gravity="center"
         android:paddingBottom="2dp"
@@ -114,7 +122,5 @@
         android:paddingTop="2dp"
         android:text="报名中"
         android:textColor="#ffffff"
-        android:textSize="10sp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"/>
+        android:textSize="10sp" />
 </RelativeLayout>

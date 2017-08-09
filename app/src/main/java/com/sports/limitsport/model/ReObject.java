@@ -9,6 +9,7 @@ public class ReObject {
     private String endRule = " ";
     private String text = "";
     private String id;
+    private String type;
 
     public String getStartRule() {
         return startRule;
@@ -40,5 +41,13 @@ public class ReObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

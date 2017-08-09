@@ -70,6 +70,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private SelectMedia selectMedia;
     private Act selectAct;
     private List<Integer> mSelectPosition;
+    private int activityPosition = -1;
 
 
     @Override
@@ -244,17 +245,28 @@ public class EditNewDongTaiActivity extends BaseActivity {
             List<FansList> mSelect = (List<FansList>) data.getSerializableExtra("name");
             mSelectPosition = (List<Integer>) data.getSerializableExtra("select");
             if (mSelect != null && mSelect.size() > 0) {
-                etContent.clearAt();
+                etContent.clear("1");
                 for (int i = 0; i < mSelect.size(); i++) {
                     ReObject reObject = new ReObject();
+                    reObject.setType("1");
                     reObject.setText(mSelect.get(i).getName());
                     etContent.append(reObject);
                 }
             }
         } else if (requestCode == REQUEST_CODE_ACTIVITY && resultCode == RESULT_OK) {
             selectAct = (Act) data.getSerializableExtra("activity");
-            etContent.setText("#" + selectAct.getName() + "#" + etContent.getText().toString());
-            etContent.setSelection(etContent.getText().toString().length());
+            activityPosition = data.getIntExtra("positionSelect", -1);
+
+            if (selectAct != null) {
+                etContent.clear("2");
+                ReObject reObject = new ReObject();
+                reObject.setType("2");
+                reObject.setStartRule("#");
+                reObject.setEndRule("#");
+                reObject.setText(selectAct.getName());
+                etContent.append(reObject);
+            }
+
         }
     }
 
@@ -272,6 +284,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
      */
     private void gotoSelectMyJionActivitys() {
         Intent intent = new Intent(this, SelectMyJoinActivity.class);
+        intent.putExtra("positionSelect", activityPosition);
         startActivityForResult(intent, REQUEST_CODE_ACTIVITY);
     }
 

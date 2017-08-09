@@ -52,14 +52,23 @@ public class SelectMyJoinActivity extends BaseActivity {
     private List<Act> data = new ArrayList<>();
     private int pageNumber = 1;
     private int totalSize;
+    private int selectPostion = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectmyjoinactivity);
         ButterKnife.bind(this);
+        getInentData();
         initView();
         getActivityList();
+    }
+
+    private void getInentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectPostion = intent.getIntExtra("positionSelect", -1);
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
@@ -73,6 +82,7 @@ public class SelectMyJoinActivity extends BaseActivity {
                     int position = adapter.mSelectedPositions.get(0);
                     Intent intent = new Intent();
                     intent.putExtra("activity", adapter.getData().get(position));
+                    intent.putExtra("positionSelect", position);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -92,6 +102,9 @@ public class SelectMyJoinActivity extends BaseActivity {
         emptyText.setText("还没有参加的活动哦～");
         rlv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new SelectMyJoinAdapter(data);
+        if (selectPostion != -1) {
+            adapter.mSelectedPositions.add(selectPostion);
+        }
         adapter.bindToRecyclerView(rlv);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 

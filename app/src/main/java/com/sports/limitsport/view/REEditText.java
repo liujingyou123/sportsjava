@@ -101,11 +101,25 @@ public class REEditText extends EditText {
     }
 
 
-    public void clearAt() {
+    public void clear(String type) {
         if (reObjects != null && reObjects.size() > 0) {
-            int firstPos = getText().toString().indexOf(reObjects.get(0).getText());
-            getText().delete(firstPos, getText().length());
-            reObjects.clear();
+
+            List<ReObject> mType = new ArrayList<>();
+            for (int i = 0; i < reObjects.size(); i++) {
+                String objectText = reObjects.get(i)
+                        .getText();
+
+                int lastPos = getText().toString().indexOf(objectText);
+
+                if (type.equals(reObjects.get(i).getType())) {
+                    mType.add(reObjects.get(i));
+                    getText().delete(lastPos,
+                            lastPos + objectText.length());
+                }
+            }
+            for (int i = 0; i < mType.size(); i++) {
+                reObjects.remove(mType.get(i));
+            }
         }
     }
 
