@@ -145,7 +145,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                                 }
                             } else if (data.getAttentionFlag() == 1) {
                                 Intent intent = new Intent(DongTaiDetailActivity.this, PersonInfoActivity.class);
-                                intent.putExtra("userId", data.getPublishUserId());
+                                intent.putExtra("userId", data.getPublishUserId() + "");
                                 startActivity(intent);
                             }
 
@@ -275,6 +275,13 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     public void showDetail(DongTaiDetailResponse response) {
         if (headerView != null && response != null) {
             headerView.setData(response.getData());
+            if (response.getData() != null) {
+                if (response.getData().getCollectionFlag() == 1) {
+                    tvFav.setSelected(true);
+                } else {
+                    tvFav.setSelected(false);
+                }
+            }
         }
     }
 
