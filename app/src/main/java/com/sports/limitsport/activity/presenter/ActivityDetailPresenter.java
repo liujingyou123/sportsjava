@@ -55,7 +55,7 @@ public class ActivityDetailPresenter {
         hashMap.put("activityId", id);
         hashMap.put("pageNumber", "1");
         hashMap.put("pageSize", "10");
-        hashMap.put("type", "3");
+        hashMap.put("type", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getDongTaiList(hashMap), new NoneNetSubscriber<DongTaiListResponse>() {
             @Override
             public void response(DongTaiListResponse response) {
@@ -193,7 +193,6 @@ public class ActivityDetailPresenter {
             }
         });
     }
-
 
 
     public void clear() {

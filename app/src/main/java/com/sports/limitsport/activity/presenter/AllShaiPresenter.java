@@ -38,7 +38,7 @@ public class AllShaiPresenter {
         hashMap.put("activityId", id);
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", "10");
-        hashMap.put("type", "3");
+        hashMap.put("type", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getDongTaiList(hashMap), new NoneNetSubscriber<DongTaiListResponse>() {
             @Override
             public void response(DongTaiListResponse response) {
@@ -125,6 +125,7 @@ public class AllShaiPresenter {
 
     /**
      * 点赞
+     *
      * @param articleId
      */
     public void praise(String articleId) {
@@ -156,6 +157,7 @@ public class AllShaiPresenter {
 
     /**
      * 取消点赞
+     *
      * @param articleId
      */
     public void cancelPraise(String articleId) {

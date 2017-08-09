@@ -56,8 +56,8 @@ public class NewNewsPresenter {
      */
     public void getDongTaiList(int pageNumber) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("pageNumber", "1");
-        hashMap.put("pageSize", pageNumber + "");
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", "10");
         hashMap.put("type", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getDongTaiList(hashMap), new NoneNetSubscriber<DongTaiListResponse>() {
             @Override
