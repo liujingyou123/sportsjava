@@ -81,7 +81,6 @@ public class JoinClubActivity extends BaseActivity {
         emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
         rlv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

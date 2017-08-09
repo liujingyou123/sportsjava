@@ -11,11 +11,12 @@
         android:layout_marginLeft="10dp" />
 
     <ImageView
+        android:id="@+id/imv_gender"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_alignBottom="@id/imv_head"
         android:layout_alignRight="@id/imv_head"
-        android:src="@mipmap/icon_gender_female" />
+        android:src="@drawable/bg_gender_sel"  />
 
     <TextView
         android:id="@+id/tv_name"

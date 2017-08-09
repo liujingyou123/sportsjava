@@ -1,10 +1,14 @@
 package com.sports.limitsport.model;
 
+import com.sports.limitsport.base.SelectEntity;
+
+import java.io.Serializable;
+
 /**
  * Created by liuworkmac on 17/8/2.
  */
 
-public class FansList {
+public class FansList extends SelectEntity implements Serializable {
 
     private String city;
     private String dateTime;
@@ -86,5 +90,21 @@ public class FansList {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FansList fansList = (FansList) o;
+
+        return id != null ? id.equals(fansList.id) : fansList.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

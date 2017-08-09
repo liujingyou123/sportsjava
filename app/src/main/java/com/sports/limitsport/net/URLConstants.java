@@ -82,8 +82,9 @@ public class URLConstants {
     //我收藏的活动
     public final static String URL_MY_COLLECT_ACTIVITYS_SHOW = "api/activity/myCollectionActivity/v1.0.0";
     //俱乐部详情
-    public final static String URL_CLUB_DETAIL= "api/club/queryClubInfo/v1.0.0";
+    public final static String URL_CLUB_DETAIL = "api/club/queryClubInfo/v1.0.0";
     //俱乐部成员列表
-    public final static String URL_CLUB_MEMBERS= "api/club/queryClubMemberList/v1.0.0";
-
+    public final static String URL_CLUB_MEMBERS = "api/club/queryClubMemberList/v1.0.0";
+    //发布动态
+    public final static String URL_PUBLISH_DONGTAI = "api/trend/publishTrend/v1.0.0";
 }

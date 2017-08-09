@@ -24,8 +24,11 @@ import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.Act;
+import com.sports.limitsport.model.FansList;
+import com.sports.limitsport.model.ReObject;
 import com.sports.limitsport.notice.model.SelectMedia;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.view.REEditText;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yalantis.ucrop.UCrop;
 import com.zhihu.matisse.Matisse;
@@ -35,6 +38,8 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.ui.PreviewActivity;
 
 import java.io.File;
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +52,7 @@ import rx.functions.Action1;
 
 public class EditNewDongTaiActivity extends BaseActivity {
     @BindView(R.id.et_content)
-    EditText etContent;
+    REEditText etContent;
     @BindView(R.id.imv_cover)
     ImageView imvCover;
     @BindView(R.id.imv_video)
@@ -64,6 +69,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private static final int REQUEST_CODE_ACTIVITY = 201;
     private SelectMedia selectMedia;
     private Act selectAct;
+    private List<Integer> mSelectPosition;
 
 
     @Override
@@ -235,9 +241,16 @@ public class EditNewDongTaiActivity extends BaseActivity {
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
-            String name = data.getStringExtra("name");
-            etContent.setText(etContent.getText().toString() + "@" + name);
-            etContent.setSelection(etContent.getText().toString().length());
+            List<FansList> mSelect = (List<FansList>) data.getSerializableExtra("name");
+            mSelectPosition = (List<Integer>) data.getSerializableExtra("select");
+            if (mSelect != null && mSelect.size() > 0) {
+                etContent.clearAt();
+                for (int i = 0; i < mSelect.size(); i++) {
+                    ReObject reObject = new ReObject();
+                    reObject.setText(mSelect.get(i).getName());
+                    etContent.append(reObject);
+                }
+            }
         } else if (requestCode == REQUEST_CODE_ACTIVITY && resultCode == RESULT_OK) {
             selectAct = (Act) data.getSerializableExtra("activity");
             etContent.setText("#" + selectAct.getName() + "#" + etContent.getText().toString());
@@ -250,6 +263,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
      */
     private void gotoSelectMyFocusPerson() {
         Intent intent = new Intent(this, SelectMyFocusPersonActivity.class);
+        intent.putExtra("select", (Serializable) mSelectPosition);
         startActivityForResult(intent, REQUEST_CODE_AT);
     }
 

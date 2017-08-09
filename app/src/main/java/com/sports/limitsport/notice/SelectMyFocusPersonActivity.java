@@ -10,17 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseSelectionAdapter;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.mine.adapter.MyFocusAdapter;
+import com.sports.limitsport.model.FansList;
+import com.sports.limitsport.model.FansListResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.notice.adapter.MyFocusPersonSelectAdapter;
-import com.sports.limitsport.notice.model.FocusPerson;
-import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.util.ToolsUtil;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,17 +46,30 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
     TextView tvFocusHouse;
     @BindView(R.id.rlv)
     RecyclerView rlv;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
 
     private MyFocusPersonSelectAdapter adapter;
-    private List<FocusPerson> data = new ArrayList<>();
+    private List<FansList> data = new ArrayList<>();
+    private int pageNumber = 1;
+    private int totalSize;
+    private List<Integer> mSelect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectmyfocus);
         ButterKnife.bind(this);
-        getTestData();
+        getIntentData();
         initView();
+        getFocusList();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mSelect = (List<Integer>) intent.getSerializableExtra("select");
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
@@ -59,9 +79,17 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_focus_right:
-                Intent intent = new Intent();
-                intent.putExtra("name", "ricky");
-                setResult(RESULT_OK, intent);
+                List<FansList> mSelect = new ArrayList<>();
+                if (adapter.mSelectedPositions.size() > 0) {
+                    for (int i = 0; i < adapter.mSelectedPositions.size(); i++) {
+                        FansList fanslist = adapter.getItem(adapter.mSelectedPositions.get(i));
+                        mSelect.add(fanslist);
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("name", (Serializable) mSelect);
+                    intent.putExtra("select", (Serializable) adapter.mSelectedPositions);
+                    setResult(RESULT_OK, intent);
+                }
                 finish();
                 break;
         }
@@ -77,31 +105,98 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
         emptyText.setText("还没有关注的人哦～");
         rlv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyFocusPersonSelectAdapter(data);
+        if (mSelect != null) {
+            adapter.mSelectedPositions.addAll(mSelect);
+        }
         adapter.bindToRecyclerView(rlv);
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setEmptyView(emptyView);
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                XLog.e("position = " + position);
-                gotoPersionInfo();
+                FansList fansList = (FansList) adapter.getItem(position);
+                if (fansList != null) {
+                    gotoPersionInfo(fansList.getId());
+                }
+            }
+        });
+
+        adapter.disableLoadMoreIfNotFullPage();
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, rlv);
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
             }
         });
     }
 
-    private void getTestData() {
-        for (int i = 0; i < 20; i++) {
-            FocusPerson focusPerson = new FocusPerson();
-            data.add(focusPerson);
-        }
+    private void loadMore() {
+        pageNumber++;
+        getFocusList();
+
+    }
+
+    private void refresh() {
+        pageNumber = 1;
+        getFocusList();
+    }
+
+    private void getFocusList() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getMyFoucsList(hashMap), new LoadingNetSubscriber<FansListResponse>() {
+            @Override
+            public void response(FansListResponse response) {
+                if (response != null && response.getData() != null) {
+                    totalSize = response.getData().getTotalSize();
+                    if (rlAll.isRefreshing()) {
+                        data.clear();
+                        data.addAll(response.getData().getData());
+                        adapter.notifyDataSetChanged();
+                        rlAll.refreshComplete();
+                    } else {
+                        adapter.addData(response.getData().getData());
+                        if (adapter.getData().size() >= totalSize) {
+                            adapter.loadMoreEnd();
+                        } else {
+                            adapter.loadMoreComplete();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
     }
 
     /**
      * 个人主页
      */
-    private void gotoPersionInfo() {
+    private void gotoPersionInfo(String userId) {
         Intent intent = new Intent(this, PersonInfoActivity.class);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 }

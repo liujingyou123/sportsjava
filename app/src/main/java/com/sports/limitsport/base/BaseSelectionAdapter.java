@@ -13,7 +13,7 @@ import java.util.List;
  * Created by liuworkmac on 17/7/14.
  */
 
-public abstract class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> implements  BaseQuickAdapter.OnItemChildClickListener{
+public abstract class BaseSelectionAdapter<T extends SelectEntity, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> implements BaseQuickAdapter.OnItemChildClickListener {
     public List<Integer> mSelectedPositions = new ArrayList<>();
     private boolean isSingleCheck;
     private OnItemChildSelectClickListener mOnItemSelectClickListener;
@@ -33,6 +33,10 @@ public abstract class BaseSelectionAdapter<T extends SelectEntity, K extends Bas
     @Override
     protected void convert(K helper, T item) {
         helper.addOnClickListener(getSelectId());
+        int position = helper.getAdapterPosition();
+        if (mSelectedPositions != null && mSelectedPositions.indexOf(position) != -1 && !item.isSelect) {
+            item.isSelect = true;
+        }
     }
 
 
@@ -115,6 +119,7 @@ public abstract class BaseSelectionAdapter<T extends SelectEntity, K extends Bas
     public void setOnItemChildSelectClickListener(OnItemChildSelectClickListener onItemSelectClickListener) {
         this.mOnItemSelectClickListener = onItemSelectClickListener;
     }
+
     public interface OnItemChildSelectClickListener {
         void onItemClick(BaseQuickAdapter adapter, View view, int position);
     }

@@ -67,12 +67,13 @@ public class MyFocusListActivity extends BaseActivity {
     private void initView() {
         tvFocusHouse.setText("我的关注");
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_commentlist, null);
-        emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        emptyView.findViewById(R.id.tv_go).setVisibility(View.GONE);
+//                .setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
         rvFocus.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyFocusAdapter(data);
         adapter.bindToRecyclerView(rvFocus);

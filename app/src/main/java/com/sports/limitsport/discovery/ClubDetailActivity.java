@@ -232,10 +232,10 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 
             tvSignNum.setText(dataBean.getMemberNum() + "");
             if (dataBean.getMemberRule() == 1) { //创始人
-                imvPublish.setVisibility(View.VISIBLE);
+//                imvPublish.setVisibility(View.VISIBLE);
                 llBottom.setVisibility(View.GONE);
             } else {
-                imvPublish.setVisibility(View.GONE);
+//                imvPublish.setVisibility(View.GONE);
                 llBottom.setVisibility(View.VISIBLE);
             }
 

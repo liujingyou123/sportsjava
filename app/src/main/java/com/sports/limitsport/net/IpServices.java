@@ -205,4 +205,8 @@ public interface IpServices {
     //俱乐部成员列表
     @POST(URLConstants.URL_CLUB_MEMBERS)
     Observable<ClubMembersResponse> getClubMembers(@Body HashMap<String, String> hashMap);
+
+    //发布动态
+    @POST(URLConstants.URL_PUBLISH_DONGTAI)
+    Observable<BaseResponse> publishDongTai(@Body HashMap<String, Object> hashMap);
 }

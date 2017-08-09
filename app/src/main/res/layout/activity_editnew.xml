@@ -28,11 +28,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
+            android:enabled="false"
             android:gravity="center_vertical"
             android:text="发布"
             android:textColor="@color/color_btn_selector"
-            android:textSize="14sp"
-            android:enabled="false"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_focus_house"
@@ -53,11 +53,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/rl_top"
         android:background="#FF232323"
-        android:orientation="vertical"
-        android:layout_below="@id/rl_top">
+        android:orientation="vertical">
 
-        <EditText
+        <com.sports.limitsport.view.REEditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,9 +73,10 @@
             android:id="@+id/fl_pic"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:visibility="gone"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:visibility="gone">
+
             <RelativeLayout
                 android:layout_width="92dp"
                 android:layout_height="92dp"
@@ -113,8 +114,9 @@
         android:layout_alignParentBottom="true"
         android:background="#FF232323">
 
-        <View style="@style/view_line"
-            android:background="#FF282828"/>
+        <View
+            style="@style/view_line"
+            android:background="#FF282828" />
 
         <ImageView
             android:id="@+id/imv_pic"
@@ -154,10 +156,10 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@drawable/bg_tv_type"
             android:drawablePadding="2dp"
+            android:gravity="center_vertical"
             android:text="公开"
             android:textColor="#FFFFFFFF"
-            android:textSize="12sp"
-            android:gravity="center_vertical"/>
+            android:textSize="12sp" />
 
     </RelativeLayout>
 </RelativeLayout>
