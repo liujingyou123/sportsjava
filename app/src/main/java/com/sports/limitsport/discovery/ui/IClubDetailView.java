@@ -1,5 +1,6 @@
 package com.sports.limitsport.discovery.ui;
 
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMembersResponse;
 
@@ -11,4 +12,8 @@ public interface IClubDetailView {
     void showClubDetail(ClubDetailResponse response);
 
     void showClubMembers(ClubMembersResponse response);
+
+    void joinClubResult(boolean isSuccess);
+
+    void quiteClubResult(boolean success);
 }

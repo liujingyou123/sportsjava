@@ -17,17 +17,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.adapter.ClubMemberAdapter;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.discovery.presenter.ClubDetailPresenter;
 import com.sports.limitsport.discovery.ui.IClubDetailView;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;
+import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CreatPersonView;
 import com.sports.limitsport.view.SlidingTabLayout;
 import com.sports.limitsport.view.SpacesItemHDecoration;
@@ -156,7 +162,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 //        viewPager.setCurrentItem(0);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.imv_club_logo, R.id.tv_sign_num})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.imv_club_logo, R.id.tv_sign_num, R.id.btn_done})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -187,6 +193,27 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 Intent intent1 = new Intent(this, ClubMembersActivity.class);
                 intent1.putExtra("id", id);
                 startActivity(intent1);
+                break;
+            case R.id.btn_done:
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent2 = new Intent(ClubDetailActivity.this, LoginActivity.class);
+                    intent2.putExtra("type", "2");
+                    startActivity(intent2);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent3 = new Intent(ClubDetailActivity.this, IdentifyMainActivity.class);
+                    intent3.putExtra("type", "2");
+                    startActivity(intent3);
+                } else if (dataBean != null && dataBean.getJoinClubFlag() == 0) {
+                    if (mPresenter != null) {
+                        //TODO ceshi
+                        mPresenter.joinClub(id);
+                    }
+                } else if (dataBean != null && dataBean.getJoinClubFlag() == 1) {
+                    if (mPresenter != null) {
+                        mPresenter.quiteClub(id);
+                    }
+                }
                 break;
         }
     }
@@ -226,17 +253,16 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 
             if (dataBean.getJoinClubFlag() == 1) { //1:是 0:否
                 btnDone.setText("退出俱乐部");
+//                if (dataBean.getMemberRule() == 1) { //创始人
+//                    llBottom.setVisibility(View.GONE);
+//                } else {
+//                    llBottom.setVisibility(View.VISIBLE);
+//                }
             } else {
+                llBottom.setVisibility(View.VISIBLE);
                 btnDone.setText("申请加入");
             }
 
-            if (dataBean.getMemberRule() == 1) { //创始人
-//                imvPublish.setVisibility(View.VISIBLE);
-                llBottom.setVisibility(View.GONE);
-            } else {
-//                imvPublish.setVisibility(View.GONE);
-                llBottom.setVisibility(View.VISIBLE);
-            }
 
         }
     }
@@ -246,6 +272,26 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         if (adapter != null && response != null && response.getData() != null) {
             adapter.addData(response.getData().getData());
             tvSignNum.setText(response.getData().getTotalSize() + "");
+        }
+    }
+
+    @Override
+    public void joinClubResult(boolean isSuccess) {
+        if (isSuccess) {
+            dataBean.setJoinClubFlag(1);
+            btnDone.setText("退出俱乐部");
+        } else {
+            ToastUtil.showFalseToast(ClubDetailActivity.this, "申请失败");
+        }
+    }
+
+    @Override
+    public void quiteClubResult(boolean success) {
+        if (success) {
+            dataBean.setJoinClubFlag(0);
+            btnDone.setText("申请加入");
+        } else {
+            ToastUtil.showFalseToast(ClubDetailActivity.this, "申请失败");
         }
     }
 

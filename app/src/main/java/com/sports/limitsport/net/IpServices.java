@@ -214,4 +214,12 @@ public interface IpServices {
     //点赞人员列表
     @POST(URLConstants.URL_PRAISE_LIST)
     Observable<PraiseListResponse> praiseList(@Body HashMap<String, String> hashMap);
+
+    //加入俱乐部
+    @POST(URLConstants.URL_JOIN_CLUB)
+    Observable<BaseResponse> joinClub(@Body HashMap<String, String> hashMap);
+
+    //退出俱乐部
+    @POST(URLConstants.URL_QUIT_CLUB)
+    Observable<BaseResponse> quiteClub(@Body HashMap<String, String> hashMap);
 }

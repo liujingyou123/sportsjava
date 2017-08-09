@@ -89,4 +89,8 @@ public class URLConstants {
     public final static String URL_PUBLISH_DONGTAI = "api/trend/publishTrend/v1.0.0";
     //点赞人员列表
     public final static String URL_PRAISE_LIST = "api/praise/queryPraiseUserList/v1.0.0";
+    //加入俱乐部
+    public final static String URL_JOIN_CLUB = "api/club/applyJoinClub/v1.0.0";
+    //退出俱乐部
+    public final static String URL_QUIT_CLUB = "api/club/quitClub/v1.0.0";
 }
