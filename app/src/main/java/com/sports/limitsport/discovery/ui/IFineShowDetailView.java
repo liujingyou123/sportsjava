@@ -2,6 +2,7 @@ package com.sports.limitsport.discovery.ui;
 
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 
 /**
  * Created by liuworkmac on 17/8/4.
@@ -28,4 +29,6 @@ public interface IFineShowDetailView {
     void collectReslut(boolean b);
 
     void cancelCollectReslut(boolean b);
+
+    void showPraiseList(PraiseListResponse response);
 }

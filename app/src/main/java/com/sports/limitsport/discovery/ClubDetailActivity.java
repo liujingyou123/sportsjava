@@ -230,7 +230,6 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 btnDone.setText("申请加入");
             }
 
-            tvSignNum.setText(dataBean.getMemberNum() + "");
             if (dataBean.getMemberRule() == 1) { //创始人
 //                imvPublish.setVisibility(View.VISIBLE);
                 llBottom.setVisibility(View.GONE);
@@ -246,6 +245,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     public void showClubMembers(ClubMembersResponse response) {
         if (adapter != null && response != null && response.getData() != null) {
             adapter.addData(response.getData().getData());
+            tvSignNum.setText(response.getData().getTotalSize() + "");
         }
     }
 

@@ -186,7 +186,7 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
      */
     private void gotoPersonInfo(String id) {
         Intent intent = new Intent(this, PersonInfoActivity.class);
-        intent.putExtra("id", id);
+        intent.putExtra("userId", id);
         startActivity(intent);
     }
 

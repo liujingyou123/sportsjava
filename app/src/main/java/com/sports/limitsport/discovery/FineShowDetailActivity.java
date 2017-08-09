@@ -27,6 +27,7 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -88,6 +89,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
 
         mPresenter.getFineShowDetail(id);
         mPresenter.getCommentList(id, pageNumber + "");
+        mPresenter.getPraiseList(id);
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment})
@@ -353,9 +355,12 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
     @Override
     public void onPraiseResult(boolean b, String articleId, String type) {
         if (b) {
-            if ("2".equals(type)) {
+            if ("1".equals(type)) {
                 if (headerView != null) {
                     headerView.setPraise();
+                    if (mPresenter != null) {
+                        mPresenter.getPraiseList(id);
+                    }
                 }
             } else if ("3".equals(type)) {
                 doCommentPraise(id);
@@ -372,6 +377,9 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
             if ("2".equals(type)) {
                 if (headerView != null) {
                     headerView.setPraise();
+                    if (mPresenter != null) {
+                        mPresenter.getPraiseList(id);
+                    }
                 }
             } else if ("3".equals(type)) {
                 doCommentPraise(id);
@@ -417,6 +425,15 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         if (b) {
             tvFav.setSelected(false);
 
+        }
+    }
+
+    @Override
+    public void showPraiseList(PraiseListResponse response) {
+        if (response != null && response.getData() != null) {
+            if (headerView != null) {
+                headerView.setNameRecy(response.getData().getData());
+            }
         }
     }
 

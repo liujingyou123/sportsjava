@@ -291,6 +291,11 @@ public class DongTaiDetailPresenter {
         });
     }
 
+    /**
+     * 获取点赞人员列表
+     *
+     * @param id
+     */
     public void getPraiseList(String id) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", "1");

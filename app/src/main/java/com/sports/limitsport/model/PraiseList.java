@@ -14,6 +14,8 @@ public class PraiseList {
     private String province;
     private int sex;
     private int userId;
+    private String attentionFlag;
+    private String introduction;
 
     public int getArticleId() {
         return articleId;
@@ -85,5 +87,21 @@ public class PraiseList {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getAttentionFlag() {
+        return attentionFlag;
+    }
+
+    public void setAttentionFlag(String attentionFlag) {
+        this.attentionFlag = attentionFlag;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 }

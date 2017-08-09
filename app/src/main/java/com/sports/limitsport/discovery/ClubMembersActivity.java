@@ -88,15 +88,13 @@ public class ClubMembersActivity extends BaseActivity {
             }
         });
 
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                XLog.e("onItemChildClick");
-                SignUpUser item = (SignUpUser) adapter.getItem(position);
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ClubMemberList item = (ClubMemberList) adapter.getItem(position);
                 if (item != null) {
-                    if ("0".equals(item.getStatus()) || "2".equals(item.getStatus())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
-                        gotoPersonInfo(item.getId() + "");
-                    }
+                    gotoPersonInfo(item.getId() + "");
+
                 }
             }
         });
@@ -175,7 +173,7 @@ public class ClubMembersActivity extends BaseActivity {
      */
     private void gotoPersonInfo(String id) {
         Intent intent = new Intent(this, PersonInfoActivity.class);
-        intent.putExtra("id", id);
+        intent.putExtra("userId", id);
         startActivity(intent);
     }
 

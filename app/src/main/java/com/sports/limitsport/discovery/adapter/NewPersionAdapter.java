@@ -59,12 +59,12 @@ public class NewPersionAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHold
         }
 
         String location = null;
-        if (!TextViewUtil.isEmpty(item.getCoutry())) {
-            location = item.getCoutry();
+        if (!TextViewUtil.isEmpty(item.getProvince())) {
+            location = item.getProvince();
         }
 
         if (!TextViewUtil.isEmpty(item.getCity())) {
-            location = " " + item.getProvince() + " " + item.getCity();
+            location = " " + item.getCity();
         }
         tvLocation.setText(location);
         tvDes.setText(item.getIntroduction());

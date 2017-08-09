@@ -384,8 +384,6 @@ public class EditNewDongTaiActivity extends BaseActivity {
                     params.put("resourceType", "1");
                     params.put("vedioUrl", selectMedia.url);
                     params.put("vedioImgUrl", selectMedia.vidImgUrl);
-                    params.put("vedioThumbnailUrl", selectMedia.vidImgUrl);
-
                 }
 
                 return ToolsUtil.createService(IpServices.class).publishDongTai(params);
@@ -405,38 +403,6 @@ public class EditNewDongTaiActivity extends BaseActivity {
             }
         });
     }
-
-//
-//    private void doUploadPic() {
-//        mSubscription = Observable.just(selectMedia.path).map(new Func1<String, String>() {
-//            @Override
-//            public String call(String s) {
-//                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_HEAD_PORTRAIT, s);
-//            }
-//        }).flatMap(new Func1<String, Observable<BaseResponse>>() {
-//            @Override
-//            public Observable<BaseResponse> call(String s) {
-//                HashMap<String, Object> params = getParams();
-//                params.put("resourceType", "1");
-//                params.put("imgUrl", s);
-//                return ToolsUtil.createService(IpServices.class).publishDongTai(params);
-//            }
-//        }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
-//            @Override
-//            public void response(BaseResponse response) {
-//                if (response != null && response.isSuccess()) {
-//                    ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                super.onError(e);
-//                ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布失败");
-//            }
-//        });
-//    }
-
 
     private boolean check() {
         if (selectMedia == null && TextViewUtil.isEmpty(etContent.getContent())) {

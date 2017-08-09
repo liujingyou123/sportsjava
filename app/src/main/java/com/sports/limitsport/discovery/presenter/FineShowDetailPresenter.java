@@ -5,6 +5,7 @@ import com.sports.limitsport.discovery.ui.IFineShowDetailView;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -288,6 +289,33 @@ public class FineShowDetailPresenter {
                 if (mIFineShowDetailView != null) {
                     mIFineShowDetailView.cancelCollectReslut(false);
                 }
+            }
+        });
+    }
+
+    /**
+     * 获取点赞人员列表
+     *
+     * @param id
+     */
+    public void getPraiseList(String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", "1");
+        hashMap.put("pageSize", "10");
+        hashMap.put("praiseType", "1");
+        hashMap.put("trendId", id);
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).praiseList(hashMap), new LoadingNetSubscriber<PraiseListResponse>() {
+            @Override
+            public void response(PraiseListResponse response) {
+                if (mIFineShowDetailView != null) {
+                    mIFineShowDetailView.showPraiseList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+
             }
         });
     }

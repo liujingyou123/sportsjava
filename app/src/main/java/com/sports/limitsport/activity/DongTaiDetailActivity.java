@@ -89,8 +89,8 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         if (mPresenter == null) {
             mPresenter = new DongTaiDetailPresenter(this);
         }
-//        mPresenter.getDongTaiDetail(id);
-//        mPresenter.getCommentList(id, pageNumber + "");
+        mPresenter.getDongTaiDetail(id);
+        mPresenter.getCommentList(id, pageNumber + "");
         mPresenter.getPraiseList(id);
     }
 
@@ -301,6 +301,9 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             if ("2".equals(type)) {
                 if (headerView != null) {
                     headerView.setPraise();
+                    if (mPresenter != null) {
+                        mPresenter.getPraiseList(id);
+                    }
                 }
             } else if ("3".equals(type)) {
                 doCommentPraise(id);
@@ -317,6 +320,9 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             if ("2".equals(type)) {
                 if (headerView != null) {
                     headerView.setPraise();
+                    if (mPresenter != null) {
+                        mPresenter.getPraiseList(id);
+                    }
                 }
             } else if ("3".equals(type)) {
                 doCommentPraise(id);

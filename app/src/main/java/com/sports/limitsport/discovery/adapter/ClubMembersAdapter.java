@@ -41,17 +41,15 @@ public class ClubMembersAdapter extends BaseQuickAdapter<ClubMemberList, BaseVie
 
         tvName.setText(item.getMemberName());
 
-        helper.addOnClickListener(R.id.tv_focus);
-
-        if ("0".equals(item.getStatus()) || "2".equals(item.getStatus())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+        if ("0".equals(item.getAttentionStatus()) || "2".equals(item.getAttentionStatus())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
             tvFocus.setText("进入主页");
-            tvFocus.setEnabled(true);
-        } else if ("1".equals(item.getStatus())) {
+            tvFocus.setSelected(true);
+        } else if ("1".equals(item.getAttentionStatus())) {
             tvFocus.setText("已关注");
-            tvFocus.setEnabled(false);
-        } else if ("3".equals(item.getStatus())) {
+            tvFocus.setSelected(false);
+        } else if ("3".equals(item.getAttentionStatus())) {
             tvFocus.setText("互相关注");
-            tvFocus.setEnabled(false);
+            tvFocus.setSelected(false);
         } else {
             tvFocus.setVisibility(View.GONE);
         }

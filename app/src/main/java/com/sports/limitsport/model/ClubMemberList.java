@@ -12,12 +12,13 @@ public class ClubMemberList {
     private String memberName;
     private int rule;
     private String ruleDesc;
-    private String status;
+    //    private String status;
     private String userIntroduction;
     private String version;
     private String sex;
     private String province;
     private String city;
+    private String attentionStatus;
 
     public int getClubId() {
         return clubId;
@@ -75,13 +76,13 @@ public class ClubMemberList {
         this.ruleDesc = ruleDesc;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+//    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
 
     public String getUserIntroduction() {
         return userIntroduction;
@@ -121,5 +122,13 @@ public class ClubMemberList {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getAttentionStatus() {
+        return attentionStatus;
+    }
+
+    public void setAttentionStatus(String attentionStatus) {
+        this.attentionStatus = attentionStatus;
     }
 }

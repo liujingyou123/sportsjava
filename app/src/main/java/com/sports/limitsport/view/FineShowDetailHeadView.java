@@ -18,9 +18,11 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ElsePriseActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.discovery.PersonInfoActivity;
+import com.sports.limitsport.discovery.adapter.PraiseHeadAdapter;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.ApplicantListBean;
 import com.sports.limitsport.model.FineShowDetailResponse;
+import com.sports.limitsport.model.PraiseList;
 import com.sports.limitsport.util.TextViewUtil;
 
 import java.util.ArrayList;
@@ -69,7 +71,7 @@ public class FineShowDetailHeadView extends LinearLayout {
     ImageView imvHead;
     @BindView(R.id.tv_comments_num)
     TextView tvCommentsNum;
-    private NamesAdapter namesAdapter; //他们也报名了
+    private PraiseHeadAdapter namesAdapter; //他们也觉得赞
     private FineShowDetailResponse.DataBean item;
 
 
@@ -92,18 +94,15 @@ public class FineShowDetailHeadView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_fineshowdetail_head, this);
         ButterKnife.bind(this, this);
 
-//        setNameRecy();
-
     }
 
     /**
      * 他们也报名了
      */
-    private void setNameRecy() {
+    public void setNameRecy(List<PraiseList> data) {
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        List<ApplicantListBean> data = new ArrayList<>();
-        namesAdapter = new NamesAdapter(data);
+        namesAdapter = new PraiseHeadAdapter(data);
         rlNames.setAdapter(namesAdapter);
 
 
@@ -115,6 +114,8 @@ public class FineShowDetailHeadView extends LinearLayout {
     @OnClick(R.id.tv_sign_num)
     public void onViewClicked() {
         Intent intent = new Intent(getContext(), ElsePriseActivity.class);
+        intent.putExtra("id", item.getId() + "");
+        intent.putExtra("praiseType", "1");
         getContext().startActivity(intent);
     }
 
@@ -160,6 +161,7 @@ public class FineShowDetailHeadView extends LinearLayout {
 
 
         tvSan.setText(item.getPraiseNum() + "");
+        tvSignNum.setText(item.getPraiseNum()+"");
 
         if ("1".equals(item.getPraiseFlag())) { //1:已点赞 0:未点赞
             tvSan.setSelected(true);
@@ -195,6 +197,7 @@ public class FineShowDetailHeadView extends LinearLayout {
         }
         item.setPraiseNum(numI);
         tvSan.setText(numI + "");
+        tvSignNum.setText(numI + "");
     }
 
     public FineShowDetailResponse.DataBean getData() {

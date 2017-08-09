@@ -109,6 +109,8 @@ public class DongTaiDetialHeadView extends LinearLayout {
     @OnClick(R.id.tv_sign_num)
     public void onViewClicked() {
         Intent intent = new Intent(getContext(), ElsePriseActivity.class);
+        intent.putExtra("id", item.getId() + "");
+        intent.putExtra("praiseType", "2");
         getContext().startActivity(intent);
     }
 
