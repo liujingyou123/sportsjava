@@ -19,9 +19,11 @@ import com.sports.limitsport.activity.ElsePriseActivity;
 import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
+import com.sports.limitsport.discovery.adapter.PraiseHeadAdapter;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.mine.adapter.TagActivityAdapter;
 import com.sports.limitsport.model.DongTaiDetailResponse;
+import com.sports.limitsport.model.PraiseList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 
@@ -64,7 +66,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
     TextView tvCommentsNum;
     @BindView(R.id.tv_sign_num)
     TextView tvSignNum;
-    private NamesAdapter namesAdapter; //他们也报名了
+    private PraiseHeadAdapter namesAdapter; // 他们也觉得赞
     private CommentDialog commentDialog;
     private DongTaiDetailResponse.DataBean item;
 
@@ -88,16 +90,15 @@ public class DongTaiDetialHeadView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_dongtaidetail, this);
         ButterKnife.bind(this, this);
 
-//        setNameRecy();
     }
 
     /**
      * 他们也报名了
      */
-    private void setNameRecy() {
+    public void setNameRecy(List<PraiseList> data) {
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        namesAdapter = new NamesAdapter(null);
+        namesAdapter = new PraiseHeadAdapter(data);
         rlNames.setAdapter(namesAdapter);
 
 

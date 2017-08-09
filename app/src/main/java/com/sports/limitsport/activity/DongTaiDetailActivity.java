@@ -28,6 +28,7 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -88,8 +89,9 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         if (mPresenter == null) {
             mPresenter = new DongTaiDetailPresenter(this);
         }
-        mPresenter.getDongTaiDetail(id);
-        mPresenter.getCommentList(id, pageNumber + "");
+//        mPresenter.getDongTaiDetail(id);
+//        mPresenter.getCommentList(id, pageNumber + "");
+        mPresenter.getPraiseList(id);
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment})
@@ -385,6 +387,15 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     public void collectReslut(boolean b) {
         if (b) {
             tvFav.setSelected(true);
+        }
+    }
+
+    @Override
+    public void showPraiseList(PraiseListResponse response) {
+        if (response != null && response.getData() != null) {
+            if (headerView != null) {
+                headerView.setNameRecy(response.getData().getData());
+            }
         }
     }
 

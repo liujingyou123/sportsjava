@@ -21,6 +21,7 @@ import com.sports.limitsport.model.MyCollectActivityResponse;
 import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.OrderRequest;
@@ -209,4 +210,8 @@ public interface IpServices {
     //发布动态
     @POST(URLConstants.URL_PUBLISH_DONGTAI)
     Observable<BaseResponse> publishDongTai(@Body HashMap<String, Object> hashMap);
+
+    //点赞人员列表
+    @POST(URLConstants.URL_PRAISE_LIST)
+    Observable<PraiseListResponse> praiseList(@Body HashMap<String, String> hashMap);
 }

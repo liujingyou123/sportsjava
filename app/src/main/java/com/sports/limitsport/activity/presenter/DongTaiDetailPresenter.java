@@ -4,6 +4,7 @@ import com.sports.limitsport.activity.ui.IDongTaiDetailView;
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -286,6 +287,28 @@ public class DongTaiDetailPresenter {
                 if (mIDongTaiDetailView != null) {
                     mIDongTaiDetailView.cancelCollectReslut(false);
                 }
+            }
+        });
+    }
+
+    public void getPraiseList(String id) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", "1");
+        hashMap.put("pageSize", "10");
+        hashMap.put("praiseType", "2");
+        hashMap.put("trendId", id);
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).praiseList(hashMap), new LoadingNetSubscriber<PraiseListResponse>() {
+            @Override
+            public void response(PraiseListResponse response) {
+                if (mIDongTaiDetailView != null) {
+                    mIDongTaiDetailView.showPraiseList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+
             }
         });
     }

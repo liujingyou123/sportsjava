@@ -16,6 +16,7 @@ public class ApplicantListBean {
     private String sex;
     private Object status;
     private Object tickets;
+    private String province;
 
     public String getCity() {
         return city;
@@ -103,5 +104,13 @@ public class ApplicantListBean {
 
     public void setTickets(Object tickets) {
         this.tickets = tickets;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

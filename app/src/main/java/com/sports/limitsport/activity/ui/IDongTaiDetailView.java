@@ -2,6 +2,7 @@ package com.sports.limitsport.activity.ui;
 
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
+import com.sports.limitsport.model.PraiseListResponse;
 
 /**
  * Created by liuworkmac on 17/8/3.
@@ -28,4 +29,7 @@ public interface IDongTaiDetailView {
     void cancelCollectReslut(boolean b);
 
     void collectReslut(boolean b);
+
+
+    void showPraiseList(PraiseListResponse response);
 }
