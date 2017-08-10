@@ -7,6 +7,8 @@ import android.os.Environment;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.net.Ironman;
 import com.sports.limitsport.net.NetSubscriber;
@@ -16,10 +18,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.SimpleTimeZone;
 
 import rx.Observable;
@@ -44,6 +50,29 @@ public class ToolsUtil {
         String json = gson.toJson(object);
         XLog.json(json);
         return json;
+    }
+
+    public static <T> List<T> jsonToList(String json, Class<T[]> clazz) {
+        Gson gson = new Gson();
+        T[] array = gson.fromJson(json, clazz);
+        return Arrays.asList(array);
+    }
+
+    /**
+     * @param json
+     * @param clazz
+     * @return
+     */
+    public static <T> ArrayList<T> jsonToArrayList(String json, Class<T> clazz) {
+        Type type = new TypeToken<ArrayList<JsonObject>>() {
+        }.getType();
+        ArrayList<JsonObject> jsonObjects = new Gson().fromJson(json, type);
+
+        ArrayList<T> arrayList = new ArrayList<>();
+        for (JsonObject jsonObject : jsonObjects) {
+            arrayList.add(new Gson().fromJson(jsonObject, clazz));
+        }
+        return arrayList;
     }
 
 

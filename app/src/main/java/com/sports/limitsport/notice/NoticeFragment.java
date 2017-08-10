@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.base.BaseFragment;
@@ -24,6 +25,7 @@ import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.DongTaiOrRecommendResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.model.RecommendFriendsList;
 import com.sports.limitsport.notice.adapter.MyNoticeDongTaiAdapter;
@@ -33,8 +35,11 @@ import com.sports.limitsport.notice.ui.INoticeView;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.NoticeViewHeaderView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +82,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         View view = inflater.inflate(R.layout.fragment_notice, null);
         unbinder = ButterKnife.bind(this, view);
 //        initView();
-        initEmptyView();
+//        initEmptyView();
         getData();
         return view;
     }
@@ -87,11 +92,11 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
             mPresenter = new NoticePersonPresenter(this);
         }
 //        mPresenter.getFocusPersonDongTai(pageNumber);
-        mPresenter.getRecommendFriends(pageNumber);
+//        mPresenter.getRecommendFriends(pageNumber);
+        mPresenter.getRecommendOrDongTai(pageNumber);
     }
 
     private void initView() {
-        type = 2;
         NoticeViewHeaderView headerView = new NoticeViewHeaderView(getContext());
         headerView.setCloseClickListener(new View.OnClickListener() {
             @Override
@@ -204,14 +209,22 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
     private void loadMore() {
         if (mPresenter != null) {
             pageNumber++;
-            mPresenter.getFocusPersonDongTai(pageNumber);
+            if (type == 1) {
+                mPresenter.getRecommendFriends(pageNumber);
+            } else if (type == 2) {
+                mPresenter.getFocusPersonDongTai(pageNumber);
+            }
         }
     }
 
     private void refresh() {
         pageNumber = 1;
         if (mPresenter != null) {
-            mPresenter.getFocusPersonDongTai(pageNumber);
+            if (type == 1) {
+                mPresenter.getRecommendFriends(pageNumber);
+            } else if (type == 2) {
+                mPresenter.getFocusPersonDongTai(pageNumber);
+            }
         }
     }
 
@@ -220,7 +233,6 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
      * 没有关注的时候(推荐的人)
      */
     private void initEmptyView() {
-        type = 1;
         NoticeViewHeaderView headerView = new NoticeViewHeaderView(getContext());
         headerView.setEmpty();
         headerView.setCloseClickListener(new View.OnClickListener() {
@@ -328,11 +340,12 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         if (response != null && response.getData() != null) {
             totalSize = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
-                rlRefresh.setVisibility(View.VISIBLE);
+                refreshTipVisible();
                 data.clear();
                 data.addAll(response.getData().getData());
                 adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
+                adapter.loadMoreComplete();
             } else {
                 adapter.addData(response.getData().getData());
                 if (adapter.getData().size() >= totalSize) {
@@ -394,6 +407,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         if (response != null && response.getData() != null) {
             totalSize = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
+                refreshTipVisible();
                 dataR.clear();
                 dataR.addAll(response.getData().getData());
                 adapterRecommend.notifyDataSetChanged();
@@ -405,6 +419,29 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 } else {
                     adapterRecommend.loadMoreComplete();
                 }
+            }
+        }
+    }
+
+    @Override
+    public void showRecommendOrDongTai(DongTaiOrRecommendResponse response) {
+        if (response != null && response.getData() != null && response.isSuccess()) {
+//            XLog.json(response.getData().getPage().toString());
+            type = response.getData().getType();
+            if (type == 1) { //推荐
+                ArrayList<RecommendFriendsList> list = ToolsUtil.jsonToArrayList(ToolsUtil.toJsonStringWithIgnore(response.getData().getPage().getData()), RecommendFriendsList.class);
+                if (list != null) {
+                    dataR.addAll(list);
+                }
+                initEmptyView();
+
+            } else if (type == 2) {
+
+                ArrayList<DongTaiList> list = ToolsUtil.jsonToArrayList(ToolsUtil.toJsonStringWithIgnore(response.getData().getPage().getData()), DongTaiList.class);
+                if (list != null) {
+                    data.addAll(list);
+                }
+                initView();
             }
         }
     }
@@ -466,5 +503,15 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
             }
         }
 
+    }
+
+    private void refreshTipVisible() {
+        rlRefresh.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rlRefresh.setVisibility(View.GONE);
+            }
+        }, 1000);
     }
 }

@@ -1,6 +1,7 @@
 package com.sports.limitsport.notice.ui;
 
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.DongTaiOrRecommendResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 
 /**
@@ -21,4 +22,6 @@ public interface INoticeView {
     void onCancelPraiseResult(boolean b);
 
     void showFriendsList(RecomendFriendsListResponse response);
+
+    void showRecommendOrDongTai(DongTaiOrRecommendResponse response);
 }

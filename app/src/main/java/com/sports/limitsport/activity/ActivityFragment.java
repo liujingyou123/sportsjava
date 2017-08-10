@@ -196,6 +196,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                     data.addAll(baseStaggeredEntities);
                     adapter.notifyDataSetChanged();
                     rlAll.refreshComplete();
+                    adapter.loadMoreComplete();
                 } else {
                     adapter.addData(baseStaggeredEntities);
                     if (adapter.getData().size() >= totalSize) {

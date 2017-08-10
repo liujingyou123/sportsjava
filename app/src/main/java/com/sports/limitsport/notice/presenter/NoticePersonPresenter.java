@@ -2,6 +2,7 @@ package com.sports.limitsport.notice.presenter;
 
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.DongTaiOrRecommendResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
@@ -20,6 +21,28 @@ public class NoticePersonPresenter {
 
     public NoticePersonPresenter(INoticeView mINoticeView) {
         this.mINoticeView = mINoticeView;
+    }
+
+    public void getRecommendOrDongTai(int pageNumber) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getRecommendorFocus(hashMap), new NetSubscriber<DongTaiOrRecommendResponse>() {
+            @Override
+            public void response(DongTaiOrRecommendResponse response) {
+                if (mINoticeView != null) {
+                    mINoticeView.showRecommendOrDongTai(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mINoticeView != null) {
+                    mINoticeView.onError(e);
+                }
+            }
+        });
     }
 
     public void getRecommendFriends(int pageNumber) {

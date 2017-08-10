@@ -97,4 +97,6 @@ public class URLConstants {
     public final static String URL_RECOMEND_FRIENDS = "api/customerRecommend/queryCustomerRecommendList/v1.0.0";
     //关注的人的动态
     public final static String URL_FOCUS_PERSON_DONG_TAI_LIST = "api/trend/queryTrendAttentionList/v1.0.0";
+    //关注的人动态或者推荐用户列表
+    public final static String URL_RECOMMEND_OR_FOCUS = "api/trend/queryRecommentOrTrendAttentionList/v1.0.0";
 }

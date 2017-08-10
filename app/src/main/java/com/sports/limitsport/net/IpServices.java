@@ -11,6 +11,7 @@ import com.sports.limitsport.model.ClubMembersResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.DongTaiOrRecommendResponse;
 import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.FineShowListResponse;
@@ -231,4 +232,8 @@ public interface IpServices {
     //关注的人的动态
     @POST(URLConstants.URL_FOCUS_PERSON_DONG_TAI_LIST)
     Observable<DongTaiListResponse> getFocusPersonDongTaiList(@Body HashMap<String, String> hashMap);
+
+    //关注的人动态或者推荐用户列表
+    @POST(URLConstants.URL_RECOMMEND_OR_FOCUS)
+    Observable<DongTaiOrRecommendResponse> getRecommendorFocus(@Body HashMap<String, String> hashMap);
 }
