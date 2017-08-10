@@ -93,4 +93,8 @@ public class URLConstants {
     public final static String URL_JOIN_CLUB = "api/club/applyJoinClub/v1.0.0";
     //退出俱乐部
     public final static String URL_QUIT_CLUB = "api/club/quitClub/v1.0.0";
+    //推荐好友
+    public final static String URL_RECOMEND_FRIENDS = "api/customerRecommend/queryCustomerRecommendList/v1.0.0";
+    //关注的人的动态
+    public final static String URL_FOCUS_PERSON_DONG_TAI_LIST = "api/trend/queryTrendAttentionList/v1.0.0";
 }

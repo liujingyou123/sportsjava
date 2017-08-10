@@ -96,6 +96,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
      * 他们也报名了
      */
     public void setNameRecy(List<PraiseList> data) {
+        tvSignNum.setText(data.size() + "");
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         namesAdapter = new PraiseHeadAdapter(data);

@@ -22,6 +22,7 @@ import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
 import com.sports.limitsport.model.PraiseListResponse;
+import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.OrderRequest;
@@ -222,4 +223,12 @@ public interface IpServices {
     //退出俱乐部
     @POST(URLConstants.URL_QUIT_CLUB)
     Observable<BaseResponse> quiteClub(@Body HashMap<String, String> hashMap);
+
+    //推荐好友
+    @POST(URLConstants.URL_RECOMEND_FRIENDS)
+    Observable<RecomendFriendsListResponse> recommedFriends(@Body HashMap<String, String> hashMap);
+
+    //关注的人的动态
+    @POST(URLConstants.URL_FOCUS_PERSON_DONG_TAI_LIST)
+    Observable<DongTaiListResponse> getFocusPersonDongTaiList(@Body HashMap<String, String> hashMap);
 }

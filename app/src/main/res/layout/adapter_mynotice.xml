@@ -29,7 +29,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/imv_head"
             android:singleLine="true"
-            android:text="路过的一直"
+            android:text="@string/text_default"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -41,10 +41,10 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_btn_gray"
+            android:background="@drawable/bg_btn_selector"
             android:gravity="center"
             android:text="已关注"
-            android:textColor="#FFA5A4A4"
+            android:textColor="@color/color_btn_selector"
             android:textSize="12sp" />
 
         <TextView
@@ -69,11 +69,12 @@
         android:layout_height="200dp" />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:text="如果有天堂，应该是个岛的模样；如果有天堂，应该是个岛。"
+        android:text=""
         android:textColor="#FFA5A4A4"
         android:textSize="14sp" />
 
@@ -109,7 +110,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/icon_weidianzan" />
+            android:src="@drawable/bg_dianzan" />
 
         <TextView
             android:id="@+id/tv_san"
@@ -120,7 +121,7 @@
             android:layout_toRightOf="@id/imv_zan"
             android:gravity="center_vertical"
             android:text="1,234"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/color_s_green"
             android:textSize="12sp" />
 
         <ImageView

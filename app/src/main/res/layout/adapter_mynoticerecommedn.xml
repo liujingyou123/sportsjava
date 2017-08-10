@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/imv_head"
             android:singleLine="true"
-            android:text="路过的一直"
+            android:text="@string/text_default"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -39,10 +39,10 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_btn_selector"
+            android:background="@drawable/bg_btn_sel"
             android:gravity="center"
             android:text="+关注"
-            android:textColor="@color/color_btn_selector"
+            android:textColor="@color/color_btn_sel"
             android:textSize="12sp" />
 
         <TextView
@@ -56,34 +56,15 @@
             android:layout_toLeftOf="@id/tv_focus"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="爱狗爱运动"
-            android:textColor="#FFA5A4A4"
+            android:text="@string/text_default"
+            android:textColor="@color/color_btn_selector"
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_dongtai"
         android:layout_width="match_parent"
         android:layout_height="118dp"
-        android:orientation="horizontal">
+        android:scrollbars="none"></android.support.v7.widget.RecyclerView>
 
-        <ImageView
-            android:id="@+id/imv_one"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/imv_two"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/imv_three"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_weight="1" />
-    </LinearLayout>
 </LinearLayout>
