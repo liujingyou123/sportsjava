@@ -31,4 +31,6 @@ public interface IFineShowDetailView {
     void cancelCollectReslut(boolean b);
 
     void showPraiseList(PraiseListResponse response);
+
+    void onDetailError(Throwable e);
 }

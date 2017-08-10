@@ -127,6 +127,11 @@ public class NewPersonReportActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                if (rlAll.isRefreshing()) {
+                    rlAll.refreshComplete();
+                } else {
+                    adapter.loadMoreFail();
+                }
             }
         });
     }

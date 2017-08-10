@@ -160,6 +160,10 @@ public class MyCollectActivityFragment extends Fragment {
                 super.onError(e);
                 if (rlAll.isRefreshing()) {
                     rlAll.refreshComplete();
+                } else {
+                    if (adapter.isLoading()) {
+                        adapter.loadMoreFail();
+                    }
                 }
 
                 ToastUtil.showFalseToast(getContext(), "加载失败");

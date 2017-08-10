@@ -10,4 +10,5 @@ public interface IFindClubView {
     void showAllClubsList(ClubListResponse response);
     void showTodayClubsList(ClubListResponse response);
 
+    void onError(Throwable e);
 }

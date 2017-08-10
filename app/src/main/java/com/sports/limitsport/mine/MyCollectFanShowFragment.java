@@ -158,6 +158,10 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
     public void onError(Throwable e) {
         if (rlAll.isRefreshing()) {
             rlAll.refreshComplete();
+        } else {
+            if (adapter.isLoading()) {
+                adapter.loadMoreFail();
+            }
         }
     }
 

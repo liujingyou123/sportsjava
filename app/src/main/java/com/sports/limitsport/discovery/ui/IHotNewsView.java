@@ -18,4 +18,6 @@ public interface IHotNewsView {
     void showFineShowList(MyCollectFineShowResponse response);
 
     void showNewPersonList(NewPersonListResponse response);
+
+    void onError(Throwable e);
 }

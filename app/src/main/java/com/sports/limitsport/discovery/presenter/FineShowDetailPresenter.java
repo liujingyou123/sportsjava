@@ -68,7 +68,7 @@ public class FineShowDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIFineShowDetailView != null) {
-                    mIFineShowDetailView.onError(e);
+                    mIFineShowDetailView.onDetailError(e);
                 }
             }
         });

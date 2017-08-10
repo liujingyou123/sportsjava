@@ -192,7 +192,9 @@ public class MyClubsActivity extends BaseActivity {
                 if (rlAll.isRefreshing()) {
                     rlAll.refreshComplete();
                 } else {
-                    adapter.loadMoreFail();
+                    if (adapter.isLoading()) {
+                        adapter.loadMoreFail();
+                    }
                 }
             }
         });

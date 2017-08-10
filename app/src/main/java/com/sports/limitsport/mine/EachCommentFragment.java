@@ -175,7 +175,11 @@ public class EachCommentFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-
+                if (rlAll.isRefreshing()) {
+                    rlAll.refreshComplete();
+                } else {
+                    adapter.loadMoreFail();
+                }
             }
         });
     }

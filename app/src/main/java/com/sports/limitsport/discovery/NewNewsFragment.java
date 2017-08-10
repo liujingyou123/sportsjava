@@ -260,7 +260,11 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
     }
 
     @Override

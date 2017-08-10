@@ -216,6 +216,15 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
 
     }
 
+    @Override
+    public void onError(Throwable e) {
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
+    }
+
 
     private List<FindClubSection> clubToSection(List<Club> data) {
         List<FindClubSection> ret = new ArrayList<>();

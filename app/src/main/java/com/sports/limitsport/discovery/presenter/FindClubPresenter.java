@@ -38,6 +38,9 @@ public class FindClubPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                if (mIFindClubView != null) {
+                    mIFindClubView.onError(e);
+                }
             }
         });
     }

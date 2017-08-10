@@ -177,6 +177,15 @@ public class HotNewsFragment extends Fragment implements IHotNewsView {
         }
     }
 
+    @Override
+    public void onError(Throwable e) {
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
+    }
+
     /**
      * 进入个人主页
      */

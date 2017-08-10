@@ -118,6 +118,9 @@ public class HotNewsPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                if (mIHotNewsView != null) {
+                    mIHotNewsView.onError(e);
+                }
             }
         });
 //        getTestAdvData();

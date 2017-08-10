@@ -259,6 +259,12 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
             totalSize = 0;
         }
         checkIsEmpty();
+
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            mineAdapter.loadMoreFail();
+        }
     }
 
     @Override

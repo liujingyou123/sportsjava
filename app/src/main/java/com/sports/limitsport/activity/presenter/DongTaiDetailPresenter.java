@@ -67,7 +67,7 @@ public class DongTaiDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.onError(e);
+                    mIDongTaiDetailView.onDetailError(e);
                 }
             }
         });

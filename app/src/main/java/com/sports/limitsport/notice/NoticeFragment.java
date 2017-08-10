@@ -359,7 +359,20 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
 
     @Override
     public void onError(Throwable e) {
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            if (type == 1) {
+                if (adapterRecommend.isLoading()) {
+                    adapterRecommend.loadMoreFail();
+                }
+            } else if (type ==2){
+                if (adapter.isLoading()) {
+                    adapter.loadMoreFail();
+                }
+            }
 
+        }
     }
 
     @Override

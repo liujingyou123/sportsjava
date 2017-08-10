@@ -32,4 +32,6 @@ public interface IDongTaiDetailView {
 
 
     void showPraiseList(PraiseListResponse response);
+
+    void onDetailError(Throwable e);
 }

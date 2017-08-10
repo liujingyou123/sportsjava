@@ -322,7 +322,11 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            rlAll.loadMoreFail();
+        }
     }
 
     @Override
@@ -435,6 +439,11 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
                 headerView.setNameRecy(response.getData().getData());
             }
         }
+    }
+
+    @Override
+    public void onDetailError(Throwable e) {
+
     }
 
     private void setReplayData() {

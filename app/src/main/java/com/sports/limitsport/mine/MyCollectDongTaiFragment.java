@@ -238,7 +238,13 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            if (adapter.isLoading()) {
+                adapter.loadMoreFail();
+            }
+        }
     }
 
     @Override

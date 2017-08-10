@@ -154,4 +154,15 @@ public class NoticeListActivity extends BaseActivity implements INoticeListView 
             }
         }
     }
+
+    @Override
+    public void onError(Throwable e) {
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            if (adapter.isLoading()) {
+                adapter.loadMoreFail();
+            }
+        }
+    }
 }

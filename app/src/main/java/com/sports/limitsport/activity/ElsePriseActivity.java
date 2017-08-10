@@ -171,6 +171,8 @@ public class ElsePriseActivity extends BaseActivity {
 
                 if (rlAll.isRefreshing()) {
                     rlAll.refreshComplete();
+                } else {
+                    adapter.loadMoreFail();
                 }
             }
         });

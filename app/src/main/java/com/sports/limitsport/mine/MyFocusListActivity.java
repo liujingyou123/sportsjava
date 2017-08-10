@@ -158,6 +158,13 @@ public class MyFocusListActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                if (rlAll.isRefreshing()) {
+                    rlAll.refreshComplete();
+                } else {
+                    if (adapter.isLoading()) {
+                        adapter.loadMoreFail();
+                    }
+                }
             }
         });
     }

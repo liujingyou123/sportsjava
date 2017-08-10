@@ -36,6 +36,9 @@ public class NoticeListPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                if (mINoticeListView != null) {
+                    mINoticeListView.onError(e);
+                }
             }
         });
 

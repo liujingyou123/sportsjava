@@ -246,6 +246,10 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
 
     @Override
     public void onError(Throwable e) {
-        adapter.loadMoreFail();
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
     }
 }

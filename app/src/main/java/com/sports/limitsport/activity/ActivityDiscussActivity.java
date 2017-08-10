@@ -248,7 +248,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 CommentList.ReplyList replyList = new CommentList.ReplyList();
                 replyList.setCommentUserId(SharedPrefsUtil.getUserInfo().getData().getUserId() + "");
 
-                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getName()+"");
+                replyList.setCommentUserName(SharedPrefsUtil.getUserInfo().getData().getName() + "");
                 replyList.setReplyContent(commentDialog.getContent());
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");
@@ -268,7 +268,11 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
     }
 
     @Override

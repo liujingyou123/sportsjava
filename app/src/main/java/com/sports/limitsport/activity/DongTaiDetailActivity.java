@@ -287,7 +287,11 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            adapter.loadMoreFail();
+        }
     }
 
     @Override
@@ -410,6 +414,11 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                 headerView.setNameRecy(response.getData().getData());
             }
         }
+    }
+
+    @Override
+    public void onDetailError(Throwable e) {
+
     }
 
     private void setReplayData() {

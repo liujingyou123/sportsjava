@@ -136,7 +136,7 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
                                 }
                             } else if (dongTaiList.getAttentionFlag() == 1) {
                                 Intent intent = new Intent(AllShaiActivity.this, PersonInfoActivity.class);
-                                intent.putExtra("userId", dongTaiList.getPublishUserId()+"");
+                                intent.putExtra("userId", dongTaiList.getPublishUserId() + "");
                                 startActivity(intent);
                             }
 
@@ -268,7 +268,11 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            allShaiAdapter.loadMoreFail();
+        }
     }
 
     @Override

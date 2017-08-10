@@ -8,4 +8,6 @@ import com.sports.limitsport.model.NoticeListResponse;
 
 public interface INoticeListView {
     void showNoticeList(NoticeListResponse response);
+
+    void onError(Throwable e);
 }

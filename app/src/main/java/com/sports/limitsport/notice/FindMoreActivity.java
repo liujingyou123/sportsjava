@@ -190,7 +190,13 @@ public class FindMoreActivity extends BaseActivity implements IFindMoreFriendsVi
 
     @Override
     public void onError(Throwable e) {
-
+        if (rlAll.isRefreshing()) {
+            rlAll.refreshComplete();
+        } else {
+            if (adapterRecommend.isLoading()) {
+                adapterRecommend.loadMoreFail();
+            }
+        }
     }
 
     @Override
