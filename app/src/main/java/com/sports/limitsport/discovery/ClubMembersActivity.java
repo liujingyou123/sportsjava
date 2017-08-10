@@ -93,7 +93,7 @@ public class ClubMembersActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ClubMemberList item = (ClubMemberList) adapter.getItem(position);
                 if (item != null) {
-                    gotoPersonInfo(item.getId() + "");
+                    gotoPersonInfo(item.getMemberId() + "");
 
                 }
             }

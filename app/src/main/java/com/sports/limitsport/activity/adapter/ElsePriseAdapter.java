@@ -45,26 +45,26 @@ public class ElsePriseAdapter extends BaseQuickAdapter<PraiseList, BaseViewHolde
 
         tvName.setText(item.getName());
 
-        if ("0".equals(item.getAttentionFlag()) || "2".equals(item.getAttentionFlag())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+        if ("0".equals(item.getAttentionStatus()) || "2".equals(item.getAttentionStatus())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
             tvFocus.setText("进入主页");
             tvFocus.setSelected(true);
-        } else if ("1".equals(item.getAttentionFlag())) {
+        } else if ("1".equals(item.getAttentionStatus())) {
             tvFocus.setText("已关注");
             tvFocus.setSelected(false);
-        } else if ("3".equals(item.getAttentionFlag())) {
+        } else if ("3".equals(item.getAttentionStatus())) {
             tvFocus.setText("互相关注");
             tvFocus.setSelected(false);
         } else {
             tvFocus.setVisibility(View.GONE);
         }
 
-        String location = null;
+        String location = "";
         if (!TextViewUtil.isEmpty(item.getProvince())) {
             location = item.getProvince();
         }
 
         if (!TextViewUtil.isEmpty(item.getCity())) {
-            location = " " + " " + item.getCity();
+            location = location + " " + item.getCity();
         }
         tvLocation.setText(location);
         tvDes.setText(item.getIntroduction());
