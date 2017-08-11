@@ -41,9 +41,9 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         imvCover.setInitSize(item.getWidth(), item.getHeight());
 
         if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_list, R.mipmap.icon_default_list);
+            Batman.getInstance().fromNetWithFitCenter(item.getImgUrl(), imvCover);
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_default_list, R.mipmap.icon_default_list);
+            Batman.getInstance().fromNetWithFitCenter(item.getVedioThumbnailUrl(), imvCover);
         }
 
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);

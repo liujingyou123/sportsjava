@@ -101,6 +101,7 @@ public class ActivityDetailResponse extends BaseResponse {
         private String week;
         private String minMoney;
         private String isCollection;
+        private int authEntity;
         /**
          * city : 上海
          * coutry : 中国
@@ -454,6 +455,14 @@ public class ActivityDetailResponse extends BaseResponse {
 
         public void setIsCollection(String isCollection) {
             this.isCollection = isCollection;
+        }
+
+        public int getAuthEntity() {
+            return authEntity;
+        }
+
+        public void setAuthEntity(int authEntity) {
+            this.authEntity = authEntity;
         }
     }
 }

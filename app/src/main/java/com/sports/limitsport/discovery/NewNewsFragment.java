@@ -25,8 +25,10 @@ import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreView;
 import com.sports.limitsport.view.NewNewsHeadView;
+import com.sports.limitsport.view.SpacesItemDecoration;
 import com.sports.limitsport.view.SpacesItemDecorationS;
 
 import java.util.ArrayList;
@@ -96,7 +98,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
         adapter.setLoadMoreView(new CustomLoadMoreView());
 
         adapter.addHeaderView(newNewsHeadView);
-        SpacesItemDecorationS decoration = new SpacesItemDecorationS(5);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(UnitUtil.dip2px(getContext(), 3));
         rlvNew.addItemDecoration(decoration);
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

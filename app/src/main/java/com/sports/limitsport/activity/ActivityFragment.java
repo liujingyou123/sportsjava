@@ -24,6 +24,8 @@ import com.sports.limitsport.model.ActivityResponse;
 import com.sports.limitsport.activity.presenter.ActivityListPresenter;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreView;
 import com.sports.limitsport.view.SpacesItemDecoration;
 
@@ -96,7 +98,6 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         imvFocusHouseBack.setVisibility(View.GONE);
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);//可防止Item切换
-
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ActivitysAdapter(data);
@@ -104,12 +105,13 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
 
         adapter.setLoadMoreView(new CustomLoadMoreView());
 
-        SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(UnitUtil.dip2px(getContext(), 3));
         recyclerView.addItemDecoration(decoration);
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                XLog.e("position = " + position);
                 Act act = (Act) adapter.getItem(position);
                 if (act != null) {
                     Intent intent = new Intent(ActivityFragment.this.getContext(), ActivityDetailActivity.class);
@@ -164,9 +166,12 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         Observable.from(mData).map(new Func1<Act, Act>() {
             @Override
             public Act call(Act baseStaggeredEntity) {
-                //TODO
-                baseStaggeredEntity.setCoverUrl("http://image.tianjimedia.com/uploadImages/2015/318/28/J0IUZ1ST711A.jpg");
-                Bitmap bitmap = Batman.getInstance().getBitMap(ActivityFragment.this.getContext(), baseStaggeredEntity.getCoverUrl());
+                Bitmap bitmap = null;
+                if (!TextViewUtil.isEmpty(baseStaggeredEntity.getCoverUrl())) {
+                    bitmap = Batman.getInstance().getBitMap(ActivityFragment.this.getContext(), baseStaggeredEntity.getCoverUrl());
+                } else {
+                    bitmap = Batman.getInstance().getBitMap(ActivityFragment.this.getContext(), baseStaggeredEntity.getActivityVideoImg());
+                }
                 if (bitmap != null) {
                     baseStaggeredEntity.setWidth(bitmap.getWidth());
                     baseStaggeredEntity.setHeight(bitmap.getHeight());

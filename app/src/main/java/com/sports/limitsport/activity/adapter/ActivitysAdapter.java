@@ -6,8 +6,10 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.ScaleImageView;
 
@@ -75,7 +77,12 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
         }
 
         imvCover.setInitSize(item.getWidth(), item.getHeight());
-        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imvCover);
+
+        if (!TextViewUtil.isEmpty(item.getCoverUrl())) {
+            Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imvCover);
+        } else {
+            Batman.getInstance().fromNetWithFitCenter(item.getActivityVideoImg(), imvCover);
+        }
 
         tvName.setText(item.getName());
 //        Calendar calendar = UnitUtil.dateToCalendar(UnitUtil.stringToDate(item.getStartDate()));

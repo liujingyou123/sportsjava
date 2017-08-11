@@ -291,6 +291,12 @@ public class ActivityDetailHeaderView extends LinearLayout {
 
         tvEndtime.setText(mData.getSignEndDate());
         tvLastNum.setText(mData.getLastGroups() + "人");
+
+        if (mData.getAuthEntity() == 2) {
+            imvAuth.setVisibility(VISIBLE);
+        } else {
+            imvAuth.setVisibility(GONE);
+        }
     }
 
     public void showAllShai(List<DongTaiList> data) {
