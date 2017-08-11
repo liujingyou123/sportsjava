@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.ClubMemberList;
+import com.sports.limitsport.util.TextViewUtil;
 
 import java.util.List;
 
@@ -53,8 +54,15 @@ public class ClubMembersAdapter extends BaseQuickAdapter<ClubMemberList, BaseVie
         } else {
             tvFocus.setVisibility(View.GONE);
         }
+        String location = "";
+        if (!TextViewUtil.isEmpty(item.getProvince())) {
+            location = item.getProvince();
+        }
 
-        tvLocation.setText(item.getProvince() + " " + item.getCity());
+        if (!TextViewUtil.isEmpty(item.getCity())) {
+            location = location + " " + item.getCity();
+        }
+        tvLocation.setText(location);
         tvDes.setText(item.getUserIntroduction());
     }
 }

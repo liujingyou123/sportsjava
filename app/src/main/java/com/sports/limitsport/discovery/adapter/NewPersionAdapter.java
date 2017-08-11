@@ -58,7 +58,7 @@ public class NewPersionAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHold
             tvFocus.setVisibility(View.GONE);
         }
 
-        String location = null;
+        String location = "";
         if (!TextViewUtil.isEmpty(item.getProvince())) {
             location = item.getProvince();
         }

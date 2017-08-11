@@ -189,7 +189,9 @@ public class MineHeaderView extends LinearLayout {
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getCity())) {
-                tvLocation.setText(dataBean.getProvince() + " " + dataBean.getCity());
+                String location = TextViewUtil.isEmpty(dataBean.getProvince()) ? "" : dataBean.getProvince();
+                location = location + " " + (TextViewUtil.isEmpty(dataBean.getCity()) ? "" : dataBean.getCity());
+                tvLocation.setText(location);
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getIntroduction())) {
