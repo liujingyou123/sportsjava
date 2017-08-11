@@ -31,12 +31,16 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
+import com.sports.limitsport.model.EventBusScroll;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CreatPersonView;
 import com.sports.limitsport.view.SlidingTabLayout;
 import com.sports.limitsport.view.SpacesItemHDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +95,8 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     ImageView imvReport;
     @BindView(R.id.imv_share)
     ImageView imvShare;
-    @BindView(R.id.imv_publish)
-    ImageView imvPublish;
+//    @BindView(R.id.imv_publish)
+//    ImageView imvPublish;
     @BindView(R.id.rl_numbers)
     RecyclerView rlNumbers;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
@@ -107,6 +111,9 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clubdetail);
         ButterKnife.bind(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         getIntentData();
         initView();
         getData();
@@ -127,6 +134,13 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         mPresenter.getMembers(id);
     }
 
+    @Subscribe
+    public void getReScroll(EventBusScroll param) {
+        if (param != null) {
+            appbar.setExpanded(true, true);
+        }
+    }
+
     private void initView() {
         collapsingToolbar.setTitle(" ");
         setupViewPager();
@@ -141,6 +155,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 }
             }
         });
+
 
         rlNumbers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -303,5 +318,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         }
 
         mPresenter = null;
+
+        EventBus.getDefault().unregister(this);
     }
 }

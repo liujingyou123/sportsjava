@@ -16,10 +16,13 @@ import com.sports.limitsport.discovery.adapter.ClubActivityAdapter;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.model.EventBusScroll;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +70,8 @@ public class TabActivityFragment extends Fragment {
         View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
         TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
         tvTip.setText("还没有发布活动哦～");
-        rlv.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        rlv.setLayoutManager(linearLayoutManager);
 
         adapter = new ClubActivityAdapter(data);
         adapter.bindToRecyclerView(rlv);
@@ -83,6 +87,25 @@ public class TabActivityFragment extends Fragment {
                 loadMore();
             }
         }, rlv);
+
+        rlv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+
+                    int visiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (visiblePosition == 0) {
+                        EventBus.getDefault().post(new EventBusScroll());
+//                        barLayout.setExpanded(true, true);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private void loadMore() {

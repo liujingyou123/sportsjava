@@ -26,10 +26,13 @@ import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.EventBusScroll;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +89,9 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView {
         View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
         TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
         tvTip.setText("还没有发布动态呢～");
-        rlv.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        rlv.setLayoutManager(linearLayoutManager);
 
         adapter = new AllShaiAdapter(data);
         adapter.bindToRecyclerView(rlv);
@@ -172,6 +177,25 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView {
                 commentDialog.dismiss();
                 mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
 
+            }
+        });
+
+        rlv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+
+                    int visiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (visiblePosition == 0) {
+                        EventBus.getDefault().post(new EventBusScroll());
+//                        barLayout.setExpanded(true, true);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
