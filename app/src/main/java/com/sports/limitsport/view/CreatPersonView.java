@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.model.ClubDetail;
 import com.sports.limitsport.model.ClubDetailResponse;
 
 import butterknife.BindView;
@@ -55,7 +56,7 @@ public class CreatPersonView extends LinearLayout {
 
     }
 
-    public void setData(ClubDetailResponse.DataBean.ManagerListBean managerListBean) {
+    public void setData(ClubDetail.ManagerListBean managerListBean) {
         if (managerListBean != null) {
             Batman.getInstance().getImageWithCircle(managerListBean.getHeadPortrait(), imvHead, 0, 0);
             tvName.setText(managerListBean.getMemberName());

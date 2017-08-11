@@ -20,6 +20,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.base.BaseResponse;
+import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.adapter.ClubMemberAdapter;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
@@ -28,6 +29,7 @@ import com.sports.limitsport.discovery.ui.IClubDetailView;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.model.ClubDetail;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
@@ -42,6 +44,7 @@ import com.sports.limitsport.view.SpacesItemHDecoration;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,14 +98,14 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     ImageView imvReport;
     @BindView(R.id.imv_share)
     ImageView imvShare;
-//    @BindView(R.id.imv_publish)
+    //    @BindView(R.id.imv_publish)
 //    ImageView imvPublish;
     @BindView(R.id.rl_numbers)
     RecyclerView rlNumbers;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
     private String id;//俱乐部ID
     private ClubDetailPresenter mPresenter;
-    private ClubDetailResponse.DataBean dataBean;
+    private ClubDetail dataBean;
     private List<ClubMemberList> data = new ArrayList<>();
     private ClubMemberAdapter adapter;
 
@@ -202,6 +205,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 break;
             case R.id.imv_club_logo:
                 Intent intent = new Intent(this, ClubBaseInfoActivity.class);
+                intent.putExtra("data", (Serializable) dataBean);
                 startActivity(intent);
                 break;
             case R.id.tv_sign_num:
@@ -221,13 +225,10 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                     startActivity(intent3);
                 } else if (dataBean != null && dataBean.getJoinClubFlag() == 0) {
                     if (mPresenter != null) {
-                        //TODO ceshi
                         mPresenter.joinClub(id);
                     }
                 } else if (dataBean != null && dataBean.getJoinClubFlag() == 1) {
-                    if (mPresenter != null) {
-                        mPresenter.quiteClub(id);
-                    }
+                    exitDialog();
                 }
                 break;
         }
@@ -320,5 +321,19 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         mPresenter = null;
 
         EventBus.getDefault().unregister(this);
+    }
+
+    private void exitDialog() {
+        NoticeDelDialog dialog = new NoticeDelDialog(this);
+        dialog.setMessage("您确定要退出俱乐部吗？");
+        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                if (mPresenter != null) {
+                    mPresenter.quiteClub(id);
+                }
+            }
+        });
+        dialog.show();
     }
 }
