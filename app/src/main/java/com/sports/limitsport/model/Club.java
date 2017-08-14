@@ -19,6 +19,7 @@ public class Club {
     private String logoUrl;
     private String memberNum;
     private String resourceType;
+    public boolean isHeader;
 
     public String getAuthEntity() {
         return authEntity;
@@ -131,4 +132,6 @@ public class Club {
     public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }
+
+
 }

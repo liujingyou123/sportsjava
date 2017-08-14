@@ -51,7 +51,9 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
     RelativeLayout viewNonet;
 
     private FindClubAdapter adapter;
-    private List<FindClubSection> clubs = new ArrayList<>();
+    private List<Club> clubs = new ArrayList<>();
+    private List<Club> clubsTmp = new ArrayList<>();
+
     private FindClubPresenter mPresenter;
     private int pageNumber = 1;
     private int totalSize;
@@ -71,7 +73,6 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         if (mPresenter == null) {
             mPresenter = new FindClubPresenter(this);
         }
-//        mPresenter.getAllClubsList(pageNumber);
         mPresenter.getTodayClubsList();
 //        rlAll.autoRefresh();
     }
@@ -107,8 +108,7 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                FindClubSection findClubSection = (FindClubSection) adapter.getItem(position);
-                Club club = findClubSection.t;
+                Club club = (Club) adapter.getItem(position);
                 if (club != null) {
                     Intent intent = new Intent(FindClubActivity.this, ClubDetailActivity.class);
                     intent.putExtra("id", club.getId());
@@ -158,7 +158,6 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         if (mPresenter != null) {
             pageNumber = 1;
             mPresenter.getTodayClubsList();
-//            mPresenter.getAllClubsList(pageNumber);
         }
     }
 
@@ -169,15 +168,16 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
             totalSize = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
 
-                List<FindClubSection> tmps = clubToSection(response.getData().getData());
+                List<Club> tmps = response.getData().getData();
                 clubs.clear();
                 clubsTmp.addAll(tmps);
 
                 clubs.addAll(clubsTmp);
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(clubs);
+//                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
-                List<FindClubSection> tmps = clubToSection(response.getData().getData());
+                List<Club> tmps = response.getData().getData();
                 clubsTmp.addAll(tmps);
                 adapter.addData(clubsTmp);
                 if (adapter.getData().size() >= totalSize) {
@@ -189,39 +189,27 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         }
     }
 
-    private List<FindClubSection> clubsTmp = new ArrayList<>();
 
     @Override
     public void showTodayClubsList(ClubListResponse response) {
         if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
 
             Club club = new Club();
-            FindClubSection findClubSection = new FindClubSection(club);
-            findClubSection.isHeader = true;
-            findClubSection.header = "今日推荐";
+            club.isHeader = true;
+            club.setClubName("今日推荐");
 
-            List<FindClubSection> tmps = clubToSection(response.getData().getData());
-
+            List<Club> tmps = response.getData().getData();
 
             clubsTmp.clear();
-            clubsTmp.add(0, findClubSection);
+            clubsTmp.add(0, club);
             clubsTmp.addAll(1, tmps);
 
             Club clubAll = new Club();
-            FindClubSection findClubSectionAll = new FindClubSection(clubAll);
-            findClubSectionAll.isHeader = true;
-            findClubSectionAll.header = "全部俱乐部";
-            clubsTmp.add(findClubSectionAll);
+            clubAll.isHeader = true;
+            clubAll.setClubName("全部俱乐部");
+            clubsTmp.add(clubAll);
             mPresenter.getAllClubsList(pageNumber);
 
-
-//            Club club = new Club();
-//            FindClubSection findClubSection = new FindClubSection(club);
-//            findClubSection.isHeader = true;
-//            adapter.addData(0, findClubSection);
-//
-//            List<FindClubSection> tmps = clubToSection(response.getData().getData());
-//            adapter.addData(1, tmps);
         }
 
     }
