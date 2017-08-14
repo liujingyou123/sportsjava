@@ -162,6 +162,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
         pageNumber = 1;
         if (mPresenter != null) {
             mPresenter.getDongTaiList(pageNumber);
+            adapter.loadMoreComplete();
         }
     }
 
