@@ -192,6 +192,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
         switch (view.getId()) {
             case R.id.rl_allshai:
                 Intent intent = new Intent(getContext(), AllShaiActivity.class);
+                intent.putExtra("id", mData.getId());
                 getContext().startActivity(intent);
                 break;
             case R.id.tv_sign_num:

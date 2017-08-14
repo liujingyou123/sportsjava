@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -21,7 +22,6 @@ import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.main.IdentifyFragment;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
@@ -31,6 +31,8 @@ import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +54,8 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
     RecyclerView ryAll;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private AllShaiAdapter allShaiAdapter;
     private AllShaiPresenter mPresenter;
     private int pageNumber = 1;
@@ -83,7 +87,9 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
         if (mPresenter == null) {
             mPresenter = new AllShaiPresenter(this);
         }
-        mPresenter.getAllShai(id, pageNumber);
+
+        rlAll.autoRefresh();
+//        mPresenter.getAllShai(id, pageNumber);
     }
 
     private void initView() {
@@ -234,7 +240,7 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
         startActivity(intent);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_right})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_right, R.id.tv_reload})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -242,6 +248,10 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
                 break;
             case R.id.imv_right:
                 gotoEditDongtai();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
                 break;
         }
     }
@@ -253,7 +263,8 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                allShaiAdapter.notifyDataSetChanged();
+                allShaiAdapter.setNewData(data);
+//                allShaiAdapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
                 allShaiAdapter.addData(response.getData().getData());
@@ -268,10 +279,15 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
-        } else {
+        if (allShaiAdapter.isLoading()) {
             allShaiAdapter.loadMoreFail();
+        } else {
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
+            }
         }
     }
 

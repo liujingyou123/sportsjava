@@ -272,7 +272,7 @@ public class EasyRefreshLayout extends ViewGroup {
     public boolean dispatchTouchEvent(MotionEvent ev) {
 
 
-        if ( isLoading || contentView == null) {
+        if (isLoading || contentView == null) {
             return super.dispatchTouchEvent(ev);
         }
 
@@ -393,7 +393,7 @@ public class EasyRefreshLayout extends ViewGroup {
     }
 
     private void moveSpinner(float offsetY) {
-        if (!isEnablePullToRefresh){
+        if (!isEnablePullToRefresh) {
             return;
         }
         int offset = Math.round(offsetY);
@@ -555,6 +555,14 @@ public class EasyRefreshLayout extends ViewGroup {
         }
     }
 
+    public void autoRefreshDelay() {
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                autoRefresh();
+            }
+        }, 500);
+    }
     public void autoRefresh() {
         autoRefresh(500);
     }
@@ -706,8 +714,8 @@ public class EasyRefreshLayout extends ViewGroup {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-               // Log.i(TAG, ">>>>mDistance:" + mDistance);
-               // Log.i(TAG, ">>>>touchSlop:" + touchSlop);
+                // Log.i(TAG, ">>>>mDistance:" + mDistance);
+                // Log.i(TAG, ">>>>touchSlop:" + touchSlop);
                 if (Math.abs(mDistance) > touchSlop && mDistance < 0) {
                     if (!isLoading && isEnableLoadMore && !isRefreshing && !isLoadingFail && !isNotMoreLoading) {
                         final int lastVisibleItem = getLastVisiBleItem();

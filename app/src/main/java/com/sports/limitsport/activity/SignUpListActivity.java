@@ -177,7 +177,8 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+//                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
                 adapter.addData(response.getData().getData());
