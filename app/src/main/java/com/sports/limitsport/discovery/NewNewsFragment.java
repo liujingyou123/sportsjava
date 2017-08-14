@@ -126,7 +126,6 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
             }
         });
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -205,6 +204,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
                     data.clear();
                     data.addAll(dongTais);
                     adapter.setNewData(data);
+                    adapter.disableLoadMoreIfNotFullPage();
 //                    adapter.notifyDataSetChanged();
                     rlAll.refreshComplete();
                 } else {

@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.NewPersionAdapter;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.NewPersonListResponse;
@@ -21,6 +24,8 @@ import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +45,8 @@ public class NewPersonReportActivity extends BaseActivity {
     RecyclerView rlvNew;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private NewPersionAdapter adapter;
     private List<SignUpUser> data = new ArrayList<>();
     private int pageNumber = 1;
@@ -51,20 +58,31 @@ public class NewPersonReportActivity extends BaseActivity {
         setContentView(R.layout.activity_newperson);
         ButterKnife.bind(this);
         initView();
-        getNewPersionList();
+//        getNewPersionList();
+        rlAll.autoRefresh();
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_reload})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
+                break;
+        }
     }
-
 
     private void initView() {
         tvFocusHouse.setText("新人报道");
         rlvNew.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new NewPersionAdapter(data);
         adapter.bindToRecyclerView(rlvNew);
+        View empptyView = LayoutInflater.from(this).inflate(R.layout.empty_noticelist, null);
+        ((TextView) empptyView.findViewById(R.id.tv_empty)).setText("暂时没有数据～");
+        adapter.setEmptyView(empptyView);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -75,7 +93,7 @@ public class NewPersonReportActivity extends BaseActivity {
             }
         });
 
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -127,10 +145,15 @@ public class NewPersonReportActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
-                } else {
+                if (adapter.isLoading()) {
                     adapter.loadMoreFail();
+                } else {
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -142,7 +165,8 @@ public class NewPersonReportActivity extends BaseActivity {
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 adapter.addData(response.getData().getData());
