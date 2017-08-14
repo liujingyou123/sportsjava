@@ -145,6 +145,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                 refresh();
             }
         });
+
     }
 
     private void loadMore() {
