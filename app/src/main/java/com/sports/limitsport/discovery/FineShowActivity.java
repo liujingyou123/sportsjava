@@ -7,12 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.FineShowListAdapter;
 import com.sports.limitsport.discovery.presenter.FineShowPresenter;
 import com.sports.limitsport.discovery.ui.IFineShowView;
@@ -21,6 +23,8 @@ import com.sports.limitsport.model.FineShowList;
 import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +44,8 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
     RecyclerView rclv;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private FineShowListAdapter adapter;
     private FineShowPresenter mPresenter;
     private List<FineShowList> data = new ArrayList<>();
@@ -59,7 +65,8 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
         if (mPresenter == null) {
             mPresenter = new FineShowPresenter(this);
         }
-        mPresenter.getFineShow(pageNumber);
+//        mPresenter.getFineShow(pageNumber);
+        rlAll.autoRefresh();
     }
 
     private void initView() {
@@ -87,7 +94,6 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
 
         adapter.setEmptyView(emptyView);
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -127,9 +133,17 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
         }
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_reload})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
+                break;
+        }
     }
 
     @Override
@@ -140,7 +154,10 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
                 if (response.getData().getData() != null) {
                     data.clear();
                     data.addAll(response.getData().getData());
-                    adapter.notifyDataSetChanged();
+//                    adapter.notifyDataSetChanged();
+                    adapter.setNewData(response.getData().getData());
+                    adapter.disableLoadMoreIfNotFullPage();
+
                 }
                 rlAll.refreshComplete();
             } else {
@@ -160,10 +177,15 @@ public class FineShowActivity extends BaseActivity implements IFineShowView {
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
-        } else {
+        if (adapter.isLoading()) {
             adapter.loadMoreFail();
+        } else {
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
+            }
         }
     }
 

@@ -164,7 +164,7 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
                 break;
             case R.id.tv_reload:
                 viewNonet.setVisibility(View.GONE);
-                rlAll.autoRefresh();
+                rlAll.autoRefreshDelay();
                 break;
         }
     }

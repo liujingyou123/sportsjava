@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -14,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ElsePriseAdapter;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.PraiseList;
@@ -23,6 +25,8 @@ import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +47,8 @@ public class ElsePriseActivity extends BaseActivity {
     RecyclerView rvElse;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private ElsePriseAdapter adapter;
     private List<PraiseList> data = new ArrayList<>();
     private int pageNumber = 1;
@@ -58,7 +64,8 @@ public class ElsePriseActivity extends BaseActivity {
         getIntentData();
         initView();
 
-        getPraiseList();
+        rlAll.autoRefresh();
+//        getPraiseList();
     }
 
     private void getIntentData() {
@@ -69,9 +76,17 @@ public class ElsePriseActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_reload})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
+                break;
+        }
     }
 
     private void initView() {
@@ -98,7 +113,6 @@ public class ElsePriseActivity extends BaseActivity {
             }
         });
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -152,7 +166,8 @@ public class ElsePriseActivity extends BaseActivity {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());
@@ -169,10 +184,15 @@ public class ElsePriseActivity extends BaseActivity {
             public void onError(Throwable e) {
                 super.onError(e);
 
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
-                } else {
+                if (adapter.isLoading()) {
                     adapter.loadMoreFail();
+                } else {
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });

@@ -257,7 +257,8 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
             public void onDismiss(DialogInterface dialog) {
                 String content = commentDialog.getContent();
                 if (TextUtils.isEmpty(content)) {
-                    btnComment.setText("我要来发言…");
+                    btnComment.setText("");
+                    btnComment.setHint("我要来发言…");
                     btnComment.setTextColor(Color.parseColor("#FF444444"));
                     tvSend.setEnabled(false);
                 } else {
@@ -397,7 +398,8 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
     public void showPublishActivityComent(boolean b) {
         if (b) {
             commentDialog.setContent("");
-            btnComment.setText("我要来发言…");
+            btnComment.setText("");
+            btnComment.setHint("我要来发言…");
             ToastUtil.showTrueToast(this, "评论成功");
             rlAll.autoRefresh();
         } else {
@@ -410,7 +412,8 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         if (isSuccess) {
             setReplayData();
             commentDialog.setContent("");
-            btnComment.setText("我要来发言…");
+            btnComment.setText(null);
+            btnComment.setHint("我要来发言...");
             ToastUtil.showTrueToast(this, "回复成功");
         } else {
             ToastUtil.showTrueToast(this, "回复失败");
