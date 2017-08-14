@@ -559,7 +559,7 @@ public class EasyRefreshLayout extends ViewGroup {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                autoRefresh();
+                autoRefresh(0);
             }
         }, 500);
     }

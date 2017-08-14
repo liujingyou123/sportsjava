@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -19,7 +20,6 @@ import com.sports.limitsport.activity.adapter.ActivityDiscussAdapter;
 import com.sports.limitsport.activity.presenter.ActivityDiscussPresenter;
 import com.sports.limitsport.activity.ui.IActivityDiscussView;
 import com.sports.limitsport.base.BaseActivity;
-import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.CommentList;
@@ -27,8 +27,9 @@ import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
-import com.sports.limitsport.view.CustomLoadMoreView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     TextView btnComment;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private ActivityDiscussAdapter adapter;
     private CommentDialog commentDialog;
     private List<CommentList> data = new ArrayList<>();
@@ -74,7 +77,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         getData();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_reload})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -83,6 +86,10 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
             case R.id.btn_comment:
                 commentDialog.setType(1);
                 commentDialog.show();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
                 break;
         }
     }
@@ -99,7 +106,8 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         if (mPresenter == null) {
             mPresenter = new ActivityDiscussPresenter(this);
         }
-        mPresenter.getCommentList(id, pageNumber + "");
+        rlAll.autoRefresh();
+//        mPresenter.getCommentList(id, pageNumber + "");
     }
 
     private void init() {
@@ -202,7 +210,8 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+//                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
                 adapter.addData(response.getData().getData());
@@ -268,10 +277,15 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
-        } else {
+        if (adapter.isLoading()) {
             adapter.loadMoreFail();
+        } else {
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
+            }
         }
     }
 
