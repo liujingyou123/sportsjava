@@ -123,7 +123,6 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
 
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -162,7 +161,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
             public void onDismiss(DialogInterface dialog) {
                 String content = commentDialog.getContent();
                 if (TextUtils.isEmpty(content)) {
-                    btnComment.setText("我要来发言…");
+                    btnComment.setText("");
                     btnComment.setTextColor(Color.parseColor("#FF444444"));
                     tvSend.setEnabled(false);
                 } else {
@@ -211,6 +210,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 data.clear();
                 data.addAll(response.getData().getData());
                 adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
 //                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
@@ -229,7 +229,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     public void showPublishActivityComent(boolean isSuccess) {
         if (isSuccess) {
             commentDialog.setContent("");
-            btnComment.setText("我要来发言…");
+            btnComment.setText("");
             ToastUtil.showTrueToast(this, "评论成功");
             rlAll.autoRefresh();
         } else {
