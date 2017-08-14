@@ -184,6 +184,10 @@ public final class Batman {
         mButler.fromNetWithFitCenter(mContext, url, imageView, defaultImage, failedImage, 0, 0);
     }
 
+    public void fromNetWithFitCenterWithSize(String url, ImageView imageView, int width, int height) {
+        mButler.fromNetWithFitCenter(mContext, url, imageView, 0, 0, width, height);
+    }
+
     /**
      * 同步获取bitmap
      *

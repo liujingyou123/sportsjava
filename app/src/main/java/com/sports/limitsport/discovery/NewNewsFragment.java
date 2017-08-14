@@ -162,7 +162,6 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
         pageNumber = 1;
         if (mPresenter != null) {
             mPresenter.getDongTaiList(pageNumber);
-            adapter.loadMoreComplete();
         }
     }
 
@@ -205,12 +204,13 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
                 if (rlAll.isRefreshing()) {
                     data.clear();
                     data.addAll(dongTais);
-                    adapter.notifyDataSetChanged();
+                    adapter.setNewData(data);
+//                    adapter.notifyDataSetChanged();
                     rlAll.refreshComplete();
                 } else {
                     adapter.addData(dongTais);
                     if (adapter.getData().size() >= totalSize) {
-                        adapter.loadMoreEnd();
+                        adapter.loadMoreEnd(true);
                     } else {
                         adapter.loadMoreComplete();
                     }

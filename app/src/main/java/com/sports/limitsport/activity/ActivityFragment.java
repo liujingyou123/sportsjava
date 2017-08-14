@@ -164,7 +164,6 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         pageNumber = 1;
         if (mPresenter != null) {
             mPresenter.getActivityList(pageNumber);
-            adapter.loadMoreFail();
         }
     }
 
@@ -206,9 +205,8 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                 if (rlAll.isRefreshing()) {
                     data.clear();
                     data.addAll(baseStaggeredEntities);
-                    adapter.notifyDataSetChanged();
+                    adapter.setNewData(data);
                     rlAll.refreshComplete();
-                    adapter.loadMoreComplete();
                 } else {
                     adapter.addData(baseStaggeredEntities);
                     if (adapter.getData().size() >= totalSize) {

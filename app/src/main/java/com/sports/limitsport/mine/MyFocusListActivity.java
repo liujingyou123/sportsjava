@@ -128,6 +128,7 @@ public class MyFocusListActivity extends BaseActivity {
     private void refresh() {
         pageNumber = 1;
         getFocusList();
+
     }
 
     private void getFocusList() {
@@ -147,7 +148,7 @@ public class MyFocusListActivity extends BaseActivity {
                     } else {
                         adapter.addData(response.getData().getData());
                         if (adapter.getData().size() >= totalSize) {
-                            adapter.loadMoreEnd();
+                            adapter.loadMoreEnd(true);
                         } else {
                             adapter.loadMoreComplete();
                         }

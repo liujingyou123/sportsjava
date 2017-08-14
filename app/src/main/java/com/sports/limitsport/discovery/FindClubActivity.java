@@ -72,8 +72,8 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
             mPresenter = new FindClubPresenter(this);
         }
 //        mPresenter.getAllClubsList(pageNumber);
-//        mPresenter.getTodayClubsList();
-        rlAll.autoRefresh();
+        mPresenter.getTodayClubsList();
+//        rlAll.autoRefresh();
     }
 
     private void initView() {
@@ -158,7 +158,6 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         if (mPresenter != null) {
             pageNumber = 1;
             mPresenter.getTodayClubsList();
-            adapter.loadMoreComplete();
 //            mPresenter.getAllClubsList(pageNumber);
         }
     }

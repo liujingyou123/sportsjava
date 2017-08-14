@@ -14,7 +14,8 @@
             android:id="@+id/imv_cover"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:scaleType="fitXY"/>
 
         <com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen
             android:id="@+id/jc_video"
