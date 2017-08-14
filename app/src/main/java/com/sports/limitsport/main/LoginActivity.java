@@ -126,6 +126,7 @@ public class LoginActivity extends BaseActivity {
 
     public void gotoDeal() {
         Intent intent = new Intent(this, DealActivity.class);
+        intent.putExtra("type", 1);
         startActivity(intent);
     }
 

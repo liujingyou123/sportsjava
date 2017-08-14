@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
+import com.sports.limitsport.main.DealActivity;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.SetPresenter;
 import com.sports.limitsport.mine.ui.ISetView;
@@ -97,7 +99,7 @@ public class SetActivity extends BaseActivity implements ISetView {
         mPresenter.getUserSettingInfo();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_done})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.it_aboutus})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -106,7 +108,16 @@ public class SetActivity extends BaseActivity implements ISetView {
             case R.id.btn_done:
                 exitApp();
                 break;
+            case R.id.it_aboutus:
+                aboutUs();
+                break;
         }
+    }
+
+    private void aboutUs() {
+        Intent intent = new Intent(this, DealActivity.class);
+        intent.putExtra("type", 2);
+        startActivity(intent);
     }
 
     private void exitApp() {
