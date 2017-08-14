@@ -283,7 +283,7 @@ public class UnitUtil {
     public static String formatSNum(String num) {
         String ret = null;
         if (TextUtils.isEmpty(num)) {
-            return ret;
+            return "";
         }
         try {
             double d = Double.parseDouble(num);

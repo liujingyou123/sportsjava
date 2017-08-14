@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -23,6 +25,8 @@ import com.sports.limitsport.model.SignUpListResponse;
 import com.sports.limitsport.model.SignUpUser;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +48,8 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
     ImageView imvFocusHouseBack;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
 
     private SignUpAdapter adapter;
     private SignUpListPresenter mPresenter;
@@ -74,7 +80,9 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
         if (mPresenter == null) {
             mPresenter = new SignUpListPresenter(this);
         }
-        mPresenter.getSignUpList(id, pageNumber);
+//        mPresenter.getSignUpList(id, pageNumber);
+
+        rlAll.autoRefresh();
     }
 
     private void initView() {
@@ -89,6 +97,9 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
         adapter.bindToRecyclerView(rlSignupList);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_noticelist, null);
+        ((TextView) emptyView.findViewById(R.id.tv_empty)).setText("还有没有报名，赶快去抢沙发呦～");
+        adapter.setEmptyView(emptyView);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -142,7 +153,7 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
     }
 
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_share})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_share, R.id.tv_reload})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -151,6 +162,10 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
             case R.id.imv_share:
                 ShareDialog dialog = new ShareDialog(this);
                 dialog.show();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefresh();
                 break;
         }
     }
@@ -178,10 +193,15 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
-        } else {
+        if (adapter.isLoading()) {
             adapter.loadMoreFail();
+        } else {
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
+            }
         }
     }
 
