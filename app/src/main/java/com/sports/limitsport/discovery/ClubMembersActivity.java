@@ -187,6 +187,7 @@ public class ClubMembersActivity extends BaseActivity {
     private void refresh() {
         pageNumber = 1;
         getClubMembers();
+        adapter.loadMoreComplete();
     }
 
     /**

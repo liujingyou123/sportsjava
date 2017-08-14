@@ -164,6 +164,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         pageNumber = 1;
         if (mPresenter != null) {
             mPresenter.getActivityList(pageNumber);
+            adapter.loadMoreFail();
         }
     }
 
