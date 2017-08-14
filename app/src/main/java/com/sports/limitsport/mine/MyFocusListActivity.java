@@ -56,10 +56,7 @@ public class MyFocusListActivity extends BaseActivity {
         setContentView(R.layout.activity_myfocus);
         ButterKnife.bind(this);
         initView();
-//        getFocusList();
-//        rlAll.loadMoreFail();
-//        adapter.loadMoreFail();
-        rlAll.loadNothing();
+        getFocusList();
     }
 
     @OnClick(R.id.imv_focus_house_back)
@@ -71,6 +68,12 @@ public class MyFocusListActivity extends BaseActivity {
         tvFocusHouse.setText("我的关注");
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_commentlist, null);
         emptyView.findViewById(R.id.tv_go).setVisibility(View.GONE);
+//                .setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
         rvFocus.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyFocusAdapter(data);
         adapter.bindToRecyclerView(rvFocus);
@@ -158,7 +161,6 @@ public class MyFocusListActivity extends BaseActivity {
                 if (rlAll.isRefreshing()) {
                     rlAll.refreshComplete();
                 } else {
-//                    rlAll.loadMoreFail();
                     if (adapter.isLoading()) {
                         adapter.loadMoreFail();
                     }

@@ -187,7 +187,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 finish();
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this, "1", null);
+                ReportDialog dialog = new ReportDialog(this, "1", id);
                 dialog.show();
                 break;
             case R.id.imv_share:

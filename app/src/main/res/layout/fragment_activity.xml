@@ -9,7 +9,8 @@
     <RelativeLayout
         android:id="@+id/rl_nodata"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imv_laba"
@@ -40,6 +41,11 @@
             android:scaleType="centerInside"
             android:src="@mipmap/icon_share_cancel" />
     </RelativeLayout>
+
+
+    <include
+        layout="@layout/net_incorrect"
+        android:visibility="gone" />
 
     <com.ajguan.library.EasyRefreshLayout
         android:id="@+id/rl_all"

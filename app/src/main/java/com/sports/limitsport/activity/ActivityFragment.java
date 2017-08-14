@@ -17,18 +17,20 @@ import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.adapter.ActivitysAdapter;
+import com.sports.limitsport.activity.presenter.ActivityListPresenter;
 import com.sports.limitsport.activity.ui.IActivityListView;
+import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
-import com.sports.limitsport.activity.presenter.ActivityListPresenter;
-import com.sports.limitsport.base.BaseFragment;
-import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreView;
 import com.sports.limitsport.view.SpacesItemDecoration;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,8 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
     RelativeLayout rlNodata;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
 
     private List<Act> data = new ArrayList<>();
     private ActivitysAdapter adapter;
@@ -90,7 +94,8 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
             mPresenter = new ActivityListPresenter(this);
         }
 
-        mPresenter.getActivityList(pageNumber);
+//        mPresenter.getActivityList(pageNumber);
+        rlAll.autoRefresh();
     }
 
     private void init() {
@@ -221,10 +226,19 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         });
     }
 
-    @OnClick(R.id.imv_nonewdata)
-    public void onViewClicked() {
-        rlNodata.setVisibility(View.GONE);
+    @OnClick({R.id.imv_nonewdata, R.id.tv_reload})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rl_nodata:
+                rlNodata.setVisibility(View.GONE);
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefresh();
+                break;
+        }
     }
+
 
     @Override
     public void onDestroyView() {
@@ -252,10 +266,16 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
-        } else {
+        if (adapter.isLoading()) {
             adapter.loadMoreFail();
+        } else {
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
+            }
         }
+
     }
 }
