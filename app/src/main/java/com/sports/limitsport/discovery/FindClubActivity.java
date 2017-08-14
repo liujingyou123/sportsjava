@@ -73,8 +73,8 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         if (mPresenter == null) {
             mPresenter = new FindClubPresenter(this);
         }
-        mPresenter.getTodayClubsList();
-//        rlAll.autoRefresh();
+//        mPresenter.getTodayClubsList();
+        rlAll.autoRefresh();
     }
 
     private void initView() {
@@ -121,7 +121,6 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
         SpacesItemHDecoration decoration = new SpacesItemHDecoration(16);
         rlClubs.addItemDecoration(decoration);
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -174,6 +173,8 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
 
                 clubs.addAll(clubsTmp);
                 adapter.setNewData(clubs);
+                adapter.disableLoadMoreIfNotFullPage();
+
 //                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {

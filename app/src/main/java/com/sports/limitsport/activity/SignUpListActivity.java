@@ -113,7 +113,6 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
             }
         });
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -178,6 +177,8 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
                 data.clear();
                 data.addAll(response.getData().getData());
                 adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
+
 //                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
             } else {
