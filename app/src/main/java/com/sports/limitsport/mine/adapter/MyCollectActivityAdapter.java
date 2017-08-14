@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.Act;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.ScaleImageView;
 
@@ -60,8 +61,12 @@ public class MyCollectActivityAdapter extends BaseQuickAdapter<Act, BaseViewHold
         //TODO 测试
 //        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
 
-        //正式
-        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
+        if (!TextViewUtil.isEmpty(item.getCoverUrl())) {
+            Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
+        } else {
+            Batman.getInstance().fromNetWithFitCenter(item.getActivityVideoImg(), imageView);
+        }
+
 
         tvName.setText(item.getName());
         tvTime.setText(item.getStartDate()

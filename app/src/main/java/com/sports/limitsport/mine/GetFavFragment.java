@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -25,12 +26,16 @@ import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -44,6 +49,8 @@ public class GetFavFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
 
     private GetFavAdapter adapter;
     private List<HuDongNoticeList> data = new ArrayList<>();
@@ -57,7 +64,8 @@ public class GetFavFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_getfav, null);
         unbinder = ButterKnife.bind(this, view);
         initView();
-        getList();
+//        getList();
+        rlAll.autoRefreshDelay();
         return view;
     }
 
@@ -84,7 +92,7 @@ public class GetFavFragment extends Fragment {
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setEmptyView(emptyView);
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -132,7 +140,8 @@ public class GetFavFragment extends Fragment {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());
@@ -148,11 +157,13 @@ public class GetFavFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
+                if (adapter.isLoading()) {
+                    adapter.loadMoreFail();
                 } else {
-                    if (adapter.isLoading()) {
-                        adapter.loadMoreFail();
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                            || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                            || e.getClass().getName().equals(ConnectException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -163,5 +174,11 @@ public class GetFavFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.tv_reload)
+    public void onClick() {
+        viewNonet.setVisibility(View.GONE);
+        rlAll.autoRefreshDelay();
     }
 }

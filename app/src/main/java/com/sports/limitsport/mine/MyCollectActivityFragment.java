@@ -9,17 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ActivityDetailActivity;
-import com.sports.limitsport.activity.ActivityFragment;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyCollectActivityAdapter;
 import com.sports.limitsport.model.Act;
-import com.sports.limitsport.model.ActivityResponse;
 import com.sports.limitsport.model.MyCollectActivityResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
@@ -27,12 +26,16 @@ import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreView;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -46,6 +49,8 @@ public class MyCollectActivityFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private MyCollectActivityAdapter adapter;
     private List<Act> data = new ArrayList<>();
     private int pageNumber = 1;
@@ -57,8 +62,14 @@ public class MyCollectActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mycollectactivity, null);
         unbinder = ButterKnife.bind(this, view);
         initView();
-        getActivityList();
+//        getActivityList();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rlAll.autoRefreshDelay();
     }
 
     private void initView() {
@@ -95,7 +106,7 @@ public class MyCollectActivityFragment extends Fragment {
                 }
             }
         });
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -142,7 +153,8 @@ public class MyCollectActivityFragment extends Fragment {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());
@@ -158,15 +170,20 @@ public class MyCollectActivityFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
+                if (adapter.isLoading()) {
+                    adapter.loadMoreFail();
                 } else {
-                    if (adapter.isLoading()) {
-                        adapter.loadMoreFail();
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                            || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                            || e.getClass().getName().equals(ConnectException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
                     }
                 }
 
-                ToastUtil.showFalseToast(getContext(), "加载失败");
+//                ToastUtil.showFalseToast(getContext(), "加载失败");
 //                adapter.loadMoreFail();
             }
         });
@@ -177,5 +194,11 @@ public class MyCollectActivityFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.tv_reload)
+    public void onClick() {
+        viewNonet.setVisibility(View.GONE);
+        rlAll.autoRefreshDelay();
     }
 }
