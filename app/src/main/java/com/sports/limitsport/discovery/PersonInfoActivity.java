@@ -84,7 +84,8 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
         mPresenter.getUserInfo(userId);
         mPresenter.getActivityList(userId);
         mPresenter.getAllClubsList(userId);
-        mPresenter.getDongTaiList(pageNumber, userId);
+//        mPresenter.getDongTaiList(pageNumber, userId);
+        rlAll.autoRefresh();
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share})
@@ -165,7 +166,6 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
         });
         mineAdapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
-        mineAdapter.disableLoadMoreIfNotFullPage();
         mineAdapter.setEnableLoadMore(true);
         mineAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -274,7 +274,8 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                mineAdapter.notifyDataSetChanged();
+                mineAdapter.setNewData(data);
+                mineAdapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 mineAdapter.addData(response.getData().getData());
