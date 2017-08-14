@@ -243,10 +243,10 @@ public class PersonInfoHeaderView extends LinearLayout {
                 }
 
                 //TODO 测试
-                Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
+//                Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
 
                 //正式
-//        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
+        Batman.getInstance().fromNetWithFitCenter(act.getCoverUrl(), imvCover);
 
                 tvName.setText(act.getName());
                 tvTime.setText(act.getStartDate()

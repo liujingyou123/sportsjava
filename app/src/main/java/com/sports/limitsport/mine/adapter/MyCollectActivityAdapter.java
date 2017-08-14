@@ -58,10 +58,10 @@ public class MyCollectActivityAdapter extends BaseQuickAdapter<Act, BaseViewHold
         }
 
         //TODO 测试
-        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
+//        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
 
         //正式
-//        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
+        Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
 
         tvName.setText(item.getName());
         tvTime.setText(item.getStartDate()

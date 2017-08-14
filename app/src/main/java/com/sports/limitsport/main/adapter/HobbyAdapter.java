@@ -37,9 +37,9 @@ public class HobbyAdapter extends BaseSelectionAdapter<Hobby.DataBean, BaseViewH
             textView.setText(item.getHobby());
         }
         //TODO 正式
-//        Batman.getInstance().getImageWithCircle(item.getImageUrl(), imageView, 0, 0);
+        Batman.getInstance().getImageWithCircle(item.getImageUrl(), imageView, 0, 0);
         //TODO 正式
-        Batman.getInstance().getImageWithCircle("http://up.qqjia.com/z/16/tu17317_45.png", imageView, 0, 0);
+//        Batman.getInstance().getImageWithCircle("http://up.qqjia.com/z/16/tu17317_45.png", imageView, 0, 0);
 
     }
 

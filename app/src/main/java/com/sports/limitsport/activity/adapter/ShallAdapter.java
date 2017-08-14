@@ -31,13 +31,13 @@ public class ShallAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> 
         TextView tvPraise = helper.getView(R.id.tv_praise);
 
         //TODO 需要放开
-//        if ("1".equals(item.getResourceType())) { //图片
-//            Batman.getInstance().fromNet(item.getThumbnailUrl(), imvCover);
-//
-//        } else if ("2".equals(item.getResourceType())) { //视频
-//            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
-//        }
-//        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
+        if ("1".equals(item.getResourceType())) { //图片
+            Batman.getInstance().fromNet(item.getThumbnailUrl(), imvCover);
+
+        } else if ("2".equals(item.getResourceType())) { //视频
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+        }
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
 
         tvName.setText(item.getPublishUserName());
         tvDes.setText(item.getTitle());
@@ -51,8 +51,8 @@ public class ShallAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> 
             imvZan.setSelected(false);
         }
 
-        //TODO test
-        Batman.getInstance().fromNet("http://img.sc115.com/wm/xqx/pic1/15011vd5vam10fg.jpg", imvCover);
-        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
+//        //TODO test
+//        Batman.getInstance().fromNet("http://img.sc115.com/wm/xqx/pic1/15011vd5vam10fg.jpg", imvCover);
+//        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
     }
 }

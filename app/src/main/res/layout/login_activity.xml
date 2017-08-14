@@ -139,5 +139,15 @@
         android:enabled="false"
         android:text="登录" />
 
-
+    <TextView
+        android:id="@+id/tv_deal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="登录表示您已阅读并同意《用户协议》"
+        android:textColor="#FFA5A4A4"
+        android:textSize="10sp" />
 </RelativeLayout>

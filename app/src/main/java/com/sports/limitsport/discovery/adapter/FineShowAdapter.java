@@ -36,13 +36,13 @@ public class FineShowAdapter extends BaseQuickAdapter<FineShowList, BaseViewHold
         tvStatus.setVisibility(View.GONE);
         if (item.getResourceType() == 1) { //图片
             //TODO 正式
-//            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
 
         } else if (item.getResourceType() == 2) { //视频
             tvStatus.setVisibility(View.VISIBLE);
             tvStatus.setText("视频");
             ////TODO 正式
-//            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
         }
 
         tvNum.setText(item.getPraiseNum() + "");
@@ -51,7 +51,7 @@ public class FineShowAdapter extends BaseQuickAdapter<FineShowList, BaseViewHold
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
 
         //TODO 测试用
-        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
+//        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
 //        Batman.getInstance().getImageWithCircle("http://up.qqjia.com/z/16/tu17317_45.png", imvHead, 0, 0);
     }
 }

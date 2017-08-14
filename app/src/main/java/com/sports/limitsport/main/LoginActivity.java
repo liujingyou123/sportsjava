@@ -73,6 +73,8 @@ public class LoginActivity extends BaseActivity {
     View viewLine2;
     @BindView(R.id.login)
     TextView login;
+    @BindView(R.id.tv_deal)
+    TextView tvDeal;
 
     private String userPhone;
     private String smsVerifyCode;
@@ -110,6 +112,21 @@ public class LoginActivity extends BaseActivity {
 
         phoneView.addTextChangedListener(watcher);
         verifyCodeView.addTextChangedListener(watcher);
+
+        TextViewUtil.setPartAndColorAndClick(tvDeal, onClickListener, 11, tvDeal.getText().length(), getResources().getColor(R.color.color_text_green));
+
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            gotoDeal();
+        }
+    };
+
+    public void gotoDeal() {
+        Intent intent = new Intent(this, DealActivity.class);
+        startActivity(intent);
     }
 
     private TextWatcher watcher = new TextWatcher() {
