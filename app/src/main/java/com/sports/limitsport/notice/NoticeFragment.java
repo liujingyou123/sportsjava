@@ -80,6 +80,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notice, null);
         unbinder = ButterKnife.bind(this, view);
+        init();
 //        initView();
 //        initEmptyView();
         getData();
@@ -94,6 +95,34 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
 //        mPresenter.getRecommendFriends(pageNumber);
 //        mPresenter.getRecommendOrDongTai(pageNumber);
         rlAll.autoRefresh();
+    }
+
+    private void init() {
+        rlAll.setEnableLoadMore(false);
+
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+
+        commentDialog = new CommentDialog(getContext());
+
+        commentDialog.setOkDoneListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentDialog.dismiss();
+                mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+
+            }
+        });
     }
 
     private void initView() {
@@ -133,15 +162,16 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                     DongTaiList dongTaiList = (DongTaiList) adapter.getItem(position);
                     if (dongTaiList != null) {
                         if (view.getId() == R.id.tv_focus) {
-                            if (dongTaiList.getAttentionFlag() == 0) {
-                                if (mPresenter != null) {
-                                    mPresenter.foucesFans(dongTaiList.getPublishUserId() + "", dongTaiList.getId() + "");
-                                }
-                            } else if (dongTaiList.getAttentionFlag() == 1) {
-                                Intent intent = new Intent(getContext(), PersonInfoActivity.class);
-                                intent.putExtra("userId", dongTaiList.getPublishUserId() + "");
-                                startActivity(intent);
-                            }
+//                            if (dongTaiList.getAttentionFlag() == 0) {
+//                                if (mPresenter != null) {
+//                                    mPresenter.foucesFans(dongTaiList.getPublishUserId() + "", dongTaiList.getId() + "");
+//                                }
+//                            } else if (dongTaiList.getAttentionFlag() == 1) {
+//
+//                            }
+                            Intent intent = new Intent(getContext(), PersonInfoActivity.class);
+                            intent.putExtra("userId", dongTaiList.getPublishUserId() + "");
+                            startActivity(intent);
 
                         } else if (view.getId() == R.id.rl_perison) {
                             Intent intent = new Intent(getContext(), PersonInfoActivity.class);
@@ -177,31 +207,6 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 loadMore();
             }
         }, rlvMyNotice);
-        rlAll.setEnableLoadMore(false);
-
-        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-
-            }
-
-            @Override
-            public void onRefreshing() {
-                XLog.e("onRefreshing");
-                refresh();
-            }
-        });
-
-        commentDialog = new CommentDialog(getContext());
-
-        commentDialog.setOkDoneListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commentDialog.dismiss();
-                mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
-
-            }
-        });
     }
 
 
@@ -285,20 +290,6 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 loadMore();
             }
         }, rlvMyNotice);
-        rlAll.setEnableLoadMore(false);
-
-        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-            @Override
-            public void onLoadMore() {
-
-            }
-
-            @Override
-            public void onRefreshing() {
-                XLog.e("onRefreshing");
-                refresh();
-            }
-        });
     }
 
 

@@ -150,6 +150,9 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
     @Override
     public void showFineShow(MyCollectFineShowResponse response) {
         if (response != null && response.getData() != null) {
+            if (viewNonet.getVisibility() == View.VISIBLE) {
+                viewNonet.setVisibility(View.GONE);
+            }
             totail = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
                 data.clear();

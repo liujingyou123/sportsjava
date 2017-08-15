@@ -59,13 +59,8 @@ public class MyNoticeDongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseVi
         tvName.setText(item.getPublishUserName());
         tvTime.setText(item.getShowCreateTime());
 
-        if (item.getAttentionFlag() == 0) {
-            tvFocus.setText("+关注");
-            tvFocus.setEnabled(true);
-        } else if (item.getAttentionFlag() == 1) {
-            tvFocus.setText("已关注");
-            tvFocus.setEnabled(false);
-        }
+        tvFocus.setText("已关注");
+        tvFocus.setEnabled(false);
 
         if (item.getResourceType() == 1) { //1 图片 2:视频
             Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
