@@ -34,82 +34,92 @@ public class AllShaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, DongTaiList item) {
-        ImageView imvHead = helper.getView(R.id.imv_head);
-        ImageView imvCover = helper.getView(R.id.imv_cover);
-
-        TextView tvName = helper.getView(R.id.tv_name);
-        TextView tvTime = helper.getView(R.id.tv_time);
-        TextView tvFocus = helper.getView(R.id.tv_focus);
-        TextView tvContent = helper.getView(R.id.tv_content);
-        LinearLayout llAt = helper.getView(R.id.ll_at);
-        TagCloudLayout tg = helper.getView(R.id.tg_tag);
-        TextView tvPrise = helper.getView(R.id.tv_san);
-        ImageView imvPrise = helper.getView(R.id.imv_zan);
-        LinearLayout llCall = helper.getView(R.id.ll_recall);
-
-        helper.addOnClickListener(R.id.imv_pinglun);
-        helper.addOnClickListener(R.id.imv_share);
-        helper.addOnClickListener(R.id.imv_report);
-        helper.addOnClickListener(R.id.tv_focus);
-        helper.addOnClickListener(R.id.imv_zan);
-        helper.addOnClickListener(R.id.tv_san);
-
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
-        tvName.setText(item.getPublishUserName());
-        tvTime.setText(item.getShowCreateTime());
-
-        if (item.getAttentionFlag() == 0) {
-            tvFocus.setText("+关注");
-        } else if (item.getAttentionFlag() == 1) {
-            tvFocus.setText("进入主页");
-        }
-
-        if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+        View noData = helper.getView(R.id.rl_nodata);
+        View haveData = helper.getView(R.id.ll_havedata);
+        if (item == null && getData().size() == 1) {
+            noData.setVisibility(View.VISIBLE);
+            haveData.setVisibility(View.GONE);
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
-        }
+            noData.setVisibility(View.GONE);
+            haveData.setVisibility(View.VISIBLE);
+            ImageView imvHead = helper.getView(R.id.imv_head);
+            ImageView imvCover = helper.getView(R.id.imv_cover);
 
-        if (!TextViewUtil.isEmpty(item.getContent())) {
-            tvContent.setText(item.getContent());
-        }
+            TextView tvName = helper.getView(R.id.tv_name);
+            TextView tvTime = helper.getView(R.id.tv_time);
+            TextView tvFocus = helper.getView(R.id.tv_focus);
+            TextView tvContent = helper.getView(R.id.tv_content);
+            LinearLayout llAt = helper.getView(R.id.ll_at);
+            TagCloudLayout tg = helper.getView(R.id.tg_tag);
+            TextView tvPrise = helper.getView(R.id.tv_san);
+            ImageView imvPrise = helper.getView(R.id.imv_zan);
+            LinearLayout llCall = helper.getView(R.id.ll_recall);
 
-        if (item.getAtUserList() != null && item.getAtUserList().size() > 0) {
-            for (int i = 0; i < item.getAtUserList().size(); i++) {
-                DongTaiList.AtUserList atUserList = item.getAtUserList().get(i);
-                if (atUserList != null) {
-                    llAt.addView(getAtText(atUserList.getName(), atUserList.getUserId()));
+            helper.addOnClickListener(R.id.imv_pinglun);
+            helper.addOnClickListener(R.id.imv_share);
+            helper.addOnClickListener(R.id.imv_report);
+            helper.addOnClickListener(R.id.tv_focus);
+            helper.addOnClickListener(R.id.imv_zan);
+            helper.addOnClickListener(R.id.tv_san);
+
+            Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
+            tvName.setText(item.getPublishUserName());
+            tvTime.setText(item.getShowCreateTime());
+
+            if (item.getAttentionFlag() == 0) {
+                tvFocus.setText("+关注");
+            } else if (item.getAttentionFlag() == 1) {
+                tvFocus.setText("进入主页");
+            }
+
+            if (item.getResourceType() == 1) { //1 图片 2:视频
+                Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            } else {
+                Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            }
+
+            if (!TextViewUtil.isEmpty(item.getContent())) {
+                tvContent.setText(item.getContent());
+            }
+
+            if (item.getAtUserList() != null && item.getAtUserList().size() > 0) {
+                for (int i = 0; i < item.getAtUserList().size(); i++) {
+                    DongTaiList.AtUserList atUserList = item.getAtUserList().get(i);
+                    if (atUserList != null) {
+                        llAt.addView(getAtText(atUserList.getName(), atUserList.getUserId()));
+                    }
+                }
+            }
+
+            List<String> tags = new ArrayList<>();
+            if (!TextViewUtil.isEmpty(item.getActivityName())) {
+                tags.add(item.getActivityName());
+            }
+            tg.setAdapter(new TagActivityAdapter(this.mContext, tags));
+
+            tvPrise.setText(item.getPraiseNum() + "");
+            if ("1".equals(item.getPraiseFlag())) { //1:已点赞 0:未点赞
+                tvPrise.setSelected(true);
+                imvPrise.setSelected(true);
+            } else {
+                tvPrise.setSelected(false);
+                imvPrise.setSelected(false);
+            }
+
+            llCall.removeAllViews();
+
+            if (item.getCommentList() != null && item.getCommentList().size() > 0) {
+                int size = item.getCommentList().size();
+                if (size > 3) {
+                    size = 3;
+                }
+                for (int i = 0; i < size; i++) {
+                    DongTaiList.CommentListBean commentListBean = item.getCommentList().get(i);
+                    llCall.addView(getTextView(commentListBean.getCommentatorName(), commentListBean.getContent()));
                 }
             }
         }
 
-        List<String> tags = new ArrayList<>();
-        if (!TextViewUtil.isEmpty(item.getActivityName())) {
-            tags.add(item.getActivityName());
-        }
-        tg.setAdapter(new TagActivityAdapter(this.mContext, tags));
-
-        tvPrise.setText(item.getPraiseNum() + "");
-        if ("1".equals(item.getPraiseFlag())) { //1:已点赞 0:未点赞
-            tvPrise.setSelected(true);
-            imvPrise.setSelected(true);
-        } else {
-            tvPrise.setSelected(false);
-            imvPrise.setSelected(false);
-        }
-
-        llCall.removeAllViews();
-
-        if (item.getCommentList() != null && item.getCommentList().size() > 0) {
-            int size = item.getCommentList().size();
-            if (size > 3) {
-                size = 3;
-            }
-            for (int i = 0; i < size; i++) {
-                DongTaiList.CommentListBean commentListBean = item.getCommentList().get(i);
-                llCall.addView(getTextView(commentListBean.getCommentatorName(), commentListBean.getContent()));
-            }
-        }
 
     }
 

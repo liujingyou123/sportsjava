@@ -70,6 +70,9 @@ public class TabActivityFragment extends Fragment implements ObservableFragment 
 
 
     private void initView() {
+        if (data != null && data.size() == 0) {
+            data.add(null);
+        }
         View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
         TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
         tvTip.setText("还没有发布活动哦～");
@@ -83,7 +86,7 @@ public class TabActivityFragment extends Fragment implements ObservableFragment 
         adapter.bindToRecyclerView(rlv);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
-        adapter.setEmptyView(R.layout.empty_noticelist);
+//        adapter.setEmptyView(R.layout.empty_noticelist);
         adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -133,6 +136,9 @@ public class TabActivityFragment extends Fragment implements ObservableFragment 
                     totalSize = response.getData().getTotalSize();
                 }
                 if (response.getData() != null) {
+                    if (adapter.getData() != null && adapter.getData().size() == 1 && adapter.getData().get(0) == null) {
+                        adapter.getData().clear();
+                    }
                     adapter.addData(response.getData().getData());
                 }
                 if (adapter.getData().size() >= totalSize) {

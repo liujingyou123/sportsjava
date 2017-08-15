@@ -49,7 +49,7 @@ import static android.R.attr.id;
  * Created by liuworkmac on 17/7/19.
  */
 
-public class TabHistoryFragment extends Fragment implements IClubHistoryView , ObservableFragment {
+public class TabHistoryFragment extends Fragment implements IClubHistoryView, ObservableFragment {
     @BindView(R.id.rlv)
     RecyclerView rlv;
     Unbinder unbinder;
@@ -88,10 +88,12 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView , O
     }
 
     private void initView() {
-        View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
-        TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
-        tvTip.setText("还没有发布动态呢～");
-
+//        View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
+//        TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
+//        tvTip.setText("还没有发布动态呢～");
+        if (data != null && data.size() == 0) {
+            data.add(null);
+        }
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         rlv.setLayoutManager(linearLayoutManager);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.view_head_full, null);
@@ -101,7 +103,7 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView , O
 
         adapter.bindToRecyclerView(rlv);
 
-        adapter.setEmptyView(R.layout.empty_noticelist);
+//        adapter.setEmptyView(R.layout.empty_noticelist);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -234,17 +236,24 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView , O
 
     @Override
     public void showDongTaiList(DongTaiListResponse response) {
-        if (response != null && response.getData() != null) {
+
+        if (response.getData() != null) {
             totalSize = response.getData().getTotalSize();
-
-            adapter.addData(response.getData().getData());
-            if (adapter.getData().size() >= totalSize) {
-                adapter.loadMoreEnd();
-            } else {
-                adapter.loadMoreComplete();
-            }
-
         }
+        if (response.getData() != null) {
+            if (response.getData().getData().size() > 0) {
+                if (adapter.getData() != null && adapter.getData().size() == 1 && adapter.getData().get(0) == null) {
+                    adapter.getData().clear();
+                }
+                adapter.addData(response.getData().getData());
+            }
+        }
+        if (adapter.getData().size() >= totalSize) {
+            adapter.loadMoreEnd();
+        } else {
+            adapter.loadMoreComplete();
+        }
+
     }
 
     @Override

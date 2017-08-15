@@ -105,7 +105,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     @BindView(R.id.smooth_app_bar_layout)
     SmoothAppBarLayout smoothAppBarLayout;
 
-//    private ViewPagerAdapter mViewPagerAdapter;
+    //    private ViewPagerAdapter mViewPagerAdapter;
     private String id;//俱乐部ID
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
     private List<ClubMemberList> data = new ArrayList<>();
@@ -121,29 +121,6 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         getIntentData();
         initView();
         getData();
-//        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-//        mViewPagerAdapter.onRestoreInstanceState(savedInstanceState);
-//        TabActivityFragment fragment = new TabActivityFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("id", id);
-//        fragment.setArguments(bundle);
-//        mViewPagerAdapter
-//                .addFragment("Cat", fragment);
-//
-//        TabHistoryFragment fragmenth = new TabHistoryFragment();
-//        Bundle bundleh = new Bundle();
-//        bundleh.putString("id", id);
-//        fragmenth.setArguments(bundleh);
-//
-//
-//        mViewPagerAdapter
-//                .addFragment("Dog", fragmenth);
-//
-//        viewPager.setAdapter(mViewPagerAdapter);
-//        viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
-//
-//        tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
     }
 
     private void initView() {
