@@ -5,7 +5,7 @@ android {
         debug {
             keyAlias 'android'
             keyPassword 'android'
-            storeFile file('/Users/liuworkmac/Documents/gitHub/sportsjava/app/sports.jks')
+            storeFile file('sports.jks')
             storePassword 'android'
         }
     }

@@ -7,12 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyFocusAdapter;
@@ -20,10 +22,11 @@ import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +47,8 @@ public class MyFocusListActivity extends BaseActivity {
     RecyclerView rvFocus;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private MyFocusAdapter adapter;
     private int pageNumber = 1;
     private List<FansList> data = new ArrayList<>();
@@ -56,12 +61,22 @@ public class MyFocusListActivity extends BaseActivity {
         setContentView(R.layout.activity_myfocus);
         ButterKnife.bind(this);
         initView();
-        getFocusList();
+
+        rlAll.autoRefreshDelay();
+//        getFocusList();
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_reload})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
+                break;
+        }
     }
 
     private void initView() {
@@ -94,7 +109,6 @@ public class MyFocusListActivity extends BaseActivity {
             }
         });
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -143,7 +157,8 @@ public class MyFocusListActivity extends BaseActivity {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());
@@ -159,11 +174,14 @@ public class MyFocusListActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
+                if (adapter.isLoading()) {
+                    adapter.loadMoreFail();
                 } else {
-                    if (adapter.isLoading()) {
-                        adapter.loadMoreFail();
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
                     }
                 }
             }

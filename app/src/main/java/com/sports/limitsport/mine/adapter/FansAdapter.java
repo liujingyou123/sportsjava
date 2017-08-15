@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
-import com.sports.limitsport.mine.model.Fans;
+import com.sports.limitsport.model.FansList;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ import java.util.List;
  * Created by liuworkmac on 17/7/6.
  */
 
-public class FansAdapter extends BaseQuickAdapter<Fans, BaseViewHolder> {
-    public FansAdapter(@Nullable List<Fans> data) {
+public class FansAdapter extends BaseQuickAdapter<FansList, BaseViewHolder> {
+    public FansAdapter(@Nullable List<FansList> data) {
         super(R.layout.item_adapter_signups, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Fans item) {
+    protected void convert(BaseViewHolder helper, FansList item) {
         TextView textView = helper.getView(R.id.tv_focus);
         textView.setText("进入主页");
         helper.addOnClickListener(R.id.tv_focus);

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -23,11 +24,15 @@ import com.sports.limitsport.model.FineShowList;
 import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -41,6 +46,8 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
     Unbinder unbinder;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private MyCollectFanShowAdapter adapter;
     private MyCollectFanShowPresenter mPresenter;
     private int pageNumber = 1;
@@ -58,12 +65,18 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rlAll.autoRefreshDelay();
+    }
+
     private void getData() {
         XLog.e("getData");
         if (mPresenter == null) {
             mPresenter = new MyCollectFanShowPresenter(this);
         }
-        mPresenter.getFineShow(pageNumber);
+//        mPresenter.getFineShow(pageNumber);
     }
 
     private void initView() {
@@ -95,7 +108,7 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setEmptyView(emptyView);
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -141,7 +154,8 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 adapter.addData(response.getData().getData());
@@ -156,11 +170,16 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
+        if (adapter.isLoading()) {
+            adapter.loadMoreFail();
         } else {
-            if (adapter.isLoading()) {
-                adapter.loadMoreFail();
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                    || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                    || e.getClass().getName().equals(ConnectException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -173,5 +192,11 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
             mPresenter.clear();
         }
         mPresenter = null;
+    }
+
+    @OnClick(R.id.tv_reload)
+    public void onClick() {
+        viewNonet.setVisibility(View.GONE);
+        rlAll.autoRefreshDelay();
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -29,12 +30,16 @@ import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -48,6 +53,8 @@ public class EachCommentFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private EachCommentAdapter adapter;
     private List<HuDongNoticeList> data = new ArrayList<>();
     private int pageNumber = 1;
@@ -61,8 +68,14 @@ public class EachCommentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_eachcomment, null);
         unbinder = ButterKnife.bind(this, view);
         initView();
-        getList();
+//        getList();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rlAll.autoRefreshDelay();
     }
 
     private void initView() {
@@ -88,7 +101,7 @@ public class EachCommentFragment extends Fragment {
 
         adapter.setEmptyView(emptyView);
 
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -159,7 +172,8 @@ public class EachCommentFragment extends Fragment {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());
@@ -175,10 +189,14 @@ public class EachCommentFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
-                } else {
+                if (adapter.isLoading()) {
                     adapter.loadMoreFail();
+                } else {
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                            || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                            || e.getClass().getName().equals(ConnectException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -223,5 +241,11 @@ public class EachCommentFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.tv_reload)
+    public void onClick() {
+        viewNonet.setVisibility(View.GONE);
+        rlAll.autoRefreshDelay();
     }
 }

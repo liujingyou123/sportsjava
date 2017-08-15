@@ -9,14 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
-import com.sports.limitsport.activity.presenter.AllShaiPresenter;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
@@ -28,16 +27,19 @@ import com.sports.limitsport.mine.presenter.MyCollectDongTaiPresenter;
 import com.sports.limitsport.mine.ui.IMyCollectDongTaiView;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -50,6 +52,8 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
     Unbinder unbinder;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private MyCollectDongTaiAdapter adapter;
 
     private List<DongTaiList> data = new ArrayList<>();
@@ -70,11 +74,17 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rlAll.autoRefreshDelay();
+    }
+
     private void getData() {
         if (mPresenter == null) {
             mPresenter = new MyCollectDongTaiPresenter(this);
         }
-        mPresenter.getAllShai(pageNumber);
+//        mPresenter.getAllShai(pageNumber);
     }
 
     private void initView() {
@@ -156,7 +166,7 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
             }
         });
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -223,7 +233,8 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 adapter.addData(response.getData().getData());
@@ -238,11 +249,16 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
+        if (adapter.isLoading()) {
+            adapter.loadMoreFail();
         } else {
-            if (adapter.isLoading()) {
-                adapter.loadMoreFail();
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
+            }
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                    || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                    || e.getClass().getName().equals(ConnectException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -343,5 +359,11 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
         if (mPresenter != null) {
             mPresenter.clear();
         }
+    }
+
+    @OnClick(R.id.tv_reload)
+    public void onClick() {
+        viewNonet.setVisibility(View.GONE);
+        rlAll.autoRefreshDelay();
     }
 }
