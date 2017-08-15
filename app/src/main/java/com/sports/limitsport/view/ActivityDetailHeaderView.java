@@ -187,7 +187,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
 
-    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss, R.id.imv_org})
+    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss, R.id.imv_org, R.id.tv_detail})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_allshai:
@@ -206,6 +206,9 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 break;
             case R.id.imv_org:
                 gotoOrigDetail();
+                break;
+            case R.id.tv_detail:
+                gotoH5Detail();
                 break;
         }
     }
@@ -349,5 +352,12 @@ public class ActivityDetailHeaderView extends LinearLayout {
         Intent intent2 = new Intent(getContext(), SignUpListActivity.class);
         intent2.putExtra("id", mData.getId());
         getContext().startActivity(intent2);
+    }
+
+    private void gotoH5Detail() {
+        Intent intent = new Intent(getContext(), H5Activity.class);
+        intent.putExtra("id", mData.getId());
+        intent.putExtra("type", 2);
+        getContext().startActivity(intent);
     }
 }

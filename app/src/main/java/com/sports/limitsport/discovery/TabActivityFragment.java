@@ -104,6 +104,7 @@ public class TabActivityFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                XLog.e("dy = " +dy);
             }
         });
     }
