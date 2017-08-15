@@ -77,14 +77,14 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rlAll.autoRefreshDelay();
+//        rlAll.autoRefreshDelay();
     }
 
     private void getData() {
         if (mPresenter == null) {
             mPresenter = new MyCollectDongTaiPresenter(this);
         }
-//        mPresenter.getAllShai(pageNumber);
+        mPresenter.getAllShai(pageNumber);
     }
 
     private void initView() {

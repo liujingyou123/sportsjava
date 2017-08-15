@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -15,7 +16,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ActivityDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
-import com.sports.limitsport.base.SelectEntity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
@@ -24,8 +24,9 @@ import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.notice.adapter.SelectMyJoinAdapter;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
-import com.sports.limitsport.view.CustomLoadMoreView;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,8 @@ public class SelectMyJoinActivity extends BaseActivity {
     RecyclerView rlv;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private SelectMyJoinAdapter adapter;
     private List<Act> data = new ArrayList<>();
     private int pageNumber = 1;
@@ -61,7 +64,8 @@ public class SelectMyJoinActivity extends BaseActivity {
         ButterKnife.bind(this);
         getInentData();
         initView();
-        getActivityList();
+        rlAll.autoRefreshDelay();
+//        getActivityList();
     }
 
     private void getInentData() {
@@ -71,7 +75,7 @@ public class SelectMyJoinActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right, R.id.tv_reload})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -86,8 +90,10 @@ public class SelectMyJoinActivity extends BaseActivity {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
-
-
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
                 break;
         }
     }
@@ -121,7 +127,7 @@ public class SelectMyJoinActivity extends BaseActivity {
             }
         });
 
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -182,7 +188,8 @@ public class SelectMyJoinActivity extends BaseActivity {
                     if (response.getData() != null) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                     }
 
                     rlAll.refreshComplete();
@@ -201,11 +208,14 @@ public class SelectMyJoinActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
+                if (adapter.isLoading()) {
+                    adapter.loadMoreFail();
                 } else {
-                    if (adapter.isLoading()) {
-                        adapter.loadMoreFail();
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
                     }
                 }
             }

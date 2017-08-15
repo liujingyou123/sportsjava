@@ -62,14 +62,14 @@ public class MyCollectActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mycollectactivity, null);
         unbinder = ButterKnife.bind(this, view);
         initView();
-//        getActivityList();
+        getActivityList();
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rlAll.autoRefreshDelay();
+//        rlAll.autoRefreshDelay();
     }
 
     private void initView() {

@@ -68,7 +68,7 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rlAll.autoRefreshDelay();
+//        rlAll.autoRefreshDelay();
     }
 
     private void getData() {
@@ -76,7 +76,7 @@ public class MyCollectFanShowFragment extends Fragment implements IMyCollectFine
         if (mPresenter == null) {
             mPresenter = new MyCollectFanShowPresenter(this);
         }
-//        mPresenter.getFineShow(pageNumber);
+        mPresenter.getFineShow(pageNumber);
     }
 
     private void initView() {
