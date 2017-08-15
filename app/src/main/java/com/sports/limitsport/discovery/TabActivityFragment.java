@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +32,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
+import me.henrytao.smoothappbarlayout.base.ObservableFragment;
 
 /**
  * Created by liuworkmac on 17/7/12.
  * 俱乐部在线活动
  */
 
-public class TabActivityFragment extends Fragment {
+public class TabActivityFragment extends Fragment implements ObservableFragment {
     @BindView(R.id.rlv)
     RecyclerView rlv;
     Unbinder unbinder;
@@ -73,7 +76,10 @@ public class TabActivityFragment extends Fragment {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         rlv.setLayoutManager(linearLayoutManager);
 
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_head_full, null);
+
         adapter = new ClubActivityAdapter(data);
+        adapter.addHeaderView(view);
         adapter.bindToRecyclerView(rlv);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
@@ -88,25 +94,25 @@ public class TabActivityFragment extends Fragment {
             }
         }, rlv);
 
-        rlv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-
-                    int visiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    if (visiblePosition == 0) {
-                        EventBus.getDefault().post(new EventBusScroll());
-//                        barLayout.setExpanded(true, true);
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                XLog.e("dy = " +dy);
-            }
-        });
+//        rlv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//
+//                    int visiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+//                    if (visiblePosition == 0) {
+//                        EventBus.getDefault().post(new EventBusScroll());
+////                        barLayout.setExpanded(true, true);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                XLog.e("dy = " +dy);
+//            }
+//        });
     }
 
     private void loadMore() {
@@ -148,5 +154,15 @@ public class TabActivityFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public View getScrollTarget() {
+        return rlv;
+    }
+
+    @Override
+    public boolean onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, View target, int verticalOffset) {
+        return me.henrytao.smoothappbarlayout.base.Utils.syncOffset(smoothAppBarLayout, target, verticalOffset, getScrollTarget());
     }
 }

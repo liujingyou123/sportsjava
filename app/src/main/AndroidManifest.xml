@@ -220,7 +220,7 @@
             android:name=".main.DealActivity"
             android:screenOrientation="portrait" />
 
-
+        
         <!-- jpush -->
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity

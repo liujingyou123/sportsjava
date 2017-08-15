@@ -40,6 +40,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
+import me.henrytao.smoothappbarlayout.base.ObservableFragment;
 
 import static android.R.attr.id;
 
@@ -47,7 +49,7 @@ import static android.R.attr.id;
  * Created by liuworkmac on 17/7/19.
  */
 
-public class TabHistoryFragment extends Fragment implements IClubHistoryView {
+public class TabHistoryFragment extends Fragment implements IClubHistoryView , ObservableFragment {
     @BindView(R.id.rlv)
     RecyclerView rlv;
     Unbinder unbinder;
@@ -92,8 +94,11 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView {
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         rlv.setLayoutManager(linearLayoutManager);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_head_full, null);
 
         adapter = new AllShaiAdapter(data);
+        adapter.addHeaderView(view);
+
         adapter.bindToRecyclerView(rlv);
 
         adapter.setEmptyView(R.layout.empty_noticelist);
@@ -180,24 +185,24 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView {
             }
         });
 
-        rlv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-
-                    int visiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    if (visiblePosition == 0) {
-                        EventBus.getDefault().post(new EventBusScroll());
-//                        barLayout.setExpanded(true, true);
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+//        rlv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//
+//                    int visiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+//                    if (visiblePosition == 0) {
+//                        EventBus.getDefault().post(new EventBusScroll());
+////                        barLayout.setExpanded(true, true);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//            }
+//        });
     }
 
     private void loadMore() {
@@ -332,5 +337,15 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView {
                 break;
             }
         }
+    }
+
+    @Override
+    public View getScrollTarget() {
+        return rlv;
+    }
+
+    @Override
+    public boolean onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, View target, int verticalOffset) {
+        return me.henrytao.smoothappbarlayout.base.Utils.syncOffset(smoothAppBarLayout, target, verticalOffset, getScrollTarget());
     }
 }

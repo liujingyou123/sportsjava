@@ -1,12 +1,26 @@
+/*
+ * Copyright 2016 "Henry Tao <hi@henrytao.me>"
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.sports.limitsport.discovery;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
-import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.adapter.ClubMemberAdapter;
@@ -33,16 +45,12 @@ import com.sports.limitsport.model.ClubDetail;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
-import com.sports.limitsport.model.EventBusScroll;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CreatPersonView;
 import com.sports.limitsport.view.SlidingTabLayout;
 import com.sports.limitsport.view.SpacesItemHDecoration;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,104 +59,97 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-/**
- * Created by liuworkmac on 17/7/11.
- * 俱乐部详情页
- */
+import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
 
 public class ClubDetailActivity extends BaseActivity implements IClubDetailView {
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    //    @BindView(R.id.tab_layout)
+//    TabLayout tabLayout;
     @BindView(R.id.imv_cover)
     ImageView imvCover;
+    @BindView(R.id.imv_club_logo)
+    ImageView imvClubLogo;
+    @BindView(R.id.imv_status)
+    ImageView imvStatus;
     @BindView(R.id.tv_club_name)
     TextView tvClubName;
+    @BindView(R.id.ll_members_two)
+    LinearLayout llMembersTwo;
+    @BindView(R.id.tv_more)
+    TextView tvMore;
     @BindView(R.id.ll_members)
     LinearLayout llMembers;
     @BindView(R.id.tv_sign_num)
     TextView tvSignNum;
     @BindView(R.id.ll_players)
     LinearLayout llPlayers;
-    @BindView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.appbar)
-    AppBarLayout appbar;
-    @BindView(R.id.id_tab)
-    SlidingTabLayout idTab;
-    @BindView(R.id.viewpager)
-    ViewPager viewPager;
-    @BindView(R.id.coordinatorlayout)
-    CoordinatorLayout coordinatorlayout;
-    @BindView(R.id.btn_done)
-    TextView btnDone;
-    @BindView(R.id.ll_bottom)
-    LinearLayout llBottom;
-    @BindView(R.id.ll_members_two)
-    LinearLayout llMembersTwo;
-    @BindView(R.id.tv_more)
-    TextView tvMore;
-    @BindView(R.id.rl_top)
-    RelativeLayout rlTop;
-    @BindView(R.id.imv_club_logo)
-    ImageView imvClubLogo;
-    @BindView(R.id.imv_status)
-    ImageView imvStatus;
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
     @BindView(R.id.imv_report)
     ImageView imvReport;
     @BindView(R.id.imv_share)
     ImageView imvShare;
-    //    @BindView(R.id.imv_publish)
-//    ImageView imvPublish;
+    @BindView(R.id.rl_top)
+    RelativeLayout rlTop;
+    @BindView(R.id.id_tab)
+    SlidingTabLayout idTab;
+    @BindView(R.id.btn_done)
+    TextView btnDone;
+    @BindView(R.id.ll_bottom)
+    LinearLayout llBottom;
     @BindView(R.id.rl_numbers)
     RecyclerView rlNumbers;
-    private List<SlidingTagPagerItem> mTab = new ArrayList<>();
+    @BindView(R.id.smooth_app_bar_layout)
+    SmoothAppBarLayout smoothAppBarLayout;
+
+//    private ViewPagerAdapter mViewPagerAdapter;
     private String id;//俱乐部ID
-    private ClubDetailPresenter mPresenter;
-    private ClubDetail dataBean;
+    private List<SlidingTagPagerItem> mTab = new ArrayList<>();
     private List<ClubMemberList> data = new ArrayList<>();
     private ClubMemberAdapter adapter;
+    private ClubDetailPresenter mPresenter;
+    private ClubDetail dataBean;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clubdetail);
+        setContentView(R.layout.activity_smooth_view_pager_parallax_exit_util_collapsed);
         ButterKnife.bind(this);
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         getIntentData();
         initView();
         getData();
-    }
-
-    private void getIntentData() {
-        Intent intent = getIntent();
-        if (intent != null) {
-            id = intent.getStringExtra("id");
-        }
-    }
-
-    private void getData() {
-        if (mPresenter == null) {
-            mPresenter = new ClubDetailPresenter(this);
-        }
-        mPresenter.getClubDetail(id);
-        mPresenter.getMembers(id);
-    }
-
-    @Subscribe
-    public void getReScroll(EventBusScroll param) {
-        if (param != null) {
-            appbar.setExpanded(true, true);
-        }
+//        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+//        mViewPagerAdapter.onRestoreInstanceState(savedInstanceState);
+//        TabActivityFragment fragment = new TabActivityFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("id", id);
+//        fragment.setArguments(bundle);
+//        mViewPagerAdapter
+//                .addFragment("Cat", fragment);
+//
+//        TabHistoryFragment fragmenth = new TabHistoryFragment();
+//        Bundle bundleh = new Bundle();
+//        bundleh.putString("id", id);
+//        fragmenth.setArguments(bundleh);
+//
+//
+//        mViewPagerAdapter
+//                .addFragment("Dog", fragmenth);
+//
+//        viewPager.setAdapter(mViewPagerAdapter);
+//        viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
+//
+//        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
     }
 
     private void initView() {
-        collapsingToolbar.setTitle(" ");
         setupViewPager();
 
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        smoothAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset < 0) {
@@ -169,6 +170,14 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         rlNumbers.addItemDecoration(decoration);
     }
 
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ClubDetailPresenter(this);
+        }
+        mPresenter.getClubDetail(id);
+        mPresenter.getMembers(id);
+    }
+
     /**
      * 设置item
      */
@@ -178,6 +187,13 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         viewPager.setAdapter(new SlidingTabPagerAdapter(this.getSupportFragmentManager(), mTab));
         idTab.setViewPager(viewPager);
 //        viewPager.setCurrentItem(0);
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            id = intent.getStringExtra("id");
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.imv_report, R.id.imv_share, R.id.tv_more, R.id.imv_club_logo, R.id.tv_sign_num, R.id.btn_done})
@@ -215,12 +231,12 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 break;
             case R.id.btn_done:
                 if (SharedPrefsUtil.getUserInfo() == null) {
-                    Intent intent2 = new Intent(ClubDetailActivity.this, LoginActivity.class);
+                    Intent intent2 = new Intent(this, LoginActivity.class);
                     intent2.putExtra("type", "2");
                     startActivity(intent2);
                     return;
                 } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
-                    Intent intent3 = new Intent(ClubDetailActivity.this, IdentifyMainActivity.class);
+                    Intent intent3 = new Intent(this, IdentifyMainActivity.class);
                     intent3.putExtra("type", "2");
                     startActivity(intent3);
                 } else if (dataBean != null && dataBean.getJoinClubFlag() == 0) {
@@ -232,6 +248,12 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        mViewPagerAdapter.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -297,7 +319,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
             dataBean.setJoinClubFlag(1);
             btnDone.setText("退出俱乐部");
         } else {
-            ToastUtil.showFalseToast(ClubDetailActivity.this, "申请失败");
+            ToastUtil.showFalseToast(this, "申请失败");
         }
     }
 
@@ -307,20 +329,8 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
             dataBean.setJoinClubFlag(0);
             btnDone.setText("申请加入");
         } else {
-            ToastUtil.showFalseToast(ClubDetailActivity.this, "申请失败");
+            ToastUtil.showFalseToast(this, "申请失败");
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.clear();
-        }
-
-        mPresenter = null;
-
-        EventBus.getDefault().unregister(this);
     }
 
     private void exitDialog() {
