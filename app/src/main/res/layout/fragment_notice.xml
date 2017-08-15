@@ -46,7 +46,9 @@
             style="@style/view_line"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
-
+    <include
+        layout="@layout/net_incorrect"
+        android:visibility="gone" />
     <com.ajguan.library.EasyRefreshLayout
         android:id="@+id/rl_all"
         android:layout_width="match_parent"

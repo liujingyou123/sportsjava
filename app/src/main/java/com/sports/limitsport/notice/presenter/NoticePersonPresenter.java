@@ -60,9 +60,9 @@ public class NoticePersonPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mINoticeView != null) {
-                    mINoticeView.onError(e);
-                }
+//                if (mINoticeView != null) {
+//                    mINoticeView.onError(e);
+//                }
             }
         });
     }
@@ -82,9 +82,9 @@ public class NoticePersonPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mINoticeView != null) {
-                    mINoticeView.onError(e);
-                }
+//                if (mINoticeView != null) {
+//                    mINoticeView.onError(e);
+//                }
             }
         });
     }

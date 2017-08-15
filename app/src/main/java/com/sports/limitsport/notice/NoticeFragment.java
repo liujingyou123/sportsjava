@@ -13,9 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.Gson;
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
@@ -32,15 +30,14 @@ import com.sports.limitsport.notice.adapter.MyNoticeDongTaiAdapter;
 import com.sports.limitsport.notice.adapter.MyNoticeRecommendAdapter;
 import com.sports.limitsport.notice.presenter.NoticePersonPresenter;
 import com.sports.limitsport.notice.ui.INoticeView;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.NoticeViewHeaderView;
 
-import org.json.JSONObject;
-
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +59,8 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
     @BindView(R.id.rl_refresh)
     RelativeLayout rlRefresh;
     Unbinder unbinder;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
 
     private MyNoticeDongTaiAdapter adapter;
     private MyNoticeRecommendAdapter adapterRecommend;
@@ -93,7 +92,8 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         }
 //        mPresenter.getFocusPersonDongTai(pageNumber);
 //        mPresenter.getRecommendFriends(pageNumber);
-        mPresenter.getRecommendOrDongTai(pageNumber);
+//        mPresenter.getRecommendOrDongTai(pageNumber);
+        rlAll.autoRefresh();
     }
 
     private void initView() {
@@ -116,7 +116,6 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         adapter.bindToRecyclerView(rlvMyNotice);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
         adapter.addHeaderView(headerView);
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -224,6 +223,8 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 mPresenter.getRecommendFriends(pageNumber);
             } else if (type == 2) {
                 mPresenter.getFocusPersonDongTai(pageNumber);
+            } else {
+                mPresenter.getRecommendOrDongTai(pageNumber);
             }
         }
     }
@@ -247,7 +248,6 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         adapterRecommend.bindToRecyclerView(rlvMyNotice);
         adapterRecommend.setLoadMoreView(new CustomLoadMoreNoEndView());
         adapterRecommend.addHeaderView(headerView);
-        adapterRecommend.disableLoadMoreIfNotFullPage();
         adapterRecommend.setEnableLoadMore(true);
         adapterRecommend.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -343,9 +343,9 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 refreshTipVisible();
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
-                adapter.loadMoreComplete();
             } else {
                 adapter.addData(response.getData().getData());
                 if (adapter.getData().size() >= totalSize) {
@@ -359,20 +359,32 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
 
     @Override
     public void onError(Throwable e) {
-        if (rlAll.isRefreshing()) {
-            rlAll.refreshComplete();
+        if (adapter.isLoading()) {
+            adapter.loadMoreFail();
+        } else if (adapterRecommend.isLoading()) {
+            adapterRecommend.loadMoreFail();
         } else {
-            if (type == 1) {
-                if (adapterRecommend.isLoading()) {
-                    adapterRecommend.loadMoreFail();
-                }
-            } else if (type ==2){
-                if (adapter.isLoading()) {
-                    adapter.loadMoreFail();
-                }
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
             }
-
+            if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                viewNonet.setVisibility(View.VISIBLE);
+            }
         }
+//        if (rlAll.isRefreshing()) {
+//            rlAll.refreshComplete();
+//        } else {
+//            if (type == 1) {
+//                if (adapterRecommend.isLoading()) {
+//                    adapterRecommend.loadMoreFail();
+//                }
+//            } else if (type == 2) {
+//                if (adapter.isLoading()) {
+//                    adapter.loadMoreFail();
+//                }
+//            }
+//
+//        }
     }
 
     @Override
@@ -423,7 +435,8 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 refreshTipVisible();
                 dataR.clear();
                 dataR.addAll(response.getData().getData());
-                adapterRecommend.notifyDataSetChanged();
+                adapterRecommend.setNewData(dataR);
+                adapterRecommend.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 adapterRecommend.addData(response.getData().getData());
@@ -455,6 +468,9 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                     data.addAll(list);
                 }
                 initView();
+            }
+            if (rlAll.isRefreshing()) {
+                rlAll.refreshComplete();
             }
         }
     }
