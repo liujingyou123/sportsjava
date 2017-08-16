@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <View
+        android:id="@+id/view_full_empty"
         android:layout_width="match_parent"
         android:layout_height="508dp"/>
 </LinearLayout>

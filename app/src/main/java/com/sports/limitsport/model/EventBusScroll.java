@@ -5,4 +5,5 @@ package com.sports.limitsport.model;
  */
 
 public class EventBusScroll {
+    public int height;
 }

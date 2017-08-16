@@ -39,18 +39,23 @@ import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.discovery.presenter.ClubDetailPresenter;
 import com.sports.limitsport.discovery.ui.IClubDetailView;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.ClubDetail;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
+import com.sports.limitsport.model.EventBusScroll;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CreatPersonView;
 import com.sports.limitsport.view.SlidingTabLayout;
 import com.sports.limitsport.view.SpacesItemHDecoration;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -112,6 +117,8 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     private ClubMemberAdapter adapter;
     private ClubDetailPresenter mPresenter;
     private ClubDetail dataBean;
+
+    private int appBarHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,6 +202,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                     tvMore.setSelected(true);
                     llMembersTwo.setVisibility(View.VISIBLE);
                 }
+                getHeight();
                 break;
             case R.id.imv_club_logo:
                 Intent intent = new Intent(this, ClubBaseInfoActivity.class);
@@ -236,12 +244,42 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     @Override
     public void showClubDetail(ClubDetailResponse response) {
         if (response != null) {
+            appBarHeight = smoothAppBarLayout.getHeight();
             this.dataBean = response.getData();
             Batman.getInstance().fromNet(dataBean.getClubImgUrl(), imvCover);
             Batman.getInstance().getImageWithCircle(dataBean.getLogoUrl(), imvClubLogo, R.mipmap.icon_club_defaul, R.mipmap.icon_club_defaul);
             tvClubName.setText(dataBean.getClubName());
 
             if (dataBean.getManagerList() != null) {
+//                List<ClubDetail.ManagerListBean> listBeen = new ArrayList<>();
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                for (int i = 0; i < dataBean.getManagerList().size(); i++) {
+//                    listBeen.add(dataBean.getManagerList().get(0));
+//                }
+//                dataBean.setManagerList(listBeen);
                 if (dataBean.getManagerList().size() > 3) {
                     tvMore.setVisibility(View.VISIBLE);
                 } else {
@@ -280,6 +318,29 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 
 
         }
+        getHeight();
+    }
+
+    private void getHeight() {
+        int top = appBarHeight - 20;
+        if (tvMore.getVisibility() == View.VISIBLE) {
+            top = top + UnitUtil.dip2px(this, 45);
+        }
+        if (llMembersTwo.getVisibility() == View.VISIBLE) {
+            top = top + (dataBean.getManagerList().size() * UnitUtil.dip2px(this, 59));
+        } else {
+            int num = dataBean.getManagerList().size() < 4 ? dataBean.getManagerList().size() : 3;
+            top = top + num * UnitUtil.dip2px(this, 59);
+        }
+
+        XLog.e("appBarHeight = " + appBarHeight);
+
+        XLog.e("top = " + top);
+
+        EventBusScroll params = new EventBusScroll();
+        params.height = top;
+        EventBus.getDefault().post(params);
+
     }
 
     @Override

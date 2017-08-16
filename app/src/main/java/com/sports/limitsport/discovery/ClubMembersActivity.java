@@ -107,8 +107,6 @@ public class ClubMembersActivity extends BaseActivity {
                 }
             }
         });
-
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -149,7 +147,8 @@ public class ClubMembersActivity extends BaseActivity {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());

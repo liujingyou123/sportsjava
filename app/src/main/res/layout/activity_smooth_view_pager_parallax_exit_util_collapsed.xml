@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll">
 
 
             <LinearLayout
@@ -111,7 +111,7 @@
                         <TextView
                             android:id="@+id/tv_more"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="25dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="15dp"
                             android:layout_marginTop="15dp"
@@ -121,7 +121,7 @@
                             android:text="更多管理者"
                             android:textColor="#FFFFFFFF"
                             android:textSize="12sp"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
                     </LinearLayout>
 
 

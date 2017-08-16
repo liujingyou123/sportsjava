@@ -5,10 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,6 +24,7 @@ import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,16 +50,28 @@ public class TabActivityFragment extends Fragment implements ObservableFragment 
     private int totalSize;
     private List<Act> data = new ArrayList<>();
     private String clubId;
+    private View headView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tabactivity, null);
         unbinder = ButterKnife.bind(this, view);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         getBundleData();
         initView();
         getActivityList();
         return view;
+    }
+
+    @Subscribe
+    public void getHeadHeight(EventBusScroll params) {
+        if (params != null && params.height > 0) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, params.height);
+            headView.setLayoutParams(lp);
+        }
     }
 
     private void getBundleData() {
@@ -80,7 +93,7 @@ public class TabActivityFragment extends Fragment implements ObservableFragment 
         rlv.setLayoutManager(linearLayoutManager);
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.view_head_full, null);
-
+        headView = view.findViewById(R.id.view_full_empty);
         adapter = new ClubActivityAdapter(data);
         adapter.addHeaderView(view);
         adapter.bindToRecyclerView(rlv);
@@ -160,6 +173,7 @@ public class TabActivityFragment extends Fragment implements ObservableFragment 
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

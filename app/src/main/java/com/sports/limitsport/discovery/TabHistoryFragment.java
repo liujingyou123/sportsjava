@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -33,6 +34,7 @@ import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +63,16 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
     private CommentDialog commentDialog;
     private int selectId;
     private int totalSize;
+    private View headView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgent_tab_history, null);
         unbinder = ButterKnife.bind(this, view);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         getBundle();
         initView();
         getData();
@@ -77,6 +83,14 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
         Bundle bundle = getArguments();
         if (bundle != null) {
             id = bundle.getString("id");
+        }
+    }
+
+    @Subscribe
+    public void getHeadHeight(EventBusScroll params) {
+        if (params != null && params.height > 0) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, params.height);
+            headView.setLayoutParams(lp);
         }
     }
 
@@ -97,6 +111,7 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         rlv.setLayoutManager(linearLayoutManager);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.view_head_full, null);
+        headView = view.findViewById(R.id.view_full_empty);
 
         adapter = new AllShaiAdapter(data);
         adapter.addHeaderView(view);
@@ -224,17 +239,6 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-
-        if (mPresenter != null) {
-            mPresenter.clear();
-        }
-        mPresenter = null;
-    }
-
-    @Override
     public void showDongTaiList(DongTaiListResponse response) {
 
         if (response.getData() != null) {
@@ -356,5 +360,18 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
     @Override
     public boolean onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, View target, int verticalOffset) {
         return me.henrytao.smoothappbarlayout.base.Utils.syncOffset(smoothAppBarLayout, target, verticalOffset, getScrollTarget());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
+
+        EventBus.getDefault().unregister(this);
     }
 }
