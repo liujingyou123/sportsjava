@@ -165,7 +165,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             if (chidView instanceof OrderInfoView) {
                 SignList signList = ((OrderInfoView) chidView).getOrderInfo();
                 if (TextViewUtil.isEmpty(signList.name) || TextViewUtil.isEmpty(signList.idCard) || TextViewUtil.isEmpty(signList.phone)) {
-                    ToastUtil.showFalseToast(PayOrderActivity.this,"请填写完整用户信息");
+                    ToastUtil.showFalseToast(PayOrderActivity.this, "请填写完整用户信息");
                     ret = false;
                     break;
                 }
@@ -181,9 +181,13 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             OrderRequest request = new OrderRequest();
             request.id = id;
             request.ticketId = selectTicket.id;
-            request.totalAmount = selectTicket.totalPrice;
-            request.receiptAmount = selectTicket.totalPrice;
+//            request.totalAmount = selectTicket.totalPrice;
+//            request.receiptAmount = selectTicket.totalPrice;
+            //TODO 测试
+            request.totalAmount = "0.01";
+            request.receiptAmount = "0.01";
             request.signList = mData;
+            request.number = ncv.getNum() + "";
 
             if (mPresenter == null) {
                 mPresenter = new PayPresenter(this);
@@ -208,8 +212,8 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     public void showPayResult(boolean isSuccess, String orderNo) {
         if (isSuccess) {
             Intent intent = new Intent(this, PaySuccessActivity.class);
+            intent.putExtra("type", 0);
             intent.putExtra("id", id);
-            intent.putExtra("orderNo", orderNo);
             startActivity(intent);
         }
     }
@@ -217,6 +221,15 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @Override
     public void onError(Throwable e) {
         ToastUtil.showFalseToast(this, e != null ? e.getMessage() : "订单提交失败");
+    }
+
+    @Override
+    public void showPayOrderResultFail(Throwable e) {
+        Intent intent = new Intent(this, PaySuccessActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("type", 1);
+        intent.putExtra("errorMsg", e.getMessage());
+        startActivity(intent);
     }
 
     @Override

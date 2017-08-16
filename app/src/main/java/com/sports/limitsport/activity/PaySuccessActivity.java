@@ -45,7 +45,8 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     TextView tvSubTitle;
 
     private String id; //活动ID
-    private String orderNo;// 订单编号
+    private int type;
+    private String errorMsg;
     private PaySuccessPresenter mPresenter;
 
     @Override
@@ -56,14 +57,15 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
         getIntentData();
         initView();
 
-        getData();
+//        getData();
     }
 
     private void getIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
-            orderNo = intent.getStringExtra("orderNo");
+            type = intent.getIntExtra("type", 0);
+            errorMsg = intent.getStringExtra("errorMsg");
         }
     }
 
@@ -72,17 +74,17 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             mPresenter = new PaySuccessPresenter(this);
         }
 
-        mPresenter.getPayFinish(id,orderNo);
     }
 
     private void initView() {
         imvFocusHouseBack.setVisibility(View.VISIBLE);
+        doResult();
     }
 
     /**
      * 0:成功 1:失败
      */
-    private void doResult(int type) {
+    private void doResult() {
         if (type == 0) { // 成功
             tvFocusHouse.setText("支付成功");
             tvTitle.setText("恭喜您！购票成功！");
@@ -92,7 +94,7 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             tvFocusHouse.setText("支付失败");
             tvTitle.setText("哎呀！购票失败！");
             tvTitle.setEnabled(false);
-            tvSubTitle.setText("有人比你早下手买了最后一张票");
+            tvSubTitle.setText(errorMsg);
         }
     }
 

@@ -10,5 +10,8 @@ public interface IPayOrderView {
     void showPayOrderResult(PayOrderResponse response);
 
     void showPayResult(boolean isSuccess, String OrderNo);
+
     void onError(Throwable e);
+
+    void showPayOrderResultFail(Throwable e);
 }

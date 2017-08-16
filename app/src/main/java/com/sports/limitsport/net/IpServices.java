@@ -35,6 +35,7 @@ import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.model.UserSettingInfoResponse;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -249,4 +250,8 @@ public interface IpServices {
     //退款
     @POST(URLConstants.URL_REFUND_ORDER)
     Observable<BaseResponse> reFundOrder(@Body HashMap<String, String> hashMap);
+
+    //验签
+    @POST(URLConstants.URL_CHECK_ORDER)
+    Observable<BaseResponse> checkOrder(@Body Map<String, String> hashMap);
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.sports.limitsport.activity.ui.IPayOrderView;
+import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.OrderRequest;
 import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.PayResult;
@@ -17,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscription;
@@ -95,7 +97,7 @@ public class PayPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIPayOrderView != null) {
-                    mIPayOrderView.onError(e);
+                    mIPayOrderView.showPayOrderResultFail(e);
                 }
             }
         });
@@ -108,24 +110,9 @@ public class PayPresenter {
         mIPayOrderView = null;
     }
 
-    /**
-     * ＊ 验签
-     */
     public void comfirmPayResult(PayResult payResult) {
-//        params.put("payType", payType);
-//        mConfirmResult = Ironman.getInstance()
-//                .createConsultantService(OrderService.class)
-//                .comfirmPayResult(BaseRequestParams.toJsonString(params))
-//                .compose(ToolsUtil.<BaseResponse>applayScheduers())
-//                .subscribe(new NetSubscriber<BaseResponse>() {
-//                    @Override
-//                    public void response(BaseResponse response) {
-//                        if (iPayOrderView != null) {
-//                            iPayOrderView.onConfirmResult(response.isSuccess());
-//                        }
-//                    }
-//                });
-
+        Map<String, String> params = payResult.getRawResult();
+        params.put("payType", "aliPay");
         String result = payResult.getResult();
         String orderNo = null;
         if (!TextUtils.isEmpty(result)) {
@@ -136,10 +123,24 @@ public class PayPresenter {
                 e.printStackTrace();
             }
         }
-        if (mIPayOrderView != null) {
+        final String finalOrderNo = orderNo;
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).checkOrder(params), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mIPayOrderView != null) {
+                    mIPayOrderView.showPayResult(response.isSuccess(), finalOrderNo);
+                }
+            }
 
-            mIPayOrderView.showPayResult(true, orderNo);
-        }
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIPayOrderView != null) {
+                    mIPayOrderView.showPayResult(false, finalOrderNo);
+                }
+            }
+        });
+
 
     }
 

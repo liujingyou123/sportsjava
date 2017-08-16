@@ -246,6 +246,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     public void showActivityDetail(ActivityDetailResponse response) {
         if (response != null && response.getData() != null) {
             mData = response.getData();
+            //TODO 测试用
+            response.getData().setStatus("1");
             if ("1".equals(response.getData().getStatus())) { //报名中
                 rlBottom.setVisibility(View.VISIBLE);
             } else {
