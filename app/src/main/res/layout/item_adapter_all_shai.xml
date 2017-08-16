@@ -3,194 +3,168 @@
     xmlns:apps="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/bg"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_nodata"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/imv_head"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/icon_gerenzhuye_morentouxiang" />
 
         <TextView
-            android:id="@+id/tv_empty"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="30dp"
-            android:drawableTop="@mipmap/defaultgraph_nocontent"
-            android:gravity="center_horizontal"
-            android:text="还没有发布动态呢～"
-            android:textColor="#FF616161"
+            android:layout_alignTop="@id/imv_head"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/imv_head"
+            android:singleLine="true"
+            android:text="路过的一直"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_focus"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_btn_selector"
+            android:gravity="center"
+            android:text="+关注"
+            android:textColor="@color/color_btn_selector"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_name"
+            android:layout_below="@id/tv_name"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_toLeftOf="@id/tv_focus"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="1天前"
+            android:textColor="#FFA5A4A4"
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_havedata"
+    <ImageView
+        android:id="@+id/imv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg"
-        android:orientation="vertical">
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:textColor="#FFA5A4A4"
+        android:textSize="14sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp">
-
-            <ImageView
-                android:id="@+id/imv_head"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:src="@mipmap/icon_gerenzhuye_morentouxiang" />
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/imv_head"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/imv_head"
-                android:singleLine="true"
-                android:text="路过的一直"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_focus"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_btn_selector"
-                android:gravity="center"
-                android:text="+关注"
-                android:textColor="@color/color_btn_selector"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/tv_name"
-                android:layout_below="@id/tv_name"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="2dp"
-                android:layout_toLeftOf="@id/tv_focus"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="1天前"
-                android:textColor="#FFA5A4A4"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/imv_cover"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text=""
-            android:textColor="#FFA5A4A4"
-            android:textSize="14sp" />
-
-        <LinearLayout
-            android:id="@+id/ll_at"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-        <com.sports.limitsport.view.tagview.TagCloudLayout
-            android:id="@+id/tg_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            apps:lineSpacing="5dp"
-            apps:tagSpacing="5dp"></com.sports.limitsport.view.tagview.TagCloudLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp">
-
-            <View style="@style/view_line" />
-
-            <ImageView
-                android:id="@+id/imv_zan"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/bg_dianzan" />
-
-            <TextView
-                android:id="@+id/tv_san"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
-                android:layout_toRightOf="@id/imv_zan"
-                android:gravity="center_vertical"
-                android:text=""
-                android:textColor="@color/color_s_green"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/imv_pinglun"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/tv_san"
-                android:src="@mipmap/icon_replay" />
-
-            <ImageView
-                android:id="@+id/imv_share"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/imv_pinglun"
-                android:src="@mipmap/icon_dongtai_share" />
-
-
-            <ImageView
-                android:id="@+id/imv_report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/icon_dongtai_tipoff" />
-
-            <View
-                style="@style/view_line"
-                android:layout_alignParentBottom="true" />
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:id="@+id/ll_recall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"></LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
 
     </LinearLayout>
+
+    <com.sports.limitsport.view.tagview.TagCloudLayout
+        android:id="@+id/tg_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        apps:lineSpacing="5dp"
+        apps:tagSpacing="5dp"></com.sports.limitsport.view.tagview.TagCloudLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp">
+
+        <View style="@style/view_line" />
+
+        <ImageView
+            android:id="@+id/imv_zan"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bg_dianzan" />
+
+        <TextView
+            android:id="@+id/tv_san"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/imv_zan"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="@color/color_s_green"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/imv_pinglun"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_san"
+            android:src="@mipmap/icon_replay" />
+
+        <ImageView
+            android:id="@+id/imv_share"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/imv_pinglun"
+            android:src="@mipmap/icon_dongtai_share" />
+
+
+        <ImageView
+            android:id="@+id/imv_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_dongtai_tipoff" />
+
+        <View
+            style="@style/view_line"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_recall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"></LinearLayout>
+
 </LinearLayout>

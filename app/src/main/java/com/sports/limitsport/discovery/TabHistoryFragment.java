@@ -14,12 +14,10 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
-import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.activity.adapter.AllShaiAdapter;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
-import com.sports.limitsport.discovery.adapter.TabHistoryAdapter;
 import com.sports.limitsport.discovery.presenter.ClubHistoryPresenter;
 import com.sports.limitsport.discovery.ui.IClubHistoryView;
 import com.sports.limitsport.log.XLog;
@@ -28,7 +26,6 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.EventBusScroll;
-import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -42,16 +39,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.henrytao.smoothappbarlayout.SmoothAppBarLayout;
-import me.henrytao.smoothappbarlayout.base.ObservableFragment;
-
-import static android.R.attr.id;
 
 /**
  * Created by liuworkmac on 17/7/19.
  */
 
-public class TabHistoryFragment extends Fragment implements IClubHistoryView, ObservableFragment {
+public class TabHistoryFragment extends Fragment implements IClubHistoryView {
     @BindView(R.id.rlv)
     RecyclerView rlv;
     Unbinder unbinder;
@@ -63,16 +56,12 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
     private CommentDialog commentDialog;
     private int selectId;
     private int totalSize;
-    private View headView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgent_tab_history, null);
         unbinder = ButterKnife.bind(this, view);
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         getBundle();
         initView();
         getData();
@@ -86,14 +75,6 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
         }
     }
 
-    @Subscribe
-    public void getHeadHeight(EventBusScroll params) {
-        if (params != null && params.height > 0) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, params.height);
-            headView.setLayoutParams(lp);
-        }
-    }
-
     private void getData() {
         if (mPresenter == null) {
             mPresenter = new ClubHistoryPresenter(this);
@@ -102,23 +83,14 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
     }
 
     private void initView() {
-//        View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
-//        TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
-//        tvTip.setText("还没有发布动态呢～");
-        if (data != null && data.size() == 0) {
-            data.add(null);
-        }
+        View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_noticelist, null);
+        TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_empty);
+        tvTip.setText("还没有发布动态呢～");
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         rlv.setLayoutManager(linearLayoutManager);
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_head_full, null);
-        headView = view.findViewById(R.id.view_full_empty);
-
         adapter = new AllShaiAdapter(data);
-        adapter.addHeaderView(view);
-
         adapter.bindToRecyclerView(rlv);
-
-//        adapter.setEmptyView(R.layout.empty_noticelist);
+        adapter.setEmptyView(emptyView);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -353,16 +325,6 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
     }
 
     @Override
-    public View getScrollTarget() {
-        return rlv;
-    }
-
-    @Override
-    public boolean onOffsetChanged(SmoothAppBarLayout smoothAppBarLayout, View target, int verticalOffset) {
-        return me.henrytao.smoothappbarlayout.base.Utils.syncOffset(smoothAppBarLayout, target, verticalOffset, getScrollTarget());
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -371,7 +333,5 @@ public class TabHistoryFragment extends Fragment implements IClubHistoryView, Ob
             mPresenter.clear();
         }
         mPresenter = null;
-
-        EventBus.getDefault().unregister(this);
     }
 }

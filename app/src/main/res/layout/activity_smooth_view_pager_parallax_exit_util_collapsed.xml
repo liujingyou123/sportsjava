@@ -19,17 +19,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
-    <me.henrytao.smoothappbarlayout.SmoothAppBarLayout
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/smooth_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp">
+        android:minHeight="48dp"
+        app:layout_behavior="com.sports.limitsport.util.RecyclerViewAppBarBehavior">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
@@ -235,8 +230,13 @@
         <!--android:id="@+id/tab_layout"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content" />-->
-    </me.henrytao.smoothappbarlayout.SmoothAppBarLayout>
+    </android.support.design.widget.AppBarLayout>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     <!--<LinearLayout-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="40dp"-->

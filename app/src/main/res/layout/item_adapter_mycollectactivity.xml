@@ -1,97 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_nodata"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
-        android:visibility="gone">
+        android:layout_height="205dp">
 
-        <TextView
-            android:id="@+id/tv_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="30dp"
-            android:drawableTop="@mipmap/defaultgraph_nocontent"
-            android:gravity="center_horizontal"
-            android:text="还没有收到过活动通知哦～"
-            android:textColor="#FF616161"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_havedata"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/imv_cover"
             android:layout_width="match_parent"
-            android:layout_height="205dp">
-
-            <ImageView
-                android:id="@+id/imv_cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_margin="15dp"
-                android:background="@drawable/bg_round_black_2"
-                android:padding="3dp"
-                android:text=""
-                android:textColor="#FFFFFFFF"
-                android:textSize="10sp"
-                android:visibility="gone" />
-        </RelativeLayout>
-
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_margin="15dp"
+            android:background="@drawable/bg_round_black_2"
+            android:padding="3dp"
             android:text=""
             android:textColor="#FFFFFFFF"
-            android:textSize="18sp" />
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text=""
-            android:textColor="#FFA5A4A4"
-            android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:text=""
-            android:textColor="#FFA5A4A4"
-            android:textSize="12sp" />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text=""
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:text=""
-            android:textColor="@color/color_text_green"
-            android:textSize="14sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text=""
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:textColor="#FFA5A4A4"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:textColor="@color/color_text_green"
+        android:textSize="14sp" />
 </LinearLayout>
+
