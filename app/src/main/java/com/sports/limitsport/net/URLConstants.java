@@ -99,4 +99,10 @@ public class URLConstants {
     public final static String URL_FOCUS_PERSON_DONG_TAI_LIST = "api/trend/queryTrendAttentionList/v1.0.0";
     //关注的人动态或者推荐用户列表
     public final static String URL_RECOMMEND_OR_FOCUS = "api/trend/queryRecommentOrTrendAttentionList/v1.0.0";
+    //获取订单详情
+    public final static String URL_ORDER_DETAIL = "";
+    //取消订单
+    public final static String URL_CANCEL_ORDER = "api/activityOrder/cancelOrder/v1.0.0";
+    //退款
+    public final static String URL_REFUND_ORDER = "api/activityOrder/refundOrder/v1.0.0";
 }

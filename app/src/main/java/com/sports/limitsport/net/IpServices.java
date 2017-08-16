@@ -22,6 +22,7 @@ import com.sports.limitsport.model.MyCollectActivityResponse;
 import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
+import com.sports.limitsport.model.OrderDetailResponse;
 import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.model.UserInfo;
@@ -236,4 +237,16 @@ public interface IpServices {
     //关注的人动态或者推荐用户列表
     @POST(URLConstants.URL_RECOMMEND_OR_FOCUS)
     Observable<DongTaiOrRecommendResponse> getRecommendorFocus(@Body HashMap<String, String> hashMap);
+
+    //获取订单详情
+    @POST(URLConstants.URL_ORDER_DETAIL)
+    Observable<OrderDetailResponse> getOrderDetail(@Body HashMap<String, String> hashMap);
+
+    //取消订单
+    @POST(URLConstants.URL_CANCEL_ORDER)
+    Observable<BaseResponse> cancelOrder(@Body HashMap<String, String> hashMap);
+
+    //退款
+    @POST(URLConstants.URL_REFUND_ORDER)
+    Observable<BaseResponse> reFundOrder(@Body HashMap<String, String> hashMap);
 }

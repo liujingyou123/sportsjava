@@ -13,8 +13,13 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.mine.presenter.OrderDetailPresenter;
+import com.sports.limitsport.mine.ui.IOrderDetailView;
+import com.sports.limitsport.model.OrderDetailResponse;
 import com.sports.limitsport.model.SignList;
+import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.OrderInfoView;
 
 import butterknife.BindView;
@@ -26,7 +31,7 @@ import butterknife.OnClick;
  * 订单详情
  */
 
-public class OrderDetailActivity extends BaseActivity {
+public class OrderDetailActivity extends BaseActivity implements IOrderDetailView {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.ll_orders)
@@ -47,25 +52,42 @@ public class OrderDetailActivity extends BaseActivity {
     ImageView imvCover;
 
     private String type; // 1: 待付款, 2:已报名（可退款）3:已参加 4:已退款 5: 已取消
+    private OrderDetailPresenter mPresenter;
+    private String orderId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetail);
         ButterKnife.bind(this);
+        getIntentData();
         initView();
         for (int i = 0; i < 5; i++) {
             showOrders();
         }
+
+        getData();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            orderId = intent.getStringExtra("orderId");
+            type = intent.getStringExtra("type");
+        }
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new OrderDetailPresenter(this);
+        }
+
+        mPresenter.getOrderDetail(orderId);
     }
 
     private void initView() {
         tvFocusHouse.setText("订单详情");
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            type = intent.getStringExtra("type");
-        }
 
         showStatusView();
 
@@ -87,7 +109,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_cancel, R.id.tv_pay})
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_cancel, R.id.tv_pay, R.id.tv_showDong})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -97,6 +119,15 @@ public class OrderDetailActivity extends BaseActivity {
                 showCancelDialog();
                 break;
             case R.id.tv_pay:
+                break;
+            case R.id.tv_showDong:
+                if ("2".equals(type)) {
+                    if (mPresenter != null) {
+                        mPresenter.reFundOrder(orderId);
+                    }
+                } else if ("3".equals(type)) {
+                    gotoEditDongTai();
+                }
                 break;
         }
     }
@@ -190,9 +221,51 @@ public class OrderDetailActivity extends BaseActivity {
         dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-
+                if (mPresenter != null) {
+                    mPresenter.cancelOrder(orderId);
+                }
             }
         });
         dialog.show();
+    }
+
+    /**
+     * 前往发动态
+     */
+    private void gotoEditDongTai() {
+        Intent intent = new Intent(this, EditNewDongTaiActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showOrderDetail(OrderDetailResponse response) {
+
+    }
+
+    @Override
+    public void cancelOrder(boolean success) {
+        if (success) {
+            //TODO 更新订单状态
+        } else {
+            ToastUtil.showFalseToast(this, "取消订单失败");
+        }
+    }
+
+    @Override
+    public void refundOrderResult(boolean success) {
+        if (success) {
+//TODO 更新订单状态
+        } else {
+            ToastUtil.showFalseToast(this, "退款失败");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
     }
 }
