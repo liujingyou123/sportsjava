@@ -93,7 +93,7 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
                 break;
             case R.id.tv_reload:
                 viewNonet.setVisibility(View.GONE);
-                rlAll.autoRefresh();
+                rlAll.autoRefreshDelay();
                 break;
         }
     }

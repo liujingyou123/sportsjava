@@ -166,10 +166,10 @@ public class PersonInfoHeaderView extends LinearLayout {
         }
     }
 
-    public void setData() {
-        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
-        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
-    }
+//    public void setData() {
+//        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
+//        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
+//    }
 
     public void addClubs(List<Club> clubs) {
         if (clubs != null) {
@@ -186,6 +186,7 @@ public class PersonInfoHeaderView extends LinearLayout {
                             getContext().startActivity(intent);
                         }
                     });
+                    view.findViewById(R.id.rl_data).setVisibility(VISIBLE);
                     ImageView imvHead = (ImageView) view.findViewById(R.id.imv_head);
                     TextView tvName = (TextView) view.findViewById(R.id.tv_name);
                     TextView tvLocation = (TextView) view.findViewById(R.id.tv_location);
@@ -246,7 +247,7 @@ public class PersonInfoHeaderView extends LinearLayout {
 //                Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
 
                 //正式
-        Batman.getInstance().fromNetWithFitCenter(act.getCoverUrl(), imvCover);
+                Batman.getInstance().fromNetWithFitCenter(act.getCoverUrl(), imvCover);
 
                 tvName.setText(act.getName());
                 tvTime.setText(act.getStartDate()

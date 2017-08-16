@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -15,7 +16,6 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.discovery.model.FindClubSection;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.mine.MyClubsActivity;
 import com.sports.limitsport.mine.adapter.MyClubsAdapter;
 import com.sports.limitsport.model.Club;
 import com.sports.limitsport.model.ClubListResponse;
@@ -25,6 +25,8 @@ import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.SpacesItemTopDecoration;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +48,8 @@ public class JoinClubActivity extends BaseActivity {
     RecyclerView rlv;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
     private MyClubsAdapter adapter;
     private List<Club> data = new ArrayList<>();
     private int pageNumber = 1;
@@ -59,7 +63,8 @@ public class JoinClubActivity extends BaseActivity {
         getIntentData();
         ButterKnife.bind(this);
         initView();
-        getClubsList();
+//        getClubsList();
+        rlAll.autoRefresh();
     }
 
     private void getIntentData() {
@@ -106,7 +111,7 @@ public class JoinClubActivity extends BaseActivity {
 
         SpacesItemTopDecoration decoration = new SpacesItemTopDecoration(60);
         rlv.addItemDecoration(decoration);
-        adapter.disableLoadMoreIfNotFullPage();
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -155,7 +160,8 @@ public class JoinClubActivity extends BaseActivity {
                     if (rlAll.isRefreshing()) {
                         data.clear();
                         data.addAll(response.getData().getData());
-                        adapter.notifyDataSetChanged();
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
                     } else {
                         adapter.addData(response.getData().getData());
@@ -171,17 +177,31 @@ public class JoinClubActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (rlAll.isRefreshing()) {
-                    rlAll.refreshComplete();
-                } else {
+                if (adapter.isLoading()) {
                     adapter.loadMoreFail();
+                } else {
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName()) || e.getClass().getName().equals(SocketTimeoutException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        finish();
+
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_reload})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.tv_reload:
+                viewNonet.setVisibility(View.GONE);
+                rlAll.autoRefreshDelay();
+                break;
+        }
     }
 }
