@@ -35,6 +35,8 @@ public class FineShowAdapter extends BaseQuickAdapter<FineShowList, BaseViewHold
 
         tvStatus.setVisibility(View.GONE);
         if (item.getResourceType() == 1) { //图片
+            tvStatus.setVisibility(View.VISIBLE);
+            tvStatus.setText("图片");
             //TODO 正式
             Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
 
