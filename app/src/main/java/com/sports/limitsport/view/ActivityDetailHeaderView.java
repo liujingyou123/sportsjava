@@ -174,15 +174,18 @@ public class ActivityDetailHeaderView extends LinearLayout {
      */
     private void setViewType(int type) {
         if (type == 1) {
-            Batman.getInstance().fromNetWithFitCenter(mData.getCoverUrl(), imvCover);
+            Batman.getInstance().fromNet(mData.getCoverUrl(), imvCover);
+//            Batman.getInstance().fromNetWithFitCenter(mData.getCoverUrl(), imvCover);
             imvCover.setVisibility(View.VISIBLE);
-            jcVideo.setVisibility(View.GONE);
+            jcVideo.setVisibility(View.INVISIBLE);
         } else {
             jcVideo.setVisibility(View.VISIBLE);
+            imvCover.setVisibility(View.INVISIBLE);
 
             jcVideo.setUp(mData.getActivityVideo()
                     , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, mData.getName());
-            Batman.getInstance().fromNetWithFitCenter(mData.getActivityVideoImg(), jcVideo.thumbImageView);
+            Batman.getInstance().fromNet(mData.getActivityVideoImg(), jcVideo.thumbImageView);
+//            Batman.getInstance().fromNetWithFitCenter(mData.getActivityVideoImg(), jcVideo.thumbImageView);
         }
     }
 

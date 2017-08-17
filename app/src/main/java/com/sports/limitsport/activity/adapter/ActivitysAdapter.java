@@ -1,6 +1,7 @@
 package com.sports.limitsport.activity.adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -27,7 +28,7 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Act item) {
-        ScaleImageView imvCover = helper.getView(R.id.imv_cover);
+        ImageView imvCover = helper.getView(R.id.imv_cover);
         TextView tvName = helper.getView(R.id.tv_name);
         TextView tvTime = helper.getView(R.id.tv_date);
         TextView tvAddress = helper.getView(R.id.tv_address);
@@ -76,7 +77,7 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
             }
         }
 
-        imvCover.setInitSize(item.getWidth(), item.getHeight());
+//        imvCover.setInitSize(item.getWidth(), item.getHeight());
 
         if (!TextViewUtil.isEmpty(item.getCoverUrl())) {
             Batman.getInstance().fromNet(item.getCoverUrl(), imvCover);

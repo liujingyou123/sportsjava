@@ -13,23 +13,23 @@
         <ImageView
             android:id="@+id/imv_cover"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:visibility="gone"
-            android:scaleType="fitXY"/>
+            android:layout_height="265dp"
+            android:visibility="invisible" />
 
         <com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen
             android:id="@+id/jc_video"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:visibility="gone" />
+            android:layout_height="200dp"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:id="@+id/rl_cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/jc_video"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="215dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/bg_black_round_circle_2"
             android:paddingBottom="18dp">
 

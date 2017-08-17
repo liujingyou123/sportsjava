@@ -259,7 +259,22 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
             }
             totalSize = response.getData().getTotalSize();
             List<Act> tmp = response.getData().getData();
-            doLoadBitmap(tmp);
+
+            if (rlAll.isRefreshing()) {
+                data.clear();
+                data.addAll(tmp);
+                adapter.setNewData(data);
+                rlAll.refreshComplete();
+            } else {
+                adapter.addData(tmp);
+                if (adapter.getData().size() >= totalSize) {
+                    adapter.loadMoreEnd();
+                } else {
+                    adapter.loadMoreComplete();
+                }
+            }
+
+//            doLoadBitmap(tmp);
         }
     }
 
