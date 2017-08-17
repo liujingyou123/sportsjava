@@ -25,7 +25,7 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         int postion = parent.getChildLayoutPosition(view);
 
 
-        XLog.e("position = " + view.getLeft());
+//        XLog.e("position = " + view.getLeft());
 
         outRect.bottom = space;
 

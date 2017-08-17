@@ -33,6 +33,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -167,6 +168,50 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         }
     }
 
+    private int getHeight(int postion) {
+        int height;
+        int screenWidth = UnitUtil.getScreenWidthPixels(getContext());
+        float[] ratio = {1f, 1.23f, 1.12f};
+        int index;
+
+        if (postion < 3) {
+            index = postion;
+
+        } else if (postion == 3) {
+            index = 0;
+        } else {
+            Random random = new Random();
+            index = random.nextInt(3);
+        }
+
+        height = (int) ((screenWidth / 2) * (ratio[index]));
+//        XLog.e("height = " + height);
+        return height;
+    }
+
+    private void doHeight(List<Act> mData) {
+        List<Act> acts = new ArrayList<>();
+        for (int i = 0; i < mData.size(); i++) {
+            Act act = mData.get(i);
+            act.setWidth(UnitUtil.getScreenWidthPixels(getContext()) / 2);
+            act.setHeight(getHeight(i));
+            acts.add(act);
+        }
+
+        if (rlAll.isRefreshing()) {
+            data.clear();
+            data.addAll(acts);
+            adapter.setNewData(data);
+            rlAll.refreshComplete();
+        } else {
+            adapter.addData(acts);
+            if (adapter.getData().size() >= totalSize) {
+                adapter.loadMoreEnd();
+            } else {
+                adapter.loadMoreComplete();
+            }
+        }
+    }
 
     private void doLoadBitmap(List<Act> mData) {
         Observable.from(mData).map(new Func1<Act, Act>() {
@@ -259,22 +304,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
             }
             totalSize = response.getData().getTotalSize();
             List<Act> tmp = response.getData().getData();
-
-            if (rlAll.isRefreshing()) {
-                data.clear();
-                data.addAll(tmp);
-                adapter.setNewData(data);
-                rlAll.refreshComplete();
-            } else {
-                adapter.addData(tmp);
-                if (adapter.getData().size() >= totalSize) {
-                    adapter.loadMoreEnd();
-                } else {
-                    adapter.loadMoreComplete();
-                }
-            }
-
-//            doLoadBitmap(tmp);
+            doHeight(tmp);
         }
     }
 
