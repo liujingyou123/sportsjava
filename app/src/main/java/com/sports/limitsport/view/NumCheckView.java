@@ -79,6 +79,9 @@ public class NumCheckView extends LinearLayout {
 
         if (num >= maxNum) {
             imvAdd.setEnabled(false);
+            if (mOnNumChangedListener != null) {
+                mOnNumChangedListener.overMax();
+            }
         } else {
             imvAdd.setEnabled(true);
         }
@@ -112,6 +115,9 @@ public class NumCheckView extends LinearLayout {
             imvSub.setEnabled(true);
         } else {
             imvSub.setEnabled(false);
+            if (mOnNumChangedListener != null) {
+                mOnNumChangedListener.overMin();
+            }
         }
 
         if (mOnNumChangedListener != null) {
@@ -130,7 +136,7 @@ public class NumCheckView extends LinearLayout {
 
     public void setDefaultNum(int defaultNum) {
         this.num = defaultNum;
-        tvNum.setText(""+num);
+        tvNum.setText("" + num);
         if (num > minNum) {
             imvSub.setEnabled(true);
         }
@@ -155,6 +161,9 @@ public class NumCheckView extends LinearLayout {
 
     public void setMinNum(int minNum) {
         this.minNum = minNum;
+        if (minNum <= num) {
+            imvSub.setEnabled(false);
+        }
     }
 
     public void setMaxNum(int maxNum) {
@@ -187,5 +196,9 @@ public class NumCheckView extends LinearLayout {
         void onNumChanged(int num);
 
         void isAdd(boolean isAdd);
+
+        void overMax();
+
+        void overMin();
     }
 }

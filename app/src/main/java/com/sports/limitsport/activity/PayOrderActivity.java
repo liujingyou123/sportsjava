@@ -124,6 +124,16 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
                     reduceOrder();
                 }
             }
+
+            @Override
+            public void overMax() {
+                ToastUtil.showFalseToast(PayOrderActivity.this, "数量超出限制");
+            }
+
+            @Override
+            public void overMin() {
+                ToastUtil.showFalseToast(PayOrderActivity.this, "至少选择1张票");
+            }
         });
     }
 

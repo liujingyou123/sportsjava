@@ -115,6 +115,16 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
             public void isAdd(boolean isAdd) {
 
             }
+
+            @Override
+            public void overMax() {
+                ToastUtil.showFalseToast(SignUpActivity.this, "数量超出限制");
+            }
+
+            @Override
+            public void overMin() {
+
+            }
         });
         rlvTicketType.setLayoutManager(new GridLayoutManager(this, 2));
 
