@@ -2,6 +2,7 @@ package com.sports.limitsport.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -105,6 +106,8 @@ public class ActivityDetailHeaderView extends LinearLayout {
     TextView tvDateEnd;
     @BindView(R.id.imv_auth)
     ImageView imvAuth;
+    @BindView(R.id.tv_no_money)
+    TextView tvNoMoney;
 
     private ShallAdapter shallAdapter; //大家都在晒
     private NamesAdapter namesAdapter; //他们也报名了
@@ -303,6 +306,21 @@ public class ActivityDetailHeaderView extends LinearLayout {
             imvAuth.setVisibility(VISIBLE);
         } else {
             imvAuth.setVisibility(GONE);
+        }
+
+        if (UnitUtil.stringToD(mData.getMinMoney()) == 0) {
+            tvNoMoney.setVisibility(VISIBLE);
+            tvPrice.setText("¥0");
+        } else {
+            tvNoMoney.setVisibility(GONE);
+        }
+
+        if (mData.getTicketNum() < 11 && mData.getTicketNum() > 0) {
+            tvRemindTickets.setVisibility(View.VISIBLE);
+            tvRemindTickets.setText("温馨提示 : 余票仅剩" + mData.getTicketNum() + "张");
+            TextViewUtil.setPartialColor(tvRemindTickets, 11, tvRemindTickets.getText().length() - 1, Color.parseColor("#FF4795FB"));
+        } else {
+            tvRemindTickets.setVisibility(View.GONE);
         }
     }
 

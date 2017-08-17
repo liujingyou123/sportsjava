@@ -56,6 +56,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     TextView tvPriceBottom;
     @BindView(R.id.imv_fav)
     ImageView imvFav;
+    @BindView(R.id.btn_done)
+    TextView btnDone;
     private ActivityDetailHeaderView activityDetailHeaderView;
     private ActivityDiscussAdapter adapter;
     private String id;
@@ -66,6 +68,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     private ActivityDetailResponse.DataBean mData;
     private String week;
     private String minMoney;
+    private int ticketNum;
 
 
     @Override
@@ -85,6 +88,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             id = intent.getStringExtra("id");
             week = intent.getStringExtra("week");
             minMoney = intent.getStringExtra("minMoney");
+            ticketNum = intent.getIntExtra("ticketNum", 0);
         }
     }
 
@@ -254,16 +258,39 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             //TODO 测试用
             response.getData().setStatus("1");
             if ("1".equals(response.getData().getStatus())) { //报名中
-                rlBottom.setVisibility(View.VISIBLE);
+                if (ticketNum == 0) { //报名名额已满
+                    btnDone.setEnabled(false);
+                    ToastUtil.showFalseToast(this, "报名额满");
+                    btnDone.setText("报名额满");
+                } else {
+                    btnDone.setEnabled(true);
+                }
+                tvPriceBottom.setText(mData.getMoney());
+            } else if ("3".equals(response.getData().getStatus())) { //已结束
+                btnDone.setEnabled(false);
+                ToastUtil.showFalseToast(this, "活动已结束");
+                btnDone.setText("活动结束");
+                tvPriceBottom.setText("¥0");
+            } else if ("2".equals(response.getData().getStatus())) { //进行中
+                btnDone.setEnabled(false);
+                btnDone.setText("活动进行中");
+                ToastUtil.showFalseToast(this, "活动进行中");
+                tvPriceBottom.setText(mData.getMoney());
             } else {
-                rlBottom.setVisibility(View.GONE);
+                btnDone.setEnabled(false);
+                ToastUtil.showFalseToast(this, "报名结束");
+                btnDone.setText("报名结束");
+                tvPriceBottom.setText(mData.getMoney());
             }
             response.getData().setId(id);
             response.getData().setWeek(week);
             response.getData().setMinMoney(minMoney);
-            activityDetailHeaderView.showDetail(response.getData());
+            response.getData().setTicketNum(ticketNum);
 
-            tvPriceBottom.setText(mData.getMoney());
+            if (UnitUtil.stringToD(mData.getMinMoney()) == 0) {
+                tvPriceBottom.setText("¥0");
+            }
+            activityDetailHeaderView.showDetail(response.getData());
 
             if ("1".equals(mData.getIsCollection())) {
                 imvFav.setSelected(true);

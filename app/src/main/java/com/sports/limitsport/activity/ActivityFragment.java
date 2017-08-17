@@ -124,6 +124,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                     intent.putExtra("id", act.getId() + "");
                     intent.putExtra("week", act.getWeek());
                     intent.putExtra("minMoney", act.getMinMoney());
+                    intent.putExtra("ticketNum", act.getTicketNum());
                     ActivityFragment.this.startActivity(intent);
                 }
             }

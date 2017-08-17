@@ -102,6 +102,7 @@ public class ActivityDetailResponse extends BaseResponse {
         private String minMoney;
         private String isCollection;
         private int authEntity;
+        private int ticketNum;
         /**
          * city : 上海
          * coutry : 中国
@@ -463,6 +464,14 @@ public class ActivityDetailResponse extends BaseResponse {
 
         public void setAuthEntity(int authEntity) {
             this.authEntity = authEntity;
+        }
+
+        public int getTicketNum() {
+            return ticketNum;
+        }
+
+        public void setTicketNum(int ticketNum) {
+            this.ticketNum = ticketNum;
         }
     }
 }

@@ -30,7 +30,7 @@ public class URLConstants {
     //票种列表
     public final static String URL_TICKET_LIST = "api/activity/ticket/selectTickest/v1.0.0";
     //订单支付
-    public final static String URL_PAY_ORDER = "http://192.168.53.241:8080/ultimateapp/api/activityOrder/payOrder/v1.0.0";
+    public final static String URL_PAY_ORDER = "api/activityOrder/payOrder/v1.0.0";
     //活动报名列表
     public final static String URL_SIGN_UP_LIST = "api/activity/sign/selectActivitySign/v1.0.0";
     //新人报到列表
@@ -106,5 +106,5 @@ public class URLConstants {
     //退款
     public final static String URL_REFUND_ORDER = "api/activityOrder/refundOrder/v1.0.0";
     //验签
-    public final static String URL_CHECK_ORDER = "http://192.168.53.241:8080/ultimateapp/api/activityOrder/orderAttestation/v1.0.0";
+    public final static String URL_CHECK_ORDER = "api/activityOrder/orderAttestation/v1.0.0";
 }

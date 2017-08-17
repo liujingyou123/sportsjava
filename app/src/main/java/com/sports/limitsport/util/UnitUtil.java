@@ -441,4 +441,20 @@ public class UnitUtil {
 
         return week;
     }
+
+
+    public static double stringToD(String str) {
+        double ret = 0;
+        if (TextViewUtil.isEmpty(str)) {
+            ret = 0;
+        }
+
+        try {
+            ret = Double.parseDouble(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
 }
