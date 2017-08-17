@@ -17,6 +17,7 @@ import com.sports.limitsport.activity.ui.ISignUpView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.base.BaseSelectionAdapter;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.DealActivity;
 import com.sports.limitsport.model.SelectTicket;
 import com.sports.limitsport.model.TicketList;
 import com.sports.limitsport.model.TicketListResponse;
@@ -60,6 +61,8 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
     private String id; //活动ID
     private String title;//活动title
     private String imgCover;//活动封面
+    private String startTime; //活动时间
+    private String address; // 地址
     private List<TicketList> data = new ArrayList<>();
     private SelectTicket selectTicket;
 
@@ -79,6 +82,8 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
             id = intent.getStringExtra("id");
             title = intent.getStringExtra("title");
             imgCover = intent.getStringExtra("imgCover");
+            startTime = intent.getStringExtra("startTime");
+            address = intent.getStringExtra("address");
         }
     }
 
@@ -127,7 +132,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
                 if (ticketList != null) {
                     selectTicket = new SelectTicket();
 
-                    selectTicket.id = ticketList.getId()+"";
+                    selectTicket.id = ticketList.getId() + "";
                     selectTicket.maxNum = ticketList.getSoldNumber();
                     selectTicket.des = ticketList.getDescContent();
                     selectTicket.name = ticketList.getName();
@@ -206,10 +211,13 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
      */
     private void gotoPayOrder() {
         Intent intent = new Intent(this, PayOrderActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         intent.putExtra("title", title);
-        intent.putExtra("imgCover",imgCover);
-        intent.putExtra("selectTicket",selectTicket);
+        intent.putExtra("imgCover", imgCover);
+        intent.putExtra("selectTicket", selectTicket);
+
+        intent.putExtra("startTime", startTime);
+        intent.putExtra("address", address);
         startActivity(intent);
     }
 
@@ -217,9 +225,8 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
      * 服务协议
      */
     private void gotoServerDeal() {
-        Intent intent = new Intent(this, H5Activity.class);
+        Intent intent = new Intent(this, DealActivity.class);
         intent.putExtra("type", 1);
-        intent.putExtra("url", "https://www.baidu.com");
         startActivity(intent);
     }
 

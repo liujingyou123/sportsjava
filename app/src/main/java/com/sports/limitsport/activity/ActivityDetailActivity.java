@@ -29,6 +29,7 @@ import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
 
 import java.util.ArrayList;
@@ -214,6 +215,10 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         } else {
             intentSign.putExtra("imgCover", mData.getCoverUrl());
         }
+        String startTime = mData.getStartDate() + " " + UnitUtil.stringToWeek(mData.getWeek()) + " " + mData.getStartTime();
+        intentSign.putExtra("startTime", startTime);
+        intentSign.putExtra("address", mData.getAddress());
+
         startActivity(intentSign);
     }
 

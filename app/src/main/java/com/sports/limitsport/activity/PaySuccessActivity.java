@@ -11,8 +11,10 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.presenter.PaySuccessPresenter;
 import com.sports.limitsport.activity.ui.IPaySuccessView;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.model.PayFinishResponse;
+import com.sports.limitsport.model.SelectTicket;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,11 +45,16 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     TextView tvTitle;
     @BindView(R.id.tv_sub_title)
     TextView tvSubTitle;
-
     private String id; //活动ID
+    private String title;//活动title
+    private String imgCover;//活动封面
+    private String startTime; //活动时间
+    private String address; // 地址
     private int type;
     private String errorMsg;
     private PaySuccessPresenter mPresenter;
+    private SelectTicket selectTicket;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +63,6 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
         ButterKnife.bind(this);
         getIntentData();
         initView();
-
-//        getData();
     }
 
     private void getIntentData() {
@@ -66,6 +71,11 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             id = intent.getStringExtra("id");
             type = intent.getIntExtra("type", 0);
             errorMsg = intent.getStringExtra("errorMsg");
+            title = intent.getStringExtra("title");
+            imgCover = intent.getStringExtra("imgCover");
+            selectTicket = (SelectTicket) intent.getSerializableExtra("selectTicket");
+            startTime = intent.getStringExtra("startTime");
+            address = intent.getStringExtra("address");
         }
     }
 
@@ -96,6 +106,13 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             tvTitle.setEnabled(false);
             tvSubTitle.setText(errorMsg);
         }
+
+        Batman.getInstance().fromNet(imgCover, imvCover);
+        tvName.setText(title);
+        tvTime.setText(startTime);
+        tvAddress.setText(address);
+        tvTickets.setText(selectTicket.totalPrice + " " + selectTicket.name);
+        tvTicketsNum.setText("x" + selectTicket.num);
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_back, R.id.tv_look})

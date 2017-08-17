@@ -24,6 +24,9 @@ import com.sports.limitsport.view.NumCheckView;
 import com.sports.limitsport.view.OrderInfoView;
 
 import java.math.BigDecimal;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +58,8 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     private String id; //活动ID
     private String title;//活动title
     private String imgCover;//活动封面
+    private String startTime; //活动时间
+    private String address; // 地址
     private SelectTicket selectTicket;
 
     private List<SignList> mData = new ArrayList<>();
@@ -76,6 +81,8 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             title = intent.getStringExtra("title");
             imgCover = intent.getStringExtra("imgCover");
             selectTicket = (SelectTicket) intent.getSerializableExtra("selectTicket");
+            startTime = intent.getStringExtra("startTime");
+            address = intent.getStringExtra("address");
         }
     }
 
@@ -204,31 +211,51 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
                 mPresenter.aliPay(response.data.orderInfo);
             }
         } else {
-            ToastUtil.showFalseToast(this, "订单提交失败");
+            goToPayResult(1, response.getErrMsg());
         }
     }
 
+    /**
+     * 支付之后
+     *
+     * @param isSuccess
+     * @param orderNo
+     */
     @Override
     public void showPayResult(boolean isSuccess, String orderNo) {
         if (isSuccess) {
-            Intent intent = new Intent(this, PaySuccessActivity.class);
-            intent.putExtra("type", 0);
-            intent.putExtra("id", id);
-            startActivity(intent);
+            goToPayResult(0, null);
         }
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        ToastUtil.showFalseToast(this, e != null ? e.getMessage() : "订单提交失败");
     }
 
     @Override
     public void showPayOrderResultFail(Throwable e) {
+        if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                || e.getClass().getName().equals(ConnectException.class.getName()))) {
+            ToastUtil.showFalseToast(this, "网络有问题呦～");
+        } else {
+            ToastUtil.showFalseToast(this, e != null ? e.getMessage() : "订单提交失败,请稍后重试");
+        }
+    }
+
+    /**
+     * 前往支付结果页
+     *
+     * @param type 0 成功 1失败
+     */
+    private void goToPayResult(int type, String errormsg) {
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("type", 1);
-        intent.putExtra("errorMsg", e.getMessage());
+        intent.putExtra("type", type);
+        intent.putExtra("errorMsg", errormsg);
+
+        intent.putExtra("title", title);
+        intent.putExtra("imgCover", imgCover);
+        intent.putExtra("selectTicket", selectTicket);
+
+        intent.putExtra("startTime", startTime);
+        intent.putExtra("address", address);
         startActivity(intent);
     }
 

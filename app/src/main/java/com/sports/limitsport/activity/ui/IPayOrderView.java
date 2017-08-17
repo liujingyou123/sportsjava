@@ -11,7 +11,5 @@ public interface IPayOrderView {
 
     void showPayResult(boolean isSuccess, String OrderNo);
 
-    void onError(Throwable e);
-
     void showPayOrderResultFail(Throwable e);
 }

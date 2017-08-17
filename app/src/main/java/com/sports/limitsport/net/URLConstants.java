@@ -106,5 +106,5 @@ public class URLConstants {
     //退款
     public final static String URL_REFUND_ORDER = "api/activityOrder/refundOrder/v1.0.0";
     //验签
-    public final static String URL_CHECK_ORDER = "http://192.168.53.241:8080/ultimateapp/api/tipoff/addTipOff/v1.0.0";
+    public final static String URL_CHECK_ORDER = "http://192.168.53.241:8080/ultimateapp/api/activityOrder/orderAttestation/v1.0.0";
 }
