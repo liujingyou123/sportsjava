@@ -21,7 +21,7 @@
         android:layout_toRightOf="@id/imv_cover"
         android:text="@string/text_default"
         android:textColor="#ffffff"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_ticket_type"
@@ -32,7 +32,7 @@
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/imv_cover"
         android:text="请选择票务类型和购买数量"
-        android:textColor="#FFFFFFFF"
+        android:textColor="#FFA5A4A4"
         android:textSize="12sp" />
 
     <TextView

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="0"
-        android:textColor="#ffffff"
+        android:textColor="#FFA5A4A4"
         android:textSize="14sp" />
     <ImageView
         android:id="@+id/imv_add"

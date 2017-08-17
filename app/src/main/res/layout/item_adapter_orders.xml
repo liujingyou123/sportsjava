@@ -15,8 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,15 +32,16 @@
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:gravity="center_vertical|right"
             android:hint="请填写手机号码"
             android:singleLine="true"
             android:text=""
             android:textColor="#ffffff"
             android:textColorHint="#555555"
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"
             android:textSize="14sp"
-            android:background="@null"
-            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"/>
+            android:inputType="phone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -63,15 +64,15 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:gravity="center_vertical|right"
             android:hint="请填写用户姓名"
             android:singleLine="true"
             android:text=""
             android:textColor="#ffffff"
             android:textColorHint="#555555"
-            android:textSize="14sp"
-            android:background="@null"
-            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"/>
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -86,7 +87,7 @@
             android:drawableLeft="@drawable/bg_green_rec"
             android:drawablePadding="4dp"
             android:gravity="center"
-            android:text="用户姓名"
+            android:text="身份证号"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -94,14 +95,14 @@
             android:id="@+id/et_ids"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:gravity="center_vertical|right"
             android:hint="请填写身份证号码"
             android:singleLine="true"
             android:text=""
             android:textColor="#ffffff"
             android:textColorHint="#555555"
-            android:textSize="14sp"
-            android:background="@null"
-            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"/>
+            android:textCursorDrawable="@mipmap/icon_dingdanzhifu_information_line"
+            android:textSize="14sp" />
     </LinearLayout>
 </merge>
