@@ -29,7 +29,7 @@ public class NumCheckView extends LinearLayout {
     @BindView(R.id.imv_add)
     ImageView imvAdd;
     private OnNumChangedListener mOnNumChangedListener;
-    private int minNum = 0;
+    private int minNum = Integer.MIN_VALUE;
     private int maxNum = Integer.MAX_VALUE;
     private int num = minNum;
 
@@ -134,11 +134,24 @@ public class NumCheckView extends LinearLayout {
         imvSub.setImageResource(ids);
     }
 
+    /**
+     * 先设置最大最小
+     *
+     * @param defaultNum
+     */
     public void setDefaultNum(int defaultNum) {
         this.num = defaultNum;
         tvNum.setText("" + num);
         if (num > minNum) {
             imvSub.setEnabled(true);
+        } else {
+            imvSub.setEnabled(false);
+        }
+
+        if (num < maxNum) {
+            imvAdd.setEnabled(true);
+        } else {
+            imvAdd.setEnabled(false);
         }
     }
 
@@ -161,9 +174,6 @@ public class NumCheckView extends LinearLayout {
 
     public void setMinNum(int minNum) {
         this.minNum = minNum;
-        if (minNum <= num) {
-            imvSub.setEnabled(false);
-        }
     }
 
     public void setMaxNum(int maxNum) {

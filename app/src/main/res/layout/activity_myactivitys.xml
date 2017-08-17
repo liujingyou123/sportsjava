@@ -4,10 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/common_title"/>
+    <include layout="@layout/common_title" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ry_activity"
+    <include
+        layout="@layout/net_incorrect"
+        android:visibility="gone" />
+
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/rl_all"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ry_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.ajguan.library.EasyRefreshLayout>
+
 </LinearLayout>

@@ -96,8 +96,10 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
         showSelectTicket();
 
         if (selectTicket != null) {
-            ncv.setDefaultNum(selectTicket.num);
+            ncv.setMinNum(1);
             ncv.setMaxNum(selectTicket.maxNum);
+
+            ncv.setDefaultNum(selectTicket.num);
 
             for (int i = 0; i < selectTicket.num; i++) {
                 addOrders();
@@ -108,7 +110,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
         ncv.setImvAddResource(R.drawable.bg_nc_pay_add);
         ncv.setImvSubResource(R.drawable.bg_nc_pay_sub);
         ncv.setNumTextSize(12);
-        ncv.setMinNum(1);
+
         ncv.setOnNumChangedListener(new NumCheckView.OnNumChangedListener() {
             @Override
             public void onNumChanged(int num) {

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:text="订单编号：123456789"
+        android:text="订单编号："
         android:textColor="#A5A4A4"
         android:textSize="14sp" />
 
@@ -25,7 +25,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/tv_ordernum"
         android:layout_marginRight="15dp"
-        android:text="待支付"
+        android:text=""
         android:textColor="#FF4795FB"
         android:textSize="14sp" />
 
@@ -44,11 +44,11 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/imv_cover"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
         android:layout_toRightOf="@id/imv_cover"
         android:maxLines="2"
-        android:text="南山俱乐部 大云山潜水第九期"
+        android:text=""
         android:textColor="#FFFFFFFF"
         android:textSize="14sp" />
 
@@ -59,7 +59,7 @@
         android:layout_alignBottom="@id/imv_cover"
         android:layout_alignLeft="@id/tv_name"
         android:layout_marginBottom="3dp"
-        android:text="金额：1500 元 （2张）"
+        android:text="金额："
         android:textColor="#A5A4A4"
         android:textSize="12sp" />
 
@@ -70,7 +70,7 @@
         android:layout_above="@id/tv_ticket_price"
         android:layout_alignLeft="@id/tv_name"
         android:layout_marginBottom="2dp"
-        android:text="票务类型：标准票"
+        android:text="票务类型："
         android:textColor="#A5A4A4"
         android:textSize="12sp" />
 
@@ -100,16 +100,18 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tv_all_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/tv_all_tip"
-            android:text="￥3000"
+            android:text="￥0"
             android:textColor="#FFFFFFFF"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_pay_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

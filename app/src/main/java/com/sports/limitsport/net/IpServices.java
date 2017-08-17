@@ -23,6 +23,7 @@ import com.sports.limitsport.model.MyCollectFineShowResponse;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.NoticeListResponse;
 import com.sports.limitsport.model.OrderDetailResponse;
+import com.sports.limitsport.model.OrdersListResponse;
 import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.model.UserInfo;
@@ -254,4 +255,8 @@ public interface IpServices {
     //验签
     @POST(URLConstants.URL_CHECK_ORDER)
     Observable<BaseResponse> checkOrder(@Body Map<String, String> hashMap);
+
+    //订单列表
+    @POST(URLConstants.URL_MY_ORDERS)
+    Observable<OrdersListResponse> getOrders(@Body Map<String, String> hashMap);
 }

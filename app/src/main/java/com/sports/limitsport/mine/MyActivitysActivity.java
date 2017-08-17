@@ -7,13 +7,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyActivitysAdapter;
+import com.sports.limitsport.model.MyCollectActivityResponse;
+import com.sports.limitsport.model.OrdersList;
+import com.sports.limitsport.model.OrdersListResponse;
+import com.sports.limitsport.net.IpServices;
+import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.util.ToolsUtil;
+import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +47,14 @@ public class MyActivitysActivity extends BaseActivity {
     TextView tvFocusHouse;
     @BindView(R.id.ry_activity)
     RecyclerView ryActivity;
+    @BindView(R.id.view_nonet)
+    RelativeLayout viewNonet;
+    @BindView(R.id.rl_all)
+    EasyRefreshLayout rlAll;
     private MyActivitysAdapter adapter;
+    private int pageNumber = 1;
+    private int totalSize;
+    private List<OrdersList> data = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +62,7 @@ public class MyActivitysActivity extends BaseActivity {
         setContentView(R.layout.activity_myactivitys);
         ButterKnife.bind(this);
         initView();
+        rlAll.autoRefresh();
     }
 
     private void initView() {
@@ -46,6 +72,7 @@ public class MyActivitysActivity extends BaseActivity {
         TextView tvGo = (TextView) emptyView.findViewById(R.id.tv_go);
         tvTip.setText("好像什么都没有～");
         tvGo.setText("去逛逛");
+        tvGo.setVisibility(View.GONE);
         emptyView.findViewById(R.id.tv_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,10 +81,11 @@ public class MyActivitysActivity extends BaseActivity {
         });
         ryActivity.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new MyActivitysAdapter(MyTestData.getData());
+        adapter = new MyActivitysAdapter(data);
         adapter.bindToRecyclerView(ryActivity);
 
         adapter.setEmptyView(emptyView);
+        adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -67,11 +95,120 @@ public class MyActivitysActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                OrdersList orderList = (OrdersList) adapter.getItem(position);
+                if (orderList != null) {
+                    if (orderList.getIsJoin() == 1) { //已参加
+                        gotoEditDongtai();
+                    } else if ("0".equals(orderList.getOrderStatus())) {
+                        gotoPay();
+                    }
+                }
+            }
+        });
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                XLog.e("onLoadMoreRequested");
+                loadMore();
+            }
+        }, ryActivity);
+        rlAll.setEnableLoadMore(false);
 
+        rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onRefreshing() {
+                XLog.e("onRefreshing");
+                refresh();
+            }
+        });
+    }
+
+    private void loadMore() {
+        pageNumber++;
+        getOrders();
+    }
+
+    private void refresh() {
+        pageNumber = 1;
+        getOrders();
     }
 
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {
         finish();
     }
+
+    private void getOrders() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getOrders(hashMap), new NetSubscriber<OrdersListResponse>() {
+            @Override
+            public void response(OrdersListResponse response) {
+                if (response.getData() != null) {
+                    totalSize = response.getData().getTotalSize();
+                    if (rlAll.isRefreshing()) {
+                        data.clear();
+                        data.addAll(response.getData().getData());
+                        adapter.setNewData(data);
+                        adapter.disableLoadMoreIfNotFullPage();
+                        rlAll.refreshComplete();
+                    } else {
+                        adapter.addData(response.getData().getData());
+                        if (adapter.getData().size() >= totalSize) {
+                            adapter.loadMoreEnd();
+                        } else {
+                            adapter.loadMoreComplete();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (adapter.isLoading()) {
+                    adapter.loadMoreFail();
+                } else {
+                    if (rlAll.isRefreshing()) {
+                        rlAll.refreshComplete();
+                    }
+                    if (e != null && (e.getClass().getName().equals(UnknownHostException.class.getName())
+                            || e.getClass().getName().equals(SocketTimeoutException.class.getName())
+                            || e.getClass().getName().equals(ConnectException.class.getName()))) {
+                        viewNonet.setVisibility(View.VISIBLE);
+                    }
+                }
+
+//                ToastUtil.showFalseToast(getContext(), "加载失败");
+//                adapter.loadMoreFail();
+            }
+        });
+    }
+
+    /**
+     * 去支付
+     */
+    private void gotoPay() {
+
+    }
+
+    /**
+     * 前往编辑动态页
+     */
+    private void gotoEditDongtai() {
+        Intent intent = new Intent(this, EditNewDongTaiActivity.class);
+        startActivity(intent);
+    }
+
+
 }

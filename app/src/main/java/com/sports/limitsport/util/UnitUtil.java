@@ -281,7 +281,7 @@ public class UnitUtil {
      * @return
      */
     public static String formatSNum(String num) {
-        String ret = null;
+        String ret = "";
         if (TextUtils.isEmpty(num)) {
             return "";
         }
