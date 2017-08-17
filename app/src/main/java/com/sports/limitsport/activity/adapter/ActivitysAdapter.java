@@ -84,11 +84,11 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
         }
 
 //        item.setWidth(UnitUtil.getScreenWidthPixels(mContext) / 2);
-        int position = helper.getAdapterPosition();
+//        int position = helper.getAdapterPosition();
 //        item.setHeight(getHeight(position));
 
 
-        XLog.e("position = " + position +" height = "+ item.getHeight() + " width = " + item.getWidth());
+//        XLog.e("position = " + position +" height = "+ item.getHeight() + " width = " + item.getWidth());
 
         imvCover.setInitSize(item.getWidth(), item.getHeight());
 //        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, 0,0, item.getWidth(), item.getHeight());

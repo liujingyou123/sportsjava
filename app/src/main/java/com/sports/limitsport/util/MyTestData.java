@@ -37,8 +37,8 @@ public class MyTestData {
             data.add("http://img02.tooopen.com/images/20160617/tooopen_sy_165387259697.jpg");
 
 
-//            for (int i = 0; i < 10; i++)
-//                data.add("http://img.pconline.com.cn/images/upload/upc/tx/ladyproduct/1410/18/c0/39816467_1413611585425_medium.jpg");
+            for (int i = 0; i < 20; i++)
+                data.add("http://img02.tooopen.com/images/20160617/tooopen_sy_165387259697.jpg");
         }
         return data;
     }

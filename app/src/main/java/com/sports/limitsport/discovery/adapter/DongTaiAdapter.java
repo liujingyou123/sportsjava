@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.DongTaiList;
+import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.ScaleImageView;
 
@@ -39,11 +40,14 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         helper.addOnClickListener(R.id.tv_san);
 
         imvCover.setInitSize(item.getWidth(), item.getHeight());
+//        int position = helper.getAdapterPosition();
+//        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, 0, 0, item.getWidth(), item.getHeight());
+
 
         if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNetWithFitCenter(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, 0, 0, item.getWidth(), item.getHeight());
         } else {
-            Batman.getInstance().fromNetWithFitCenter(item.getVedioThumbnailUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, 0, 0, item.getWidth(), item.getHeight());
         }
 
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);

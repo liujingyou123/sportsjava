@@ -20,6 +20,7 @@ import com.sports.limitsport.discovery.presenter.NewNewsPresenter;
 import com.sports.limitsport.discovery.ui.INewNewsView;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
@@ -33,6 +34,7 @@ import com.sports.limitsport.view.SpacesItemDecorationS;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -164,6 +166,50 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
         }
     }
 
+    private int getHeight(int postion) {
+        int height;
+        int screenWidth = UnitUtil.getScreenWidthPixels(getContext());
+        float[] ratio = {1f, 1.23f, 1.12f};
+        int index;
+
+        if (postion < 3) {
+            index = postion;
+
+        } else if (postion == 3) {
+            index = 0;
+        } else {
+            Random random = new Random();
+            index = random.nextInt(3);
+        }
+
+        height = (int) ((screenWidth / 2) * (ratio[index]));
+//        XLog.e("height = " + height);
+        return height;
+    }
+
+    private void doHeight(List<DongTaiList> mData) {
+        List<DongTaiList> acts = new ArrayList<>();
+        for (int i = 0; i < mData.size(); i++) {
+            DongTaiList act = mData.get(i);
+            act.setWidth(UnitUtil.getScreenWidthPixels(getContext()) / 2);
+            act.setHeight(getHeight(i));
+            acts.add(act);
+        }
+
+        if (rlAll.isRefreshing()) {
+            data.clear();
+            data.addAll(acts);
+            adapter.setNewData(data);
+            rlAll.refreshComplete();
+        } else {
+            adapter.addData(acts);
+            if (adapter.getData().size() >= totalSize) {
+                adapter.loadMoreEnd();
+            } else {
+                adapter.loadMoreComplete();
+            }
+        }
+    }
 
     private void doLoadBitmap(List<DongTaiList> mData) {
         Observable.from(mData).map(new Func1<DongTaiList, DongTaiList>() {
@@ -257,7 +303,8 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
 
             totalSize = response.getData().getTotalSize();
             List<DongTaiList> tmp = response.getData().getData();
-            doLoadBitmap(tmp);
+//            doLoadBitmap(tmp);
+            doHeight(tmp);
         }
     }
 

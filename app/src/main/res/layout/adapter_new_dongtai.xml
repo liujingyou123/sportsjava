@@ -8,7 +8,8 @@
     <com.sports.limitsport.view.ScaleImageView
         android:id="@+id/imv_cover"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/imv_head"
