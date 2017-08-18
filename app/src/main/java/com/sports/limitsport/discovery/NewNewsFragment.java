@@ -10,20 +10,25 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.discovery.adapter.DongTaiAdapter;
 import com.sports.limitsport.discovery.presenter.NewNewsPresenter;
 import com.sports.limitsport.discovery.ui.INewNewsView;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
@@ -115,15 +120,37 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
                 } else if (view.getId() == R.id.imv_head || view.getId() == R.id.tv_name) {
                     gotoPersonInfo(dongTaiList.getPublishUserId() + "");
                 } else if (view.getId() == R.id.imv_zan || view.getId() == R.id.tv_san) {
-                    if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
-                        if (mPresenter != null) {
-                            mPresenter.cancelPraise(dongTaiList.getId() + "", "2");
-                        }
+                    if (SharedPrefsUtil.getUserInfo() == null) {
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
+                        return;
+                    } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                        Intent intent = new Intent(getContext(), IdentifyMainActivity.class);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
                     } else {
-                        if (mPresenter != null) {
-                            mPresenter.praise(dongTaiList.getId() + "", "2");
+                        if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
+                            if (mPresenter != null) {
+                                mPresenter.cancelPraise(dongTaiList.getId() + "", "2");
+                            }
+                        } else {
+                            if (mPresenter != null) {
+                                mPresenter.praise(dongTaiList.getId() + "", "2");
+                            }
+                        }
+                        doPraise(dongTaiList.getId() + "");
+
+                        if (view != null && view instanceof TextView) {
+                            if ("1".equals(dongTaiList.getPraiseFlag())) {
+                                view.setSelected(true);
+                            } else {
+                                view.setSelected(false);
+                            }
+                            ((TextView) view).setText(dongTaiList.getPraiseNum() + "");
                         }
                     }
+
                 }
             }
         });
@@ -320,7 +347,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     @Override
     public void onCancelPraiseResult(boolean b, String articleId, String type) {
         if (b) {
-            doPraise(articleId);
+//            doPraise(articleId);
         } else {
             ToastUtil.showTrueToast(getContext(), "取消点赞失败");
         }
@@ -329,7 +356,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     @Override
     public void onPraiseResult(boolean b, String articleId, String type) {
         if (b) {
-            doPraise(articleId);
+//            doPraise(articleId);
         } else {
             ToastUtil.showTrueToast(getContext(), "点赞失败");
         }
@@ -347,7 +374,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
                     adapter.getData().get(i).setPraiseFlag("1");
                 }
                 adapter.getData().get(i).setPraiseNum(num);
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
                 break;
             }
         }

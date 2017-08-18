@@ -100,12 +100,13 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
 
     private void initRy() {
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_with_btn_full, null);
-        emptyView.findViewById(R.id.tv_done).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoEditDongtai();
-            }
-        });
+        emptyView.findViewById(R.id.tv_done).setVisibility(View.GONE);
+//                .setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                gotoEditDongtai();
+//            }
+//        });
         ryAll.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         allShaiAdapter = new AllShaiAdapter(data);
         allShaiAdapter.bindToRecyclerView(ryAll);
