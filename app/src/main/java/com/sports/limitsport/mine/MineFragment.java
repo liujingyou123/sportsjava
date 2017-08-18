@@ -27,6 +27,7 @@ import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.EventBusLogin;
 import com.sports.limitsport.model.NewNoticeResponse;
+import com.sports.limitsport.model.TokenTimeOutEvent;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
@@ -109,6 +110,13 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void getUserEdit(EventBusUserInfo param) {
         if (param != null && param.isResfreh) {
             isGetData = param.isResfreh;
+        }
+    }
+
+    @Subscribe
+    public void isTimeOut(TokenTimeOutEvent param) {
+        if (param != null) {
+            isGetData = true;
         }
     }
 

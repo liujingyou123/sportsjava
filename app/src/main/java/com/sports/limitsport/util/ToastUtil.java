@@ -40,6 +40,9 @@ public class ToastUtil {
 
 
     public static void showToast(Context context, String message, int id) {
+        if (context == null) {
+            context = LimitSportApplication.getInstance();
+        }
         Context context1 = context.getApplicationContext();
         Toast toast = new Toast(context1);
         toast.setGravity(Gravity.CENTER, 0, 0);

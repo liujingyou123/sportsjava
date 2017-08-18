@@ -1,11 +1,14 @@
 package com.sports.limitsport.net;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.TokenTimeOutEvent;
+import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,21 +31,12 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
 
 
         if (isTokenTimeOut(e)) {
-//            RxBus.get().post(RxBusTags.TAG_TIME_OUT, "1");
-            //登录超时弹框
-//            LoadingDialogUtil.getInstance().showTimeOutDialog();
-            return;
+            tokenTimeOutToLogin();
+            ToastUtil.showFalseToast(null, "登录超时,请重新登录");
         }
 
         XLog.e(e.getMessage());
 
-//        ToastUtil.show(WinPortApplication.getInstance().getApplicationContext(), e.getMessage());
-
-    }
-
-    private void tokenTimeOutToLogin() {
-//        SharedPrefsUtil.clearUserInfo();
-//        EventBus.getDefault().post(new TokenTimeOutEvent());
     }
 
     @Override
@@ -70,6 +64,11 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
 
     public abstract void response(T response);
 
+    private void tokenTimeOutToLogin() {
+        SharedPrefsUtil.clearUserInfo();
+        EventBus.getDefault().post(new TokenTimeOutEvent());
+    }
+
     /**
      * token失效 判断
      *
@@ -82,8 +81,7 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
             if (httpException.response() != null && httpException.response().errorBody() != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(httpException.response().errorBody().string());
-                    if (jsonObject.optInt("errCode") == -99) {
-                        Log.e("NetSubscriber =  ", "- 99");
+                    if (jsonObject.optInt("errCode") == 999) {
                         ret = true;
                     }
                 } catch (JSONException e1) {

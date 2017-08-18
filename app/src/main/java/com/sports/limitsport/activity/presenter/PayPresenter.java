@@ -100,6 +100,14 @@ public class PayPresenter {
                     mIPayOrderView.showPayOrderResultFail(e);
                 }
             }
+
+            @Override
+            public void error(PayOrderResponse response) {
+                super.error(response);
+                if (mIPayOrderView != null) {
+                    mIPayOrderView.showPayOrderResult(response);
+                }
+            }
         });
     }
 
