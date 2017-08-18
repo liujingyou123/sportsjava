@@ -403,8 +403,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     @Override
     public void refundOrderResult(boolean success) {
         if (success) {
-            orderDetail.setOrderStatus("5");
-            showPayBack();
+            orderDetail.setOrderStatus("4");
+            refunding();
             EventBusOrder params = new EventBusOrder();
             params.isChange = true;
             EventBus.getDefault().post(params);
