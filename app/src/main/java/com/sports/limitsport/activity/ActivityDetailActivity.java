@@ -21,6 +21,8 @@ import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
@@ -114,10 +116,22 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (commentDialog != null && !commentDialog.isShowing()) {
-                    commentList = (CommentList) adapter.getItem(position);
-                    commentDialog.show();
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(ActivityDetailActivity.this, LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(ActivityDetailActivity.this, IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    if (commentDialog != null && !commentDialog.isShowing()) {
+                        commentList = (CommentList) adapter.getItem(position);
+                        commentDialog.show();
+                    }
                 }
+
             }
         });
 
@@ -256,7 +270,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         if (response != null && response.getData() != null) {
             mData = response.getData();
             //TODO 测试用
-            response.getData().setStatus("1");
+//            response.getData().setStatus("1");
             if ("1".equals(response.getData().getStatus())) { //报名中
                 if (ticketNum == 0) { //报名名额已满
                     btnDone.setEnabled(false);
@@ -273,8 +287,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 tvPriceBottom.setText("¥0");
             } else if ("2".equals(response.getData().getStatus())) { //进行中
                 btnDone.setEnabled(false);
-                btnDone.setText("活动进行中");
-                ToastUtil.showFalseToast(this, "活动进行中");
+                btnDone.setText("报名结束");
+                ToastUtil.showFalseToast(this, "报名结束");
                 tvPriceBottom.setText(mData.getMoney());
             } else {
                 btnDone.setEnabled(false);

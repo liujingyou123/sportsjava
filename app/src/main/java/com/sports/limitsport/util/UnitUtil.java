@@ -447,6 +447,7 @@ public class UnitUtil {
         double ret = 0;
         if (TextViewUtil.isEmpty(str)) {
             ret = 0;
+            return ret;
         }
 
         try {

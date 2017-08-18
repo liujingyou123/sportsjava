@@ -263,9 +263,9 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_skip:
-                if (TextViewUtil.isEmpty(type)) {
-                    gotoMainActivity();
-                }
+//                if (TextViewUtil.isEmpty(type)) {
+//                    gotoMainActivity();
+//                }
                 finish();
                 break;
             case R.id.login:
@@ -297,13 +297,14 @@ public class LoginActivity extends BaseActivity {
                     response.getData().setPhone(userPhone);
                     SharedPrefsUtil.saveUserInfo(response);
 
-                    if (TextViewUtil.isEmpty(type)) {
-                        if (response.getData().getIsPerfect() == 0) { //已完善
-                            gotoMainActivity();
-                        } else {
-                            gotoIdentifyActivity();
-                        }
+                    if (response.getData().getIsPerfect() != 0) { //未完善
+                        gotoIdentifyActivity();
                     }
+                    LoginActivity.this.finish();
+
+//                    if (TextViewUtil.isEmpty(type)) {
+//
+//                    }
                     EventBusLogin params = new EventBusLogin();
                     params.isLogin = true;
                     EventBus.getDefault().post(params);
@@ -334,7 +335,7 @@ public class LoginActivity extends BaseActivity {
 
     private void gotoIdentifyActivity() {
         Intent intent = new Intent(this, IdentifyMainActivity.class);
-        intent.putExtra("type", type);
+//        intent.putExtra("type", type);
         startActivity(intent);
     }
 

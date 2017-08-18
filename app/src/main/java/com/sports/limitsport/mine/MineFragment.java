@@ -82,8 +82,6 @@ public class MineFragment extends BaseFragment implements IMineView {
             mPresenter = new MinePresenter(this);
         }
 
-        mPresenter.getDongTaiList(pageNumber);
-
         return view;
     }
 
@@ -91,14 +89,12 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void onResume() {
         super.onResume();
         XLog.e("onResume");
+        XLog.e("isGetData = " + isGetData);
         if (isGetData) {
             isGetData = false;
             getUserInfoData();
         }
 
-        if (mPresenter != null) {
-            mPresenter.getNewNotice();
-        }
     }
 
     @Subscribe
@@ -121,11 +117,17 @@ public class MineFragment extends BaseFragment implements IMineView {
             mPresenter = new MinePresenter(this);
         }
 
-        if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
-            mPresenter.getUserInfo();
-        } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
-            if (headerView != null) {
-                headerView.setType(2);
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            if (mPresenter != null) {
+                mPresenter.getNewNotice();
+            }
+            if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
+                mPresenter.getUserInfo();
+                mPresenter.getDongTaiList(pageNumber);
+            } else if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                if (headerView != null) {
+                    headerView.setType(2);
+                }
             }
         } else {
             if (headerView != null) {

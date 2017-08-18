@@ -22,6 +22,8 @@ import com.sports.limitsport.activity.ui.IActivityDiscussView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.util.SharedPrefsUtil;
@@ -84,8 +86,19 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 finish();
                 break;
             case R.id.btn_comment:
-                commentDialog.setType(1);
-                commentDialog.show();
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(ActivityDiscussActivity.this, LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(ActivityDiscussActivity.this, IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    commentDialog.setType(1);
+                    commentDialog.show();
+                }
                 break;
             case R.id.tv_reload:
                 viewNonet.setVisibility(View.GONE);
@@ -149,9 +162,21 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                commentList = (CommentList) adapter.getItem(position);
-                commentDialog.setType(2);
-                commentDialog.show();
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(ActivityDiscussActivity.this, LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(ActivityDiscussActivity.this, IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    commentList = (CommentList) adapter.getItem(position);
+                    commentDialog.setType(2);
+                    commentDialog.show();
+                }
+
             }
         });
 
