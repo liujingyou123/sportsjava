@@ -286,6 +286,7 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
         intent.putExtra("startTime", startTime);
         intent.putExtra("address", orderList.getAddress());
         intent.putExtra("from", 1);
+        intent.putExtra("orderNo", orderList.getOrderNo());
         startActivity(intent);
     }
 

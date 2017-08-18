@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseSelectionAdapter;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.util.TextViewUtil;
 
@@ -27,6 +28,8 @@ public class MyFocusPersonSelectAdapter extends BaseSelectionAdapter<FansList, B
     @Override
     protected void convert(BaseViewHolder helper, FansList item) {
         super.convert(helper, item);
+        XLog.e("position = " + helper.getAdapterPosition());
+
         ImageView imageView = helper.getView(R.id.imv_checked);
         imageView.setSelected(item.isSelect);
 

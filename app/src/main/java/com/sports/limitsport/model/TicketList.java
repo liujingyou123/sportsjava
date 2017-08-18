@@ -142,4 +142,20 @@ public class TicketList extends SelectEntity{
     public void setVersion(int version) {
         this.version = version;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TicketList that = (TicketList) o;
+
+        return id == that.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

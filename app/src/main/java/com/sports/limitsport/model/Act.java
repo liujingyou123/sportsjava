@@ -162,4 +162,20 @@ public class Act extends SelectEntity implements Serializable{
     public void setHeight(int height) {
         this.height = height;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Act act = (Act) o;
+
+        return id == act.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

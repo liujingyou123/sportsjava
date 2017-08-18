@@ -64,6 +64,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
 
     private List<SignList> mData = new ArrayList<>();
     private PayPresenter mPresenter;
+    private String orderNo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -196,6 +197,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     }
 
     private void payOrder() {
+        orderNo = null;
         if (check()) {
             OrderRequest request = new OrderRequest();
             request.id = id;
@@ -220,10 +222,11 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     public void showPayOrderResult(PayOrderResponse response) {
         if (response != null && response.data != null) {
             if (mPresenter != null) {
+                orderNo = response.data.orderNo;
                 mPresenter.aliPay(response.data.orderInfo);
             }
         } else {
-            goToPayResult(1, response.getErrMsg(), null);
+            goToPayResult(1, response.getErrMsg());
         }
     }
 
@@ -236,7 +239,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @Override
     public void showPayResult(boolean isSuccess, String orderNo) {
         if (isSuccess) {
-            goToPayResult(0, null, orderNo);
+            goToPayResult(0, null);
         }
     }
 
@@ -256,7 +259,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
      *
      * @param type 0 成功 1失败
      */
-    private void goToPayResult(int type, String errormsg, String orderNo) {
+    private void goToPayResult(int type, String errormsg) {
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("type", type);

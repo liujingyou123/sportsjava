@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseSelectionAdapter;
 import com.sports.limitsport.base.SelectEntity;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.TicketList;
 import com.sports.limitsport.util.UnitUtil;
 
@@ -25,6 +26,7 @@ public class TicketsTypeAdapter extends BaseSelectionAdapter<TicketList, BaseVie
     protected void convert(BaseViewHolder helper, TicketList item) {
         super.convert(helper, item);
 
+        XLog.e("position = " + helper.getAdapterPosition());
         TextView textView = helper.getView(R.id.tv_ticket_type_one);
         textView.setSelected(item.isSelect);
         textView.setText("¥"+ UnitUtil.formatSNum(item.getMoney())+"\n"+item.getName());

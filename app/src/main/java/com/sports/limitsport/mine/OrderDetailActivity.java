@@ -165,7 +165,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
                     if (isJoin == 1) {
                         gotoEditDongTai();
                     } else {
-                        if ("2".equals(orderDetail.getOrderStatus())) {
+                        if ("1".equals(orderDetail.getOrderStatus())) {
                             if (mPresenter != null) {
                                 mPresenter.reFundOrder(orderNo);
                             }
@@ -464,7 +464,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
         String startTime = orderDetail.getStartDate() + " " + UnitUtil.stringToWeek(orderDetail.getWeek()) + " " + orderDetail.getStartTime();
         intent.putExtra("startTime", startTime);
         intent.putExtra("address", orderDetail.getAddress());
-        intent.putExtra("from", 1);
+        intent.putExtra("from", 2);
+        intent.putExtra("orderNo", orderNo);
         startActivity(intent);
     }
 }

@@ -24,7 +24,6 @@ import com.sports.limitsport.model.TicketListResponse;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
-import com.sports.limitsport.view.H5Activity;
 import com.sports.limitsport.view.NumCheckView;
 import com.sports.limitsport.view.SignUpFooterView;
 import com.sports.limitsport.view.SignUpHeadView;
@@ -96,6 +95,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
 
     private void init() {
         tvFocusHouse.setText("活动报名");
+
 
         TextViewUtil.setPartAndColorAndClick(tvServer, onClickListener, 2, tvServer.getText().length(), getResources().getColor(R.color.color_text_green));
         signUpHeadView = new SignUpHeadView(this);

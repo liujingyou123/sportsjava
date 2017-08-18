@@ -33,7 +33,8 @@ public abstract class BaseSelectionAdapter<T extends SelectEntity, K extends Bas
     @Override
     protected void convert(K helper, T item) {
         helper.addOnClickListener(getSelectId());
-        int position = helper.getAdapterPosition();
+        int position = getData().indexOf(item);
+        //影响报名票务选择
         if (mSelectedPositions != null && mSelectedPositions.indexOf(position) != -1 && !item.isSelect) {
             item.isSelect = true;
         }

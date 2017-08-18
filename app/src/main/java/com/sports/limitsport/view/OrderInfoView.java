@@ -3,6 +3,7 @@ package com.sports.limitsport.view;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.model.SignList;
+import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 
 import butterknife.BindView;
@@ -54,7 +56,8 @@ public class OrderInfoView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.item_adapter_orders, this);
         ButterKnife.bind(this, this);
 
-
+        etPhone.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
+        etIds.setFilters(new InputFilter[]{TextViewUtil.idCardInput()});
         etPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -133,6 +136,10 @@ public class OrderInfoView extends LinearLayout {
     }
 
     public SignList getOrderInfo() {
+        String phone = orderInfo.phone.replaceAll(" ", "");
+        String idCard = orderInfo.idCard.replaceAll(" ", "");
+        orderInfo.phone = phone;
+        orderInfo.idCard = idCard;
         return orderInfo;
     }
 

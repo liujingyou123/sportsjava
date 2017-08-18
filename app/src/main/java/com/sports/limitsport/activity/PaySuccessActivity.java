@@ -53,7 +53,7 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     private String imgCover;//活动封面
     private String startTime; //活动时间
     private String address; // 地址
-    private int from;//来源：（1:从订单列表页或详情页进入，0:从支付页进入）
+    private int from;//来源：（1:从订单列表页 2:详情页进入，0:从支付页进入）
     private int type;
     private String errorMsg;
     private PaySuccessPresenter mPresenter;
@@ -128,7 +128,7 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                if (from == 1) {
+                if (from == 1 || from == 2) {
                     finish();
                 } else {
                     Intent intent = new Intent(this, MainActivity.class);
@@ -154,5 +154,8 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra("orderNo", orderNo);
         startActivity(intent);
+        if (type == 1) {
+            this.finish();
+        }
     }
 }
