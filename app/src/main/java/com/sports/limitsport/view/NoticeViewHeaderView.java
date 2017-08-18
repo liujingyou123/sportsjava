@@ -26,8 +26,6 @@ public class NoticeViewHeaderView extends LinearLayout {
     TextView tvMore;
     @BindView(R.id.imv_close)
     ImageView imvClose;
-    @BindView(R.id.tv_recommend)
-    TextView tvRecommend;
 
     public NoticeViewHeaderView(Context context) {
         super(context);
@@ -52,7 +50,10 @@ public class NoticeViewHeaderView extends LinearLayout {
     public void setEmpty() {
         tvMore.setVisibility(View.GONE);
         tvTip.setText("您还没有关注的人，以下是为您推荐的小伙伴！");
-        tvRecommend.setVisibility(View.VISIBLE);
+    }
+
+    public void setMoreText(String msg) {
+        tvMore.setText(msg);
     }
 
     public void setTip(String msg) {
@@ -61,10 +62,6 @@ public class NoticeViewHeaderView extends LinearLayout {
 
     public void setButtonText(String msg) {
         tvMore.setText(msg);
-    }
-
-    public void setTvRecommendVisible(int visible) {
-        tvRecommend.setVisibility(visible);
     }
 
     public void setButtonClickListener(OnClickListener onClickListener) {

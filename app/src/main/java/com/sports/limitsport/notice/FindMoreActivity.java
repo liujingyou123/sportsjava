@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class FindMoreActivity extends BaseActivity implements IFindMoreFriendsVi
     private FindMoreFriendsPresenter mPresenter;
     private int pageNumber = 1;
     private int totalSize;
+    private NoticeViewHeaderView headerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,11 +78,12 @@ public class FindMoreActivity extends BaseActivity implements IFindMoreFriendsVi
 
     private void initView() {
         tvFocusHouse.setText("关注好友");
-        NoticeViewHeaderView headerView = new NoticeViewHeaderView(this);
+        headerView = new NoticeViewHeaderView(this);
+        View headTip = LayoutInflater.from(this).inflate(R.layout.view_notice_empty_tip, null);
         headerView.setCloseClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapterRecommend.removeAllHeaderView();
+                adapterRecommend.removeHeaderView(headerView);
             }
         });
         headerView.setButtonClickListener(new View.OnClickListener() {
@@ -89,14 +92,14 @@ public class FindMoreActivity extends BaseActivity implements IFindMoreFriendsVi
 
             }
         });
-
+        headerView.setMoreText("邀请好友");
         headerView.setTip("发现更多的好友，去微信寻找小伙伴吧。");
-        headerView.setTvRecommendVisible(View.VISIBLE);
         rlvRecommend.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         adapterRecommend = new MyNoticeRecommendAdapter(data);
         adapterRecommend.bindToRecyclerView(rlvRecommend);
         adapterRecommend.addHeaderView(headerView);
+        adapterRecommend.addHeaderView(headTip);
         adapterRecommend.setLoadMoreView(new CustomLoadMoreNoEndView());
         adapterRecommend.disableLoadMoreIfNotFullPage();
         adapterRecommend.setEnableLoadMore(true);

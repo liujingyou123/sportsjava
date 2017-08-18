@@ -239,12 +239,14 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
      * 没有关注的时候(推荐的人)
      */
     private void initEmptyView() {
-        NoticeViewHeaderView headerView = new NoticeViewHeaderView(getContext());
+        final NoticeViewHeaderView headerView = new NoticeViewHeaderView(getContext());
+        View headTip = LayoutInflater.from(getContext()).inflate(R.layout.view_notice_empty_tip, null);
+
         headerView.setEmpty();
         headerView.setCloseClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapterRecommend.removeAllHeaderView();
+                adapterRecommend.removeHeaderView(headerView);
             }
         });
         rlvMyNotice.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -253,6 +255,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         adapterRecommend.bindToRecyclerView(rlvMyNotice);
         adapterRecommend.setLoadMoreView(new CustomLoadMoreNoEndView());
         adapterRecommend.addHeaderView(headerView);
+        adapterRecommend.addHeaderView(headTip);
         adapterRecommend.setEnableLoadMore(true);
         adapterRecommend.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -423,7 +426,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
         if (response != null && response.getData() != null) {
             totalSize = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
-                refreshTipVisible();
+//                refreshTipVisible();
                 dataR.clear();
                 dataR.addAll(response.getData().getData());
                 adapterRecommend.setNewData(dataR);
