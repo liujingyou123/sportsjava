@@ -36,36 +36,46 @@ public class NumCheckView extends LinearLayout {
 
     public NumCheckView(Context context) {
         super(context);
-        initView(null);
+        initView();
     }
 
     public NumCheckView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initView(attrs);
+        initView();
     }
 
     public NumCheckView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView(attrs);
+        initView();
     }
 
-    private void initView(AttributeSet attrs) {
+    private void initView() {
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
         LayoutInflater.from(getContext()).inflate(R.layout.view_numcheck, this);
         ButterKnife.bind(this, this);
-        imvSub.setEnabled(false);
-        imvAdd.setEnabled(true);
     }
 
     @OnClick({R.id.imv_sub, R.id.imv_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_sub:
-                subNum();
+                if (imvSub.isSelected()) {
+                    subNum();
+                } else {
+                    if (mOnNumChangedListener != null) {
+                        mOnNumChangedListener.overMin();
+                    }
+                }
                 break;
             case R.id.imv_add:
-                addNum();
+                if (imvAdd.isSelected()) {
+                    addNum();
+                } else {
+                    if (mOnNumChangedListener != null) {
+                        mOnNumChangedListener.overMax();
+                    }
+                }
                 break;
         }
     }
@@ -78,18 +88,15 @@ public class NumCheckView extends LinearLayout {
         }
 
         if (num >= maxNum) {
-            imvAdd.setEnabled(false);
-            if (mOnNumChangedListener != null) {
-                mOnNumChangedListener.overMax();
-            }
+            imvAdd.setSelected(false);
         } else {
-            imvAdd.setEnabled(true);
+            imvAdd.setSelected(true);
         }
 
         if (num > minNum) {
-            imvSub.setEnabled(true);
+            imvSub.setSelected(true);
         } else {
-            imvSub.setEnabled(false);
+            imvSub.setSelected(false);
         }
 
         if (mOnNumChangedListener != null) {
@@ -105,19 +112,16 @@ public class NumCheckView extends LinearLayout {
         }
 
         if (num >= maxNum) {
-            imvAdd.setEnabled(false);
+            imvAdd.setSelected(false);
         } else {
-            imvAdd.setEnabled(true);
+            imvAdd.setSelected(true);
         }
 
 
         if (num > minNum) {
-            imvSub.setEnabled(true);
+            imvSub.setSelected(true);
         } else {
-            imvSub.setEnabled(false);
-            if (mOnNumChangedListener != null) {
-                mOnNumChangedListener.overMin();
-            }
+            imvSub.setSelected(false);
         }
 
         if (mOnNumChangedListener != null) {
@@ -143,15 +147,15 @@ public class NumCheckView extends LinearLayout {
         this.num = defaultNum;
         tvNum.setText("" + num);
         if (num > minNum) {
-            imvSub.setEnabled(true);
+            imvSub.setSelected(true);
         } else {
-            imvSub.setEnabled(false);
+            imvSub.setSelected(false);
         }
 
         if (num < maxNum) {
-            imvAdd.setEnabled(true);
+            imvAdd.setSelected(true);
         } else {
-            imvAdd.setEnabled(false);
+            imvAdd.setSelected(false);
         }
     }
 
@@ -183,18 +187,18 @@ public class NumCheckView extends LinearLayout {
     public void setCanEnable(boolean enable) {
         if (enable) {
             if (num > minNum) {
-                imvSub.setEnabled(true);
+                imvSub.setSelected(true);
             } else {
-                imvSub.setEnabled(false);
+                imvSub.setSelected(false);
             }
             if (num < maxNum) {
-                imvAdd.setEnabled(true);
+                imvAdd.setSelected(true);
             } else {
-                imvAdd.setEnabled(false);
+                imvAdd.setSelected(false);
             }
         } else {
-            imvSub.setEnabled(false);
-            imvAdd.setEnabled(false);
+            imvSub.setSelected(false);
+            imvAdd.setSelected(false);
         }
     }
 

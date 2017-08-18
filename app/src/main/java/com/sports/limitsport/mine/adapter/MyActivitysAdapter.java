@@ -1,8 +1,11 @@
 package com.sports.limitsport.mine.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,6 +16,12 @@ import com.sports.limitsport.model.OrdersList;
 import com.sports.limitsport.util.UnitUtil;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by liuworkmac on 17/7/7.
@@ -32,7 +41,7 @@ public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHol
         TextView tvTicketName = helper.getView(R.id.tv_ticket_type);
         TextView tvTicketPrice = helper.getView(R.id.tv_ticket_price);
         TextView tvTotalPrice = helper.getView(R.id.tv_all_price);
-        TextView tvPayPrice = helper.getView(R.id.tv_pay_price);
+        RelativeLayout rlBtn = helper.getView(R.id.rl_btn);
 
         Batman.getInstance().fromNet(item.getCoverUrl(), imageView);
 
@@ -42,32 +51,82 @@ public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHol
         tvTicketPrice.setText(UnitUtil.formatSNum(item.getMoneyNews()) + " 元 （" + item.getNumber() + "张）");
         tvTotalPrice.setText("¥" + UnitUtil.formatSNum(item.getTotalMoney()));
 
-        helper.addOnClickListener(R.id.tv_pay_price);
+        helper.addOnClickListener(R.id.rl_btn);
+
+        rlBtn.removeAllViews();
+        ;
         if (item.getIsJoin() == 1) { //已参加
             tvStatus.setText("已参加");
-            tvPayPrice.setText("秀动态");
-            tvPayPrice.setVisibility(View.VISIBLE);
+            rlBtn.addView(addTextView("秀动态"));
         } else {  //(0待支付 1已支付 2订单关闭3:已取消 4:退款中 5:已退款)
             if ("0".equals(item.getOrderStatus())) {
                 tvStatus.setText("待支付");
-                tvPayPrice.setText("付款" + UnitUtil.formatSNum(item.getReceptMoney()));
-                tvPayPrice.setVisibility(View.VISIBLE);
+//                tvPayPrice.setVisibility(View.VISIBLE);
+                TextView textView = addTextView("");
+                rlBtn.addView(textView);
+                timeCountDown(item.getLaveSecond(), textView, item);
             } else if ("1".equals(item.getOrderStatus())) {
                 tvStatus.setText("已报名");
-                tvPayPrice.setVisibility(View.GONE);
             } else if ("2".equals(item.getOrderStatus())) {
                 tvStatus.setText("已关闭");
-                tvPayPrice.setVisibility(View.GONE);
             } else if ("3".equals(item.getOrderStatus())) {
                 tvStatus.setText("已取消");
-                tvPayPrice.setVisibility(View.GONE);
             } else if ("4".equals(item.getOrderStatus())) {
                 tvStatus.setText("退款中");
-                tvPayPrice.setVisibility(View.GONE);
             } else if ("5".equals(item.getOrderStatus())) {
                 tvStatus.setText("已退款");
-                tvPayPrice.setVisibility(View.GONE);
             }
         }
+
+
+    }
+
+    public void timeCountDown(long time, final TextView tvPayPrice, final OrdersList item) {
+        if (time < 0) time = 0;
+        final long countTime = time;
+        Observable.interval(0, 1, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<Long, Long>() {
+                    @Override
+                    public Long call(Long increaseTime) {
+                        return countTime - increaseTime.intValue();
+                    }
+                })
+                .take((int) (countTime + 1))
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        item.setLaveSecond(aLong.longValue());
+                        tvPayPrice.setText("付款" + UnitUtil.secondsToTimeString(aLong));
+                    }
+                });
+
+    }
+
+//                <TextView
+//    android:id="@+id/tv_pay_price"
+//    android:layout_width="wrap_content"
+//    android:layout_height="wrap_content"
+//    android:background="@drawable/bg_done"
+//    android:paddingBottom="5dp"
+//    android:paddingLeft="5dp"
+//    android:paddingRight="5dp"
+//    android:paddingTop="5dp"
+//    android:text="付款59:33"
+//    android:textColor="#FFFFFFFF"
+//    android:textSize="14sp" />
+
+    private TextView addTextView(String text) {
+        TextView textView = new TextView(mContext);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setBackgroundResource(R.drawable.bg_done);
+        int padding = UnitUtil.dip2px(mContext, 5);
+        textView.setPadding(padding, padding, padding, padding);
+        textView.setTextColor(Color.parseColor("#ffffff"));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        textView.setText(text);
+        textView.setLayoutParams(lp);
+        return textView;
     }
 }

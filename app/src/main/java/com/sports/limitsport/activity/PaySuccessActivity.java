@@ -13,6 +13,7 @@ import com.sports.limitsport.activity.ui.IPaySuccessView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.main.MainActivity;
+import com.sports.limitsport.mine.OrderDetailActivity;
 import com.sports.limitsport.model.PayFinishResponse;
 import com.sports.limitsport.model.SelectTicket;
 
@@ -45,15 +46,19 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     TextView tvTitle;
     @BindView(R.id.tv_sub_title)
     TextView tvSubTitle;
+    @BindView(R.id.tv_look)
+    TextView tvLook;
     private String id; //活动ID
     private String title;//活动title
     private String imgCover;//活动封面
     private String startTime; //活动时间
     private String address; // 地址
+    private int from;//来源：（1:从订单列表页或详情页进入，0:从支付页进入）
     private int type;
     private String errorMsg;
     private PaySuccessPresenter mPresenter;
     private SelectTicket selectTicket;
+    private String orderNo;
 
 
     @Override
@@ -76,6 +81,8 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             selectTicket = (SelectTicket) intent.getSerializableExtra("selectTicket");
             startTime = intent.getStringExtra("startTime");
             address = intent.getStringExtra("address");
+            orderNo = intent.getStringExtra("orderNo");
+            from = intent.getIntExtra("from", 0);
         }
     }
 
@@ -100,11 +107,13 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             tvTitle.setText("恭喜您！购票成功！");
             tvTitle.setEnabled(true);
             tvSubTitle.setText("请注意活动时间以免错过活动");
+            tvLook.setVisibility(View.VISIBLE);
         } else if (type == 1) {
             tvFocusHouse.setText("支付失败");
             tvTitle.setText("哎呀！购票失败！");
             tvTitle.setEnabled(false);
             tvSubTitle.setText(errorMsg);
+            tvLook.setVisibility(View.GONE);
         }
 
         Batman.getInstance().fromNet(imgCover, imvCover);
@@ -119,13 +128,19 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                finish();
+                if (from == 1) {
+                    finish();
+                } else {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.tv_back:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_look:
+                gotoOrderDetail();
                 break;
         }
     }
@@ -133,5 +148,11 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     @Override
     public void showPayResult(PayFinishResponse response) {
 
+    }
+
+    private void gotoOrderDetail() {
+        Intent intent = new Intent(this, OrderDetailActivity.class);
+        intent.putExtra("orderNo", orderNo);
+        startActivity(intent);
     }
 }

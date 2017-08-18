@@ -13,18 +13,28 @@ import android.widget.TextView;
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.PaySuccessActivity;
+import com.sports.limitsport.activity.presenter.PayPresenter;
+import com.sports.limitsport.activity.ui.IPayOrderView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.MyActivitysAdapter;
+import com.sports.limitsport.model.EventBusOrder;
 import com.sports.limitsport.model.MyCollectActivityResponse;
 import com.sports.limitsport.model.OrdersList;
 import com.sports.limitsport.model.OrdersListResponse;
+import com.sports.limitsport.model.PayOrderResponse;
+import com.sports.limitsport.model.SelectTicket;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.ToolsUtil;
+import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -42,7 +52,7 @@ import butterknife.OnClick;
  * 我的活动
  */
 
-public class MyActivitysActivity extends BaseActivity {
+public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.ry_activity)
@@ -55,14 +65,37 @@ public class MyActivitysActivity extends BaseActivity {
     private int pageNumber = 1;
     private int totalSize;
     private List<OrdersList> data = new ArrayList<>();
+    private PayPresenter mPresenter;
+    private OrdersList orderList;
+    private boolean isRefresh = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myactivitys);
         ButterKnife.bind(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        if (mPresenter == null) mPresenter = new PayPresenter(this);
         initView();
-        rlAll.autoRefresh();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isRefresh) {
+            isRefresh = false;
+            rlAll.autoRefresh();
+        }
+    }
+
+    @Subscribe
+    public void isStatusChange(EventBusOrder param) {
+        if (param != null && param.isChange) {
+            isRefresh = true;
+        }
     }
 
     private void initView() {
@@ -90,20 +123,22 @@ public class MyActivitysActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                OrdersList tmp = (OrdersList) adapter.getItem(position);
                 Intent intent = new Intent(MyActivitysActivity.this, OrderDetailActivity.class);
-                intent.putExtra("type", position + 1 + "");
+                intent.putExtra("orderNo", tmp.getOrderNo());
+                intent.putExtra("isJoin", tmp.getIsJoin());
                 startActivity(intent);
             }
         });
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                OrdersList orderList = (OrdersList) adapter.getItem(position);
+                orderList = (OrdersList) adapter.getItem(position);
                 if (orderList != null) {
                     if (orderList.getIsJoin() == 1) { //已参加
                         gotoEditDongtai();
                     } else if ("0".equals(orderList.getOrderStatus())) {
-                        gotoPay();
+                        gotoPay(orderList.getOrderInfo());
                     }
                 }
             }
@@ -198,8 +233,10 @@ public class MyActivitysActivity extends BaseActivity {
     /**
      * 去支付
      */
-    private void gotoPay() {
-
+    private void gotoPay(String orderInfo) {
+        if (mPresenter != null) {
+            mPresenter.aliPay(orderInfo);
+        }
     }
 
     /**
@@ -211,4 +248,50 @@ public class MyActivitysActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void showPayOrderResult(PayOrderResponse response) {
+
+    }
+
+    @Override
+    public void showPayResult(boolean isSuccess, String OrderNo) {
+        if (isSuccess) {
+            goToPayResult(0, null);
+        }
+    }
+
+    @Override
+    public void showPayOrderResultFail(Throwable e) {
+
+    }
+
+    /**
+     * 前往支付结果页
+     *
+     * @param type 0 成功 1失败
+     */
+    private void goToPayResult(int type, String errormsg) {
+        Intent intent = new Intent(this, PaySuccessActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("errorMsg", errormsg);
+
+        intent.putExtra("title", orderList.getName());
+        intent.putExtra("imgCover", orderList.getCoverUrl());
+        SelectTicket selectTicket = new SelectTicket();
+        selectTicket.num = orderList.getNumber();
+        selectTicket.name = orderList.getTicketsName();
+        selectTicket.totalPrice = orderList.getTotalMoney();
+        intent.putExtra("selectTicket", selectTicket);
+        String startTime = orderList.getStartDate() + " " + UnitUtil.stringToWeek(orderList.getWeek()) + " " + orderList.getStartTime();
+        intent.putExtra("startTime", startTime);
+        intent.putExtra("address", orderList.getAddress());
+        intent.putExtra("from", 1);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

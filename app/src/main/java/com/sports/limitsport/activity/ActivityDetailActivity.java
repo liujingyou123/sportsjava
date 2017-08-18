@@ -149,7 +149,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
 
         if (location[1] < statusBarHeight) {
-            rlTitle.setBackgroundColor(Color.parseColor("#000000"));
+            rlTitle.setBackgroundColor(Color.parseColor("#171717"));
         } else {
             rlTitle.setBackgroundColor(Color.parseColor("#00000000"));
         }

@@ -223,7 +223,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
                 mPresenter.aliPay(response.data.orderInfo);
             }
         } else {
-            goToPayResult(1, response.getErrMsg());
+            goToPayResult(1, response.getErrMsg(), null);
         }
     }
 
@@ -236,7 +236,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @Override
     public void showPayResult(boolean isSuccess, String orderNo) {
         if (isSuccess) {
-            goToPayResult(0, null);
+            goToPayResult(0, null, orderNo);
         }
     }
 
@@ -256,7 +256,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
      *
      * @param type 0 成功 1失败
      */
-    private void goToPayResult(int type, String errormsg) {
+    private void goToPayResult(int type, String errormsg, String orderNo) {
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("type", type);
@@ -268,6 +268,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
 
         intent.putExtra("startTime", startTime);
         intent.putExtra("address", address);
+        intent.putExtra("orderNo", orderNo);
         startActivity(intent);
     }
 

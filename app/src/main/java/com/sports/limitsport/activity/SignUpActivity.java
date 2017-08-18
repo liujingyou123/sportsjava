@@ -159,7 +159,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
 
     private boolean check() {
         boolean ret = true;
-        if (selectTicket == null || selectTicket.name == null) {
+        if (selectTicket == null || selectTicket.name == null || selectTicket.num == 0) {
             ToastUtil.showFalseToast(this, "请选择票类");
             ret = false;
         }
@@ -173,6 +173,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
 
     private void showSelectTicket() {
         //设置最大可选择数量
+        signUpFooterView.getNumCheckView().setMinNum(0);
         signUpFooterView.getNumCheckView().setMaxNum(selectTicket.maxNum);
         //设置数量为0
         signUpFooterView.getNumCheckView().setDefaultNum(selectTicket.num);

@@ -112,7 +112,7 @@ public class PayPresenter {
 
     public void comfirmPayResult(PayResult payResult) {
         Map<String, String> params = payResult.getRawResult();
-        params.put("payType", "aliPay");
+        params.put("payType", "0");
         String result = payResult.getResult();
         String orderNo = null;
         if (!TextUtils.isEmpty(result)) {

@@ -7,15 +7,22 @@ package com.sports.limitsport.model;
 public class OrdersList {
     private String coverUrl;
     private int id;
+    private int isJoin;
+    private long laveSecond;
     private String moneyNews;
     private String name;
     private int number;
+    private String orderInfo;
     private String orderNo;
     private String orderStatus;
     private String receptMoney;
     private String ticketsName;
     private String totalMoney;
-    private int isJoin;
+    private String address;
+    private String startDate;
+    private String startTime;
+    private String week;
+
 
     public String getCoverUrl() {
         return coverUrl;
@@ -31,6 +38,22 @@ public class OrdersList {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIsJoin() {
+        return isJoin;
+    }
+
+    public void setIsJoin(int isJoin) {
+        this.isJoin = isJoin;
+    }
+
+    public long getLaveSecond() {
+        return laveSecond;
+    }
+
+    public void setLaveSecond(long laveSecond) {
+        this.laveSecond = laveSecond;
     }
 
     public String getMoneyNews() {
@@ -55,6 +78,14 @@ public class OrdersList {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(String orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
     public String getOrderNo() {
@@ -97,11 +128,35 @@ public class OrdersList {
         this.totalMoney = totalMoney;
     }
 
-    public int getIsJoin() {
-        return isJoin;
+    public String getAddress() {
+        return address;
     }
 
-    public void setIsJoin(int isJoin) {
-        this.isJoin = isJoin;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
     }
 }

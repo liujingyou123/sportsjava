@@ -76,6 +76,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
@@ -137,6 +138,7 @@
 
         <activity
             android:name=".mine.OrderDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
@@ -228,16 +230,14 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
-        
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
         <!-- jpush -->
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity

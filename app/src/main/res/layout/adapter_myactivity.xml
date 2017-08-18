@@ -110,19 +110,13 @@
             android:textColor="#FFFFFFFF"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/tv_pay_price"
+        <RelativeLayout
+            android:id="@+id/rl_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/bg_done"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:text="付款59:33"
-            android:textColor="#FFFFFFFF"
-            android:textSize="14sp" />
+            android:layout_centerVertical="true">
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

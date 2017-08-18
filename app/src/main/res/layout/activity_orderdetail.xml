@@ -25,7 +25,7 @@
                     android:id="@+id/tv_ordernum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单编号：123456789"
+                    android:text="订单编号："
                     android:textColor="#A5A4A4"
                     android:textSize="12sp" />
 
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/tv_ordernum"
-                    android:text="待支付"
+                    android:text=""
                     android:textColor="#FF4795FB"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="-10dp"
-                android:text="下单时间：2017-06-14  21:59"
+                android:text="下单时间："
                 android:textColor="#A5A4A4"
                 android:textSize="12sp" />
 
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="支付时间：2017-06-14  22:10"
+                android:text="支付时间："
                 android:textColor="#A5A4A4"
                 android:textSize="12sp" />
 
@@ -96,7 +96,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_toRightOf="@id/imv_cover"
                     android:maxLines="1"
-                    android:text="南山俱乐部 大云山潜水第九期"
+                    android:text=""
                     android:textColor="#FFFFFFFF"
                     android:textSize="14sp" />
 
@@ -107,7 +107,7 @@
                     android:layout_alignLeft="@id/tv_name"
                     android:layout_below="@id/tv_name"
                     android:layout_marginTop="2dp"
-                    android:text="4月22日 周六  13:30-15:00"
+                    android:text=""
                     android:textColor="#c5c4c4"
                     android:textSize="12sp" />
 
@@ -118,9 +118,10 @@
                     android:layout_alignLeft="@id/tv_name"
                     android:layout_below="@id/tv_time"
                     android:layout_marginTop="2dp"
-                    android:text="浙江省湖州市大云山华府景区111号"
+                    android:text=""
                     android:textColor="#c5c4c4"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:maxLines="1"/>
 
                 <TextView
                     android:id="@+id/tv_ticket_price"
@@ -129,7 +130,7 @@
                     android:layout_alignBottom="@id/imv_cover"
                     android:layout_alignLeft="@id/tv_name"
                     android:layout_marginBottom="3dp"
-                    android:text="￥1500 标准票"
+                    android:text=""
                     android:textColor="#c5c4c4"
                     android:textSize="12sp" />
 
@@ -140,7 +141,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@id/tv_ticket_price"
                     android:layout_marginRight="15dp"
-                    android:text="x2"
+                    android:text=""
                     android:textColor="#c5c4c4"
                     android:textSize="12sp" />
 
@@ -169,12 +170,13 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_all_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="3dp"
                         android:layout_toRightOf="@id/tv_all_tip"
-                        android:text="￥3000"
+                        android:text=""
                         android:textColor="#FFFFFFFF"
                         android:textSize="14sp" />
 
@@ -336,7 +338,7 @@
                         android:paddingLeft="25dp"
                         android:paddingRight="25dp"
                         android:paddingTop="10dp"
-                        android:text="支付 59:33"
+                        android:text="支付"
                         android:textColor="#FFFFFFFF"
                         android:textSize="16sp" />
 

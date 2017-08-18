@@ -24,11 +24,11 @@ public class OrderDetailPresenter {
     /**
      * 获取订单详情
      *
-     * @param orderId
+     * @param orderNo
      */
-    public void getOrderDetail(String orderId) {
+    public void getOrderDetail(String orderNo) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("orderId", orderId);
+        hashMap.put("orderNo", orderNo);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getOrderDetail(hashMap), new NetSubscriber<OrderDetailResponse>() {
             @Override
             public void response(OrderDetailResponse response) {
@@ -47,11 +47,11 @@ public class OrderDetailPresenter {
     /**
      * 取消订单
      *
-     * @param orderId
+     * @param orderNo
      */
-    public void cancelOrder(String orderId) {
+    public void cancelOrder(String orderNo) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("orderId", orderId);
+        hashMap.put("orderNo", orderNo);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).cancelOrder(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
@@ -73,11 +73,11 @@ public class OrderDetailPresenter {
     /**
      * 退款
      *
-     * @param orderId
+     * @param orderNo
      */
-    public void reFundOrder(String orderId) {
+    public void reFundOrder(String orderNo) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("orderId", orderId);
+        hashMap.put("orderNo", orderNo);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).reFundOrder(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {

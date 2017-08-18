@@ -100,7 +100,7 @@ public class URLConstants {
     //关注的人动态或者推荐用户列表
     public final static String URL_RECOMMEND_OR_FOCUS = "api/trend/queryRecommentOrTrendAttentionList/v1.0.0";
     //获取订单详情
-    public final static String URL_ORDER_DETAIL = "";
+    public final static String URL_ORDER_DETAIL = "api/activityOrder/selectOrderDetail/v1.0.0";
     //取消订单
     public final static String URL_CANCEL_ORDER = "api/activityOrder/cancelOrder/v1.0.0";
     //退款

@@ -130,6 +130,7 @@
             android:text="查看订单"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>
