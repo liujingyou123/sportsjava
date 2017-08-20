@@ -50,9 +50,9 @@ public class PersonInfoAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHol
         helper.addOnClickListener(R.id.imv_report);
 
         if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         }
 
         if (!TextViewUtil.isEmpty(item.getContent())) {
