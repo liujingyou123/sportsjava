@@ -9,6 +9,7 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:background="@mipmap/icon_ver_default"
         app:indicator_drawable_selected="@drawable/indicator_selected"
         app:indicator_drawable_unselected="@drawable/indicator_unselected"
         app:indicator_height="5dp"
@@ -36,14 +37,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:drawablePadding="2dp"
             android:drawableRight="@mipmap/icon_discovery_more"
             android:gravity="center_vertical"
             android:text="更多"
             android:textColor="#FF8D8D8D"
-            android:textSize="12sp"
-            android:layout_centerVertical="true"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -74,14 +75,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:drawablePadding="2dp"
             android:drawableRight="@mipmap/icon_discovery_more"
             android:gravity="center_vertical"
             android:text="更多"
             android:textColor="#FF8D8D8D"
-            android:textSize="12sp"
-            android:layout_centerVertical="true"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -113,13 +114,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:drawablePadding="2dp"
             android:drawableRight="@mipmap/icon_discovery_more"
             android:gravity="center_vertical"
             android:text="更多"
             android:textColor="#FF8D8D8D"
-            android:textSize="12sp"
-            android:layout_centerVertical="true"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 </LinearLayout>

@@ -44,7 +44,7 @@ public class FindClubAdapter extends BaseQuickAdapter<Club, BaseViewHolder> {
         } else {
             tv_head.setVisibility(View.GONE);
             view_data.setVisibility(View.VISIBLE);
-            Batman.getInstance().getImageWithCircle(club.getLogoUrl(), imvHead, 0, 0);
+            Batman.getInstance().getImageWithCircle(club.getLogoUrl(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
             tvName.setText(club.getClubName());
             tvDes.setText(club.getClubIntroduction());
             tvNumbers.setText(club.getMemberNum() + "成员");

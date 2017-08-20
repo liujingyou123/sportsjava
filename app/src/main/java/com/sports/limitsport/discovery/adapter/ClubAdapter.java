@@ -30,8 +30,8 @@ public class ClubAdapter extends BaseQuickAdapter<Club, BaseViewHolder> {
         TextView tvSub = helper.getView(R.id.tv_sub);
 
         //TODO 正式
-        Batman.getInstance().fromNet(item.getClubImgUrl(), imageView);
-        Batman.getInstance().getImageWithCircle(item.getLogoUrl(), imvHead, 0, 0);
+        Batman.getInstance().fromNet(item.getClubImgUrl(), imageView, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+        Batman.getInstance().getImageWithCircle(item.getLogoUrl(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
         tvName.setText(item.getClubTypeName());
         tvSub.setText(item.getMemberNum() + "人已加入");
 

@@ -38,19 +38,19 @@ public class FineShowAdapter extends BaseQuickAdapter<FineShowList, BaseViewHold
             tvStatus.setVisibility(View.VISIBLE);
             tvStatus.setText("图片");
             //TODO 正式
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
 
         } else if (item.getResourceType() == 2) { //视频
             tvStatus.setVisibility(View.VISIBLE);
             tvStatus.setText("视频");
             ////TODO 正式
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         }
 
         tvNum.setText(item.getPraiseNum() + "");
         tvTitle.setText(item.getTitle());
         tvName.setText(item.getPublishUserName());
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
         //TODO 测试用
 //        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);

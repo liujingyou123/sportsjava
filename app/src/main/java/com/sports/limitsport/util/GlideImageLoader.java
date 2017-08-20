@@ -3,6 +3,7 @@ package com.sports.limitsport.util;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
 import com.youth.banner.loader.ImageLoader;
 
@@ -13,6 +14,6 @@ import com.youth.banner.loader.ImageLoader;
 public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
-        Batman.getInstance().fromNet((String) path, imageView);
+        Batman.getInstance().fromNet((String) path, imageView, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
     }
 }

@@ -4,10 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:background="@mipmap/icon_ver_default"
         app:indicator_drawable_selected="@drawable/indicator_selected"
         app:indicator_drawable_unselected="@drawable/indicator_unselected"
         app:indicator_height="5dp"

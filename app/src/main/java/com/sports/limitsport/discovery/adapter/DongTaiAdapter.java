@@ -41,7 +41,7 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
 
         imvCover.setInitSize(item.getWidth(), item.getHeight());
         int position = helper.getAdapterPosition();
-        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, 0, 0, item.getWidth(), item.getHeight());
+        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail, item.getWidth(), item.getHeight());
 
 
 //        if (item.getResourceType() == 1) { //1 图片 2:视频
@@ -50,7 +50,7 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
 //            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, 0, 0, item.getWidth(), item.getHeight());
 //        }
 
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
         if (!TextViewUtil.isEmpty(item.getPublishUserName())) {
             tvName.setText(item.getPublishUserName());

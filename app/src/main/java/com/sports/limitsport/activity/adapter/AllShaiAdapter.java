@@ -66,9 +66,9 @@ public class AllShaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         }
 
         if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
         }
 
         if (!TextViewUtil.isEmpty(item.getContent())) {

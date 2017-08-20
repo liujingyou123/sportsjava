@@ -173,7 +173,6 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
 
         allShaiAdapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
-        allShaiAdapter.disableLoadMoreIfNotFullPage();
         allShaiAdapter.setEnableLoadMore(true);
         allShaiAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -266,6 +265,7 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
                 data.addAll(response.getData().getData());
                 allShaiAdapter.setNewData(data);
 //                allShaiAdapter.notifyDataSetChanged();
+                allShaiAdapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 allShaiAdapter.addData(response.getData().getData());
