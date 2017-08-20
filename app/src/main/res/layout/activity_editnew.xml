@@ -97,6 +97,33 @@
                     android:src="@mipmap/icon_video" />
             </RelativeLayout>
 
+
+            <FrameLayout
+                android:id="@+id/fl_uploading_tip"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_gravity="bottom"
+                android:background="#99000000"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_uploading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="上传中..."
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="8sp" />
+
+                <ProgressBar
+                    android:id="@+id/uploading_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_gravity="bottom"
+                    android:max="100"
+                    android:progressDrawable="@drawable/jc_bottom_progress" />
+            </FrameLayout>
             <ImageView
                 android:id="@+id/imv_close_pic"
                 android:layout_width="wrap_content"

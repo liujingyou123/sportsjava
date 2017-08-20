@@ -14,13 +14,18 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.sports.limitsport.R;
 import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.base.BaseActivity;
@@ -28,18 +33,12 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
-import com.sports.limitsport.mine.UserInfoActivity;
-import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.model.Act;
-import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.model.ReObject;
-import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.net.IpServices;
-import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.notice.model.SelectMedia;
-import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
@@ -52,10 +51,9 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.ui.PreviewActivity;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,12 +86,21 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
     private static final int REQUEST_CODE_AT = 200;
     private static final int REQUEST_CODE_ACTIVITY = 201;
+    @BindView(R.id.imv_pic)
+    ImageView imvPic;
+    @BindView(R.id.tv_uploading)
+    TextView tvUploading;
+    @BindView(R.id.uploading_progress)
+    ProgressBar uploadingProgress;
+    @BindView(R.id.fl_uploading_tip)
+    FrameLayout flUploadingTip;
     private SelectMedia selectMedia;
     private Act selectAct;
     private List<Integer> mSelectPosition;
     private int activityPosition = -1;
-    private Subscription mSubscription;
     private List<FansList> mSelect;
+    private Subscription mUploadSb;
+    private OSSAsyncTask mOssAsyncTask;
 
 
     @Override
@@ -127,7 +134,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.imv_close, R.id.tv_focus_right, R.id.imv_close_pic, R.id.imv_pic, R.id.imv_at, R.id.imv_club, R.id.tv_type, R.id.fl_pic})
+    @OnClick({R.id.imv_close, R.id.tv_focus_right, R.id.imv_close_pic, R.id.imv_pic, R.id.imv_at, R.id.imv_club, R.id.tv_type, R.id.fl_pic, R.id.tv_uploading})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_close:
@@ -142,12 +149,15 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 dialog.show();
                 break;
             case R.id.tv_focus_right:
+            case R.id.tv_uploading:
                 publish();
                 break;
             case R.id.imv_close_pic:
+                cancelUploadPic();
                 selectMedia = null;
                 flPic.setVisibility(View.GONE);
                 imvCover.setImageResource(0);
+                imvPic.setVisibility(View.VISIBLE);
                 break;
             case R.id.imv_pic:
                 showPicker();
@@ -218,13 +228,13 @@ public class EditNewDongTaiActivity extends BaseActivity {
             final String uri = data.getStringExtra("uri");
 
             if (!TextUtils.isEmpty(path)) {
-
                 if ("photo".equals(type)) {
                     if (!TextUtils.isEmpty(uri)) {
                         Uri destinationUri = Uri.fromFile(new File(context.getCacheDir(), System.currentTimeMillis() + "_" + "dongtai.jpg"));
                         startCrop(Uri.parse(uri), destinationUri);
                     }
                 } else {
+                    imvPic.setVisibility(View.GONE);
                     selectMedia.type = type;
                     selectMedia.path = path;
                     if (!TextUtils.isEmpty(uri)) {
@@ -251,7 +261,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
 
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-
+            imvPic.setVisibility(View.GONE);
             Uri resultUri = UCrop.getOutput(data);
             String path = resultUri.getPath();
 
@@ -348,60 +358,171 @@ public class EditNewDongTaiActivity extends BaseActivity {
         }
     }
 
+    OSSProgressCallback<PutObjectRequest> putObjectRequest = new OSSProgressCallback<PutObjectRequest>() {
+        @Override
+        public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+//            int progress = (int) (currentSize % totalSize) * 100;
+
+            double shang = (double) currentSize / totalSize;
+            int progress = (int) (shang * 100);
+//            long yushu = (currentSize / totalSize);
+            XLog.e("currentSize: " + currentSize + " totalSize: " + totalSize);
+//            XLog.e("yushu = " + yushu);
+            XLog.e("progress = " + progress);
+            uploadingProgress.setProgress(progress);
+        }
+    };
+
+    OSSCompletedCallback<PutObjectRequest, PutObjectResult> ossCompletedCallback = new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+        @Override
+        public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
+            selectMedia.url = AliOss.getInstance().getUploadString(putObjectRequest.getObjectKey());
+            publishDongTai();
+        }
+
+        @Override
+        public void onFailure(PutObjectRequest putObjectRequest, ClientException e, ServiceException e1) {
+            ToastUtil.showFalseToast(EditNewDongTaiActivity.this, "上传资源失败");
+            uploadError();
+        }
+    };
+
+    /**
+     * 取消正在进行的上传
+     */
+    private void cancelUploadPic() {
+        if (mOssAsyncTask != null && (!mOssAsyncTask.isCompleted() || !mOssAsyncTask.isCanceled())) {
+            mOssAsyncTask.cancel();
+        }
+
+        if (mUploadSb != null && !mUploadSb.isUnsubscribed()) {
+            mUploadSb.unsubscribe();
+        }
+        mOssAsyncTask = null;
+        mUploadSb = null;
+    }
+
+    private void uploadingView() {
+        flUploadingTip.setVisibility(View.VISIBLE);
+        tvUploading.setText("上传中...");
+        tvUploading.setEnabled(false);
+        imvVideo.setVisibility(View.GONE);
+        uploadingProgress.setVisibility(View.VISIBLE);
+    }
+
+    private void uploadError() {
+        flUploadingTip.setVisibility(View.VISIBLE);
+        tvUploading.setText("重新上传");
+        tvUploading.setEnabled(true);
+        uploadingProgress.setVisibility(View.GONE);
+    }
+
     /**
      * 上传图片或视频
      */
     private void doUploadSource() {
-        mSubscription = Observable.just(selectMedia).map(new Func1<SelectMedia, SelectMedia>() {
-            @Override
-            public SelectMedia call(SelectMedia selectMedia) {
-                if (!TextViewUtil.isEmpty(selectMedia.path)) {
-                    selectMedia.url = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.path);
-                }
+//        Observable.just("").map(new Func1<String, String>() {
+//            @Override
+//            public String call(String s) {
+//                return AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.path, putObjectRequest);
+//
+//            }
+//        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
+//            @Override
+//            public void call(String o) {
+//                XLog.e("************************call = " + o);
+//            }
+//        });
+//
+        if (TextViewUtil.isEmpty(selectMedia.path)) {
+            return;
+        }
+        uploadingView();
 
-                if (!"photo".equals(selectMedia.type)) {
-                    Bitmap bitmap = Batman.getInstance().getBitMap(EditNewDongTaiActivity.this, selectMedia.uri);
+        mUploadSb = Observable.just(selectMedia).map(new Func1<SelectMedia, OSSAsyncTask>() {
+            @Override
+            public OSSAsyncTask call(SelectMedia selectM) {
+                if (!"photo".equals(selectM.type)) {
+                    Bitmap bitmap = Batman.getInstance().getBitMap(EditNewDongTaiActivity.this, selectM.uri);
                     if (bitmap != null) {
                         selectMedia.videImg = ToolsUtil.saveImageToGallery(EditNewDongTaiActivity.this, bitmap);
                     }
                 }
 
-                XLog.e("selectMedia.videImg =" + selectMedia.videImg);
-                if (!TextViewUtil.isEmpty(selectMedia.videImg)) {
-                    selectMedia.vidImgUrl = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.videImg);
-                }
-                return selectMedia;
-            }
-        }).flatMap(new Func1<SelectMedia, Observable<BaseResponse>>() {
-            @Override
-            public Observable<BaseResponse> call(SelectMedia selectMedia) {
-                HashMap<String, Object> params = getParams();
-
-                if ("photo".equals(selectMedia.type)) {
-                    params.put("resourceType", "1");
-                    params.put("imgUrl", selectMedia.url);
-                } else {
-                    params.put("resourceType", "1");
-                    params.put("vedioUrl", selectMedia.url);
-                    params.put("vedioImgUrl", selectMedia.vidImgUrl);
+                XLog.e("selectMedia.videImg =" + selectM.videImg);
+                if (!TextViewUtil.isEmpty(selectM.videImg)) {
+                    selectMedia.vidImgUrl = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectM.videImg);
                 }
 
-                return ToolsUtil.createService(IpServices.class).publishDongTai(params);
-            }
-        }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
-            @Override
-            public void response(BaseResponse response) {
-                if (response != null && response.isSuccess()) {
-                    ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
-                }
-            }
+//                if (!TextViewUtil.isEmpty(selectMedia.path)) {
+//                    selectMedia.url = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.path, putObjectRequest);
+//                }
 
+                return AliOss.getInstance().asyncPutObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectM.path, putObjectRequest, ossCompletedCallback);
+            }
+        }).compose(ToolsUtil.<OSSAsyncTask>applayScheduers()).subscribe(new Action1<OSSAsyncTask>() {
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布失败");
+            public void call(OSSAsyncTask ossAsyncTask) {
+                mOssAsyncTask = ossAsyncTask;
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                uploadError();
+                ToastUtil.showFalseToast(EditNewDongTaiActivity.this, "网络有问题，请稍后重试");
             }
         });
+
+//        mSubscription = Observable.just(selectMedia).map(new Func1<SelectMedia, SelectMedia>() {
+//            @Override
+//            public SelectMedia call(SelectMedia selectMedia) {
+//                if (!TextViewUtil.isEmpty(selectMedia.path)) {
+//                    selectMedia.url = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.path, putObjectRequest);
+//                }
+//
+//                if (!"photo".equals(selectMedia.type)) {
+//                    Bitmap bitmap = Batman.getInstance().getBitMap(EditNewDongTaiActivity.this, selectMedia.uri);
+//                    if (bitmap != null) {
+//                        selectMedia.videImg = ToolsUtil.saveImageToGallery(EditNewDongTaiActivity.this, bitmap);
+//                    }
+//                }
+//
+//                XLog.e("selectMedia.videImg =" + selectMedia.videImg);
+//                if (!TextViewUtil.isEmpty(selectMedia.videImg)) {
+//                    selectMedia.vidImgUrl = AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.videImg, putObjectRequest);
+//                }
+//                return selectMedia;
+//            }
+//        }).flatMap(new Func1<SelectMedia, Observable<BaseResponse>>() {
+//            @Override
+//            public Observable<BaseResponse> call(SelectMedia selectMedia) {
+//                HashMap<String, Object> params = getParams();
+//
+//                if ("photo".equals(selectMedia.type)) {
+//                    params.put("resourceType", "1");
+//                    params.put("imgUrl", selectMedia.url);
+//                } else {
+//                    params.put("resourceType", "1");
+//                    params.put("vedioUrl", selectMedia.url);
+//                    params.put("vedioImgUrl", selectMedia.vidImgUrl);
+//                }
+//
+//                return ToolsUtil.createService(IpServices.class).publishDongTai(params);
+//            }
+//        }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
+//            @Override
+//            public void response(BaseResponse response) {
+//                if (response != null && response.isSuccess()) {
+//                    ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                super.onError(e);
+//                ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布失败");
+//            }
+//        });
     }
 
     private boolean check() {
@@ -441,6 +562,17 @@ public class EditNewDongTaiActivity extends BaseActivity {
             hashMap.put("notifyUserList", sb.toString());
         }
 
+        if (selectMedia != null) {
+            if ("photo".equals(selectMedia.type)) {
+                hashMap.put("resourceType", "1");
+                hashMap.put("imgUrl", selectMedia.url);
+            } else {
+                hashMap.put("resourceType", "1");
+                hashMap.put("vedioUrl", selectMedia.url);
+                hashMap.put("vedioImgUrl", selectMedia.vidImgUrl);
+            }
+        }
+
         return hashMap;
     }
 
@@ -448,14 +580,23 @@ public class EditNewDongTaiActivity extends BaseActivity {
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).publishDongTai(getParams()), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-
+                if (response.isSuccess()) {
+                    ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
+                    finish();
+                }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-
+                uploadError();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelUploadPic();
     }
 }

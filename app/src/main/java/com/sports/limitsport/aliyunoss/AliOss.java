@@ -60,7 +60,7 @@ public class AliOss {
     }
 
     // 从本地文件上传，采用阻塞的同步接口
-    public String putObjectFromLocalFile(String virtualDir,String uploadFilePath) {
+    public String putObjectFromLocalFile(String virtualDir, String uploadFilePath) {
 
         if (TextUtils.isEmpty(uploadFilePath)) {
             return null;
@@ -68,14 +68,19 @@ public class AliOss {
 
         String uploadObject = null;
         if (!TextUtils.isEmpty(uploadFilePath)) {
-            uploadObject = virtualDir+System.currentTimeMillis()+uploadFilePath.substring(uploadFilePath.lastIndexOf("/") + 1);
+            uploadObject = virtualDir + System.currentTimeMillis() + uploadFilePath.substring(uploadFilePath.lastIndexOf("/") + 1);
         }
         // 构造上传请求
         PutObjectRequest put = new PutObjectRequest(bucket, uploadObject, uploadFilePath);
-
+//        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+//            @Override
+//            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+//                XLog.e("currentSize: " + currentSize + " totalSize: " + totalSize);
+//            }
+//        });
         try {
-            PutObjectResult putResult = oss.putObject(put);
 
+            PutObjectResult putResult = oss.putObject(put);
             Log.d("PutObject", "UploadSuccess");
 
             Log.d("ETag", putResult.getETag());
@@ -96,53 +101,51 @@ public class AliOss {
     }
 
     // 从本地文件上传，使用非阻塞的异步接口
-    public void asyncPutObjectFromLocalFile(String uploadFilePath) {
+    public OSSAsyncTask asyncPutObjectFromLocalFile(String virtualDir, String uploadFilePath, OSSProgressCallback<PutObjectRequest> putObjectRequst, OSSCompletedCallback<PutObjectRequest, PutObjectResult> ossCompletedCallback) {
 
         if (TextUtils.isEmpty(uploadFilePath)) {
-            return;
+            return null;
         }
 
         String uploadObject = null;
         if (!TextUtils.isEmpty(uploadFilePath)) {
-            uploadObject = uploadFilePath.substring(uploadFilePath.lastIndexOf("/"));
+            uploadObject = virtualDir + System.currentTimeMillis() + uploadFilePath.substring(uploadFilePath.lastIndexOf("/") + 1);
         }
 
         // 构造上传请求
         PutObjectRequest put = new PutObjectRequest(bucket, uploadObject, uploadFilePath);
 
         // 异步上传时可以设置进度回调
-        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-            @Override
-            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
-            }
-        });
+        put.setProgressCallback(putObjectRequst);
+        return oss.asyncPutObject(put, ossCompletedCallback);
 
-        OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
-            @Override
-            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Log.d("PutObject", "UploadSuccess");
+//        OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+//            @Override
+//            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+//                Log.d("PutObject", "UploadSuccess");
+//
+//                Log.d("ETag", result.getETag());
+//                Log.d("RequestId", result.getRequestId());
+//
+//            }
+//
+//            @Override
+//            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+//                // 请求异常
+//                if (clientExcepion != null) {
+//                    // 本地异常如网络异常等
+//                    clientExcepion.printStackTrace();
+//                }
+//                if (serviceException != null) {
+//                    // 服务异常
+//                    Log.e("ErrorCode", serviceException.getErrorCode());
+//                    Log.e("RequestId", serviceException.getRequestId());
+//                    Log.e("HostId", serviceException.getHostId());
+//                    Log.e("RawMessage", serviceException.getRawMessage());
+//                }
+//            }
+//        });
 
-                Log.d("ETag", result.getETag());
-                Log.d("RequestId", result.getRequestId());
-            }
-
-            @Override
-            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                // 请求异常
-                if (clientExcepion != null) {
-                    // 本地异常如网络异常等
-                    clientExcepion.printStackTrace();
-                }
-                if (serviceException != null) {
-                    // 服务异常
-                    Log.e("ErrorCode", serviceException.getErrorCode());
-                    Log.e("RequestId", serviceException.getRequestId());
-                    Log.e("HostId", serviceException.getHostId());
-                    Log.e("RawMessage", serviceException.getRawMessage());
-                }
-            }
-        });
     }
 
     // 直接上传二进制数据，使用阻塞的同步接口
@@ -232,4 +235,8 @@ public class AliOss {
         return null;
     }
 
+
+    public String getUploadString(String uploadKey) {
+        return oss.presignPublicObjectURL(bucket, uploadKey);
+    }
 }
