@@ -25,9 +25,9 @@ public class RecommendDongTaiAdapter extends BaseQuickAdapter<RecommendDongTai, 
     protected void convert(BaseViewHolder helper, RecommendDongTai item) {
         ImageView imvCover = helper.getView(R.id.imv_cover);
         if (item.getResourceType() == 1) {
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
         } else {
-            Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
         }
     }
 }

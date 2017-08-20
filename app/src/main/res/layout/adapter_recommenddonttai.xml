@@ -7,5 +7,7 @@
     <ImageView
         android:id="@+id/imv_cover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:src="@mipmap/icon_ar_default"
+        android:scaleType="centerCrop"/>
 </LinearLayout>
