@@ -51,7 +51,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
             tvSan.setSelected(false);
             imvZan.setSelected(false);
         }
-        tvSan.setText(item.getPraiseNum()+"");
+        tvSan.setText(item.getPraiseNum() + "");
         tvName.setText(item.getCommentatorName());
         if (!TextViewUtil.isEmpty(item.getShowCreateTime())) {
             tvTime.setText(item.getShowCreateTime());
@@ -60,7 +60,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
             tvComment.setText(item.getContent());
         }
         //TODO 正式启用
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
         if (item.getReplyList() != null && item.getReplyList().size() > 0) {
             viewline.setVisibility(View.VISIBLE);

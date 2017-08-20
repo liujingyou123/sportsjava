@@ -23,6 +23,6 @@ public class PraiseHeadAdapter extends BaseQuickAdapter<PraiseList, BaseViewHold
     @Override
     protected void convert(BaseViewHolder helper, PraiseList item) {
         ImageView imageView = helper.getView(R.id.imv_head);
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imageView, 0, 0);
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imageView, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
     }
 }

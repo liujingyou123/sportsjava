@@ -43,7 +43,7 @@ public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHol
         TextView tvTotalPrice = helper.getView(R.id.tv_all_price);
         RelativeLayout rlBtn = helper.getView(R.id.rl_btn);
 
-        Batman.getInstance().fromNet(item.getCoverUrl(), imageView);
+        Batman.getInstance().fromNet(item.getCoverUrl(), imageView, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
 
         tvOrderNum.setText("订单编号：" + item.getOrderNo());
         tvName.setText(item.getName());

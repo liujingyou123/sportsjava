@@ -30,9 +30,9 @@ public class ShallAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> 
         TextView tvDes = helper.getView(R.id.tv_des);
         TextView tvPraise = helper.getView(R.id.tv_praise);
         if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
         }
 
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);

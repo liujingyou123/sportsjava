@@ -37,14 +37,14 @@ public class FocusMeAdapter extends BaseQuickAdapter<HuDongNoticeList, BaseViewH
 
         if (!TextViewUtil.isEmpty(item.getFirstImgUrl())) {
             imageCover.setVisibility(View.VISIBLE);
-            Batman.getInstance().getImageWithRoundLeft(item.getFirstImgUrl(), imageCover, 0, 0, UnitUtil.dip2px(mContext, 2));
+            Batman.getInstance().getImageWithRoundLeft(item.getFirstImgUrl(), imageCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default, UnitUtil.dip2px(mContext, 2));
         } else {
             imageCover.setVisibility(View.GONE);
         }
 
         tvDetail.setText("在这条动态中@了你");
 
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, 0, 0);
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
         if (!TextViewUtil.isEmpty(item.getName())) {
             tvName.setText(item.getName());

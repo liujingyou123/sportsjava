@@ -44,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="270dp"
                     android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    android:src="@mipmap/icon_default_detail"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

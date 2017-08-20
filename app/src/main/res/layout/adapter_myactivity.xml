@@ -35,7 +35,9 @@
         android:layout_height="90dp"
         android:layout_alignLeft="@id/tv_ordernum"
         android:layout_below="@id/tv_ordernum"
-        android:layout_marginTop="17dp" />
+        android:layout_marginTop="17dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_ar_default"/>
 
 
     <TextView

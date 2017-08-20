@@ -62,9 +62,9 @@ public class MyCollectActivityAdapter extends BaseQuickAdapter<Act, BaseViewHold
 //        Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imageView);
 
         if (!TextViewUtil.isEmpty(item.getCoverUrl())) {
-            Batman.getInstance().fromNetWithFitCenter(item.getCoverUrl(), imageView);
+            Batman.getInstance().fromNet(item.getCoverUrl(), imageView, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         } else {
-            Batman.getInstance().fromNetWithFitCenter(item.getActivityVideoImg(), imageView);
+            Batman.getInstance().fromNet(item.getActivityVideoImg(), imageView, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         }
 
 

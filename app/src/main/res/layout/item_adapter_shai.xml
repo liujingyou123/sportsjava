@@ -9,7 +9,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/icon_default_detail"/>
+        android:src="@mipmap/icon_ar_default"/>
 
     <ImageView
         android:id="@+id/imv_head"

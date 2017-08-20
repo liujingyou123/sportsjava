@@ -104,8 +104,7 @@ public class MyClubsActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                FindClubSection findClubSection = (FindClubSection) adapter.getItem(position);
-                Club club = findClubSection.t;
+                Club club = (Club) adapter.getItem(position);
                 if (club != null) {
                     Intent intent = new Intent(MyClubsActivity.this, ClubDetailActivity.class);
                     intent.putExtra("id", club.getId());

@@ -31,7 +31,7 @@ public class MyClubsAdapter extends BaseQuickAdapter<Club, BaseViewHolder> {
         TextView tvTip = helper.getView(R.id.tv_tip);
         TextView tvFocus = helper.getView(R.id.tv_focus);
 
-        Batman.getInstance().getImageWithCircle(club.getLogoUrl(), imvHead, 0, 0);
+        Batman.getInstance().getImageWithCircle(club.getLogoUrl(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
         tvName.setText(club.getClubName());
         tvDes.setText(club.getClubIntroduction());
         tvNumbers.setText(club.getMemberNum() + "成员");

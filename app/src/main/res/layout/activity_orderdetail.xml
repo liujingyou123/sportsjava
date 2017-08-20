@@ -84,7 +84,9 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/icon_ar_default" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -118,10 +120,10 @@
                     android:layout_alignLeft="@id/tv_name"
                     android:layout_below="@id/tv_time"
                     android:layout_marginTop="2dp"
+                    android:maxLines="1"
                     android:text=""
                     android:textColor="#c5c4c4"
-                    android:textSize="12sp"
-                    android:maxLines="1"/>
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_ticket_price"

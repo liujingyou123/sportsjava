@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="sss"
+            android:text=""
             android:textColor="#FFA5A4A4"
             android:textSize="10sp" />
 
@@ -29,10 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/tv_time"
-            android:text="dddd"
+            android:maxLines="1"
+            android:text=""
             android:textColor="#FFFFFFFF"
-            android:textSize="14sp"
-            android:maxLines="1"/>
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <TextView
@@ -52,6 +52,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="15dp"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_ver_default" />
 
 </LinearLayout>

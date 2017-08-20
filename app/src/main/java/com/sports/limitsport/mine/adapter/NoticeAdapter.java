@@ -32,7 +32,7 @@ public class NoticeAdapter extends BaseQuickAdapter<NoticeList, BaseViewHolder> 
 
         if (!TextViewUtil.isEmpty(item.getCoverUrl())) {
             imageView.setVisibility(View.VISIBLE);
-            Batman.getInstance().getImageWithRoundBottom(item.getCoverUrl(), imageView, 0, 0, 0);
+            Batman.getInstance().getImageWithRoundBottom(item.getCoverUrl(), imageView,R.mipmap.icon_ver_default, R.mipmap.icon_ver_default, 0);
         } else {
             imageView.setVisibility(View.GONE);
         }

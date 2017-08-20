@@ -69,7 +69,8 @@
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:visibility="visible"
-            android:scaleType="center"/>
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_ar_default"/>
 
         <TextView
             android:id="@+id/tv_replay"

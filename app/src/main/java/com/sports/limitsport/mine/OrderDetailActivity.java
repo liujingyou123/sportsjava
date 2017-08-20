@@ -344,7 +344,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
         orderDetail = response.getData();
         if (orderDetail != null) {
 
-            Batman.getInstance().fromNet(orderDetail.getCoverUrl(), imvCover);
+            Batman.getInstance().fromNet(orderDetail.getCoverUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
             tvOrdernum.setText("订单编号：" + orderNo);
             tvOrderTime.setText("下单时间：" + orderDetail.getCreateOrderTime());
             tvPayTime.setText("支付时间：" + orderDetail.getPayTime());

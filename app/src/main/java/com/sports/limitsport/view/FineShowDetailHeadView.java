@@ -141,9 +141,9 @@ public class FineShowDetailHeadView extends LinearLayout {
         }
 
         if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         }
 
         if (!TextViewUtil.isEmpty(item.getContent())) {
@@ -161,7 +161,7 @@ public class FineShowDetailHeadView extends LinearLayout {
 
 
         tvSan.setText(item.getPraiseNum() + "");
-        tvSignNum.setText(item.getPraiseNum()+"");
+        tvSignNum.setText(item.getPraiseNum() + "");
 
         if ("1".equals(item.getPraiseFlag())) { //1:已点赞 0:未点赞
             tvSan.setSelected(true);

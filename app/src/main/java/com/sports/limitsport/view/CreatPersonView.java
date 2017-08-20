@@ -58,7 +58,7 @@ public class CreatPersonView extends LinearLayout {
 
     public void setData(ClubDetail.ManagerListBean managerListBean) {
         if (managerListBean != null) {
-            Batman.getInstance().getImageWithCircle(managerListBean.getHeadPortrait(), imvHead, 0, 0);
+            Batman.getInstance().getImageWithCircle(managerListBean.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
             tvName.setText(managerListBean.getMemberName());
             tvJiaose.setText(managerListBean.getRuleDesc());
             if ("创始人".equals(managerListBean.getRuleDesc())) {
