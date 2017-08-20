@@ -94,9 +94,9 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
 //        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, 0,0, item.getWidth(), item.getHeight());
 
         if (!TextViewUtil.isEmpty(item.getCoverUrl())) {
-            Batman.getInstance().fromNet(item.getCoverUrl(), imvCover, 0, 0, item.getWidth(), item.getHeight());
+            Batman.getInstance().fromNet(item.getCoverUrl(), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
         } else {
-            Batman.getInstance().fromNet(item.getActivityVideoImg(), imvCover, 0, 0, item.getWidth(), item.getHeight());
+            Batman.getInstance().fromNet(item.getActivityVideoImg(), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
         }
 
         tvName.setText(item.getName());

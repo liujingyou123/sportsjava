@@ -67,7 +67,12 @@
 
         <activity
             android:name=".main.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.sports.limitsport.loginActivity" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask"

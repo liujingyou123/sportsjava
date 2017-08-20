@@ -1,8 +1,10 @@
 package com.sports.limitsport.net;
 
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.sports.limitsport.base.BaseResponse;
+import com.sports.limitsport.base.LimitSportApplication;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.TokenTimeOutEvent;
 import com.sports.limitsport.util.SharedPrefsUtil;
@@ -67,6 +69,8 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
     private void tokenTimeOutToLogin() {
         SharedPrefsUtil.clearUserInfo();
         EventBus.getDefault().post(new TokenTimeOutEvent());
+        Intent intent = new Intent("com.sports.limitsport.loginActivity");
+        LimitSportApplication.getInstance().startActivity(intent);
     }
 
     /**
