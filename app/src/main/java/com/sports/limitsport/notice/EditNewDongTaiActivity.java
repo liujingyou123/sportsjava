@@ -53,7 +53,6 @@ import com.zhihu.matisse.ui.PreviewActivity;
 
 import java.io.File;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -111,6 +110,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
         init();
     }
 
+
     private void init() {
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -125,11 +125,12 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && s.length() > 0) {
-                    tvFocusRight.setEnabled(true);
-                } else {
-                    tvFocusRight.setEnabled(false);
-                }
+                checkPublish();
+//                if (s != null && s.length() > 0) {
+//                    tvFocusRight.setEnabled(true);
+//                } else {
+//                    tvFocusRight.setEnabled(false);
+//                }
             }
         });
     }
@@ -150,6 +151,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 break;
             case R.id.tv_focus_right:
             case R.id.tv_uploading:
+                tvFocusRight.setEnabled(false);
+                tvUploading.setEnabled(false);
                 publish();
                 break;
             case R.id.imv_close_pic:
@@ -158,6 +161,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 flPic.setVisibility(View.GONE);
                 imvCover.setImageResource(0);
                 imvPic.setVisibility(View.VISIBLE);
+                flUploadingTip.setVisibility(View.GONE);
                 break;
             case R.id.imv_pic:
                 showPicker();
@@ -187,6 +191,14 @@ public class EditNewDongTaiActivity extends BaseActivity {
                     startActivityForResult(intents, REQUEST_CODE_CHOOSE);
                 }
                 break;
+        }
+    }
+
+    private void checkPublish() {
+        if ((etContent != null && !TextViewUtil.isEmpty(etContent.getContent())) || selectMedia != null) {
+            tvFocusRight.setEnabled(true);
+        } else {
+            tvFocusRight.setEnabled(false);
         }
     }
 
@@ -235,6 +247,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
                     }
                 } else {
                     imvPic.setVisibility(View.GONE);
+                    checkPublish();
                     selectMedia.type = type;
                     selectMedia.path = path;
                     if (!TextUtils.isEmpty(uri)) {
@@ -262,6 +275,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             imvPic.setVisibility(View.GONE);
+            checkPublish();
             Uri resultUri = UCrop.getOutput(data);
             String path = resultUri.getPath();
 
@@ -400,6 +414,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
         }
         mOssAsyncTask = null;
         mUploadSb = null;
+        tvFocusRight.setEnabled(true);
+        tvUploading.setEnabled(true);
     }
 
     private void uploadingView() {
@@ -407,6 +423,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
         tvUploading.setText("上传中...");
         tvUploading.setEnabled(false);
         imvVideo.setVisibility(View.GONE);
+        uploadingProgress.setProgress(0);
+        uploadingProgress.setMax(100);
         uploadingProgress.setVisibility(View.VISIBLE);
     }
 
@@ -415,25 +433,13 @@ public class EditNewDongTaiActivity extends BaseActivity {
         tvUploading.setText("重新上传");
         tvUploading.setEnabled(true);
         uploadingProgress.setVisibility(View.GONE);
+        tvFocusRight.setEnabled(true);
     }
 
     /**
      * 上传图片或视频
      */
     private void doUploadSource() {
-//        Observable.just("").map(new Func1<String, String>() {
-//            @Override
-//            public String call(String s) {
-//                return AliOss.getInstance().putObjectFromLocalFile(AliOss.DIR_HEAD_PORTRAIT, selectMedia.path, putObjectRequest);
-//
-//            }
-//        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
-//            @Override
-//            public void call(String o) {
-//                XLog.e("************************call = " + o);
-//            }
-//        });
-//
         if (TextViewUtil.isEmpty(selectMedia.path)) {
             return;
         }
