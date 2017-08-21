@@ -65,7 +65,10 @@
     <ImageView
         android:id="@+id/imv_cover"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_default_detail"/>
 
     <TextView
         android:id="@+id/tv_content"

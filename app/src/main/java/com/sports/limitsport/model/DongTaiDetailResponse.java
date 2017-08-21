@@ -9,7 +9,7 @@ import java.util.List;
  * 动态详情
  */
 
-public class DongTaiDetailResponse extends BaseResponse{
+public class DongTaiDetailResponse extends BaseResponse {
 
     /**
      * activityId : null
@@ -71,7 +71,7 @@ public class DongTaiDetailResponse extends BaseResponse{
         private int publicType;
         private int publishUserId;
         private String publishUserName;
-        private int resourceType;
+        private String resourceType;
         private String showCreateTime;
         private String thumbnailUrl;
         private String title;
@@ -232,11 +232,11 @@ public class DongTaiDetailResponse extends BaseResponse{
             this.publishUserName = publishUserName;
         }
 
-        public int getResourceType() {
+        public String getResourceType() {
             return resourceType;
         }
 
-        public void setResourceType(int resourceType) {
+        public void setResourceType(String resourceType) {
             this.resourceType = resourceType;
         }
 

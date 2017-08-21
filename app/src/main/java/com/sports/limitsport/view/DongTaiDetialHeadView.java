@@ -132,11 +132,17 @@ public class DongTaiDetialHeadView extends LinearLayout {
             tvFocus.setText("进入主页");
         }
 
-        if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover);
+        if (!TextViewUtil.isEmpty(item.getResourceType())) {
+            imvCover.setVisibility(VISIBLE);
+            if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+                Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            } else {
+                Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            }
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover);
+            imvCover.setVisibility(GONE);
         }
+
 
         if (!TextViewUtil.isEmpty(item.getContent())) {
             tvContent.setText(item.getContent());
