@@ -9,7 +9,7 @@ public class SignUpUser {
     private String city;
     private String coutry;
     private String headPortrait;
-    private int id;
+    private int userId;
     private String idCard;
     private String introduction;
     private String name;
@@ -44,11 +44,11 @@ public class SignUpUser {
     }
 
     public int getId() {
-        return id;
+        return userId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getIdCard() {

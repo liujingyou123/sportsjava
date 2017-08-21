@@ -268,9 +268,8 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     @Override
     public void showActivityDetail(ActivityDetailResponse response) {
         if (response != null && response.getData() != null) {
+            rlBottom.setVisibility(View.VISIBLE);
             mData = response.getData();
-            //TODO 测试用
-//            response.getData().setStatus("1");
             if ("1".equals(response.getData().getStatus())) { //报名中
                 if (ticketNum == 0) { //报名名额已满
                     btnDone.setEnabled(false);
@@ -296,6 +295,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 btnDone.setText("报名结束");
                 tvPriceBottom.setText(mData.getMoney());
             }
+
             response.getData().setId(id);
             response.getData().setWeek(week);
             response.getData().setMinMoney(minMoney);

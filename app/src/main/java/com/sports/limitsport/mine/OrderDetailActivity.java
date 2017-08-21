@@ -16,6 +16,7 @@ import com.sports.limitsport.activity.presenter.PayPresenter;
 import com.sports.limitsport.activity.ui.IPayOrderView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
+import com.sports.limitsport.dialog.RefundTipDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.mine.presenter.OrderDetailPresenter;
 import com.sports.limitsport.mine.ui.IOrderDetailView;
@@ -104,6 +105,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     TextView tvPay;
     @BindView(R.id.tv_all_price)
     TextView tvAllPrice;
+    @BindView(R.id.ll_content)
+    LinearLayout llContent;
 
     //    private String type; // 1: 待付款, 2:已报名（可退款）3:已参加 4:已退款 5: 已取消
     private OrderDetailPresenter mPresenter;
@@ -111,6 +114,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     private String orderNo;
     private int isJoin;
     private OrderDetail orderDetail;
+    private RefundTipDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,15 +169,31 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
                     if (isJoin == 1) {
                         gotoEditDongTai();
                     } else {
-                        if ("1".equals(orderDetail.getOrderStatus())) {
-                            if (mPresenter != null) {
-                                mPresenter.reFundOrder(orderNo);
-                            }
-                        }
+                        showRefundTip();
                     }
                 }
 
                 break;
+        }
+    }
+
+    private void showRefundTip() {
+        if (dialog == null) {
+            dialog = new RefundTipDialog(this);
+            dialog.setDoneClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if ("1".equals(orderDetail.getOrderStatus())) {
+                        if (mPresenter != null) {
+                            mPresenter.reFundOrder(orderNo);
+                        }
+                    }
+                }
+            });
+        }
+
+        if (!dialog.isShowing()) {
+            dialog.show();
         }
     }
 
@@ -343,7 +363,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     public void showOrderDetail(OrderDetailResponse response) {
         orderDetail = response.getData();
         if (orderDetail != null) {
-
+            llContent.setVisibility(View.VISIBLE);
             Batman.getInstance().fromNet(orderDetail.getCoverUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
             tvOrdernum.setText("订单编号：" + orderNo);
             tvOrderTime.setText("下单时间：" + orderDetail.getCreateOrderTime());
@@ -402,6 +422,9 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
 
     @Override
     public void refundOrderResult(boolean success) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         if (success) {
             orderDetail.setOrderStatus("4");
             refunding();
@@ -411,15 +434,6 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
         } else {
             ToastUtil.showFalseToast(this, "退款失败");
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.clear();
-        }
-        mPresenter = null;
     }
 
     @Override
@@ -468,4 +482,19 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
         intent.putExtra("orderNo", orderNo);
         startActivity(intent);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        dialog = null;
+
+    }
+
 }
