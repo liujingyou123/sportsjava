@@ -23,11 +23,12 @@ public class DongTaiList {
     private int praiseNum;
     private int publishUserId;
     private String publishUserName;
-    private int resourceType;
+    private String resourceType;
     private String showCreateTime;
     private String thumbnailUrl;
     private String title;
     private String vedioThumbnailUrl;
+    private String vedioImgUrl;
     private String vedioUrl;
     private int width;
     private int height;
@@ -166,11 +167,11 @@ public class DongTaiList {
         this.publishUserName = publishUserName;
     }
 
-    public int getResourceType() {
+    public String getResourceType() {
         return resourceType;
     }
 
-    public void setResourceType(int resourceType) {
+    public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }
 
@@ -236,6 +237,14 @@ public class DongTaiList {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String getVedioImgUrl() {
+        return vedioImgUrl;
+    }
+
+    public void setVedioImgUrl(String vedioImgUrl) {
+        this.vedioImgUrl = vedioImgUrl;
     }
 
     public static class CommentListBean {

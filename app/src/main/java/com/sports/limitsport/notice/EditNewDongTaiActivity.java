@@ -567,7 +567,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 hashMap.put("resourceType", "1");
                 hashMap.put("imgUrl", selectMedia.url);
             } else {
-                hashMap.put("resourceType", "1");
+                hashMap.put("resourceType", "2");
                 hashMap.put("vedioUrl", selectMedia.url);
                 hashMap.put("vedioImgUrl", selectMedia.vidImgUrl);
             }

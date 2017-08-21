@@ -63,11 +63,17 @@ public class MyCollectDongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseV
             tvFocus.setText("进入主页");
         }
 
-        if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+        if (!TextViewUtil.isEmpty(item.getResourceType())) {
+            imvCover.setVisibility(View.VISIBLE);
+            if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+                Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+            } else {
+                Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+            }
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+            imvCover.setVisibility(View.GONE);
         }
+
 
         if (!TextViewUtil.isEmpty(item.getContent())) {
             tvContent.setText(item.getContent());

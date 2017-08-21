@@ -243,7 +243,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
             @Override
             public DongTaiList call(DongTaiList dongTai) {
                 Bitmap bitmap = null;
-                if (dongTai.getResourceType() == 1) { //1 图片 2:视频
+                if ("1".equals(dongTai.getResourceType())) { //1 图片 2:视频
                     bitmap = Batman.getInstance().getBitMap(NewNewsFragment.this.getContext(), dongTai.getImgUrl());
                 } else {
                     bitmap = Batman.getInstance().getBitMap(NewNewsFragment.this.getContext(), dongTai.getVedioThumbnailUrl());
