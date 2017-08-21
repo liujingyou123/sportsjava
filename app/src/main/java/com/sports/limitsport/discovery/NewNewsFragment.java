@@ -155,6 +155,19 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
             }
         });
 
+        rlvNew.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    rlvNew.invalidateItemDecorations();
+                }
+//                layoutManager.invalidateSpanAssignments(); //防止第一行到顶部有空白区域
+            }
+        });
+
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -227,6 +240,7 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
             data.clear();
             data.addAll(acts);
             adapter.setNewData(data);
+            adapter.disableLoadMoreIfNotFullPage();
             rlAll.refreshComplete();
         } else {
             adapter.addData(acts);

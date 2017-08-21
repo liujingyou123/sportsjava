@@ -129,7 +129,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
                 }
             }
         });
-        adapter.disableLoadMoreIfNotFullPage();
+//        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -203,6 +203,7 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
             data.clear();
             data.addAll(acts);
             adapter.setNewData(data);
+            adapter.disableLoadMoreIfNotFullPage();
             rlAll.refreshComplete();
         } else {
             adapter.addData(acts);

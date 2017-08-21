@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.TextViewUtil;
@@ -40,16 +41,22 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         helper.addOnClickListener(R.id.tv_san);
 
         imvCover.setInitSize(item.getWidth(), item.getHeight());
+        int position = helper.getAdapterPosition();
+
+        XLog.e("position = " + position + " height = " + item.getHeight() + " width = " + item.getWidth());
+
 //        int position = helper.getAdapterPosition();
 //        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail, item.getWidth(), item.getHeight());
+        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
+//        Batman.getInstance().fromNet(MyTestData.getData().get(position), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
 
+//
         if ("1".equals(item.getResourceType())) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail, item.getWidth(), item.getHeight());
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
         } else {
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail, item.getWidth(), item.getHeight());
+            Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
         }
 
-        Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
         if (!TextViewUtil.isEmpty(item.getPublishUserName())) {
             tvName.setText(item.getPublishUserName());

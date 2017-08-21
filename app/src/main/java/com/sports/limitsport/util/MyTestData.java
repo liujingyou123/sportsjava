@@ -39,6 +39,9 @@ public class MyTestData {
 
             for (int i = 0; i < 20; i++)
                 data.add("http://img02.tooopen.com/images/20160617/tooopen_sy_165387259697.jpg");
+
+            for (int i = 0; i < 20; i++)
+                data.add("http://img4.imgtn.bdimg.com/it/u=1184165042,3228167293&fm=214&gp=0.jpg");
         }
         return data;
     }
