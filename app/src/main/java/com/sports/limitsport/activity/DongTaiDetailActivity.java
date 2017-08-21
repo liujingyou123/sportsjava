@@ -94,7 +94,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         mPresenter.getPraiseList(id);
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment})
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment, R.id.tv_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -110,6 +110,9 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                         mPresenter.collect(id);
                     }
                 }
+                break;
+            case R.id.tv_send:
+                publishComment();
                 break;
             case R.id.btn_comment:
                 commentDialog.setType(1);
@@ -247,14 +250,18 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             @Override
             public void onClick(View v) {
                 commentDialog.dismiss();
-                int type = commentDialog.getType();
-                if (1 == type) { //评论动态
-                    mPresenter.publishActivityComment(id, commentDialog.getContent());
-                } else if (2 == type) { //回复评论
-                    mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
-                }
+                publishComment();
             }
         });
+    }
+
+    private void publishComment() {
+        int type = commentDialog.getType();
+        if (1 == type) { //评论动态
+            mPresenter.publishActivityComment(id, commentDialog.getContent());
+        } else if (2 == type) { //回复评论
+            mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
+        }
     }
 
     private void loadMore() {
@@ -349,6 +356,8 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             setReplayData();
             commentDialog.setContent("");
             btnComment.setText("我要来发言…");
+            btnComment.setTextColor(Color.parseColor("#FF444444"));
+            tvSend.setEnabled(false);
             ToastUtil.showTrueToast(this, "回复成功");
         } else {
             ToastUtil.showTrueToast(this, "回复失败");
@@ -360,6 +369,8 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         if (b) {
             commentDialog.setContent("");
             btnComment.setText("我要来发言…");
+            btnComment.setTextColor(Color.parseColor("#FF444444"));
+            tvSend.setEnabled(false);
             ToastUtil.showTrueToast(this, "评论成功");
             rlAll.autoRefresh();
         } else {

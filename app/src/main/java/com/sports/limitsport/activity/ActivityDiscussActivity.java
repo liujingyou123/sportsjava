@@ -79,7 +79,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         getData();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_reload})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_reload, R.id.tv_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -99,6 +99,9 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                     commentDialog.setType(1);
                     commentDialog.show();
                 }
+                break;
+            case R.id.tv_send:
+                publishComment();
                 break;
             case R.id.tv_reload:
                 viewNonet.setVisibility(View.GONE);
@@ -201,14 +204,18 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
             @Override
             public void onClick(View v) {
                 commentDialog.dismiss();
-                int type = commentDialog.getType();
-                if (1 == type) { //评论活动
-                    mPresenter.publishActivityComment(id, commentDialog.getContent());
-                } else if (2 == type) { //回复评论
-                    mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
-                }
+                publishComment();
             }
         });
+    }
+
+    private void publishComment() {
+        int type = commentDialog.getType();
+        if (1 == type) { //评论活动
+            mPresenter.publishActivityComment(id, commentDialog.getContent());
+        } else if (2 == type) { //回复评论
+            mPresenter.replayComment(commentList.getId() + "", commentList.getCommentatorId() + "", commentList.getCommentatorName(), commentDialog.getContent());
+        }
     }
 
     private void loadMore() {

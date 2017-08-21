@@ -204,7 +204,7 @@ public class PersonInfoHeaderView extends LinearLayout {
                         tvTip.setVisibility(View.GONE);
                     }
 
-                    Batman.getInstance().getImageWithCircle(club.getClubImgUrl(), imvHead, 0, 0);
+                    Batman.getInstance().getImageWithCircle(club.getClubImgUrl(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
                     LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
                     lp.setMargins(0, 0, 0, UnitUtil.dip2px(getContext(), 15));
@@ -247,7 +247,7 @@ public class PersonInfoHeaderView extends LinearLayout {
 //                Batman.getInstance().fromNet("http://img1.juimg.com/160806/355860-160P620130540.jpg", imvCover);
 
                 //正式
-                Batman.getInstance().fromNetWithFitCenter(act.getCoverUrl(), imvCover);
+                Batman.getInstance().fromNet(act.getCoverUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
 
                 tvName.setText(act.getName());
                 tvTime.setText(act.getStartDate()
