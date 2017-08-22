@@ -53,7 +53,6 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             onTabSelected(tab);
         }
 
-
     }
 
     @Override
@@ -160,4 +159,5 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
 
         return glideImageLoader;
     }
+
 }

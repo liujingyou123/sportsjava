@@ -48,7 +48,7 @@ public class MyNoticeRecommendAdapter extends BaseQuickAdapter<RecommendFriendsL
             tvFocus.setSelected(true);
         } else {
             tvFocus.setText("进入主页");
-            tvFocus.setSelected(false);
+            tvFocus.setSelected(true);
         }
         helper.addOnClickListener(R.id.tv_focus);
         tvName.setText(item.getName());

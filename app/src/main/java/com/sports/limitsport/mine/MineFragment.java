@@ -125,13 +125,16 @@ public class MineFragment extends BaseFragment implements IMineView {
             mPresenter = new MinePresenter(this);
         }
 
+        rlAll.setEnablePullToRefresh(false);
         if (SharedPrefsUtil.getUserInfo() != null) {
             if (mPresenter != null) {
                 mPresenter.getNewNotice();
             }
             if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
                 mPresenter.getUserInfo();
+                pageNumber = 1;
                 mPresenter.getDongTaiList(pageNumber);
+                rlAll.setEnablePullToRefresh(true);
             } else if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
                 if (headerView != null) {
                     headerView.setType(2);

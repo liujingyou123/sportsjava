@@ -32,11 +32,6 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
 
 
-        if (isTokenTimeOut(e)) {
-            tokenTimeOutToLogin();
-            ToastUtil.showFalseToast(null, "登录超时,请重新登录");
-        }
-
         XLog.e(e.getMessage());
 
     }
@@ -62,6 +57,10 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
     }
 
     public void error(T response) {
+        if (isTokenTimeOut(response)) {
+            tokenTimeOutToLogin();
+            ToastUtil.showFalseToast(null, "登录超时,请重新登录");
+        }
     }
 
     public abstract void response(T response);
@@ -69,32 +68,22 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
     private void tokenTimeOutToLogin() {
         SharedPrefsUtil.clearUserInfo();
         EventBus.getDefault().post(new TokenTimeOutEvent());
-        Intent intent = new Intent("com.sports.limitsport.loginActivity");
+        Intent intent = new Intent();
+        intent.setAction("com.sports.limitsport.loginActivity");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         LimitSportApplication.getInstance().startActivity(intent);
     }
 
     /**
      * token失效 判断
-     *
-     * @param e
      */
-    private boolean isTokenTimeOut(Throwable e) {
+    private boolean isTokenTimeOut(T response) {
         boolean ret = false;
-        if (e instanceof HttpException) {
-            HttpException httpException = (HttpException) e;
-            if (httpException.response() != null && httpException.response().errorBody() != null) {
-                try {
-                    JSONObject jsonObject = new JSONObject(httpException.response().errorBody().string());
-                    if (jsonObject.optInt("errCode") == 999) {
-                        ret = true;
-                    }
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
+        if ("999".equals(((BaseResponse) response).errCode)) {
+            ret = true;
         }
+
         return ret;
     }
 }
