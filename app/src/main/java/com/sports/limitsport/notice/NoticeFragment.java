@@ -113,16 +113,22 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
             }
         });
 
-        commentDialog = new CommentDialog(getContext());
 
-        commentDialog.setOkDoneListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commentDialog.dismiss();
-                mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+    }
 
-            }
-        });
+    private void showCommentDialog() {
+        if (commentDialog == null) {
+            commentDialog = new CommentDialog(getContext());
+            commentDialog.setOkDoneListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commentDialog.dismiss();
+                    mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+
+                }
+            });
+        }
+        commentDialog.show();
     }
 
     private void initView() {
@@ -179,7 +185,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                             startActivity(intent);
                         } else if (view.getId() == R.id.imv_pinglun) {
                             selectId = dongTaiList.getId();
-                            commentDialog.show();
+                            showCommentDialog();
                         } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
                             selectId = dongTaiList.getId();
                             if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞

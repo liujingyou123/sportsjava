@@ -181,7 +181,7 @@ public class MineFragment extends BaseFragment implements IMineView {
                     if (dongTaiList != null) {
                         if (view.getId() == R.id.imv_pinglun) {
                             selectId = dongTaiList.getId();
-                            commentDialog.show();
+                            showCommentDialog();
                         } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
                             selectId = dongTaiList.getId();
                             if ("1".equals(dongTaiList.getPraiseFlag())) { //1:已点赞 0:未点赞
@@ -225,16 +225,25 @@ public class MineFragment extends BaseFragment implements IMineView {
             }
         });
 
-        commentDialog = new CommentDialog(getContext());
 
-        commentDialog.setOkDoneListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commentDialog.dismiss();
-                mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+    }
 
-            }
-        });
+    private void showCommentDialog() {
+        if (commentDialog == null) {
+            commentDialog = new CommentDialog(getContext());
+
+            commentDialog.setOkDoneListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commentDialog.dismiss();
+                    mPresenter.publishActivityComment(selectId + "", commentDialog.getContent());
+
+                }
+            });
+        }
+
+        commentDialog.show();
+
     }
 
     private void loadMore() {
@@ -349,7 +358,9 @@ public class MineFragment extends BaseFragment implements IMineView {
         if (b) {
             ToastUtil.showTrueToast(getContext(), "评论成功");
             doComment();
-            commentDialog.setContent("");
+            if (commentDialog != null) {
+                commentDialog.setContent("");
+            }
         } else {
             ToastUtil.showTrueToast(getContext(), "评论失败");
         }
@@ -398,8 +409,9 @@ public class MineFragment extends BaseFragment implements IMineView {
             if (selectId == mineAdapter.getData().get(i).getId()) {
                 DongTaiList.CommentListBean commentListBean = new DongTaiList.CommentListBean();
                 commentListBean.setCommentatorName(SharedPrefsUtil.getUserInfo().getData().getName());
-                commentListBean.setContent(commentDialog.getContent());
-
+                if (commentDialog != null) {
+                    commentListBean.setContent(commentDialog.getContent());
+                }
                 List<DongTaiList.CommentListBean> listBeen = mineAdapter.getData().get(i).getCommentList();
                 if (listBeen == null) {
                     listBeen = new ArrayList<>();

@@ -19,6 +19,7 @@ import com.sports.limitsport.discovery.FineShowDetailActivity;
 import com.sports.limitsport.discovery.NewPersonReportActivity;
 import com.sports.limitsport.discovery.adapter.ClubAdapter;
 import com.sports.limitsport.discovery.adapter.FineShowAdapter;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.model.Club;
 import com.sports.limitsport.model.FineShowList;
 import com.sports.limitsport.util.GlideImageLoader;
@@ -74,8 +75,14 @@ public class HotNewHeadView extends LinearLayout {
     }
 
     private void showBanner() {
+        GlideImageLoader glideImageLoader;
+        if (getContext() instanceof MainActivity) {
+            glideImageLoader = ((MainActivity) getContext()).getGlideImageLoader();
+        } else {
+            glideImageLoader = new GlideImageLoader();
+        }
         //设置图片加载器
-        banner.setImageLoader(new GlideImageLoader());
+        banner.setImageLoader(glideImageLoader);
         //设置图片集合
         banner.setImages(advs);
         //设置标题集合（当banner样式有显示title时）

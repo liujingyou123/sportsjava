@@ -15,10 +15,15 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.OrdersList;
 import com.sports.limitsport.util.UnitUtil;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -28,6 +33,9 @@ import rx.functions.Func1;
  */
 
 public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHolder> {
+    private List<Subscription> mSubs = new ArrayList<>();
+    private WeakReference<List<Subscription>> observableWeakReferences = new WeakReference<List<Subscription>>(mSubs);
+
     public MyActivitysAdapter(@Nullable List<OrdersList> data) {
         super(R.layout.adapter_myactivity, data);
     }
@@ -84,7 +92,7 @@ public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHol
     public void timeCountDown(long time, final TextView tvPayPrice, final OrdersList item) {
         if (time < 0) time = 0;
         final long countTime = time;
-        Observable.interval(0, 1, TimeUnit.SECONDS)
+        Subscription subscription = Observable.interval(0, 1, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Long, Long>() {
@@ -102,6 +110,12 @@ public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHol
                     }
                 });
 
+        mSubs.add(subscription);
+
+    }
+
+    public List<Subscription> getListSubs() {
+        return mSubs;
     }
 
 //                <TextView

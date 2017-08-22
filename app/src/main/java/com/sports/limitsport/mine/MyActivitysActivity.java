@@ -46,6 +46,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscription;
 
 /**
  * Created by liuworkmac on 17/7/7.
@@ -293,6 +294,22 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearTimers();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void clearTimers() {
+        if (adapter != null) {
+            List<Subscription> mSubs = adapter.getListSubs();
+            if (mSubs != null) {
+                for (int i = 0; i < mSubs.size(); i++) {
+                    Subscription subscription = mSubs.get(i);
+                    if (subscription != null && !subscription.isUnsubscribed()) {
+                        subscription.unsubscribe();
+                    }
+                }
+                mSubs.clear();
+            }
+        }
     }
 }

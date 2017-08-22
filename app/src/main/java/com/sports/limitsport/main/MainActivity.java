@@ -14,6 +14,7 @@ import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.discovery.FindFragment;
 import com.sports.limitsport.mine.MineFragment;
 import com.sports.limitsport.notice.NoticeFragment;
+import com.sports.limitsport.util.GlideImageLoader;
 import com.sports.limitsport.view.BottomTabView;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     @BindView(R.id.tabView)
     BottomTabView tabView;
     private FragmentManager fm;
+    private GlideImageLoader glideImageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,5 +151,13 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             ft.addToBackStack(tag);
         }
         ft.commit();
+    }
+
+    public GlideImageLoader getGlideImageLoader() {
+        if (glideImageLoader == null) {
+            glideImageLoader = new GlideImageLoader();
+        }
+
+        return glideImageLoader;
     }
 }
