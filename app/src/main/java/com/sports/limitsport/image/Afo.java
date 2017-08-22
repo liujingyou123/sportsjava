@@ -49,7 +49,7 @@ public class Afo implements ImageButler {
 
     @Override
     public void loadUri(Context context, Uri uri, ImageView imageView) {
-        Glide.with(imageView.getContext()).load(uri).centerCrop().into(imageView);
+        Glide.with(imageView.getContext()).load(uri).centerCrop().crossFade().into(imageView);
     }
 
 
@@ -120,27 +120,36 @@ public class Afo implements ImageButler {
 
     private void go(Context context, String fileName, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
         if (maxHeight == 0 || maxHeight == 0) {
-            Glide.with(imageView.getContext()).load(fileName).centerCrop().placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().placeholder(defaultImage).error(failedImage).crossFade().into(imageView);
         } else {
-            Glide.with(imageView.getContext()).load(fileName).centerCrop().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).crossFade().into(imageView);
 
         }
     }
 
     private void goWithFitCenter(Context context, String fileName, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
         if (maxHeight == 0 || maxHeight == 0) {
-            Glide.with(imageView.getContext()).load(fileName).fitCenter().placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).fitCenter().placeholder(defaultImage).error(failedImage).crossFade().into(imageView);
         } else {
-            Glide.with(imageView.getContext()).load(fileName).fitCenter().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).fitCenter().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).crossFade().into(imageView);
 
         }
     }
 
     private void goWithBitmapTransform(Context context, String fileName, ImageView imageView, Transformation bitmapTransformation, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
         if (maxHeight == 0 || maxHeight == 0) {
-            Glide.with(imageView.getContext()).load(fileName).centerCrop().bitmapTransform(bitmapTransformation).placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().bitmapTransform(bitmapTransformation).placeholder(defaultImage).error(failedImage).crossFade().into(imageView);
         } else {
-            Glide.with(imageView.getContext()).load(fileName).bitmapTransform(bitmapTransformation).override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).into(imageView);
+            Glide.with(imageView.getContext()).load(fileName).bitmapTransform(bitmapTransformation).override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).crossFade().into(imageView);
+
+        }
+    }
+
+    private void goWithNoCache(Context context, String fileName, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
+        if (maxHeight == 0 || maxHeight == 0) {
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().placeholder(defaultImage).error(failedImage).crossFade().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
+        } else {
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).crossFade().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
 
         }
     }

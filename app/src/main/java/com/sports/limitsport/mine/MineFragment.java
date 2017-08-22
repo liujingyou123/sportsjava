@@ -124,13 +124,15 @@ public class MineFragment extends BaseFragment implements IMineView {
         if (mPresenter == null) {
             mPresenter = new MinePresenter(this);
         }
-
+        rlAll.setEnablePullToRefresh(false);
         if (SharedPrefsUtil.getUserInfo() != null) {
             if (mPresenter != null) {
                 mPresenter.getNewNotice();
             }
             if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
+                rlAll.setEnablePullToRefresh(true);
                 mPresenter.getUserInfo();
+                pageNumber = 1;
                 mPresenter.getDongTaiList(pageNumber);
             } else if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
                 if (headerView != null) {
@@ -211,7 +213,6 @@ public class MineFragment extends BaseFragment implements IMineView {
             }
         }, ryMine);
         rlAll.setEnableLoadMore(false);
-
         rlAll.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
