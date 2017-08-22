@@ -27,6 +27,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by liuworkmac on 17/7/7.
@@ -93,7 +94,7 @@ public class MyActivitysAdapter extends BaseQuickAdapter<OrdersList, BaseViewHol
         if (time < 0) time = 0;
         final long countTime = time;
         Subscription subscription = Observable.interval(0, 1, TimeUnit.SECONDS)
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Long, Long>() {
                     @Override
