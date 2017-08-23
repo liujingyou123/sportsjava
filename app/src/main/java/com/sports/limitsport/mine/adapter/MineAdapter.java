@@ -56,7 +56,7 @@ public class MineAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> {
             if ("1".equals(item.getResourceType())) { //1 图片 2:视频
                 Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
             } else {
-                Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+                Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
             }
         } else {
             imvCover.setVisibility(View.GONE);
