@@ -14,6 +14,7 @@ import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.PersonInfoAdapter;
 import com.sports.limitsport.discovery.presenter.PersonInfoPresenter;
 import com.sports.limitsport.discovery.ui.IPersonInfoView;
@@ -25,6 +26,7 @@ import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -58,6 +60,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
     private int selectId;
     private List<DongTaiList> data = new ArrayList<>();
     private int totalSize = -1;
+    private ShareDialog shareDialog;
 
 
     @Override
@@ -99,6 +102,21 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
                 dialog.show();
                 break;
             case R.id.imv_share:
+                if (headerView != null) {
+                    UserInfoResponse userInfoResponse = headerView.getUserInfo();
+                    if (userInfoResponse != null) {
+                        if (shareDialog == null) {
+                            shareDialog = new ShareDialog(this);
+                        }
+                        if (!shareDialog.isShowing()) {
+                            shareDialog.setTitle(userInfoResponse.getData().getName());
+                            shareDialog.setDes(userInfoResponse.getData().getIntroduction());
+                            shareDialog.setImage(userInfoResponse.getData().getHeadPortrait());
+                            shareDialog.setUrl(H5Address.getUserInforUrl(userId));
+                            shareDialog.show();
+                        }
+                    }
+                }
                 break;
         }
     }

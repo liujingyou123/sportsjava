@@ -87,7 +87,7 @@ public class ShareDialog extends Dialog {
 
     private void showShare(SHARE_MEDIA platform) {
         UMWeb web = new UMWeb(mUrl);
-        web.setTitle("老板，这里有一个旺铺招租啦！");
+        web.setTitle(mTitle);
         String descrip = mDes;
         if (platform == SHARE_MEDIA.SINA) {
             descrip = descrip + "\t" + mUrl;

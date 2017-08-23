@@ -342,6 +342,10 @@ public class PersonInfoHeaderView extends LinearLayout {
         dialog.show();
     }
 
+    public UserInfoResponse getUserInfo() {
+        return mResponse;
+    }
+
 
     /**
      * 0:添加 1:移除 2:取消关注
