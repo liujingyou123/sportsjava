@@ -221,10 +221,15 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @Override
     public void showPayOrderResult(PayOrderResponse response) {
         if (response != null && response.data != null) {
-            if (mPresenter != null) {
-                orderNo = response.data.orderNo;
-                mPresenter.aliPay(response.data.orderInfo);
+            if ("1".equals(response.data.isFree)) {
+                goToPayResult(0, null);
+            } else {
+                if (mPresenter != null) {
+                    orderNo = response.data.orderNo;
+                    mPresenter.aliPay(response.data.orderInfo);
+                }
             }
+
         } else {
             goToPayResult(1, response.getErrMsg());
         }

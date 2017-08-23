@@ -12,5 +12,6 @@ public class PayOrderResponse extends BaseResponse{
     public static class DataBean {
         public String orderInfo;
         public String orderNo;
+        public String isFree;
     }
 }
