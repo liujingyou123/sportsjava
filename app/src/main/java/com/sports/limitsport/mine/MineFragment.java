@@ -139,10 +139,19 @@ public class MineFragment extends BaseFragment implements IMineView {
                 if (headerView != null) {
                     headerView.setType(2);
                 }
+
+                if (mineAdapter != null && mineAdapter.getData().size() > 0) {
+                    mineAdapter.getData().clear();
+                    mineAdapter.notifyDataSetChanged();
+                }
             }
         } else {
             if (headerView != null) {
                 headerView.setType(0);
+            }
+            if (mineAdapter != null && mineAdapter.getData().size() > 0) {
+                mineAdapter.getData().clear();
+                mineAdapter.notifyDataSetChanged();
             }
         }
     }
