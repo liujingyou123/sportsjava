@@ -13,11 +13,14 @@ import android.widget.TextView;
 import com.ajguan.library.EasyRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.activity.PaySuccessActivity;
 import com.sports.limitsport.activity.presenter.PayPresenter;
 import com.sports.limitsport.activity.ui.IPayOrderView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.MyActivitysAdapter;
 import com.sports.limitsport.model.EventBusOrder;
 import com.sports.limitsport.model.MyCollectActivityResponse;
@@ -29,6 +32,7 @@ import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.MyTestData;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -244,8 +248,20 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
      * 前往编辑动态页
      */
     private void gotoEditDongtai() {
-        Intent intent = new Intent(this, EditNewDongTaiActivity.class);
-        startActivity(intent);
+        if (SharedPrefsUtil.getUserInfo() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+            return;
+        } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+            Intent intent = new Intent(this, IdentifyMainActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, EditNewDongTaiActivity.class);
+            startActivity(intent);
+        }
+
     }
 
 

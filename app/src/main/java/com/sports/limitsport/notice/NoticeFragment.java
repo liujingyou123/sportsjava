@@ -316,8 +316,19 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                 gotoFucusFriends();
                 break;
             case R.id.imv_right:
-                Intent intent = new Intent(this.getContext(), EditNewDongTaiActivity.class);
-                startActivity(intent);
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(getContext(), IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this.getContext(), EditNewDongTaiActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

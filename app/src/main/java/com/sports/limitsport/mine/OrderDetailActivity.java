@@ -18,6 +18,8 @@ import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.RefundTipDialog;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.presenter.OrderDetailPresenter;
 import com.sports.limitsport.mine.ui.IOrderDetailView;
 import com.sports.limitsport.model.EventBusOrder;
@@ -27,6 +29,7 @@ import com.sports.limitsport.model.PayOrderResponse;
 import com.sports.limitsport.model.SelectTicket;
 import com.sports.limitsport.model.SignList;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
@@ -320,8 +323,19 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
      * 前往发动态
      */
     private void gotoEditDongTai() {
-        Intent intent = new Intent(this, EditNewDongTaiActivity.class);
-        startActivity(intent);
+        if (SharedPrefsUtil.getUserInfo() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+            return;
+        } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+            Intent intent = new Intent(this, IdentifyMainActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, EditNewDongTaiActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void timeCountDown(String timeStr) {

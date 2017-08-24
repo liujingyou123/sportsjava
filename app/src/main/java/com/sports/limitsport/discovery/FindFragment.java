@@ -9,9 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.SlidingTabLayout;
@@ -68,8 +72,20 @@ public class FindFragment extends BaseFragment {
      * 编辑动态页
      */
     private void gotoEditDongTai() {
-        Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);
-        getContext().startActivity(intent);
+        if (SharedPrefsUtil.getUserInfo() == null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+            return;
+        } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+            Intent intent = new Intent(getContext(), IdentifyMainActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);
+            getContext().startActivity(intent);
+        }
+
     }
 
     @Override

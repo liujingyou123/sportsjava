@@ -15,6 +15,7 @@ public class HuDongNoticeList {
     private String name;
     private int type;
     private String userId;
+    private String sendDateType;
 
     public String getContent() {
         return content;
@@ -94,5 +95,13 @@ public class HuDongNoticeList {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getSendDateType() {
+        return sendDateType;
+    }
+
+    public void setSendDateType(String sendDateType) {
+        this.sendDateType = sendDateType;
     }
 }

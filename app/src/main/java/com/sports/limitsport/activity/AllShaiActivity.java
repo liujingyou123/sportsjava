@@ -236,8 +236,20 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
      * 前往编辑动态页面
      */
     private void gotoEditDongtai() {
-        Intent intent = new Intent(this, EditNewDongTaiActivity.class);
-        startActivity(intent);
+        if (SharedPrefsUtil.getUserInfo() == null) {
+            Intent intent = new Intent(AllShaiActivity.this, LoginActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+            return;
+        } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+            Intent intent = new Intent(AllShaiActivity.this, IdentifyMainActivity.class);
+            intent.putExtra("type", "2");
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, EditNewDongTaiActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.imv_right, R.id.tv_reload})

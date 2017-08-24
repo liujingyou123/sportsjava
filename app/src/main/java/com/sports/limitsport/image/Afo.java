@@ -142,7 +142,14 @@ public class Afo implements ImageButler {
             Glide.with(imageView.getContext()).load(fileName).centerCrop().transform(new CenterCrop(context)).bitmapTransform(bitmapTransformation).placeholder(defaultImage).error(failedImage).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
         } else {
             Glide.with(imageView.getContext()).load(fileName).transform(new CenterCrop(context)).bitmapTransform(bitmapTransformation).override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        }
+    }
 
+    private void goWithNoCache(Context context, String fileName, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
+        if (maxHeight == 0 || maxHeight == 0) {
+            Glide.with(imageView.getContext()).load(fileName).asGif().centerCrop().placeholder(defaultImage).error(failedImage).crossFade().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
+        } else {
+            Glide.with(imageView.getContext()).load(fileName).centerCrop().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).crossFade().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
         }
     }
 }

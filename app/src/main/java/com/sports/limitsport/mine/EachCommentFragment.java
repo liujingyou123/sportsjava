@@ -18,6 +18,8 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.EachCommentAdapter;
 import com.sports.limitsport.model.HuDongNoticeList;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
@@ -89,8 +91,19 @@ public class EachCommentFragment extends Fragment {
         tvGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);
-                startActivity(intent);
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(getContext(), IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getContext(), EditNewDongTaiActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         rlComments.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
