@@ -13,7 +13,7 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.sports.limitsport"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

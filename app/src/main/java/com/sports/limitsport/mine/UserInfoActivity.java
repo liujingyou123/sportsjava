@@ -452,6 +452,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
                     EventBusUserInfo params = new EventBusUserInfo();
                     params.isResfreh = true;
                     EventBus.getDefault().post(params);
+                    UserInfoActivity.this.finish();
 
                 }
             }
@@ -498,6 +499,7 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
                     EventBusUserInfo params = new EventBusUserInfo();
                     params.isResfreh = true;
                     EventBus.getDefault().post(params);
+                    UserInfoActivity.this.finish();
                 }
             }
 
