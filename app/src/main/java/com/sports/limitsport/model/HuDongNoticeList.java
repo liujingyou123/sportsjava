@@ -15,7 +15,7 @@ public class HuDongNoticeList {
     private String name;
     private int type;
     private String userId;
-    private String sendDateType;
+    private String sendDateType;//0:评论 1:活动 2：动态 3:精彩秀
 
     public String getContent() {
         return content;

@@ -42,7 +42,15 @@ public class GetFavAdapter extends BaseQuickAdapter<HuDongNoticeList, BaseViewHo
             imageCover.setVisibility(View.GONE);
         }
 
-        tvDetail.setText("赞了这条评论");
+        if ("0".equals(item.getSendDateType())) {
+            tvDetail.setText("赞了这条评论");
+        } else if ("1".equals(item.getSendDateType())) {
+            tvDetail.setText("赞了这个活动");
+        } else if ("2".equals(item.getSendDateType())) {
+            tvDetail.setText("赞了这条动态");
+        } else if ("3".equals(item.getSendDateType())) {
+            tvDetail.setText("赞了这条精彩秀");
+        }
 
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
