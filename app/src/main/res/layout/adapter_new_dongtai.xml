@@ -1,70 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="25dp"
-    android:orientation="vertical">
-
-    <com.sports.limitsport.view.ScaleImageView
-        android:id="@+id/imv_cover"
+    android:layout_height="wrap_content">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
+        android:layout_marginBottom="25dp"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imv_head"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="-10dp" />
-
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="-18dp"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="#ffffff"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:maxLines="2"
-        android:text=""
-        android:textColor="#ffffff"
-        android:textSize="14sp" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp">
+        <com.sports.limitsport.view.ScaleImageView
+            android:id="@+id/imv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop" />
 
         <ImageView
-            android:id="@+id/imv_zan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/bg_dianzan_small"
-            android:visibility="gone" />
+            android:id="@+id/imv_head"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="-10dp" />
 
         <TextView
-            android:id="@+id/tv_san"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/imv_zan"
-            android:drawableLeft="@drawable/bg_dianzan_small"
-            android:drawablePadding="3dp"
-            android:gravity="center_vertical"
-            android:text="0"
-            android:textColor="@color/color_s_green"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="-18dp"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
             android:textSize="12sp" />
-    </RelativeLayout>
-</LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="2"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/imv_zan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bg_dianzan_small"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_san"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/imv_zan"
+                android:drawableLeft="@drawable/bg_dianzan_small"
+                android:drawablePadding="3dp"
+                android:gravity="center_vertical"
+                android:text="0"
+                android:textColor="@color/color_s_green"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round_black_2"
+        android:paddingBottom="2dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="2dp"
+        android:text=""
+        android:textColor="#FFFFFFFF"
+        android:textSize="10sp" />
+</RelativeLayout>

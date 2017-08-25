@@ -33,6 +33,7 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         TextView tvTitle = helper.getView(R.id.tv_title);
         ImageView imvZan = helper.getView(R.id.imv_zan);
         TextView tvSan = helper.getView(R.id.tv_san);
+        TextView tvStatus = helper.getView(R.id.tv_status);
 
         helper.addOnClickListener(R.id.imv_cover);
         helper.addOnClickListener(R.id.imv_head);
@@ -52,11 +53,12 @@ public class DongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
 
 //
         if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+            tvStatus.setText("图片");
             Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
         } else {
+            tvStatus.setText("视频");
             Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_default_pubuliu, R.mipmap.icon_default_pubuliu, item.getWidth(), item.getHeight());
         }
-
 
         if (!TextViewUtil.isEmpty(item.getPublishUserName())) {
             tvName.setText(item.getPublishUserName());

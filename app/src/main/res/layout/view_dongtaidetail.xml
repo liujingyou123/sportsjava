@@ -62,13 +62,26 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imv_cover"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_default_detail"/>
+        android:layout_height="wrap_content">
+
+        <com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen
+            android:id="@+id/jc_video"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/imv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_default_detail"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_content"

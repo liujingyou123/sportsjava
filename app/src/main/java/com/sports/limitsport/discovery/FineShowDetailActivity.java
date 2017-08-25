@@ -90,6 +90,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         mPresenter.getFineShowDetail(id);
         mPresenter.getCommentList(id, pageNumber + "");
         mPresenter.getPraiseList(id);
+//        rlAll.autoRefresh();
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_fav, R.id.btn_comment})
@@ -181,7 +182,6 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
 
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
 
-        adapter.disableLoadMoreIfNotFullPage();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -308,7 +308,8 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());
-                adapter.notifyDataSetChanged();
+                adapter.setNewData(data);
+                adapter.disableLoadMoreIfNotFullPage();
                 rlAll.refreshComplete();
             } else {
                 adapter.addData(response.getData().getData());

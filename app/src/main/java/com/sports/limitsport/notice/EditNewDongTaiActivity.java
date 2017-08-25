@@ -195,7 +195,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     }
 
     private void checkPublish() {
-        if ((etContent != null && !TextViewUtil.isEmpty(etContent.getContent())) || selectMedia != null) {
+        if ((etContent != null && !TextViewUtil.isEmpty(etContent.getContent())) && selectMedia != null) {
             tvFocusRight.setEnabled(true);
         } else {
             tvFocusRight.setEnabled(false);
@@ -532,7 +532,12 @@ public class EditNewDongTaiActivity extends BaseActivity {
     }
 
     private boolean check() {
-        if (selectMedia == null && TextViewUtil.isEmpty(etContent.getContent())) {
+        if (selectMedia == null) {
+            ToastUtil.showFalseToast(this, "请选择图片");
+            return false;
+        }
+
+        if (TextViewUtil.isEmpty(etContent.getContent())) {
             ToastUtil.showFalseToast(this, "请输入内容");
             return false;
         }

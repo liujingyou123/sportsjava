@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ElsePriseActivity;
-import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.discovery.adapter.PraiseHeadAdapter;
@@ -26,6 +25,7 @@ import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.PraiseList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
+import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by liuworkmac on 17/7/17.
@@ -66,6 +67,8 @@ public class DongTaiDetialHeadView extends LinearLayout {
     TextView tvCommentsNum;
     @BindView(R.id.tv_sign_num)
     TextView tvSignNum;
+    @BindView(R.id.jc_video)
+    JCVideoPlayerStandardShowShareButtonAfterFullscreen jcVideo;
     private PraiseHeadAdapter namesAdapter; // 他们也觉得赞
     private CommentDialog commentDialog;
     private DongTaiDetailResponse.DataBean item;
@@ -115,6 +118,26 @@ public class DongTaiDetialHeadView extends LinearLayout {
         getContext().startActivity(intent);
     }
 
+    /**
+     * type: 0 video 1:图片
+     */
+    private void setViewType(String type) {
+        if ("1".equals(type)) {
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+//            Batman.getInstance().fromNetWithFitCenter(mData.getCoverUrl(), imvCover);
+            imvCover.setVisibility(View.VISIBLE);
+            jcVideo.setVisibility(View.INVISIBLE);
+        } else {
+            jcVideo.setVisibility(View.VISIBLE);
+            imvCover.setVisibility(View.INVISIBLE);
+
+            jcVideo.setUp(item.getVedioUrl()
+                    , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, item.getTitle() == null ? "" : item.getTitle());
+            Batman.getInstance().fromNet(item.getVedioImgUrl(), jcVideo.thumbImageView, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+//            Batman.getInstance().fromNetWithFitCenter(mData.getActivityVideoImg(), jcVideo.thumbImageView);
+        }
+    }
+
     public void setData(DongTaiDetailResponse.DataBean data) {
         if (data == null) {
             return;
@@ -132,16 +155,18 @@ public class DongTaiDetialHeadView extends LinearLayout {
             tvFocus.setText("进入主页");
         }
 
-        if (!TextViewUtil.isEmpty(item.getResourceType())) {
-            imvCover.setVisibility(VISIBLE);
-            if ("1".equals(item.getResourceType())) { //1 图片 2:视频
-                Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
-            } else {
-                Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
-            }
-        } else {
-            imvCover.setVisibility(GONE);
-        }
+//        if (!TextViewUtil.isEmpty(item.getResourceType())) {
+//            imvCover.setVisibility(VISIBLE);
+//            if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+//                Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+//            } else {
+//                Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+//            }
+//        } else {
+//            imvCover.setVisibility(GONE);
+//        }
+
+        setViewType(item.getResourceType());
 
 
         if (!TextViewUtil.isEmpty(item.getContent())) {

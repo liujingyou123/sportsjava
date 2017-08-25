@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             int tab = intent.getIntExtra("tab", ACTIVITY);
             onTabSelected(tab);
         }
+        initExitController();
 
     }
 
