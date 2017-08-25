@@ -3,13 +3,16 @@ package com.sports.limitsport.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,7 +74,6 @@ public class FineShowDetailHeadView extends LinearLayout {
     ImageView imvHead;
     @BindView(R.id.tv_comments_num)
     TextView tvCommentsNum;
-    private PraiseHeadAdapter namesAdapter; //他们也觉得赞
     private FineShowDetailResponse.DataBean item;
 
 
@@ -93,6 +95,17 @@ public class FineShowDetailHeadView extends LinearLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_fineshowdetail_head, this);
         ButterKnife.bind(this, this);
+        rlNames.setFocusable(false);
+//        rlNames.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+//        rlNames.setFocusable(true);
+//        rlNames.setFocusableInTouchMode(true);
+//        rlNames.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                v.requestFocusFromTouch();
+//                return false;
+//            }
+//        });
 
     }
 
@@ -102,7 +115,7 @@ public class FineShowDetailHeadView extends LinearLayout {
     public void setNameRecy(List<PraiseList> data) {
         rlNames.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        namesAdapter = new PraiseHeadAdapter(data);
+        PraiseHeadAdapter namesAdapter = new PraiseHeadAdapter(data);
         rlNames.setAdapter(namesAdapter);
 
 
@@ -151,6 +164,7 @@ public class FineShowDetailHeadView extends LinearLayout {
         }
 
         if (item.getAtUserList() != null && item.getAtUserList().size() > 0) {
+            llAt.removeAllViews();
             for (int i = 0; i < item.getAtUserList().size(); i++) {
                 FineShowDetailResponse.DataBean.AtUserListBean atUserList = item.getAtUserList().get(i);
                 if (atUserList != null) {
