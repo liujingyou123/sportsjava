@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.NewNoticeResponse;
 
 import java.util.ArrayList;
@@ -80,7 +81,18 @@ public class HudongFragment extends Fragment {
         tb.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                XLog.e("onTabSelected");
+                XLog.e("onTabSelected");
+                String tag = tab.getText().toString();
+                if (tag.equals("评论")) {
+                    imvCommentTip.setVisibility(View.GONE);
+                } else if (tag.equals("@我")) {
+                    imvAtTip.setVisibility(View.GONE);
+                } else if (tag.equals("粉丝")) {
+                    imvFansTip.setVisibility(View.GONE);
+                } else if (tag.equals("获赞")) {
+                    imvZanTip.setVisibility(View.GONE);
+                }
+
             }
 
             @Override
