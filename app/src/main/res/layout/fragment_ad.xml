@@ -7,14 +7,18 @@
         android:id="@+id/imv_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_click"
-        android:layout_width="180dp"
-        android:layout_height="100dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="70dp"
-        android:background="@android:color/transparent"/>
+        android:background="@drawable/bg_round_green"
+        android:gravity="center"
+        android:text="立即体验"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
 </FrameLayout>

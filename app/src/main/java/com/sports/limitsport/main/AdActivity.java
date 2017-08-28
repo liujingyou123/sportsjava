@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -14,7 +15,10 @@ import android.widget.LinearLayout;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.main.adapter.LaunchPageAdapter;
+import com.sports.limitsport.model.EventBusAd;
 import com.sports.limitsport.util.StatusBarUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -135,13 +139,19 @@ public class AdActivity extends AppCompatActivity {
      * @param position
      */
     private void monitorPoint(int position) {
-        for (int i = 0; i < 6; i++) {
-            if (i == position) {
-                llPoint.getChildAt(position).setBackgroundResource(
-                        R.drawable.bg_dot_circle_white);
-            } else {
-                llPoint.getChildAt(i).setBackgroundResource(
-                        R.drawable.bg_dot_circle_black);
+        if (position == 5) {
+            llPoint.setVisibility(View.GONE);
+            EventBus.getDefault().post(new EventBusAd());
+        } else {
+            llPoint.setVisibility(View.VISIBLE);
+            for (int i = 0; i < 6; i++) {
+                if (i == position) {
+                    llPoint.getChildAt(position).setBackgroundResource(
+                            R.drawable.bg_dot_circle_white);
+                } else {
+                    llPoint.getChildAt(i).setBackgroundResource(
+                            R.drawable.bg_dot_circle_black);
+                }
             }
         }
 

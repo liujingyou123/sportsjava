@@ -1,5 +1,6 @@
 package com.sports.limitsport.main;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.sports.limitsport.R;
+import com.sports.limitsport.model.EventBusAd;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +33,7 @@ public class AdFragment extends Fragment {
     @BindView(R.id.imv_bg)
     ImageView imvBg;
     @BindView(R.id.btn_click)
-    Button btnClick;
+    TextView btnClick;
 
     public static AdFragment newInstance(int index) {
         AdFragment adFragment = new AdFragment();
@@ -42,6 +49,9 @@ public class AdFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         View view = inflater.inflate(R.layout.fragment_ad, null);
         ButterKnife.bind(this, view);
 
@@ -67,10 +77,24 @@ public class AdFragment extends Fragment {
             btnClick.setVisibility(View.GONE);
         } else if (index == 6) {
             imvBg.setImageResource(R.mipmap.launch_six);
-            btnClick.setVisibility(View.VISIBLE);
+            btnClick.setVisibility(View.GONE);
         }
 
         return view;
+    }
+
+    @Subscribe
+    public void getEventBus(EventBusAd params) {
+        if (params != null) {
+            if (index == 6 && btnClick.getVisibility() == View.GONE) {
+//                btnClick.setVisibility(View.VISIBLE);
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(btnClick, "alpha", 0, 1);
+                objectAnimator.setDuration(500);
+                objectAnimator.start();
+                btnClick.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
 
@@ -93,6 +117,7 @@ public class AdFragment extends Fragment {
         }
         imvBg = null;
         btnClick = null;
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }
