@@ -82,7 +82,7 @@ public class OrderDetailPresenter {
             @Override
             public void response(BaseResponse response) {
                 if (mIOrderDetailView != null) {
-                    mIOrderDetailView.refundOrderResult(response.success);
+                    mIOrderDetailView.refundOrderResult(response.success, response.getErrMsg());
                 }
             }
 
@@ -90,7 +90,7 @@ public class OrderDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIOrderDetailView != null) {
-                    mIOrderDetailView.refundOrderResult(false);
+                    mIOrderDetailView.refundOrderResult(false, e != null ? e.getMessage() : "退款失败");
                 }
             }
         });

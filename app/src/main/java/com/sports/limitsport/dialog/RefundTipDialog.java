@@ -39,7 +39,7 @@ public class RefundTipDialog extends Dialog {
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 292, context.getResources().getDisplayMetrics());
-        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 350, context.getResources().getDisplayMetrics());
+        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 280, context.getResources().getDisplayMetrics());
         window.setAttributes(lp);
     }
 

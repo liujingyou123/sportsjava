@@ -11,5 +11,5 @@ public interface IOrderDetailView {
 
     void cancelOrder(boolean success);
 
-    void refundOrderResult(boolean success);
+    void refundOrderResult(boolean success, String erroMsg);
 }

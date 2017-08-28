@@ -435,7 +435,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     }
 
     @Override
-    public void refundOrderResult(boolean success) {
+    public void refundOrderResult(boolean success, String errorMsg) {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
@@ -446,7 +446,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
             params.isChange = true;
             EventBus.getDefault().post(params);
         } else {
-            ToastUtil.showFalseToast(this, "退款失败");
+            ToastUtil.showFalseToast(this, errorMsg);
         }
     }
 
