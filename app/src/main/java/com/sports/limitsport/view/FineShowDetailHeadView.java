@@ -3,37 +3,33 @@ package com.sports.limitsport.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ElsePriseActivity;
-import com.sports.limitsport.activity.adapter.NamesAdapter;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.discovery.adapter.PraiseHeadAdapter;
 import com.sports.limitsport.image.Batman;
-import com.sports.limitsport.model.ApplicantListBean;
 import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.PraiseList;
 import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by liuworkmac on 17/7/12.
@@ -74,6 +70,8 @@ public class FineShowDetailHeadView extends LinearLayout {
     ImageView imvHead;
     @BindView(R.id.tv_comments_num)
     TextView tvCommentsNum;
+    @BindView(R.id.jc_video)
+    JCVideoPlayerStandardShowShareButtonAfterFullscreen jcVideo;
     private FineShowDetailResponse.DataBean item;
 
 
@@ -107,6 +105,26 @@ public class FineShowDetailHeadView extends LinearLayout {
 //            }
 //        });
 
+    }
+
+    /**
+     * type: 0 video 1:图片
+     */
+    private void setViewType(String type) {
+        if ("1".equals(type)) {
+            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+//            Batman.getInstance().fromNetWithFitCenter(mData.getCoverUrl(), imvCover);
+            imvCover.setVisibility(View.VISIBLE);
+            jcVideo.setVisibility(View.INVISIBLE);
+        } else {
+            jcVideo.setVisibility(View.VISIBLE);
+            imvCover.setVisibility(View.INVISIBLE);
+
+            jcVideo.setUp(item.getVedioUrl()
+                    , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, item.getTitle() == null ? "" : item.getTitle());
+            Batman.getInstance().fromNet(item.getImgUrl(), jcVideo.thumbImageView, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+//            Batman.getInstance().fromNetWithFitCenter(mData.getActivityVideoImg(), jcVideo.thumbImageView);
+        }
     }
 
     /**
@@ -153,12 +171,14 @@ public class FineShowDetailHeadView extends LinearLayout {
             tvFocus.setText("进入主页");
         }
 
-        if (item.getResourceType() == 1) { //1 图片 2:视频
-            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
-        } else {
-            Batman.getInstance().fromNet(item.getVedioUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
-        }
+//        if (item.getResourceType() == 1) { //1 图片 2:视频
+//            Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+//        } else {
+//            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+//        }
 
+
+        setViewType(item.getResourceType() + "");
         if (!TextViewUtil.isEmpty(item.getContent())) {
             tvContent.setText(item.getContent());
         }

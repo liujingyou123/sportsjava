@@ -45,6 +45,7 @@ public class AllShaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         LinearLayout llAt = helper.getView(R.id.ll_at);
         TagCloudLayout tg = helper.getView(R.id.tg_tag);
         TextView tvPrise = helper.getView(R.id.tv_san);
+        TextView tvStatus = helper.getView(R.id.tv_status);
         ImageView imvPrise = helper.getView(R.id.imv_zan);
         LinearLayout llCall = helper.getView(R.id.ll_recall);
 
@@ -58,6 +59,7 @@ public class AllShaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
         Batman.getInstance().getImageWithCircle(item.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
         tvName.setText(item.getPublishUserName());
         tvTime.setText(item.getShowCreateTime());
+        tvStatus.setVisibility(View.VISIBLE);
 
         if (item.getAttentionFlag() == 0) {
             tvFocus.setText("+关注");
@@ -65,11 +67,14 @@ public class AllShaiAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder
             tvFocus.setText("进入主页");
         }
 
-        if (TextViewUtil.isEmpty(item.getResourceType())) {
+        if (!TextViewUtil.isEmpty(item.getResourceType())) {
+            tvStatus.setVisibility(View.VISIBLE);
             imvCover.setVisibility(View.VISIBLE);
             if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+                tvStatus.setText("图片");
                 Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
             } else {
+                tvStatus.setText("视频");
                 Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
             }
         } else {

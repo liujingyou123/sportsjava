@@ -106,7 +106,9 @@ public class REEditText extends EditText {
             String objectText = reObjects.get(0).getText();
             String content = getText().toString();
             int lastPos = content.indexOf(objectText);
-            str = getText().toString().substring(0, lastPos);
+            if (lastPos >= 0) {
+                str = getText().toString().substring(0, lastPos);
+            }
         } else {
             str = getText().toString();
         }

@@ -63,12 +63,34 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imv_cover"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_default_detail"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_default_detail" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_round_black_2"
+            android:paddingBottom="2dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="2dp"
+            android:text=""
+            android:textColor="#FFFFFFFF"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_content"

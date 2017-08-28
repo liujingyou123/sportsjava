@@ -6,22 +6,44 @@
     android:background="@color/bg"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imv_cover"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@mipmap/icon_ver_default"
-        android:scaleType="centerCrop"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_ver_default" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_round_black_2"
+            android:paddingBottom="2dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="2dp"
+            android:text=""
+            android:textColor="#FFFFFFFF"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
         android:text="如果有天堂，应该是个岛的模样；如果有天堂，应该是个岛。"
         android:textColor="#FFA5A4A4"
-        android:textSize="14sp"
-        android:layout_marginTop="10dp"/>
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -63,11 +85,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/imv_zan"
+            android:gravity="center_vertical"
             android:text="1,234"
             android:textColor="#FFFFFFFF"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@id/imv_zan"/>
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/imv_pinglun"
@@ -106,9 +128,9 @@
         android:id="@+id/ll_recall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
         android:paddingLeft="15dp"
-        android:paddingTop="5dp"
-        android:layout_marginBottom="40dp"></LinearLayout>
+        android:paddingTop="5dp"></LinearLayout>
 
 </LinearLayout>

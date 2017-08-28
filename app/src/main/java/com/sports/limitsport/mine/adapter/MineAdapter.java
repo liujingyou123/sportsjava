@@ -43,6 +43,7 @@ public class MineAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> {
         TextView tvPrise = helper.getView(R.id.tv_san);
         ImageView imvPrise = helper.getView(R.id.imv_zan);
         LinearLayout llCall = helper.getView(R.id.ll_recall);
+        TextView tvStatus = helper.getView(R.id.tv_status);
 
         helper.addOnClickListener(R.id.imv_pinglun);
         helper.addOnClickListener(R.id.imv_share);
@@ -52,10 +53,13 @@ public class MineAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> {
         tvTime.setText(item.getShowCreateTime());
 
         if (!TextViewUtil.isEmpty(item.getResourceType())) {
+            tvStatus.setVisibility(View.VISIBLE);
             imvCover.setVisibility(View.VISIBLE);
             if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+                tvStatus.setText("图片");
                 Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
             } else {
+                tvStatus.setText("视频");
                 Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
             }
         } else {
