@@ -143,7 +143,11 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
                     selectTicket = new SelectTicket();
 
                     selectTicket.id = ticketList.getId() + "";
-                    selectTicket.maxNum = ticketList.getSoldNumber();
+                    int maxNum = ticketList.getUserPurchase();
+                    if (ticketList.getSoldNumber() < ticketList.getUserPurchase()) {
+                        maxNum = ticketList.getSoldNumber();
+                    }
+                    selectTicket.maxNum = maxNum;
                     selectTicket.des = ticketList.getDescContent();
                     selectTicket.name = ticketList.getName();
                     selectTicket.price = ticketList.getMoney();

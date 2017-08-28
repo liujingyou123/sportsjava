@@ -369,7 +369,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
                     }
                 }
             } else if ("3".equals(type)) {
-                doCommentPraise(id);
+                doCommentPraise(articleId);
             }
 
         } else {
@@ -388,7 +388,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
                     }
                 }
             } else if ("3".equals(type)) {
-                doCommentPraise(id);
+                doCommentPraise(articleId);
             }
         } else {
             ToastUtil.showTrueToast(this, "取消点赞失败");
@@ -475,9 +475,9 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         }
     }
 
-    private void doCommentPraise(String id) {
+    private void doCommentPraise(String articleId) {
         for (int i = 0; i < adapter.getData().size(); i++) {
-            if (id.equals(adapter.getData().get(i).getId() + "")) {
+            if (articleId.equals(adapter.getData().get(i).getId() + "")) {
                 int num = adapter.getData().get(i).getPraiseNum();
                 if (adapter.getData().get(i).getPraiseFlag() == 1) { //已点赞
                     num--;

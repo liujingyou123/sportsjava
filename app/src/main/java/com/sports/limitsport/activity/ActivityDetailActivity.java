@@ -297,7 +297,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 tvPriceBottom.setText(mData.getMoney());
             }
 
-//            btnDone.setEnabled(true);
+            btnDone.setEnabled(true);
 
             response.getData().setId(id);
             response.getData().setWeek(week);

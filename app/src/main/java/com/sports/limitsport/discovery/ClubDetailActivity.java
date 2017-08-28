@@ -250,14 +250,15 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
 
             if (dataBean.getJoinClubFlag() == 1) { //1:是 0:否
                 btnDone.setText("退出俱乐部");
-//                if (dataBean.getMemberRule() == 1) { //创始人
-//                    llBottom.setVisibility(View.GONE);
-//                } else {
-//                    llBottom.setVisibility(View.VISIBLE);
-//                }
+            } else {
+//                llBottom.setVisibility(View.VISIBLE);
+                btnDone.setText("申请加入");
+            }
+
+            if (dataBean.getMemberRule() == 1) { //创始人
+                llBottom.setVisibility(View.GONE);
             } else {
                 llBottom.setVisibility(View.VISIBLE);
-                btnDone.setText("申请加入");
             }
 
 
