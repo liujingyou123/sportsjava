@@ -95,8 +95,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
     FrameLayout flUploadingTip;
     private SelectMedia selectMedia;
     private Act selectAct;
-    private List<Integer> mSelectPosition;
-    private int activityPosition = -1;
+    //    private List<Integer> mSelectPosition;
+//    private int activityPosition = -1;
     private List<FansList> mSelect;
     private Subscription mUploadSb;
     private OSSAsyncTask mOssAsyncTask;
@@ -131,6 +131,27 @@ public class EditNewDongTaiActivity extends BaseActivity {
 //                } else {
 //                    tvFocusRight.setEnabled(false);
 //                }
+            }
+        });
+
+        etContent.setOnDelObjectListener(new REEditText.OnDelObjectListener() {
+            @Override
+            public void onDeleteListener(ReObject object) {
+                if (object != null) {
+                    if ("1".equals(object.getType())) {
+                        if (mSelect != null && mSelect.size() > 0) {
+                            for (int i = 0; i < mSelect.size(); i++) {
+                                FansList fansList = mSelect.get(i);
+                                if (fansList.getId().equals(object.getId())) {
+                                    mSelect.remove(i);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        selectAct = null;
+                    }
+                }
             }
         });
     }
@@ -291,22 +312,23 @@ public class EditNewDongTaiActivity extends BaseActivity {
             final Throwable cropError = UCrop.getError(data);
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
             mSelect = (List<FansList>) data.getSerializableExtra("name");
-            mSelectPosition = (List<Integer>) data.getSerializableExtra("select");
+//            mSelectPosition = (List<Integer>) data.getSerializableExtra("select");
             if (mSelect != null && mSelect.size() > 0) {
                 etContent.clear("1");
                 for (int i = 0; i < mSelect.size(); i++) {
                     ReObject reObject = new ReObject();
                     reObject.setType("1");
+                    reObject.setId(mSelect.get(i).getId());
                     reObject.setText(mSelect.get(i).getName());
                     etContent.append(reObject);
                 }
             }
         } else if (requestCode == REQUEST_CODE_ACTIVITY && resultCode == RESULT_OK) {
             selectAct = (Act) data.getSerializableExtra("activity");
-            activityPosition = data.getIntExtra("positionSelect", -1);
-
+//            activityPosition = data.getIntExtra("positionSelect", -1);
+            etContent.clear("2");
             if (selectAct != null) {
-                etContent.clear("2");
+//                etContent.clear("2");
                 ReObject reObject = new ReObject();
                 reObject.setType("2");
                 reObject.setStartRule("#");
@@ -323,7 +345,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
      */
     private void gotoSelectMyFocusPerson() {
         Intent intent = new Intent(this, SelectMyFocusPersonActivity.class);
-        intent.putExtra("select", (Serializable) mSelectPosition);
+        intent.putExtra("select", (Serializable) mSelect);
         startActivityForResult(intent, REQUEST_CODE_AT);
     }
 
@@ -332,7 +354,9 @@ public class EditNewDongTaiActivity extends BaseActivity {
      */
     private void gotoSelectMyJionActivitys() {
         Intent intent = new Intent(this, SelectMyJoinActivity.class);
-        intent.putExtra("positionSelect", activityPosition);
+        if (selectAct != null) {
+            intent.putExtra("activity", selectAct);
+        }
         startActivityForResult(intent, REQUEST_CODE_ACTIVITY);
     }
 

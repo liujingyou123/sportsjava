@@ -20,6 +20,7 @@ import java.util.List;
 public class REEditText extends EditText {
 
     private List<ReObject> reObjects = new ArrayList<>();
+    private OnDelObjectListener mOnDelObjectListener;
 
     public REEditText(Context context) {
         super(context);
@@ -62,8 +63,9 @@ public class REEditText extends EditText {
 
                                 getText().delete(lastPos,
                                         lastPos + objectText.length());
-
-                                reObjects.remove(i);
+                                if (mOnDelObjectListener != null) {
+                                    mOnDelObjectListener.onDeleteListener(reObjects.remove(i));
+                                }
                                 return true;
                             }
                         }
@@ -164,5 +166,13 @@ public class REEditText extends EditText {
                 break;
             }
         }
+    }
+
+    public void setOnDelObjectListener(OnDelObjectListener onDelObjectListener) {
+        this.mOnDelObjectListener = onDelObjectListener;
+    }
+
+    public interface OnDelObjectListener {
+        void onDeleteListener(ReObject object);
     }
 }

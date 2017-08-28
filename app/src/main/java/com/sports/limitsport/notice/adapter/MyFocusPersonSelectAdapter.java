@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseSelectionAdapter;
+import com.sports.limitsport.base.BaseSelectionByItemAdapter;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.FansList;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by liuworkmac on 17/7/14.
  */
 
-public class MyFocusPersonSelectAdapter extends BaseSelectionAdapter<FansList, BaseViewHolder> {
+public class MyFocusPersonSelectAdapter extends BaseSelectionByItemAdapter<FansList, BaseViewHolder> {
 
     public MyFocusPersonSelectAdapter(@Nullable List<FansList> data) {
         super(R.layout.adpater_select_myfocus, data, false);

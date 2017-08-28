@@ -57,7 +57,8 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
     private List<FansList> data = new ArrayList<>();
     private int pageNumber = 1;
     private int totalSize;
-    private List<Integer> mSelect;
+    private List<FansList> mSelect;
+//    private List<Integer> mSelect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
     private void getIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
-            mSelect = (List<Integer>) intent.getSerializableExtra("select");
+            mSelect = (List<FansList>) intent.getSerializableExtra("select");
         }
     }
 
@@ -85,14 +86,14 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
                 break;
             case R.id.tv_focus_right:
                 List<FansList> mSelect = new ArrayList<>();
-                if (adapter.mSelectedPositions.size() > 0) {
-                    for (int i = 0; i < adapter.mSelectedPositions.size(); i++) {
-                        FansList fanslist = adapter.getItem(adapter.mSelectedPositions.get(i));
-                        mSelect.add(fanslist);
-                    }
+                if (adapter.mSelectedItems.size() > 0) {
+//                    for (int i = 0; i < adapter.mSelectedPositions.size(); i++) {
+//                        FansList fanslist = adapter.getItem(adapter.mSelectedPositions.get(i));
+//                        mSelect.add(fanslist);
+//                    }
                     Intent intent = new Intent();
-                    intent.putExtra("name", (Serializable) mSelect);
-                    intent.putExtra("select", (Serializable) adapter.mSelectedPositions);
+                    intent.putExtra("name", (Serializable) adapter.mSelectedItems);
+//                    intent.putExtra("select", (Serializable) adapter.mSelectedPositions);
                     setResult(RESULT_OK, intent);
                 }
                 finish();
@@ -115,7 +116,7 @@ public class SelectMyFocusPersonActivity extends BaseActivity {
         rlv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyFocusPersonSelectAdapter(data);
         if (mSelect != null) {
-            adapter.mSelectedPositions.addAll(mSelect);
+            adapter.mSelectedItems.addAll(mSelect);
         }
         adapter.bindToRecyclerView(rlv);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());

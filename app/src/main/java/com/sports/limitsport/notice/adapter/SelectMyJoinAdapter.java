@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseSelectionAdapter;
+import com.sports.limitsport.base.BaseSelectionByItemAdapter;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.util.UnitUtil;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by liuworkmac on 17/7/14.
  */
 
-public class SelectMyJoinAdapter extends BaseSelectionAdapter<Act, BaseViewHolder> {
+public class SelectMyJoinAdapter extends BaseSelectionByItemAdapter<Act, BaseViewHolder> {
     public SelectMyJoinAdapter(@Nullable List<Act> data) {
         super(R.layout.adapter_selectmyjoin, data, true);
     }

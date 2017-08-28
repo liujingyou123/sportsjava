@@ -55,7 +55,8 @@ public class SelectMyJoinActivity extends BaseActivity {
     private List<Act> data = new ArrayList<>();
     private int pageNumber = 1;
     private int totalSize;
-    private int selectPostion = -1;
+    private Act selectAct;
+//    private int selectPostion = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +72,8 @@ public class SelectMyJoinActivity extends BaseActivity {
     private void getInentData() {
         Intent intent = getIntent();
         if (intent != null) {
-            selectPostion = intent.getIntExtra("positionSelect", -1);
+            selectAct = (Act) intent.getSerializableExtra("activity");
+//            selectPostion = intent.getIntExtra("positionSelect", -1);
         }
     }
 
@@ -82,14 +84,12 @@ public class SelectMyJoinActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_focus_right:
-                if (adapter.mSelectedPositions != null && adapter.mSelectedPositions.size() > 0) {
-                    int position = adapter.mSelectedPositions.get(0);
-                    Intent intent = new Intent();
-                    intent.putExtra("activity", adapter.getData().get(position));
-                    intent.putExtra("positionSelect", position);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                Intent intent = new Intent();
+                if (adapter.mSelectedItems != null && adapter.mSelectedItems.size() > 0) {
+                    intent.putExtra("activity", adapter.mSelectedItems.get(0));
                 }
+                setResult(RESULT_OK, intent);
+                finish();
                 break;
             case R.id.tv_reload:
                 viewNonet.setVisibility(View.GONE);
@@ -108,8 +108,8 @@ public class SelectMyJoinActivity extends BaseActivity {
         emptyText.setText("还没有参加的活动哦～");
         rlv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new SelectMyJoinAdapter(data);
-        if (selectPostion != -1) {
-            adapter.mSelectedPositions.add(selectPostion);
+        if (selectAct != null) {
+            adapter.mSelectedItems.add(selectAct);
         }
         adapter.bindToRecyclerView(rlv);
         adapter.setLoadMoreView(new CustomLoadMoreNoEndView());
