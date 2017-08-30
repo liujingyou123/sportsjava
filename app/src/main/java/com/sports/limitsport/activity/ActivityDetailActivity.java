@@ -27,6 +27,8 @@ import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.StatusBarUtil;
 import com.sports.limitsport.util.TextViewUtil;
@@ -71,6 +73,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     private String week;
     private String minMoney;
     private int ticketNum;
+    private ShareDialog shareDialog;
 
 
     @Override
@@ -188,8 +191,22 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 dialog.show();
                 break;
             case R.id.imv_share:
-                ShareDialog dialog1 = new ShareDialog(this);
-                dialog1.show();
+                if (mData != null) {
+                    if (shareDialog == null) {
+                        shareDialog = new ShareDialog(this);
+                    }
+                    if (!shareDialog.isShowing()) {
+                        shareDialog.setTitle(mData.getName());
+                        shareDialog.setDes(mData.getActivityDetail());
+                        if (TextViewUtil.isEmpty(mData.getCoverUrl())) { //视频
+                            shareDialog.setImage(mData.getActivityVideoImg());
+                        } else {
+                            shareDialog.setImage(mData.getCoverUrl());
+                        }
+                        shareDialog.setUrl(H5Address.getUrlActivityDetail(mData.getId()));
+                        shareDialog.show();
+                    }
+                }
                 break;
             case R.id.imv_fav:
                 if (imvFav.isSelected()) {

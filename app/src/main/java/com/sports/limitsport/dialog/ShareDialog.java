@@ -97,7 +97,7 @@ public class ShareDialog extends Dialog {
         if (!TextUtils.isEmpty(mImageUrl)) {
             umImage = new UMImage(mContext, mImageUrl);
         } else {
-//            umImage = new UMImage(mContext, R.drawable.default_image_logo);
+            umImage = new UMImage(mContext, R.mipmap.icon_ar_default);
         }
         web.setThumb(umImage);
 
