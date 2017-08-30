@@ -121,6 +121,7 @@ public class ShareDialog extends Dialog {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
+                                XLog.e("分享失败");
                                 ToastUtil.show(mContext, "分享失败");
                             }
                         });

@@ -35,9 +35,9 @@ public class LimitSportApplication extends Application {
 
 
     {
-        PlatformConfig.setWeixin("wx504d47f2dd5f9ad9", "a65ea8940a6eec051805e24e4e906d67");
-        PlatformConfig.setQQZone("1106108474", "uMa1SFYnLsp4hs0i");
-        PlatformConfig.setSinaWeibo("4150536070", "2386b3299bcd0be389a41e9e8436e91f", "http://sns.whalecloud.com");
+        PlatformConfig.setWeixin("wxed8eeb25f2298870", "87bc38ce0b305d763912b0efb3356b64");
+        PlatformConfig.setQQZone("1106349224", "I9TV3SLS0ojCXKS0");
+        PlatformConfig.setSinaWeibo("1565300412", "15731b921e940e85128a647859354045", "http://sns.whalecloud.com");
     }
 
     public static LimitSportApplication getInstance() {
