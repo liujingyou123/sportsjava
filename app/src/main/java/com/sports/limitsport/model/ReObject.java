@@ -10,6 +10,7 @@ public class ReObject {
     private String text = "";
     private String id;
     private String type;
+    private int index = -1;
 
     public String getStartRule() {
         return startRule;
@@ -49,5 +50,13 @@ public class ReObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

@@ -53,6 +53,7 @@ import com.zhihu.matisse.ui.PreviewActivity;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private Act selectAct;
     //    private List<Integer> mSelectPosition;
 //    private int activityPosition = -1;
-    private List<FansList> mSelect;
+    private List<FansList> mSelect = new ArrayList<>();
     private Subscription mUploadSb;
     private OSSAsyncTask mOssAsyncTask;
 
@@ -311,25 +312,34 @@ public class EditNewDongTaiActivity extends BaseActivity {
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
         } else if (requestCode == REQUEST_CODE_AT && resultCode == RESULT_OK) {
-            mSelect = (List<FansList>) data.getSerializableExtra("name");
+            List<FansList> tmpmSelect = (List<FansList>) data.getSerializableExtra("name");
+//            for (int i = 0; i < tmpmSelect.size(); i++) {
+//                FansList fansList = tmpmSelect.get(i);
+//                if (mSelect != null && !mSelect.contains(fansList)) {
+//                    mSelect.add(fansList);
+//                }
+//            }
+//            mSelect = (List<FansList>) data.getSerializableExtra("name");
 //            mSelectPosition = (List<Integer>) data.getSerializableExtra("select");
-            if (mSelect != null && mSelect.size() > 0) {
-                etContent.clear("1");
-                for (int i = 0; i < mSelect.size(); i++) {
+            if (tmpmSelect != null && tmpmSelect.size() > 0) {
+//                etContent.clear("1");
+                for (int i = 0; i < tmpmSelect.size(); i++) {
                     ReObject reObject = new ReObject();
                     reObject.setType("1");
-                    reObject.setId(mSelect.get(i).getId());
-                    reObject.setText(mSelect.get(i).getName());
-                    etContent.append(reObject);
+                    reObject.setIndex(-1);
+                    reObject.setId(tmpmSelect.get(i).getId());
+                    reObject.setText(tmpmSelect.get(i).getName());
+                    etContent.appendInsert(reObject);
                 }
             }
         } else if (requestCode == REQUEST_CODE_ACTIVITY && resultCode == RESULT_OK) {
             selectAct = (Act) data.getSerializableExtra("activity");
 //            activityPosition = data.getIntExtra("positionSelect", -1);
-            etContent.clear("2");
+            etContent.clearActivity();
             if (selectAct != null) {
 //                etContent.clear("2");
                 ReObject reObject = new ReObject();
+                reObject.setIndex(-1);
                 reObject.setType("2");
                 reObject.setStartRule("#");
                 reObject.setEndRule("#");
@@ -594,7 +604,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
         }
 
         if (sb != null) {
-            hashMap.put("notifyUserList", sb.toString());
+            hashMap.put("atUsers", sb.toString());
         }
 
         if (selectMedia != null) {

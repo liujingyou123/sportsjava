@@ -77,6 +77,7 @@ public class TextViewUtil {
         tv.getPaint().setFlags(0);
     }
 
+
     //半角转换为全角
     public static String ToDBC(String input) {
         char[] c = input.toCharArray();
