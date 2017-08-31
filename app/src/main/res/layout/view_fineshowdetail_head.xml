@@ -91,7 +91,7 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_default_detail"
-            android:visibility="gone" />
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <TextView

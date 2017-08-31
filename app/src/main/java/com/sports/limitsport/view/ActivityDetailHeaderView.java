@@ -32,6 +32,7 @@ import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.TicketList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.imagepreview.ImagePreviewActivity;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
 import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
 
@@ -193,7 +194,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
 
-    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss, R.id.imv_org, R.id.tv_detail})
+    @OnClick({R.id.rl_allshai, R.id.tv_sign_num, R.id.ll_location, R.id.rl_discuss, R.id.imv_org, R.id.tv_detail, R.id.imv_cover})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_allshai:
@@ -215,6 +216,13 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 break;
             case R.id.tv_detail:
                 gotoH5Detail();
+                break;
+            case R.id.imv_cover:
+                ArrayList<String> urls = new ArrayList<>();
+                urls.add(mData.getCoverUrl());
+                Intent intent1 = new Intent(getContext(), ImagePreviewActivity.class);
+                intent1.putExtra("pics", urls);
+                getContext().startActivity(intent1);
                 break;
         }
     }

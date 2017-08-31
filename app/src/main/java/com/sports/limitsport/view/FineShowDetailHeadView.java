@@ -22,8 +22,10 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.PraiseList;
 import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.view.imagepreview.ImagePreviewActivity;
 import com.sports.limitsport.view.video.JCVideoPlayerStandardShowShareButtonAfterFullscreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -115,10 +117,12 @@ public class FineShowDetailHeadView extends LinearLayout {
             Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
 //            Batman.getInstance().fromNetWithFitCenter(mData.getCoverUrl(), imvCover);
             imvCover.setVisibility(View.VISIBLE);
+            imvCover.setEnabled(true);
             jcVideo.setVisibility(View.INVISIBLE);
         } else {
             jcVideo.setVisibility(View.VISIBLE);
             imvCover.setVisibility(View.INVISIBLE);
+            imvCover.setEnabled(false);
 
             jcVideo.setUp(item.getVedioUrl()
                     , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, item.getTitle() == null ? "" : item.getTitle());
@@ -142,13 +146,13 @@ public class FineShowDetailHeadView extends LinearLayout {
     }
 
 
-    @OnClick(R.id.tv_sign_num)
-    public void onViewClicked() {
-        Intent intent = new Intent(getContext(), ElsePriseActivity.class);
-        intent.putExtra("id", item.getId() + "");
-        intent.putExtra("praiseType", "1");
-        getContext().startActivity(intent);
-    }
+//    @OnClick(R.id.tv_sign_num)
+//    public void onViewClicked() {
+//        Intent intent = new Intent(getContext(), ElsePriseActivity.class);
+//        intent.putExtra("id", item.getId() + "");
+//        intent.putExtra("praiseType", "1");
+//        getContext().startActivity(intent);
+//    }
 
     public void setData(FineShowDetailResponse.DataBean data) {
         if (data == null) {
@@ -268,5 +272,26 @@ public class FineShowDetailHeadView extends LinearLayout {
 
     public void setCommentNum(int num) {
         tvCommentsNum.setText("全部评论（" + num + "条）");
+    }
+
+    @OnClick({R.id.imv_cover, R.id.tv_sign_num})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_cover:
+                if (item != null) {
+                    ArrayList<String> urls = new ArrayList<>();
+                    urls.add(item.getImgUrl());
+                    Intent intent1 = new Intent(getContext(), ImagePreviewActivity.class);
+                    intent1.putExtra("pics", urls);
+                    getContext().startActivity(intent1);
+                }
+                break;
+            case R.id.tv_sign_num:
+                Intent intent = new Intent(getContext(), ElsePriseActivity.class);
+                intent.putExtra("id", item.getId() + "");
+                intent.putExtra("praiseType", "1");
+                getContext().startActivity(intent);
+                break;
+        }
     }
 }
