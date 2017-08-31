@@ -143,44 +143,6 @@ public class MyReceiver extends BroadcastReceiver {
                     intent.putExtra("id", extraReceive.getBizId());
                 }
             }
-            if ("2".equals(extraReceive.getCatalogType())) { //生意圈
-                if ("0".equals(extraReceive.getBizType()) || "3".equals(extraReceive.getBizType())) { //评论
-                    intent = new Intent(context, TradeCircleDetailActivity.class);
-                    if (!TextUtils.isEmpty(from)) {
-                        intent.putExtra("from", from);
-                    }
-                    intent.putExtra("fromType", "receiver");
-                    intent.putExtra("topicId", extraReceive.getBizId());
-                    EventBus.getDefault().post(new EventBusCommentNum());
-                } else if ("1".equals(extraReceive.getBizType())) { //帖子被删
-                    intent = new Intent(context, NoticeListActivity.class);
-                    if (!TextUtils.isEmpty(from)) {
-                        intent.putExtra("from", from);
-                    }
-                    intent.putExtra("type", 2);
-                    intent.putExtra("title", "生意圈");
-                } else if ("2".equals(extraReceive.getBizType())) { // 评论被删
-                    intent = new Intent(context, NoticeListActivity.class);
-                    if (!TextUtils.isEmpty(from)) {
-                        intent.putExtra("from", from);
-                    }
-                    intent.putExtra("type", 2);
-                    intent.putExtra("title", "生意圈");
-                }
-            } else if ("0".equals(extraReceive.getCatalogType())) { //服务
-                if ("3".equals(extraReceive.getBizType())) { //我的日称
-                    intent = new Intent(context, MyScheduleListActivity.class);
-                }
-//                else if ("4".equals(extraReceive.getBizType())) {  //我发布的旺铺列表
-//                    MobclickAgent.onEvent(context, "push_service_mydate");
-//                    intent = new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE);
-//                }
-                else {
-                    intent = new Intent(context, ScheduleDetailActivity.class);
-                    intent.putExtra("scheduleId", extraReceive.getBizId());
-                }
-
-            }
         }
 
         try {
