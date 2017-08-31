@@ -23,6 +23,7 @@ import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
@@ -74,6 +75,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     private String minMoney;
     private int ticketNum;
     private ShareDialog shareDialog;
+    private String from;
 
 
     @Override
@@ -94,6 +96,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             week = intent.getStringExtra("week");
             minMoney = intent.getStringExtra("minMoney");
             ticketNum = intent.getIntExtra("ticketNum", 0);
+            from = intent.getStringExtra("from");
         }
     }
 
@@ -177,6 +180,10 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_back:
+                if ("from".equals(from)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
                 break;
             case R.id.btn_done:

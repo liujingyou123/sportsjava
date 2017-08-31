@@ -12,9 +12,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.ActivityDetailActivity;
+import com.sports.limitsport.base.LimitSportApplication;
 import com.sports.limitsport.log.XLog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -120,34 +124,105 @@ public class MyReceiver extends BroadcastReceiver {
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
         XLog.e("[MyReceiver] message = " + message);
         XLog.e("[MyReceiver] extras = " + extras);
+
+        Intent intent = null;
+        String from = null;
+        if (LimitSportApplication.getInstance() == null) {
+            from = "outer";
+        }
+        ExtraReceive extraReceive = processBundleExtra(bundle);
+        if (extraReceive != null) {
+
+            if ("0".equals(extraReceive.getCatalogType())) { //活动
+                if ("0".equals(extraReceive.getBizType())) { //活动上线
+                    intent = new Intent(context, ActivityDetailActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                    intent.putExtra("id", extraReceive.getBizId());
+                }
+            }
+            if ("2".equals(extraReceive.getCatalogType())) { //生意圈
+                if ("0".equals(extraReceive.getBizType()) || "3".equals(extraReceive.getBizType())) { //评论
+                    intent = new Intent(context, TradeCircleDetailActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                    intent.putExtra("topicId", extraReceive.getBizId());
+                    EventBus.getDefault().post(new EventBusCommentNum());
+                } else if ("1".equals(extraReceive.getBizType())) { //帖子被删
+                    intent = new Intent(context, NoticeListActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("type", 2);
+                    intent.putExtra("title", "生意圈");
+                } else if ("2".equals(extraReceive.getBizType())) { // 评论被删
+                    intent = new Intent(context, NoticeListActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("type", 2);
+                    intent.putExtra("title", "生意圈");
+                }
+            } else if ("0".equals(extraReceive.getCatalogType())) { //服务
+                if ("3".equals(extraReceive.getBizType())) { //我的日称
+                    intent = new Intent(context, MyScheduleListActivity.class);
+                }
+//                else if ("4".equals(extraReceive.getBizType())) {  //我发布的旺铺列表
+//                    MobclickAgent.onEvent(context, "push_service_mydate");
+//                    intent = new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE);
+//                }
+                else {
+                    intent = new Intent(context, ScheduleDetailActivity.class);
+                    intent.putExtra("scheduleId", extraReceive.getBizId());
+                }
+
+            }
+        }
+
         try {
-//			if (intent != null) {
-//				PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-            Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-            Notification.Builder myBuilder = new Notification.Builder(context);
-            myBuilder.setContentTitle("旺铺")
-                    .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
-                    .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
-                    .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.mipmap.ic_launcher)
-                    .setLargeIcon(LargeBitmap)
-                    .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
-                    .setAutoCancel(true)//点击后取消
-                    .setWhen(System.currentTimeMillis())//设置通知时间
-                    .setPriority(Notification.PRIORITY_HIGH);//高优先级
+            if (intent != null) {
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+                Notification.Builder myBuilder = new Notification.Builder(context);
+                myBuilder.setContentTitle("极限领秀")
+                        .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
+                        .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
+                        .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.mipmap.ic_launcher)
+                        .setLargeIcon(LargeBitmap)
+                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
+                        .setAutoCancel(true)//点击后取消
+                        .setWhen(System.currentTimeMillis())//设置通知时间
+                        .setPriority(Notification.PRIORITY_HIGH)//高优先级
 //                .setVisibility(Notification.VISIBILITY_PUBLIC)
-            //android5.0加入了一种新的模式Notification的显示等级，共有三种：
-            //VISIBILITY_PUBLIC  只有在没有锁屏时会显示通知
-            //VISIBILITY_PRIVATE 任何情况都会显示通知
-            //VISIBILITY_SECRET  在安全锁和没有锁屏的情况下显示通知
-//						.setContentIntent(pendingIntent);  //3.关联PendingInte
+                        //android5.0加入了一种新的模式Notification的显示等级，共有三种：
+                        //VISIBILITY_PUBLIC  只有在没有锁屏时会显示通知
+                        //VISIBILITY_PRIVATE 任何情况都会显示通知
+                        //VISIBILITY_SECRET  在安全锁和没有锁屏的情况下显示通知
+                        .setContentIntent(pendingIntent);  //3.关联PendingInte
 
-            Notification myNotification = myBuilder.build();
-            NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                Notification myNotification = myBuilder.build();
+                NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-            myManager.notify((int) System.currentTimeMillis(), myNotification);
+                myManager.notify((int) System.currentTimeMillis(), myNotification);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private ExtraReceive processBundleExtra(Bundle bundle) {
+        ExtraReceive extraReceive = null;
+        String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        if (!TextUtils.isEmpty(extra)) {
+            Gson gson = new Gson();
+            extraReceive = gson.fromJson(extra, ExtraReceive.class);
+        }
+
+        return extraReceive;
     }
 }
