@@ -14,12 +14,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.AllShaiActivity;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.model.RecommendFriendsList;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.notice.adapter.MyNoticeRecommendAdapter;
 import com.sports.limitsport.notice.presenter.FindMoreFriendsPresenter;
 import com.sports.limitsport.notice.ui.IFindMoreFriendsView;
@@ -54,6 +56,7 @@ public class FindMoreActivity extends BaseActivity implements IFindMoreFriendsVi
     private int pageNumber = 1;
     private int totalSize;
     private NoticeViewHeaderView headerView;
+    private ShareDialog shareDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +92,15 @@ public class FindMoreActivity extends BaseActivity implements IFindMoreFriendsVi
         headerView.setButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(FindMoreActivity.this);
+                }
+                if (!shareDialog.isShowing()) {
+                    shareDialog.setTitle("邀请你和我一起挑战极限");
+                    shareDialog.setDes("加入进来，加我好友一起嗨");
+                    shareDialog.setUrl(H5Address.getAdv());
+                    shareDialog.show();
+                }
             }
         });
         headerView.setMoreText("邀请好友");

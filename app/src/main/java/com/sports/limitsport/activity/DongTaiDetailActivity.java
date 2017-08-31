@@ -20,6 +20,8 @@ import com.sports.limitsport.activity.ui.IDongTaiDetailView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
+import com.sports.limitsport.discovery.FineShowDetailActivity;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.discovery.adapter.FineShowCommentAdapter;
 import com.sports.limitsport.log.XLog;
@@ -28,7 +30,9 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
+import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.PraiseListResponse;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -67,6 +71,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     private int pageNumber = 1;
     private List<CommentList> data = new ArrayList<>();
     private int totalSize;
+    private ShareDialog shareDialog;
 
 
     @Override
@@ -127,51 +132,70 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         headerView.setChildClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (SharedPrefsUtil.getUserInfo() == null) {
-                    Intent intent = new Intent(DongTaiDetailActivity.this, LoginActivity.class);
-                    intent.putExtra("type", "2");
-                    startActivity(intent);
-                    return;
-                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
-                    Intent intent = new Intent(DongTaiDetailActivity.this, IdentifyMainActivity.class);
-                    intent.putExtra("type", "2");
-                    startActivity(intent);
-                } else {
-                    if (headerView == null) {
-                        return;
+                if (view.getId() == R.id.imv_share) {
+                    if (shareDialog == null) {
+                        shareDialog = new ShareDialog(DongTaiDetailActivity.this);
                     }
-                    DongTaiDetailResponse.DataBean data = headerView.getData();
-                    if (data != null) {
-                        if (view.getId() == R.id.tv_focus) {
-                            if (data.getAttentionFlag() == 0) {
-                                if (mPresenter != null) {
-                                    mPresenter.foucesFans(data.getPublishUserId() + "");
+                    DongTaiDetailResponse.DataBean item = headerView.getData();
+                    if (!shareDialog.isShowing() && item != null) {
+                        shareDialog.setTitle(item.getPublishUserName() + "发布的精彩秀");
+                        shareDialog.setDes(item.getContent());
+                        if ("1".equals(item.getResourceType())) {
+                            shareDialog.setImage(item.getImgUrl());
+                        } else {
+                            shareDialog.setImage(item.getVedioImgUrl());
+                        }
+                        shareDialog.setUrl(H5Address.getDongTai(id));
+                        shareDialog.show();
+                    }
+                } else {
+                    if (SharedPrefsUtil.getUserInfo() == null) {
+                        Intent intent = new Intent(DongTaiDetailActivity.this, LoginActivity.class);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
+                        return;
+                    } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                        Intent intent = new Intent(DongTaiDetailActivity.this, IdentifyMainActivity.class);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
+                    } else {
+                        if (headerView == null) {
+                            return;
+                        }
+                        DongTaiDetailResponse.DataBean data = headerView.getData();
+                        if (data != null) {
+                            if (view.getId() == R.id.tv_focus) {
+                                if (data.getAttentionFlag() == 0) {
+                                    if (mPresenter != null) {
+                                        mPresenter.foucesFans(data.getPublishUserId() + "");
+                                    }
+                                } else if (data.getAttentionFlag() == 1) {
+                                    Intent intent = new Intent(DongTaiDetailActivity.this, PersonInfoActivity.class);
+                                    intent.putExtra("userId", data.getPublishUserId() + "");
+                                    startActivity(intent);
                                 }
-                            } else if (data.getAttentionFlag() == 1) {
-                                Intent intent = new Intent(DongTaiDetailActivity.this, PersonInfoActivity.class);
-                                intent.putExtra("userId", data.getPublishUserId() + "");
-                                startActivity(intent);
-                            }
 
-                        } else if (view.getId() == R.id.imv_pinglun) {
-                            commentDialog.setType(1);
-                            commentDialog.show();
-                        } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
-                            if ("1".equals(data.getPraiseFlag())) { //1:已点赞 0:未点赞
-                                if (mPresenter != null) {
-                                    mPresenter.cancelPraise(data.getId() + "", "2");
+                            } else if (view.getId() == R.id.imv_pinglun) {
+                                commentDialog.setType(1);
+                                commentDialog.show();
+                            } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
+                                if ("1".equals(data.getPraiseFlag())) { //1:已点赞 0:未点赞
+                                    if (mPresenter != null) {
+                                        mPresenter.cancelPraise(data.getId() + "", "2");
+                                    }
+                                } else {
+                                    if (mPresenter != null) {
+                                        mPresenter.praise(data.getId() + "", "2");
+                                    }
                                 }
-                            } else {
-                                if (mPresenter != null) {
-                                    mPresenter.praise(data.getId() + "", "2");
-                                }
+                            } else if (view.getId() == R.id.imv_report) {
+                                ReportDialog reportDialog = new ReportDialog(DongTaiDetailActivity.this, "2", data.getId() + "");
+                                reportDialog.show();
                             }
-                        } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(DongTaiDetailActivity.this, "2", data.getId() + "");
-                            reportDialog.show();
                         }
                     }
                 }
+
             }
         });
         rlvComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -475,6 +499,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
             }
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();

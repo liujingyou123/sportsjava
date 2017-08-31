@@ -1,6 +1,8 @@
 package com.sports.limitsport.base;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.sports.limitsport.aliyunoss.AliOss;
@@ -29,10 +31,16 @@ public class LimitSportApplication extends Application {
         Batman.getInstance().init(this);
         UMShareAPI.get(this);
         SharedPrefsUtil.initSharedPrefers(this);
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
+
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     {
         PlatformConfig.setWeixin("wxed8eeb25f2298870", "87bc38ce0b305d763912b0efb3356b64");

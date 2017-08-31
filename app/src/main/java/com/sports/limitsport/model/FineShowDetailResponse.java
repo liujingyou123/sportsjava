@@ -69,6 +69,7 @@ public class FineShowDetailResponse extends BaseResponse {
         private int type;
         private String vedioThumbnailUrl;
         private String vedioUrl;
+        private String vedioImgUrl;
         /**
          * name : 廖智明11
          * userId : 8
@@ -250,6 +251,14 @@ public class FineShowDetailResponse extends BaseResponse {
 
         public void setVedioUrl(String vedioUrl) {
             this.vedioUrl = vedioUrl;
+        }
+
+        public String getVedioImgUrl() {
+            return vedioImgUrl;
+        }
+
+        public void setVedioImgUrl(String vedioImgUrl) {
+            this.vedioImgUrl = vedioImgUrl;
         }
 
         public List<AtUserListBean> getAtUserList() {

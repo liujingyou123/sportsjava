@@ -18,6 +18,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.FineShowCommentAdapter;
 import com.sports.limitsport.discovery.presenter.FineShowDetailPresenter;
 import com.sports.limitsport.discovery.ui.IFineShowDetailView;
@@ -28,6 +29,7 @@ import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.PraiseListResponse;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -64,6 +66,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
     private CommentList commentList;
     private int totalSize;
     private List<CommentList> data = new ArrayList<>();
+    private ShareDialog shareDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,51 +128,70 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         headerView.setChildClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (SharedPrefsUtil.getUserInfo() == null) {
-                    Intent intent = new Intent(FineShowDetailActivity.this, LoginActivity.class);
-                    intent.putExtra("type", "2");
-                    startActivity(intent);
-                    return;
-                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
-                    Intent intent = new Intent(FineShowDetailActivity.this, IdentifyMainActivity.class);
-                    intent.putExtra("type", "2");
-                    startActivity(intent);
-                } else {
-                    if (headerView == null) {
-                        return;
+                if (view.getId() == R.id.imv_share) {
+                    if (shareDialog == null) {
+                        shareDialog = new ShareDialog(FineShowDetailActivity.this);
                     }
-                    FineShowDetailResponse.DataBean data = headerView.getData();
-                    if (data != null) {
-                        if (view.getId() == R.id.tv_focus) {
-                            if (data.getAttentionFlag() == 0) {
-                                if (mPresenter != null) {
-                                    mPresenter.foucesFans(data.getPublishUserId() + "");
+                    FineShowDetailResponse.DataBean item = headerView.getData();
+                    if (!shareDialog.isShowing() && item != null) {
+                        shareDialog.setTitle(item.getPublishUserName() + "发布的精彩秀");
+                        shareDialog.setDes(item.getContent());
+                        if (item.getResourceType() == 1) {
+                            shareDialog.setImage(item.getImgUrl());
+                        } else {
+                            shareDialog.setImage(item.getVedioImgUrl());
+                        }
+                        shareDialog.setUrl(H5Address.getFineShow(id));
+                        shareDialog.show();
+                    }
+                } else {
+                    if (SharedPrefsUtil.getUserInfo() == null) {
+                        Intent intent = new Intent(FineShowDetailActivity.this, LoginActivity.class);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
+                        return;
+                    } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                        Intent intent = new Intent(FineShowDetailActivity.this, IdentifyMainActivity.class);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
+                    } else {
+                        if (headerView == null) {
+                            return;
+                        }
+                        FineShowDetailResponse.DataBean data = headerView.getData();
+                        if (data != null) {
+                            if (view.getId() == R.id.tv_focus) {
+                                if (data.getAttentionFlag() == 0) {
+                                    if (mPresenter != null) {
+                                        mPresenter.foucesFans(data.getPublishUserId() + "");
+                                    }
+                                } else if (data.getAttentionFlag() == 1) {
+                                    Intent intent = new Intent(FineShowDetailActivity.this, PersonInfoActivity.class);
+                                    intent.putExtra("userId", data.getPublishUserId() + "");
+                                    startActivity(intent);
                                 }
-                            } else if (data.getAttentionFlag() == 1) {
-                                Intent intent = new Intent(FineShowDetailActivity.this, PersonInfoActivity.class);
-                                intent.putExtra("userId", data.getPublishUserId() + "");
-                                startActivity(intent);
-                            }
 
-                        } else if (view.getId() == R.id.imv_pinglun) {
-                            commentDialog.setType(1);
-                            commentDialog.show();
-                        } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
-                            if ("1".equals(data.getPraiseFlag())) { //1:已点赞 0:未点赞
-                                if (mPresenter != null) {
-                                    mPresenter.cancelPraise(data.getId() + "", "1");
+                            } else if (view.getId() == R.id.imv_pinglun) {
+                                commentDialog.setType(1);
+                                commentDialog.show();
+                            } else if (view.getId() == R.id.tv_san || view.getId() == R.id.imv_zan) {
+                                if ("1".equals(data.getPraiseFlag())) { //1:已点赞 0:未点赞
+                                    if (mPresenter != null) {
+                                        mPresenter.cancelPraise(data.getId() + "", "1");
+                                    }
+                                } else {
+                                    if (mPresenter != null) {
+                                        mPresenter.praise(data.getId() + "", "1");
+                                    }
                                 }
-                            } else {
-                                if (mPresenter != null) {
-                                    mPresenter.praise(data.getId() + "", "1");
-                                }
+                            } else if (view.getId() == R.id.imv_report) {
+                                ReportDialog reportDialog = new ReportDialog(FineShowDetailActivity.this, "2", data.getId() + "");
+                                reportDialog.show();
                             }
-                        } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(FineShowDetailActivity.this, "2", data.getId() + "");
-                            reportDialog.show();
                         }
                     }
                 }
+
             }
         });
         rlvComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

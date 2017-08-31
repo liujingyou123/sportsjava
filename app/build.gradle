@@ -18,6 +18,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     buildTypes {
@@ -80,6 +87,8 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
     compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+    compile 'com.android.support:multidex:1.0.0'
+
     compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/baidumapapi_base_v4_3_1.jar')
     compile files('libs/baidumapapi_cloud_v4_3_1.jar')

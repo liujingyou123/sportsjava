@@ -122,7 +122,7 @@ public class FineShowDetailHeadView extends LinearLayout {
 
             jcVideo.setUp(item.getVedioUrl()
                     , JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, item.getTitle() == null ? "" : item.getTitle());
-            Batman.getInstance().fromNet(item.getImgUrl(), jcVideo.thumbImageView, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            Batman.getInstance().fromNet(item.getVedioImgUrl(), jcVideo.thumbImageView, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
 //            Batman.getInstance().fromNetWithFitCenter(mData.getActivityVideoImg(), jcVideo.thumbImageView);
         }
     }

@@ -47,11 +47,11 @@ public class MediaActionSwitchView extends ImageButton {
 
         photoDrawable = ContextCompat.getDrawable(context, R.drawable.ic_photo_camera_white_24dp);
         photoDrawable = DrawableCompat.wrap(photoDrawable);
-        DrawableCompat.setTintList(photoDrawable.mutate(), ContextCompat.getColorStateList(context, R.drawable.switch_camera_mode_selector));
+        DrawableCompat.setTintList(photoDrawable.mutate(), ContextCompat.getColorStateList(context, R.color.switch_camera_mode_selector));
 
         videoDrawable = ContextCompat.getDrawable(context, R.drawable.ic_videocam_white_24dp);
         videoDrawable = DrawableCompat.wrap(videoDrawable);
-        DrawableCompat.setTintList(videoDrawable.mutate(), ContextCompat.getColorStateList(context, R.drawable.switch_camera_mode_selector));
+        DrawableCompat.setTintList(videoDrawable.mutate(), ContextCompat.getColorStateList(context, R.color.switch_camera_mode_selector));
 
         setBackgroundResource(R.drawable.circle_frame_background_dark);
 //        setBackgroundResource(R.drawable.circle_frame_background);

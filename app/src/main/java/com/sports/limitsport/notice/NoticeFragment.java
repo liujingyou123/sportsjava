@@ -17,6 +17,8 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.dialog.CommentDialog;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
+import com.sports.limitsport.discovery.FineShowDetailActivity;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
@@ -24,8 +26,10 @@ import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.DongTaiOrRecommendResponse;
+import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
 import com.sports.limitsport.model.RecommendFriendsList;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.notice.adapter.MyNoticeDongTaiAdapter;
 import com.sports.limitsport.notice.adapter.MyNoticeRecommendAdapter;
 import com.sports.limitsport.notice.presenter.NoticePersonPresenter;
@@ -74,6 +78,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
     private int selectId;
     private CommentDialog commentDialog;
     private int type;//1:推荐用户列表 2:关注人的动态列表
+    private ShareDialog shareDialog;
 
     @Nullable
     @Override
@@ -253,6 +258,20 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
             @Override
             public void onClick(View v) {
                 adapterRecommend.removeHeaderView(headerView);
+            }
+        });
+        headerView.setButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(NoticeFragment.this.getContext());
+                }
+                if (!shareDialog.isShowing()) {
+                    shareDialog.setTitle("邀请你和我一起挑战极限");
+                    shareDialog.setDes("加入进来，加我好友一起嗨");
+                    shareDialog.setUrl(H5Address.getAdv());
+                    shareDialog.show();
+                }
             }
         });
         rlvMyNotice.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));

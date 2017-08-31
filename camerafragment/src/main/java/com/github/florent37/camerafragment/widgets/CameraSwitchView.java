@@ -39,11 +39,11 @@ public class CameraSwitchView extends AppCompatImageButton {
         Context context = getContext();
         frontCameraDrawable = ContextCompat.getDrawable(context, R.drawable.ic_camera_front_white_24dp);
         frontCameraDrawable = DrawableCompat.wrap(frontCameraDrawable);
-        DrawableCompat.setTintList(frontCameraDrawable.mutate(), ContextCompat.getColorStateList(context, R.drawable.switch_camera_mode_selector));
+        DrawableCompat.setTintList(frontCameraDrawable.mutate(), ContextCompat.getColorStateList(context, R.color.switch_camera_mode_selector));
 
         rearCameraDrawable = ContextCompat.getDrawable(context, R.drawable.ic_camera_rear_white_24dp);
         rearCameraDrawable = DrawableCompat.wrap(rearCameraDrawable);
-        DrawableCompat.setTintList(rearCameraDrawable.mutate(), ContextCompat.getColorStateList(context, R.drawable.switch_camera_mode_selector));
+        DrawableCompat.setTintList(rearCameraDrawable.mutate(), ContextCompat.getColorStateList(context, R.color.switch_camera_mode_selector));
 
         setBackgroundResource(R.drawable.circle_frame_background_dark);
         displayBackCamera();

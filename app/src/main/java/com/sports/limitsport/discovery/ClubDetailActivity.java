@@ -18,6 +18,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.ClubMemberAdapter;
 import com.sports.limitsport.discovery.adapter.SlidingTabPagerAdapter;
 import com.sports.limitsport.discovery.presenter.ClubDetailPresenter;
@@ -29,6 +30,8 @@ import com.sports.limitsport.model.ClubDetail;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
+import com.sports.limitsport.model.FineShowDetailResponse;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;
 import com.sports.limitsport.util.ToastUtil;
@@ -95,6 +98,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     private ClubMemberAdapter adapter;
     private ClubDetailPresenter mPresenter;
     private ClubDetail dataBean;
+    private ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +170,16 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 dialog.show();
                 break;
             case R.id.imv_share:
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(this);
+                }
+                if (!shareDialog.isShowing() && dataBean != null) {
+                    shareDialog.setTitle(dataBean.getClubName());
+                    shareDialog.setDes("欢迎加入，一起来嗨！");
+                    shareDialog.setImage(dataBean.getLogoUrl());
+                    shareDialog.setUrl(H5Address.getClub(id));
+                    shareDialog.show();
+                }
                 break;
             case R.id.tv_more:
                 if (tvMore.isSelected()) {
