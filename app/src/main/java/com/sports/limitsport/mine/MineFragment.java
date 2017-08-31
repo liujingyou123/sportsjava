@@ -269,6 +269,7 @@ public class MineFragment extends BaseFragment implements IMineView {
         pageNumber = 1;
         if (mPresenter != null) {
             mPresenter.getDongTaiList(pageNumber);
+            getUserInfoData();
         }
     }
 

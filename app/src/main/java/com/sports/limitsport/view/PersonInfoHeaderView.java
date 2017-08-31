@@ -18,7 +18,10 @@ import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.discovery.ClubDetailActivity;
 import com.sports.limitsport.discovery.JoinActivityActivity;
 import com.sports.limitsport.discovery.JoinClubActivity;
+import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.image.Batman;
+import com.sports.limitsport.main.IdentifyMainActivity;
+import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.TagFavAdapter;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
@@ -28,6 +31,7 @@ import com.sports.limitsport.model.EventBusUserModel;
 import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
@@ -131,13 +135,25 @@ public class PersonInfoHeaderView extends LinearLayout {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus:
-                if (mResponse != null) {
-                    if ("0".equals(mResponse.getData().getIsAttenttion())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
-                        foucesFans("0", mResponse.getData().getId() + "");
-                    } else {
-                        showCancleFocusDailog();
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    getContext().startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(getContext(), IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    getContext().startActivity(intent);
+                } else {
+                    if (mResponse != null) {
+                        if ("0".equals(mResponse.getData().getIsAttenttion())) { //0:互相不关注 1:我关注他 2:他关注我 3:互相关注
+                            foucesFans("0", mResponse.getData().getId() + "");
+                        } else {
+                            showCancleFocusDailog();
+                        }
                     }
                 }
+
 
                 break;
             case R.id.imv_activity_go:

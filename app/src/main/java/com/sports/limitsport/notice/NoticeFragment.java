@@ -235,13 +235,13 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
     private void refresh() {
         pageNumber = 1;
         if (mPresenter != null) {
-            if (type == 1) {
-                mPresenter.getRecommendFriends(pageNumber);
-            } else if (type == 2) {
-                mPresenter.getFocusPersonDongTai(pageNumber);
-            } else {
+//            if (type == 1) {
+//                mPresenter.getRecommendFriends(pageNumber);
+//            } else if (type == 2) {
+//                mPresenter.getFocusPersonDongTai(pageNumber);
+//            } else {
                 mPresenter.getRecommendOrDongTai(pageNumber);
-            }
+//            }
         }
     }
 
