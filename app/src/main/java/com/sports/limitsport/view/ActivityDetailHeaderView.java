@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -261,7 +262,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 tvRefundRule.setText("该活动不可退款");
             }
         }
-        tvDes.setText(mData.getActivityDetail());
+        tvDes.setText(Html.fromHtml(mData.getActivityDetail()));
 
         //组织人
         Batman.getInstance().getImageWithCircle(mData.getOrganizerHeadPor(), imvOrgCover, R.mipmap.icon_club_defaul, R.mipmap.icon_club_defaul);
