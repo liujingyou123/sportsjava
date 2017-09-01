@@ -168,14 +168,16 @@ public class MineHeaderView extends LinearLayout {
         if (response != null && response.getData() != null) {
             UserInfoResponse.DataBean dataBean = response.getData();
             Batman.getInstance().getImageWithCircle(dataBean.getHeadPortrait(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
-            if ("男".equals(dataBean.getSex())) { //男的
+            if ("0".equals(dataBean.getSex())) { //男的
                 imvGender.setVisibility(VISIBLE);
                 imvGender.setSelected(false);
 
-            } else if ("女".equals(dataBean.getSex())) {//女的
+            } else if ("1".equals(dataBean.getSex())) {//女的
                 imvGender.setVisibility(VISIBLE);
                 imvGender.setSelected(true);
 
+            } else {
+                imvGender.setVisibility(GONE);
             }
 
             tvFensi.setText(dataBean.getFansNum() + "");

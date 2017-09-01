@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.sports.limitsport.R;
 import com.sports.limitsport.main.adapter.LaunchPageAdapter;
 import com.sports.limitsport.model.EventBusAd;
+import com.sports.limitsport.util.SpUtil;
 import com.sports.limitsport.util.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,6 +46,7 @@ public class AdActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         InitViewPager();
         addPoint();
+        SpUtil.getInstance().setBooleanData("isFirstLauncher", true);
     }
 
     protected void setStatusBar() {

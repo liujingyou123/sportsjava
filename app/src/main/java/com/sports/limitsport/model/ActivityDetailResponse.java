@@ -103,7 +103,8 @@ public class ActivityDetailResponse extends BaseResponse {
         private String minMoney;
         private String isCollection;
         private int authEntity;
-        private int ticketNum;
+        private int ticketsNum;
+        private String activityDescription;
         /**
          * city : 上海
          * coutry : 中国
@@ -468,11 +469,11 @@ public class ActivityDetailResponse extends BaseResponse {
         }
 
         public int getTicketNum() {
-            return ticketNum;
+            return ticketsNum;
         }
 
         public void setTicketNum(int ticketNum) {
-            this.ticketNum = ticketNum;
+            this.ticketsNum = ticketNum;
         }
 
         public String getMaxMoney() {
@@ -481,6 +482,14 @@ public class ActivityDetailResponse extends BaseResponse {
 
         public void setMaxMoney(String maxMoney) {
             this.maxMoney = maxMoney;
+        }
+
+        public String getActivityDescription() {
+            return activityDescription;
+        }
+
+        public void setActivityDescription(String activityDescription) {
+            this.activityDescription = activityDescription;
         }
     }
 }

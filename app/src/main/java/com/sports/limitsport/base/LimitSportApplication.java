@@ -9,6 +9,7 @@ import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.net.NetworkClient;
 import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.SpUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -33,6 +34,7 @@ public class LimitSportApplication extends Application {
         SharedPrefsUtil.initSharedPrefers(this);
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
+        SpUtil.getInstance().init(this);
 
     }
 

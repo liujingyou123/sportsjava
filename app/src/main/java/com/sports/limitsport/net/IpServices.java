@@ -259,4 +259,9 @@ public interface IpServices {
     //订单列表
     @POST(URLConstants.URL_MY_ORDERS)
     Observable<OrdersListResponse> getOrders(@Body Map<String, String> hashMap);
+
+    //退出登录
+    @Headers("Content-Type: application/json")
+    @POST(URLConstants.URL_EXIT_APP)
+    Observable<BaseResponse> exitApp();
 }

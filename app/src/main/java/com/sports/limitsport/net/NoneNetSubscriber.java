@@ -10,12 +10,7 @@ import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-
-import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
 /**

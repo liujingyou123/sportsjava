@@ -262,7 +262,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
                 tvRefundRule.setText("该活动不可退款");
             }
         }
-        tvDes.setText(Html.fromHtml(mData.getActivityDetail()));
+        tvDes.setText(mData.getActivityDescription());
 
         //组织人
         Batman.getInstance().getImageWithCircle(mData.getOrganizerHeadPor(), imvOrgCover, R.mipmap.icon_club_defaul, R.mipmap.icon_club_defaul);
@@ -369,8 +369,8 @@ public class ActivityDetailHeaderView extends LinearLayout {
      */
     private void gotoMapActivity() {
         Intent intent1 = new Intent(getContext(), MapActivity.class);
-        intent1.putExtra("lon", mData.getXpostion());
-        intent1.putExtra("lat", mData.getYpostion());
+        intent1.putExtra("lon", mData.getYpostion());
+        intent1.putExtra("lat", mData.getXpostion());
         intent1.putExtra("address", mData.getAddress());
         getContext().startActivity(intent1);
     }

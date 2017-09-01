@@ -96,6 +96,11 @@ public class MineFragment extends BaseFragment implements IMineView {
             getUserInfoData();
         }
 
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            if (mPresenter != null) {
+                mPresenter.getNewNotice();
+            }
+        }
     }
 
     @Subscribe
@@ -127,9 +132,6 @@ public class MineFragment extends BaseFragment implements IMineView {
 
         rlAll.setEnablePullToRefresh(false);
         if (SharedPrefsUtil.getUserInfo() != null) {
-            if (mPresenter != null) {
-                mPresenter.getNewNotice();
-            }
             if (SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 0) {
                 mPresenter.getUserInfo();
                 pageNumber = 1;
@@ -153,6 +155,7 @@ public class MineFragment extends BaseFragment implements IMineView {
                 mineAdapter.getData().clear();
                 mineAdapter.notifyDataSetChanged();
             }
+            imvNewNoticeTip.setVisibility(View.GONE);
         }
     }
 

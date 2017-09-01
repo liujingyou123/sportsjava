@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.net.Ironman;
 import com.sports.limitsport.net.NetSubscriber;
+import com.sports.limitsport.net.NoTimeOutSubscriber;
 import com.sports.limitsport.net.NoneNetSubscriber;
 
 import java.io.File;
@@ -91,6 +92,10 @@ public class ToolsUtil {
     }
 
     public static <T> Subscription subscribe(Observable<T> observable, NetSubscriber<T> subscriber) {
+        return observable.compose(ToolsUtil.<T>applayScheduers()).subscribe(subscriber);
+    }
+
+    public static <T> Subscription subscribe(Observable<T> observable, NoTimeOutSubscriber<T> subscriber) {
         return observable.compose(ToolsUtil.<T>applayScheduers()).subscribe(subscriber);
     }
 

@@ -109,4 +109,6 @@ public class URLConstants {
     public final static String URL_CHECK_ORDER = "api/activityOrder/orderAttestation/v1.0.0";
     //订单列表
     public final static String URL_MY_ORDERS = "api/activityOrder/selectOrderList/v1.0.0";
+    //退出登录
+    public final static String URL_EXIT_APP = "api/user/verify/logoutVerify/v1.0.0";
 }
