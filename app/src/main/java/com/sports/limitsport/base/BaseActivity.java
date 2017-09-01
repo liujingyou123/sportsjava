@@ -27,7 +27,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Context context;
     private static final String TAG = "BaseActivity";
     private int stackSize;
-    protected ExitController exitCtrl;
+    protected ExitController exitCtrl = new ExitController();
     protected static boolean isInBackground = false;
 
     @Override
@@ -61,12 +61,6 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void setStatusBar(int color) {
 //        StatusBarUtil.setColor(this, color, 0);
-    }
-
-    protected void initExitController() {
-        if (exitCtrl == null) {
-            exitCtrl = new ExitController();
-        }
     }
 
     public class ExitController {
@@ -188,12 +182,14 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (exitCtrl != null && exitCtrl.requestExit()) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && this instanceof MainActivity) {
+            if (exitCtrl.requestExit()) {
                 exit();
-            } else {
-                handleBack();
             }
+
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            handleBack();
             return true;
         } else {
             return super.onKeyDown(keyCode, event);
