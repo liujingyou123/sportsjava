@@ -268,27 +268,6 @@ public class DongTaiList {
         }
     }
 
-    public static class AtUserList {
-        private String userId;
-        private String name;
-
-        public String getUserId() {
-            return userId;
-        }
-
-        public void setUserId(String userId) {
-            userId = userId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

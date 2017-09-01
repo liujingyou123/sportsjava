@@ -21,6 +21,8 @@ import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.ReObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -196,10 +198,6 @@ public class REEditText extends EditText {
 
     }
 
-    public String stringFormat(String name, String id) {
-        return String.format("%s[AT]%s[UID]", name, id);
-    }
-
     public void appendInsert(ReObject object) {
         if (reObjects != null && reObjects.size() > 0) {
             if ("2".equals(reObjects.get(reObjects.size() - 1).getType())) {
@@ -224,20 +222,58 @@ public class REEditText extends EditText {
         append(object.getText());
     }
 
-    public String getContent() {
-        String str = null;
+//    public String getContent() {
+//        String str = null;
+//        if (reObjects != null && reObjects.size() > 0) {
+//            String objectText = reObjects.get(0).getText();
+//            String content = getText().toString();
+//            int lastPos = content.indexOf(objectText);
+//            if (lastPos >= 0) {
+//                str = getText().toString().substring(0, lastPos);
+//            }
+//        } else {
+//            str = getText().toString();
+//        }
+//
+//        return str;
+//    }
+
+    public String stringFormat(String name, String id) {
+        return String.format("%s[AT]%s[UID]", name, id);
+    }
+
+    public String stringFormatId(String id) {
+        return String.format("[AT]%s[UID]", id);
+    }
+
+    public String getUploadContent() {
+        String content = getText().toString();
+        StringBuilder sb = new StringBuilder(content);
+
         if (reObjects != null && reObjects.size() > 0) {
-            String objectText = reObjects.get(0).getText();
-            String content = getText().toString();
-            int lastPos = content.indexOf(objectText);
-            if (lastPos >= 0) {
-                str = getText().toString().substring(0, lastPos);
+            List<ReObject> tmps = new ArrayList<>();
+            ReObject lastOne = reObjects.get(reObjects.size() - 1);
+            if ("2".equals(lastOne.getType())) {
+                tmps.addAll(reObjects.subList(0, reObjects.size() - 1));
+                sb.delete(lastOne.getIndex(), sb.length());
+            } else {
+                tmps.addAll(reObjects);
             }
-        } else {
-            str = getText().toString();
+
+            MyCompartor compartor = new MyCompartor();
+            Collections.sort(tmps, compartor);
+
+            int offset = 0;
+            for (int i = 0; i < tmps.size(); i++) {
+                ReObject currentO = tmps.get(i);
+                String ids = stringFormatId(currentO.getId());
+                sb.insert(currentO.getIndex() + currentO.getText().length() + offset, ids);
+                offset += ids.length();
+            }
         }
 
-        return str;
+        return sb.toString();
+
     }
 
     public void clearActivity() {
@@ -255,6 +291,17 @@ public class REEditText extends EditText {
 
             }
         }
+    }
+
+    public List<ReObject> getTypeData(String type) {
+        List<ReObject> retObjects = new ArrayList<>();
+        for (int i = 0; i < reObjects.size(); i++) {
+            ReObject reObject = reObjects.get(i);
+            if (type.equals(reObject.getType())) {
+                retObjects.add(reObject);
+            }
+        }
+        return retObjects;
     }
 
     public void clear(String type) {
@@ -340,6 +387,19 @@ public class REEditText extends EditText {
 
 
         public void onDestroyActionMode(ActionMode mode) {
+        }
+    }
+
+    static class MyCompartor implements Comparator {
+        @Override
+        public int compare(Object o1, Object o2) {
+
+            ReObject sdto1 = (ReObject) o1;
+
+            ReObject sdto2 = (ReObject) o2;
+
+            return sdto1.getIndex() - sdto2.getIndex();
+
         }
     }
 

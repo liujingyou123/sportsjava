@@ -296,25 +296,5 @@ public class DongTaiDetailResponse extends BaseResponse {
             this.vedioUrl = vedioUrl;
         }
 
-        public static class AtUserList {
-            private String userId;
-            private String name;
-
-            public String getUserId() {
-                return userId;
-            }
-
-            public void setUserId(String userId) {
-                userId = userId;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-        }
     }
 }

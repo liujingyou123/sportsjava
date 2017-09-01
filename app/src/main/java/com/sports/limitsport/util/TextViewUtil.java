@@ -277,4 +277,12 @@ public class TextViewUtil {
     public static boolean isEmpty(String str) {
         return TextUtils.isEmpty(str) || "null".equals(str);
     }
+
+    public static String stringFormat(String name, String id) {
+        return String.format("@%s [AT]%s[UID]", name, id);
+    }
+
+    public static String stringFormatName(String name) {
+        return String.format("@%s ", name);
+    }
 }

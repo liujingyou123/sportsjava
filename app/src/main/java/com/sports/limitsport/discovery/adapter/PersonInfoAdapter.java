@@ -16,6 +16,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.mine.adapter.TagActivityAdapter;
+import com.sports.limitsport.model.AtUserList;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.view.tagview.TagCloudLayout;
@@ -67,7 +68,7 @@ public class PersonInfoAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHol
 
         if (item.getAtUserList() != null && item.getAtUserList().size() > 0) {
             for (int i = 0; i < item.getAtUserList().size(); i++) {
-                DongTaiList.AtUserList atUserList = item.getAtUserList().get(i);
+                AtUserList atUserList = item.getAtUserList().get(i);
                 if (atUserList != null) {
                     llAt.addView(getAtText(atUserList.getName(), atUserList.getUserId()));
                 }

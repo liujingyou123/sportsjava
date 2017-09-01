@@ -4,7 +4,7 @@ package com.sports.limitsport.model;
  * Created by liuworkmac on 17/8/9.
  */
 
-public class ReObject {
+public class ReObject{
     private String startRule = "@";
     private String endRule = " ";
     private String text = "";

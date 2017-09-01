@@ -98,7 +98,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     private Act selectAct;
     //    private List<Integer> mSelectPosition;
 //    private int activityPosition = -1;
-    private List<FansList> mSelect = new ArrayList<>();
+//    private List<FansList> mSelect = new ArrayList<>();
     private Subscription mUploadSb;
     private OSSAsyncTask mOssAsyncTask;
 
@@ -126,12 +126,10 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //TODO
+//                tvFocusRight.setEnabled(true);
+
                 checkPublish();
-//                if (s != null && s.length() > 0) {
-//                    tvFocusRight.setEnabled(true);
-//                } else {
-//                    tvFocusRight.setEnabled(false);
-//                }
             }
         });
 
@@ -139,17 +137,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
             @Override
             public void onDeleteListener(ReObject object) {
                 if (object != null) {
-                    if ("1".equals(object.getType())) {
-                        if (mSelect != null && mSelect.size() > 0) {
-                            for (int i = 0; i < mSelect.size(); i++) {
-                                FansList fansList = mSelect.get(i);
-                                if (fansList.getId().equals(object.getId())) {
-                                    mSelect.remove(i);
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
+                    if (!"1".equals(object.getType())) {
                         selectAct = null;
                     }
                 }
@@ -173,6 +161,8 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 break;
             case R.id.tv_focus_right:
             case R.id.tv_uploading:
+                //TODO test
+//                XLog.e(etContent.getUploadContent());
                 tvFocusRight.setEnabled(false);
                 tvUploading.setEnabled(false);
                 publish();
@@ -217,7 +207,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
     }
 
     private void checkPublish() {
-        if ((etContent != null && !TextViewUtil.isEmpty(etContent.getContent())) && selectMedia != null) {
+        if ((etContent != null && !TextViewUtil.isEmpty(etContent.getUploadContent())) && selectMedia != null) {
             tvFocusRight.setEnabled(true);
         } else {
             tvFocusRight.setEnabled(false);
@@ -355,7 +345,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
      */
     private void gotoSelectMyFocusPerson() {
         Intent intent = new Intent(this, SelectMyFocusPersonActivity.class);
-        intent.putExtra("select", (Serializable) mSelect);
+//        intent.putExtra("select", (Serializable) mSelect);
         startActivityForResult(intent, REQUEST_CODE_AT);
     }
 
@@ -571,7 +561,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
             return false;
         }
 
-        if (TextViewUtil.isEmpty(etContent.getContent())) {
+        if (TextViewUtil.isEmpty(etContent.getUploadContent())) {
             ToastUtil.showFalseToast(this, "请输入内容");
             return false;
         }
@@ -580,7 +570,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
     private HashMap<String, Object> getParams() {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("content", etContent.getContent());
+        hashMap.put("content", etContent.getUploadContent());
         if (selectAct != null) {
             hashMap.put("activityId", selectAct.getId());
             hashMap.put("activityName", selectAct.getName());
@@ -593,6 +583,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
         }
 
         StringBuffer sb = null;
+        List<ReObject> mSelect = etContent.getTypeData("1");
         if (mSelect != null && mSelect.size() > 0) {
             sb = new StringBuffer();
             for (int i = 0; i < mSelect.size(); i++) {
