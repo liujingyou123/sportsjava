@@ -57,7 +57,7 @@ public class REEditText extends EditText {
     }
 
     private void init() {
-        setTextIsSelectable(false);
+        setLongClickable(false);
         this.setCustomSelectionActionModeCallback(new ActionModeCallbackInterceptor());
         this.setLongClickable(false);
 
@@ -332,6 +332,10 @@ public class REEditText extends EditText {
         XLog.e("selStart = " + selStart + " selEnd = " + selEnd);
 
         super.onSelectionChanged(selStart, selEnd);
+        if (selStart != selEnd) {
+            setSelection(selEnd);
+            return;
+        }
         if (reObjects == null || reObjects.size() == 0) {
             return;
         }
