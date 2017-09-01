@@ -32,8 +32,6 @@ public class REEditText extends EditText {
 
     private List<ReObject> reObjects = new ArrayList<>();
     private OnDelObjectListener mOnDelObjectListener;
-    //    private StringBuilder matchStr = new StringBuilder(); //传出的字符串 eg:你是中国人@小黑豆 []1[]
-    private String showStr = "";
 
     public REEditText(Context context) {
         super(context);
@@ -100,25 +98,6 @@ public class REEditText extends EditText {
                             }
 
                         }
-
-//
-//                        lastPos = getText().toString().indexOf(objectText,
-//                                lastPos);
-//                        if (lastPos != -1) {
-//                            if (selectionStart != 0
-//                                    && selectionStart >= lastPos
-//                                    && selectionStart <= (lastPos + objectText
-//                                    .length())) {
-//
-//                                getText().delete(lastPos,
-//                                        lastPos + objectText.length());
-//                                if (mOnDelObjectListener != null) {
-//                                    mOnDelObjectListener.onDeleteListener(reObjects.remove(i));
-//                                }
-//                                return true;
-//                            }
-//                        }
-//                        lastPos += objectText.length();
                     }
 
                     for (int i = 0; i < reObjects.size(); i++) {
@@ -146,7 +125,6 @@ public class REEditText extends EditText {
                     XLog.e("filter selectionStart = " + selectionStart);
                     return null;
                 }
-//                int selectionStart = getSelectionStart();
                 if (reObjects != null && reObjects.size() > 0) {
                     for (int i = 0; i < reObjects.size(); i++) {
                         ReObject reObject = reObjects.get(i);
@@ -168,12 +146,6 @@ public class REEditText extends EditText {
                         return null;
                     }
                     return "";
-//                    String objectText = reObjects.get(0)
-//                            .getText();
-//                    int indexPos = getText().toString().indexOf(objectText);
-//                    if (selectionStart > indexPos) {
-//                        return "";
-//                    }
                 }
 
 
@@ -208,13 +180,11 @@ public class REEditText extends EditText {
     public void setTextCcc() {
         isSetSpan = true;
         Spannable spannable = new SpannableString(getText().toString());
-//        int offsetLeght = 0;
         for (int i = 0; i < reObjects.size(); i++) {
             ReObject reObject = reObjects.get(i);
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#4899ff")), reObject.getIndex(), reObject.getIndex() + reObject.getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-//        return spannable;
         int selectionStart = getSelectionStart();
         XLog.e("before selectionStart = " + selectionStart);
         setText(spannable);
@@ -224,15 +194,6 @@ public class REEditText extends EditText {
 //        int selectionStart = getSelectionStart();
 //        XLog.e("setTextCcc selectionStart = " + selectionStart);
 
-    }
-
-    public HashMap<String, Object> getStringFormat(String name, String id) {
-        String str = stringFormat(name, id);
-        String idStr = String.format("[AT]%s[UID]", id);
-        HashMap<String, Object> tmp = new HashMap<>();
-        tmp.put("strMatch", str);
-        tmp.put("offset", idStr.length());
-        return tmp;
     }
 
     public String stringFormat(String name, String id) {
@@ -251,16 +212,11 @@ public class REEditText extends EditText {
         }
         int selectPosition = getSelectionStart();
         Editable editText = getEditableText();
-//        String tmpMatchStr = stringFormat(object.getText(), object.getId());
         if (selectPosition < 0 || selectPosition >= editText.length()) {
             editText.append(object.getText());
-//            matchStr.append(tmpMatchStr);
         } else {
             editText.insert(selectPosition, object.getText());//光标所在位置插入文字
-//            matchStr.insert(selectPosition, tmpMatchStr);
         }
-
-//        setTextCcc();
     }
 
     public void append(ReObject object) {
@@ -354,12 +310,6 @@ public class REEditText extends EditText {
                 setSelection(endPosition);
                 break;
             }
-//            lastPos = endPosition;
-//            if (startPosition != -1 && selStart > startPosition
-//                    && selStart <= endPosition) {// 若光标处于话题内容中间则移动光标到话题结束位置
-//                setSelection(endPosition);
-//            break;
-//        }
         }
     }
 
