@@ -180,7 +180,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_back:
-                if ("from".equals(from)) {
+                if ("outer".equals(from)) {
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                 }

@@ -20,6 +20,7 @@ import com.sports.limitsport.dialog.RefundTipDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.mine.presenter.OrderDetailPresenter;
 import com.sports.limitsport.mine.ui.IOrderDetailView;
 import com.sports.limitsport.model.EventBusOrder;
@@ -118,6 +119,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     private int isJoin;
     private OrderDetail orderDetail;
     private RefundTipDialog dialog;
+    private String from;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,6 +137,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
             orderNo = intent.getStringExtra("orderNo");
 //            type = intent.getStringExtra("type");
             isJoin = intent.getIntExtra("isJoin", 0);
+            from = intent.getStringExtra("from");
+
         }
     }
 
@@ -153,6 +157,10 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                if ("outer".equals(from)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
                 break;
             case R.id.tv_cancel:

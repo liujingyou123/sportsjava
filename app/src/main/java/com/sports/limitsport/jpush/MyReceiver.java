@@ -17,6 +17,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ActivityDetailActivity;
 import com.sports.limitsport.base.LimitSportApplication;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.mine.OrderDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -134,48 +135,58 @@ public class MyReceiver extends BroadcastReceiver {
         if (extraReceive != null) {
 
             if ("0".equals(extraReceive.getCatalogType())) { //活动
-                if ("0".equals(extraReceive.getBizType())) { //活动上线
+                if ("0".equals(extraReceive.getBizType()) || "3".equals(extraReceive.getBizType())) { //活动上线
                     intent = new Intent(context, ActivityDetailActivity.class);
                     if (!TextUtils.isEmpty(from)) {
                         intent.putExtra("from", from);
                     }
                     intent.putExtra("fromType", "receiver");
                     intent.putExtra("id", extraReceive.getBizId());
+                } else if ("5".equals(extraReceive.getBizType()) || "4".equals(extraReceive.getBizType()) || "6".equals(extraReceive.getBizType())) { //活动异常
+                    intent = new Intent(context, OrderDetailActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                    intent.putExtra("orderNo", extraReceive.getBizId());
                 }
             }
         }
 
         try {
+            Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+            Notification.Builder myBuilder = new Notification.Builder(context);
+            myBuilder.setContentTitle("极限领秀")
+                    .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
+                    .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
+                    .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.mipmap.ic_launcher)
+                    .setLargeIcon(LargeBitmap)
+                    .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
+                    .setAutoCancel(true)//点击后取消
+                    .setWhen(System.currentTimeMillis())//设置通知时间
+                    .setPriority(Notification.PRIORITY_HIGH);//高优先级
+//                .setVisibility(Notification.VISIBILITY_PUBLIC)
+            //android5.0加入了一种新的模式Notification的显示等级，共有三种：
+            //VISIBILITY_PUBLIC  只有在没有锁屏时会显示通知
+            //VISIBILITY_PRIVATE 任何情况都会显示通知
+            //VISIBILITY_SECRET  在安全锁和没有锁屏的情况下显示通知
+//                    .setContentIntent(pendingIntent);  //3.关联PendingInte
+
             if (intent != null) {
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-                Notification.Builder myBuilder = new Notification.Builder(context);
-                myBuilder.setContentTitle("极限领秀")
-                        .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
-                        .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
-                        .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.mipmap.ic_launcher)
-                        .setLargeIcon(LargeBitmap)
-                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
-                        .setAutoCancel(true)//点击后取消
-                        .setWhen(System.currentTimeMillis())//设置通知时间
-                        .setPriority(Notification.PRIORITY_HIGH)//高优先级
-//                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                        //android5.0加入了一种新的模式Notification的显示等级，共有三种：
-                        //VISIBILITY_PUBLIC  只有在没有锁屏时会显示通知
-                        //VISIBILITY_PRIVATE 任何情况都会显示通知
-                        //VISIBILITY_SECRET  在安全锁和没有锁屏的情况下显示通知
-                        .setContentIntent(pendingIntent);  //3.关联PendingInte
-
-                Notification myNotification = myBuilder.build();
-                NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
-                myManager.notify((int) System.currentTimeMillis(), myNotification);
+                myBuilder.setContentIntent(pendingIntent);
             }
+
+            Notification myNotification = myBuilder.build();
+            NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+            myManager.notify((int) System.currentTimeMillis(), myNotification);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private ExtraReceive processBundleExtra(Bundle bundle) {
         ExtraReceive extraReceive = null;

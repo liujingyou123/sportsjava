@@ -48,6 +48,7 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5993d79e2ae85b18e80007cd" />
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -129,6 +130,7 @@
         </activity>
         <activity
             android:name=".main.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
 
         </activity>
