@@ -99,6 +99,7 @@ public class ActivityDetailResponse extends BaseResponse {
         private String ypostion;
 
         private String week;
+        private String maxMoney;
         private String minMoney;
         private String isCollection;
         private int authEntity;
@@ -472,6 +473,14 @@ public class ActivityDetailResponse extends BaseResponse {
 
         public void setTicketNum(int ticketNum) {
             this.ticketNum = ticketNum;
+        }
+
+        public String getMaxMoney() {
+            return maxMoney;
+        }
+
+        public void setMaxMoney(String maxMoney) {
+            this.maxMoney = maxMoney;
         }
     }
 }

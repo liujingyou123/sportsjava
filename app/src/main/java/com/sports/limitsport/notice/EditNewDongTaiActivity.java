@@ -161,7 +161,6 @@ public class EditNewDongTaiActivity extends BaseActivity {
                 break;
             case R.id.tv_focus_right:
             case R.id.tv_uploading:
-                //TODO test
 //                XLog.e(etContent.getUploadContent());
                 tvFocusRight.setEnabled(false);
                 tvUploading.setEnabled(false);
@@ -282,6 +281,7 @@ public class EditNewDongTaiActivity extends BaseActivity {
 
             } else {
                 flPic.setVisibility(View.GONE);
+                imvPic.setVisibility(View.VISIBLE);
             }
 
 

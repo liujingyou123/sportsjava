@@ -71,9 +71,9 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     private CommentDialog commentDialog;
     private CommentList commentList;
     private ActivityDetailResponse.DataBean mData;
-    private String week;
-    private String minMoney;
-    private int ticketNum;
+    //    private String week;
+//    private String minMoney;
+//    private int ticketNum;
     private ShareDialog shareDialog;
     private String from;
 
@@ -93,9 +93,9 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
-            week = intent.getStringExtra("week");
-            minMoney = intent.getStringExtra("minMoney");
-            ticketNum = intent.getIntExtra("ticketNum", 0);
+//            week = intent.getStringExtra("week");
+//            minMoney = intent.getStringExtra("minMoney");
+//            ticketNum = intent.getIntExtra("ticketNum", 0);
             from = intent.getStringExtra("from");
         }
     }
@@ -296,7 +296,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
             rlBottom.setVisibility(View.VISIBLE);
             mData = response.getData();
             if ("1".equals(response.getData().getStatus())) { //报名中
-                if (ticketNum == 0) { //报名名额已满
+                if (response.getData().getTicketNum() == 0) { //报名名额已满
                     btnDone.setEnabled(false);
                     ToastUtil.showFalseToast(this, "报名额满");
                     btnDone.setText("报名额满");
@@ -324,9 +324,9 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
 //            btnDone.setEnabled(true);
 
             response.getData().setId(id);
-            response.getData().setWeek(week);
-            response.getData().setMinMoney(minMoney);
-            response.getData().setTicketNum(ticketNum);
+//            response.getData().setWeek(week);
+//            response.getData().setMinMoney(minMoney);
+//            response.getData().setTicketNum(ticketNum);
 
             if (UnitUtil.stringToD(mData.getMinMoney()) == 0) {
                 tvPriceBottom.setText("¥0");
