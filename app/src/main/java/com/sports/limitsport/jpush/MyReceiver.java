@@ -133,9 +133,9 @@ public class MyReceiver extends BroadcastReceiver {
 
         Intent intent = null;
         String from = null;
-//        if (!isRunningForeground(context)) {
-        from = "outer";
-//        }
+        if (!isRunningForeground(context)) {
+            from = "outer";
+        }
 //        if (LimitSportApplication.getInstance() == null) {
 
 //        }
