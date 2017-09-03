@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ajguan.library.EasyRefreshLayout;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.model.EventBusNewHudong;
 import com.sports.limitsport.model.EventBusNewNotice;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.UserInfoResponse;
@@ -21,6 +22,7 @@ import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -52,6 +54,9 @@ public class NoticeFirstLevelActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticefirstlevel);
         ButterKnife.bind(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         showFragment(1);
         getNewNotice();
     }
@@ -156,6 +161,22 @@ public class NoticeFirstLevelActivity extends BaseActivity {
                 super.onError(e);
             }
         });
+    }
 
+    @Subscribe
+    public void updateNoticeNews(EventBusNewHudong param) {
+        if (param != null) {
+            if (param.hasHuDongNews) {
+                imvHudongTip.setVisibility(View.VISIBLE);
+            } else {
+                imvHudongTip.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

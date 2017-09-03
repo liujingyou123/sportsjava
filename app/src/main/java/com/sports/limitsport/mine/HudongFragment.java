@@ -14,7 +14,15 @@ import android.widget.ImageView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.model.EventBusAtMeNews;
+import com.sports.limitsport.model.EventBusComment;
+import com.sports.limitsport.model.EventBusFansNews;
+import com.sports.limitsport.model.EventBusFavNews;
+import com.sports.limitsport.model.EventBusNewHudong;
 import com.sports.limitsport.model.NewNoticeResponse;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +58,9 @@ public class HudongFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fudong, null);
         unbinder = ButterKnife.bind(this, view);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         getBundleData();
         initView();
         return view;
@@ -125,10 +136,69 @@ public class HudongFragment extends Fragment {
         }
     }
 
+    @Subscribe
+    public void updateCommentNotice(EventBusComment param) {
+        if (param != null) {
+            if (!param.hasComments) {
+                imvCommentTip.setVisibility(View.GONE);
+            }
+            isHasHudongNews();
+        }
+
+    }
+
+    @Subscribe
+    public void updateAtMeNotice(EventBusAtMeNews param) {
+        if (param != null) {
+            if (!param.hasNews) {
+                imvAtTip.setVisibility(View.GONE);
+            }
+            isHasHudongNews();
+        }
+    }
+
+    @Subscribe
+    public void updateFansNotice(EventBusFansNews param) {
+        if (param != null) {
+            if (!param.hasFansNew) {
+                imvFansTip.setVisibility(View.GONE);
+            }
+            isHasHudongNews();
+        }
+    }
+
+    @Subscribe
+    public void updateFavNotice(EventBusFavNews param) {
+        if (param != null) {
+            if (!param.hasFavNews) {
+                imvZanTip.setVisibility(View.GONE);
+            }
+            isHasHudongNews();
+        }
+    }
+
+
+    public boolean isHasHudongNews() {
+        boolean ret = false;
+        if (imvCommentTip.getVisibility() == View.GONE && imvAtTip.getVisibility() == View.GONE
+                && imvFansTip.getVisibility() == View.GONE && imvZanTip.getVisibility() == View.GONE) {
+            EventBusNewHudong eventBusNewHudong = new EventBusNewHudong();
+            eventBusNewHudong.hasHuDongNews = false;
+            EventBus.getDefault().post(eventBusNewHudong);
+        } else {
+            EventBusNewHudong eventBusNewHudong = new EventBusNewHudong();
+            eventBusNewHudong.hasHuDongNews = true;
+            EventBus.getDefault().post(eventBusNewHudong);
+        }
+        return ret;
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     class FragAdapter extends FragmentPagerAdapter {

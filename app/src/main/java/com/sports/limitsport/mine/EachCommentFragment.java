@@ -21,6 +21,7 @@ import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.EachCommentAdapter;
+import com.sports.limitsport.model.EventBusComment;
 import com.sports.limitsport.model.HuDongNoticeList;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
 import com.sports.limitsport.net.IpServices;
@@ -31,6 +32,8 @@ import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -164,19 +167,20 @@ public class EachCommentFragment extends Fragment {
 
     private void loadMore() {
         pageNumber++;
-        getList();
+        getList("0");
     }
 
     private void refresh() {
         pageNumber = 1;
-        getList();
+        getList("1");
     }
 
-    private void getList() {
+    private void getList(final String isNew) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("type", "0");
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", "10");
+        hashMap.put("isNew", isNew);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getHuDongList(hashMap), new LoadingNetSubscriber<HuDongNoticeListResponse>() {
             @Override
             public void response(HuDongNoticeListResponse response) {
@@ -188,6 +192,11 @@ public class EachCommentFragment extends Fragment {
                         adapter.setNewData(data);
                         adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
+                        if ("1".equals(isNew)) {
+                            EventBusComment param = new EventBusComment();
+                            param.hasComments = false;
+                            EventBus.getDefault().post(param);
+                        }
                     } else {
                         adapter.addData(response.getData().getData());
                         if (adapter.getData().size() >= totalSize) {
@@ -196,6 +205,7 @@ public class EachCommentFragment extends Fragment {
                             adapter.loadMoreComplete();
                         }
                     }
+
                 }
             }
 

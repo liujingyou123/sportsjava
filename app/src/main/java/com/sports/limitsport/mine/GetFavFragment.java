@@ -19,6 +19,8 @@ import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.GetFavAdapter;
+import com.sports.limitsport.model.EventBusComment;
+import com.sports.limitsport.model.EventBusFavNews;
 import com.sports.limitsport.model.HuDongNoticeList;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
 import com.sports.limitsport.net.IpServices;
@@ -27,6 +29,8 @@ import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -67,10 +71,14 @@ public class GetFavFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         initView();
 //        getList();
-        rlAll.autoRefreshDelay();
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rlAll.autoRefreshDelay();
+    }
 
     private void initView() {
         View emptyView = LayoutInflater.from(this.getContext()).inflate(R.layout.empty_commentlist, null);
@@ -132,19 +140,20 @@ public class GetFavFragment extends Fragment {
 
     private void loadMore() {
         pageNumber++;
-        getList();
+        getList("0");
     }
 
     private void refresh() {
         pageNumber = 1;
-        getList();
+        getList("1");
     }
 
-    private void getList() {
+    private void getList(final String isNew) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("type", "3");
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", "10");
+        hashMap.put("isNew", isNew);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getHuDongList(hashMap), new LoadingNetSubscriber<HuDongNoticeListResponse>() {
             @Override
             public void response(HuDongNoticeListResponse response) {
@@ -156,6 +165,11 @@ public class GetFavFragment extends Fragment {
                         adapter.setNewData(data);
                         adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
+//                        if ("1".equals(isNew)) {
+//                            EventBusFavNews param = new EventBusFavNews();
+//                            param.hasFavNews = false;
+//                            EventBus.getDefault().post(param);
+//                        }
                     } else {
                         adapter.addData(response.getData().getData());
                         if (adapter.getData().size() >= totalSize) {

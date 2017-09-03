@@ -116,7 +116,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     private OrderDetailPresenter mPresenter;
     private PayPresenter mPayPresenter;
     private String orderNo;
-    private int isJoin;
+    //    private int isJoin;
     private OrderDetail orderDetail;
     private RefundTipDialog dialog;
     private String from;
@@ -136,7 +136,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
         if (intent != null) {
             orderNo = intent.getStringExtra("orderNo");
 //            type = intent.getStringExtra("type");
-            isJoin = intent.getIntExtra("isJoin", 0);
+//            isJoin = intent.getIntExtra("isJoin", 0);
             from = intent.getStringExtra("from");
 
         }
@@ -177,7 +177,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
                 break;
             case R.id.tv_showDong:
                 if (orderDetail != null) {
-                    if (isJoin == 1) {
+                    if (orderDetail.getIsJoin() == 1) {
                         gotoEditDongTai();
                     } else {
                         showRefundTip();
@@ -398,7 +398,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
             tvAllPrice.setText("¥" + orderDetail.getTotalMoney());
 
             timeCountDown(orderDetail.getLaveSecond());
-            if (isJoin == 1) { //已参加
+            if (orderDetail.getIsJoin() == 1) { //已参加
                 showPlayed();
             } else {
                 if ("0".equals(orderDetail.getOrderStatus())) {

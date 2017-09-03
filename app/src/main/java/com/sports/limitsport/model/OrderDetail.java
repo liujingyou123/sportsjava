@@ -28,6 +28,7 @@ public class OrderDetail {
     private String ticketsName;
     private String totalMoney;
     private String week;
+    private int isJoin;
     /**
      * city : null
      * coutry : null
@@ -221,6 +222,14 @@ public class OrderDetail {
         this.applicantList = applicantList;
     }
 
+    public int getIsJoin() {
+        return isJoin;
+    }
+
+    public void setIsJoin(int isJoin) {
+        this.isJoin = isJoin;
+    }
+
     public static class ApplicantListBean {
         private String city;
         private String coutry;
@@ -330,5 +339,7 @@ public class OrderDetail {
         public void setTickets(Object tickets) {
             this.tickets = tickets;
         }
+
+
     }
 }

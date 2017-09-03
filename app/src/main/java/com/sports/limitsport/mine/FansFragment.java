@@ -18,11 +18,15 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.mine.adapter.FansAdapter;
+import com.sports.limitsport.model.EventBusComment;
+import com.sports.limitsport.model.EventBusFansNews;
 import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -129,19 +133,20 @@ public class FansFragment extends Fragment {
 
     private void loadMore() {
         pageNumber++;
-        getFansList();
+        getFansList("0");
 
     }
 
     private void refresh() {
         pageNumber = 1;
-        getFansList();
+        getFansList("1");
     }
 
-    private void getFansList() {
+    private void getFansList(final String updateReadFlag) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", "10");
+        hashMap.put("updateReadFlag", updateReadFlag);
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getMyFansList(hashMap), new LoadingNetSubscriber<FansListResponse>() {
             @Override
             public void response(FansListResponse response) {
@@ -153,6 +158,12 @@ public class FansFragment extends Fragment {
                         adapter.setNewData(data);
                         adapter.disableLoadMoreIfNotFullPage();
                         rlAll.refreshComplete();
+
+//                        if ("1".equals(updateReadFlag)) {
+//                            EventBusFansNews param = new EventBusFansNews();
+//                            param.hasFansNew = false;
+//                            EventBus.getDefault().post(param);
+//                        }
                     } else {
                         adapter.addData(response.getData().getData());
                         if (adapter.getData().size() >= totalSize) {
