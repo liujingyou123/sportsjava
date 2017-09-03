@@ -1,9 +1,11 @@
 package com.sports.limitsport.jpush;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -131,9 +133,12 @@ public class MyReceiver extends BroadcastReceiver {
 
         Intent intent = null;
         String from = null;
-        if (LimitSportApplication.getInstance() == null) {
-            from = "outer";
-        }
+//        if (!isRunningForeground(context)) {
+        from = "outer";
+//        }
+//        if (LimitSportApplication.getInstance() == null) {
+
+//        }
         ExtraReceive extraReceive = processBundleExtra(bundle);
         if (extraReceive != null) {
 
@@ -235,5 +240,15 @@ public class MyReceiver extends BroadcastReceiver {
         }
 
         return extraReceive;
+    }
+
+    private boolean isRunningForeground(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if (currentPackageName != null && currentPackageName.equals(context.getPackageName())) {
+            return true;
+        }
+        return false;
     }
 }

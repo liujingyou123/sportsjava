@@ -106,7 +106,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         }
         mPresenter.getActivityDetail(id);
         mPresenter.getAllShai(id); //TODO 测试时要传null ，真实要传ID
-//        mPresenter.getCommentList(id);//TODO 测试时要传"1" ，真实要传ID
+        mPresenter.getCommentList(id);//TODO 测试时要传"1" ，真实要传ID
 
     }
 
