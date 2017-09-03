@@ -15,8 +15,11 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.ActivityDetailActivity;
+import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.LimitSportApplication;
+import com.sports.limitsport.discovery.FineShowDetailActivity;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.mine.MyFansListActivity;
 import com.sports.limitsport.mine.OrderDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -149,6 +152,41 @@ public class MyReceiver extends BroadcastReceiver {
                     }
                     intent.putExtra("fromType", "receiver");
                     intent.putExtra("orderNo", extraReceive.getBizId());
+                }
+            } else if ("2".equals(extraReceive.getCatalogType())) { //工作 评论
+                if ("0".equals(extraReceive.getBizType()) || "1".equals(extraReceive.getBizType())
+                        || "2".equals(extraReceive.getBizType())
+                        || "4".equals(extraReceive.getBizType())
+                        || "5".equals(extraReceive.getBizType())) { //动态详情页
+
+                    intent = new Intent(context, DongTaiDetailActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                    intent.putExtra("id", extraReceive.getBizId());
+                } else if ("3".equals(extraReceive.getBizType())) { //被@ 我的粉丝页
+
+                    intent = new Intent(context, MyFansListActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                } else if ("6".equals(extraReceive.getBizType()) || "8".equals(extraReceive.getBizType())) { //精彩秀详情页
+                    intent = new Intent(context, FineShowDetailActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                    intent.putExtra("id", extraReceive.getBizId());
+
+                } else if ("9".equals(extraReceive.getBizType())) { //活动详情页  活动评论被回复
+                    intent = new Intent(context, ActivityDetailActivity.class);
+                    if (!TextUtils.isEmpty(from)) {
+                        intent.putExtra("from", from);
+                    }
+                    intent.putExtra("fromType", "receiver");
+                    intent.putExtra("id", extraReceive.getBizId());
                 }
             }
         }

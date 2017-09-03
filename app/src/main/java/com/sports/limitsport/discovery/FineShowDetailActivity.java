@@ -25,6 +25,7 @@ import com.sports.limitsport.discovery.ui.IFineShowDetailView;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
@@ -67,6 +68,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
     private int totalSize;
     private List<CommentList> data = new ArrayList<>();
     private ShareDialog shareDialog;
+    private String from;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
+            from = intent.getStringExtra("from");
         }
     }
 
@@ -100,6 +103,10 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                if ("outer".equals(from)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
                 break;
             case R.id.tv_fav:

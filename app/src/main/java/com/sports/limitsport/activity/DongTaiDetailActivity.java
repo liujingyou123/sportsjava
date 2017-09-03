@@ -27,6 +27,7 @@ import com.sports.limitsport.discovery.adapter.FineShowCommentAdapter;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
@@ -72,6 +73,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     private List<CommentList> data = new ArrayList<>();
     private int totalSize;
     private ShareDialog shareDialog;
+    private String from;
 
 
     @Override
@@ -88,6 +90,8 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
         Intent intent = getIntent();
         if (intent != null) {
             id = intent.getStringExtra("id");
+            from = intent.getStringExtra("from");
+
         }
     }
 
@@ -104,6 +108,10 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                if ("outer".equals(from)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
                 break;
             case R.id.tv_fav:

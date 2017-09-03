@@ -16,6 +16,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.mine.adapter.MyFansAdapter;
 import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.model.FansListResponse;
@@ -53,11 +54,13 @@ public class MyFansListActivity extends BaseActivity {
     private List<FansList> data = new ArrayList<>();
     private int pageNumber = 1;
     private int totalSize;
+    private String from;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myfans);
+        getIntentData();
         ButterKnife.bind(this);
         initView();
         rlAll.autoRefreshDelay();
@@ -68,6 +71,10 @@ public class MyFansListActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                if ("outer".equals(from)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
                 break;
             case R.id.tv_reload:
@@ -76,6 +83,14 @@ public class MyFansListActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            from = intent.getStringExtra("from");
+        }
+    }
+
 
     private void initView() {
         tvFocusHouse.setText("我的粉丝");
