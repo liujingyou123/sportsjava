@@ -21,6 +21,7 @@ public class FineShowList {
     private int type;
     private String vedioThumbnailUrl;
     private String vedioUrl;
+    private String vedioImgUrl;
 
     public String getContent() {
         return content;
@@ -148,5 +149,13 @@ public class FineShowList {
 
     public void setVedioUrl(String vedioUrl) {
         this.vedioUrl = vedioUrl;
+    }
+
+    public String getVedioImgUrl() {
+        return vedioImgUrl;
+    }
+
+    public void setVedioImgUrl(String vedioImgUrl) {
+        this.vedioImgUrl = vedioImgUrl;
     }
 }

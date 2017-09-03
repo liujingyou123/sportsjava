@@ -41,7 +41,7 @@ public class MyCollectFanShowAdapter extends BaseQuickAdapter<FineShowList, Base
             tvStatus.setVisibility(View.VISIBLE);
             tvStatus.setText("视频");
             ////TODO 正式
-            Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
+            Batman.getInstance().fromNet(item.getVedioImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
         }
 
         tvNum.setText(item.getPraiseNum() + "");
