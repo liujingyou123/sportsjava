@@ -28,7 +28,6 @@ import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
-import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.StatusBarUtil;
