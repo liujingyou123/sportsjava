@@ -233,7 +233,11 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     public void showClubDetail(ClubDetailResponse response) {
         if (response != null) {
             this.dataBean = response.getData();
-            Batman.getInstance().fromNet(dataBean.getClubImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            if (dataBean.getResourceType() == 1) {
+                Batman.getInstance().fromNet(dataBean.getClubImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            } else {
+                Batman.getInstance().fromNet(dataBean.getVedioImgUrl(), imvCover, R.mipmap.icon_default_detail, R.mipmap.icon_default_detail);
+            }
             Batman.getInstance().getImageWithCircle(dataBean.getLogoUrl(), imvClubLogo, R.mipmap.icon_club_defaul, R.mipmap.icon_club_defaul);
             tvClubName.setText(dataBean.getClubName());
 
