@@ -70,7 +70,7 @@ public class DongTaiDetialHeadView extends LinearLayout {
     @BindView(R.id.tv_san)
     TextView tvSan;
     @BindView(R.id.tv_content)
-    TextView tvContent;
+    AtTextView tvContent;
     @BindView(R.id.ll_at)
     LinearLayout llAt;
     @BindView(R.id.tv_comments_num)
@@ -150,51 +150,51 @@ public class DongTaiDetialHeadView extends LinearLayout {
         }
     }
 
-    public Spannable getContentText(String content, List<AtUserList> atUserLists) {
-        Spannable spannable = null;
-        StringBuilder sb = new StringBuilder(content);
-
-        int offset = 0;
-        List<HashMap<String, Object>> list = new ArrayList<>();
-        if (atUserLists != null && atUserLists.size() > 0) {
-            for (int i = 0; i < atUserLists.size(); i++) {
-                AtUserList atUserList = atUserLists.get(i);
-                String strMactch = TextViewUtil.stringFormat(atUserList.getName(), atUserList.getUserId());
-                String atName = TextViewUtil.stringFormatName(atUserList.getName());
-                int index = content.indexOf(strMactch);
-
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("index", index + offset);
-                map.put("length", atName.length());
-                map.put("id", atUserList.getUserId());
-                list.add(map);
-
-                sb.delete(index + atName.length() + offset, index + strMactch.length() + offset);
-                offset -= (strMactch.length() - atName.length());
-
-            }
-        }
-
-        spannable = new SpannableString(sb);
-
-
-        for (int i = 0; i < list.size(); i++) {
-            HashMap<String, Object> map = list.get(i);
-            int index = (int) map.get("index");
-            int length = (int) map.get("length");
-            final String userId = (String) map.get("id");
-            spannable.setSpan(new ClickSpan(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), PersonInfoActivity.class);
-                    intent.putExtra("userId", userId);
-                    getContext().startActivity(intent);
-                }
-            }, Color.parseColor("#4899ff")), index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        }
-        return spannable;
-    }
+//    public Spannable getContentText(String content, List<AtUserList> atUserLists) {
+//        Spannable spannable = null;
+//        StringBuilder sb = new StringBuilder(content);
+//
+//        int offset = 0;
+//        List<HashMap<String, Object>> list = new ArrayList<>();
+//        if (atUserLists != null && atUserLists.size() > 0) {
+//            for (int i = 0; i < atUserLists.size(); i++) {
+//                AtUserList atUserList = atUserLists.get(i);
+//                String strMactch = TextViewUtil.stringFormat(atUserList.getName(), atUserList.getUserId());
+//                String atName = TextViewUtil.stringFormatName(atUserList.getName());
+//                int index = content.indexOf(strMactch);
+//
+//                HashMap<String, Object> map = new HashMap<>();
+//                map.put("index", index + offset);
+//                map.put("length", atName.length());
+//                map.put("id", atUserList.getUserId());
+//                list.add(map);
+//
+//                sb.delete(index + atName.length() + offset, index + strMactch.length() + offset);
+//                offset -= (strMactch.length() - atName.length());
+//
+//            }
+//        }
+//
+//        spannable = new SpannableString(sb);
+//
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            HashMap<String, Object> map = list.get(i);
+//            int index = (int) map.get("index");
+//            int length = (int) map.get("length");
+//            final String userId = (String) map.get("id");
+//            spannable.setSpan(new ClickSpan(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(getContext(), PersonInfoActivity.class);
+//                    intent.putExtra("userId", userId);
+//                    getContext().startActivity(intent);
+//                }
+//            }, Color.parseColor("#4899ff")), index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//        }
+//        return spannable;
+//    }
 
     public void setData(DongTaiDetailResponse.DataBean data) {
         if (data == null) {
@@ -218,9 +218,10 @@ public class DongTaiDetialHeadView extends LinearLayout {
 
 
         if (!TextViewUtil.isEmpty(item.getContent())) {
-            tvContent.setText(getContentText(item.getContent(), item.getAtUserList()));
-            tvContent.setMovementMethod(LinkMovementMethod.getInstance());
-            tvContent.setHighlightColor(tvContent.getResources().getColor(android.R.color.transparent));
+            tvContent.setStrings(item.getContent());
+//            tvContent.setText(getContentText(item.getContent(), item.getAtUserList()));
+//            tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+//            tvContent.setHighlightColor(tvContent.getResources().getColor(android.R.color.transparent));
         }
 
         List<String> tags = new ArrayList<>();

@@ -29,9 +29,9 @@
         android:textColor="#ffffff"
         android:textSize="12sp" />
 
-    <TextView
+    <com.sports.limitsport.view.AtTextView
         android:id="@+id/tv_des"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="23dp"

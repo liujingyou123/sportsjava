@@ -19,6 +19,7 @@ import com.sports.limitsport.model.AtUserList;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.util.ClickSpan;
 import com.sports.limitsport.util.TextViewUtil;
+import com.sports.limitsport.view.AtTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class ShallAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> 
         ImageView imvHead = helper.getView(R.id.imv_head);
         ImageView imvZan = helper.getView(R.id.imv_zan);
         TextView tvName = helper.getView(R.id.tv_name);
-        TextView tvDes = helper.getView(R.id.tv_des);
+        AtTextView tvDes = helper.getView(R.id.tv_des);
         TextView tvPraise = helper.getView(R.id.tv_praise);
         if ("1".equals(item.getResourceType())) { //1 图片 2:视频
             Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default);
@@ -52,9 +53,10 @@ public class ShallAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> 
         tvName.setText(item.getPublishUserName());
         if (!TextViewUtil.isEmpty(item.getContent())) {
 //            tvContent.setText(item.getContent());
-            tvDes.setText(getContentText(item.getContent(), item.getAtUserList()));
-            tvDes.setMovementMethod(LinkMovementMethod.getInstance());
-            tvDes.setHighlightColor(tvDes.getResources().getColor(android.R.color.transparent));
+            tvDes.setStrings(item.getContent());
+//            tvDes.setText(getContentText(item.getContent(), item.getAtUserList()));
+//            tvDes.setMovementMethod(LinkMovementMethod.getInstance());
+//            tvDes.setHighlightColor(tvDes.getResources().getColor(android.R.color.transparent));
         }
 //        tvDes.setText(item.getTitle());
         tvPraise.setText(item.getPraiseNum() + "");
@@ -72,49 +74,4 @@ public class ShallAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> 
 //        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
     }
 
-    public Spannable getContentText(String content, List<AtUserList> atUserLists) {
-        Spannable spannable = null;
-        StringBuilder sb = new StringBuilder(content);
-
-        int offset = 0;
-        List<HashMap<String, Object>> list = new ArrayList<>();
-        if (atUserLists != null && atUserLists.size() > 0) {
-            for (int i = 0; i < atUserLists.size(); i++) {
-                AtUserList atUserList = atUserLists.get(i);
-                String strMactch = TextViewUtil.stringFormat(atUserList.getName(), atUserList.getUserId());
-                String atName = TextViewUtil.stringFormatName(atUserList.getName());
-                int index = content.indexOf(strMactch);
-
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("index", index + offset);
-                map.put("length", atName.length());
-                map.put("id", atUserList.getUserId());
-                list.add(map);
-
-                sb.delete(index + atName.length() + offset, index + strMactch.length() + offset);
-                offset -= (strMactch.length() - atName.length());
-
-            }
-        }
-
-        spannable = new SpannableString(sb);
-
-
-        for (int i = 0; i < list.size(); i++) {
-            HashMap<String, Object> map = list.get(i);
-            int index = (int) map.get("index");
-            int length = (int) map.get("length");
-            final String userId = (String) map.get("id");
-            spannable.setSpan(new ClickSpan(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, PersonInfoActivity.class);
-                    intent.putExtra("userId", userId);
-                    mContext.startActivity(intent);
-                }
-            }, Color.parseColor("#4899ff")), index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        }
-        return spannable;
-    }
 }

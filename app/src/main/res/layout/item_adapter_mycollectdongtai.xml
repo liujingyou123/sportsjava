@@ -70,7 +70,7 @@
         android:src="@mipmap/icon_ver_default"
         android:scaleType="centerCrop"/>
 
-    <TextView
+    <com.sports.limitsport.view.AtTextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

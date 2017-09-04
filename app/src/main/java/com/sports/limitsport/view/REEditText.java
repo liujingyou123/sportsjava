@@ -84,7 +84,7 @@ public class REEditText extends EditText {
                                     int indexJ = reObject.getIndex();
                                     if (selectionEnd > 0 && selectionEnd <= indexJ) {
                                         if (selectionEnd == selectionStart) {
-                                            reObject.setIndex(reObject.getIndex() - 1);
+                                            reObject.setIndex(reObject.getIndex() - objectText.length());
                                         } else {
                                             reObject.setIndex(reObject.getIndex() - (selectionEnd - selectionStart));
                                         }
@@ -93,6 +93,8 @@ public class REEditText extends EditText {
                                 if (mOnDelObjectListener != null) {
                                     mOnDelObjectListener.onDeleteListener(reObjects.remove(i));
                                 }
+
+
                                 getText().delete(index,
                                         index + objectText.length());
 

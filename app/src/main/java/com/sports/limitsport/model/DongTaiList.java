@@ -32,6 +32,7 @@ public class DongTaiList {
     private String vedioUrl;
     private int width;
     private int height;
+    private String atUsers;
     /**
      * commentatorName : 廖智明11
      * content : 帅气
@@ -245,6 +246,14 @@ public class DongTaiList {
 
     public void setVedioImgUrl(String vedioImgUrl) {
         this.vedioImgUrl = vedioImgUrl;
+    }
+
+    public String getAtUsers() {
+        return atUsers;
+    }
+
+    public void setAtUsers(String atUsers) {
+        this.atUsers = atUsers;
     }
 
     public static class CommentListBean {
