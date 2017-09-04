@@ -47,13 +47,13 @@
             android:background="@color/bg"
             android:layout_marginTop="20dp">
 
-            <TextView
+            <com.sports.limitsport.view.CustomTypeFaceTextView
                 android:id="@+id/tv_price_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
-                android:text="¥0"
+                android:text="￥0"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:textStyle="bold" />

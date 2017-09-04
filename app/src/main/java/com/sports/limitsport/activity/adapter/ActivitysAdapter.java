@@ -76,14 +76,15 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
 
         } else if ("3".equals(item.getStatus())) {  //进行中
             tvSigning.setVisibility(View.GONE);
-            tvTip.setVisibility(View.GONE);
-            tvTime.setVisibility(View.VISIBLE);
-            view.setVisibility(View.VISIBLE);
+            tvTip.setText("报名已结束");
+            tvTip.setVisibility(View.VISIBLE);
+            tvTime.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
         } else {
             tvSigning.setVisibility(View.GONE);
             view.setVisibility(View.GONE);
             tvTime.setVisibility(View.GONE);
-            if ("3".equals(item.getStatus())) { // 已完成
+            if ("4".equals(item.getStatus())) { // 已完成
                 tvTip.setVisibility(View.VISIBLE);
                 tvTip.setText("活动已结束");
             }

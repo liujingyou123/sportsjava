@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sports.limitsport.BuildConfig;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.presenter.PayPresenter;
 import com.sports.limitsport.activity.ui.IPayOrderView;
@@ -20,6 +21,7 @@ import com.sports.limitsport.model.SignList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.CustomTypeFaceTextView;
 import com.sports.limitsport.view.NumCheckView;
 import com.sports.limitsport.view.OrderInfoView;
 
@@ -53,7 +55,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @BindView(R.id.ll_orders)
     LinearLayout llOrders;
     @BindView(R.id.tv_price_bottom)
-    TextView tvPriceBottom;
+    CustomTypeFaceTextView tvPriceBottom;
 
     private String id; //活动ID
     private String title;//活动title
@@ -146,7 +148,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             BigDecimal numB = new BigDecimal(selectTicket.num);
             BigDecimal numPrice = new BigDecimal(selectTicket.price);
             selectTicket.totalPrice = UnitUtil.formatSNum(numB.multiply(numPrice).toString());
-            tvPriceBottom.setText("¥" + selectTicket.totalPrice);
+            tvPriceBottom.setCustomText("￥" + selectTicket.totalPrice);
         }
     }
 
@@ -202,11 +204,15 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             OrderRequest request = new OrderRequest();
             request.id = id;
             request.ticketId = selectTicket.id;
-//            request.totalAmount = selectTicket.totalPrice;
-//            request.receiptAmount = selectTicket.totalPrice;
             //TODO 测试
-            request.totalAmount = "0.01";
-            request.receiptAmount = "0.01";
+            if (BuildConfig.DEBUG) {
+                request.totalAmount = "0.01";
+                request.receiptAmount = "0.01";
+            } else {
+                request.totalAmount = selectTicket.totalPrice;
+                request.receiptAmount = selectTicket.totalPrice;
+            }
+
             request.signList = mData;
             request.number = ncv.getNum() + "";
 

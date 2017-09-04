@@ -35,6 +35,7 @@ import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
+import com.sports.limitsport.view.CustomTypeFaceTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     @BindView(R.id.rl_bottom)
     RelativeLayout rlBottom;
     @BindView(R.id.tv_price_bottom)
-    TextView tvPriceBottom;
+    CustomTypeFaceTextView tvPriceBottom;
     @BindView(R.id.imv_fav)
     ImageView imvFav;
     @BindView(R.id.btn_done)
@@ -302,22 +303,22 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 } else {
                     btnDone.setEnabled(true);
                 }
-                tvPriceBottom.setText(mData.getMoney());
+                tvPriceBottom.setCustomText(mData.getMoney());
             } else if ("4".equals(response.getData().getStatus())) { //已结束
                 btnDone.setEnabled(false);
                 ToastUtil.showFalseToast(this, "活动已结束");
                 btnDone.setText("活动结束");
-                tvPriceBottom.setText("¥0");
+                tvPriceBottom.setCustomText("￥0");
             } else if ("3".equals(response.getData().getStatus())) { //进行中
                 btnDone.setEnabled(false);
                 btnDone.setText("报名结束");
                 ToastUtil.showFalseToast(this, "报名结束");
-                tvPriceBottom.setText(mData.getMoney());
+                tvPriceBottom.setCustomText(mData.getMoney());
             } else {
                 btnDone.setEnabled(false);
                 ToastUtil.showFalseToast(this, "报名结束");
                 btnDone.setText("报名结束");
-                tvPriceBottom.setText(mData.getMoney());
+                tvPriceBottom.setCustomText(mData.getMoney());
             }
 
 //            btnDone.setEnabled(true);
@@ -328,7 +329,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
 //            response.getData().setTicketNum(ticketNum);
 
             if (UnitUtil.stringToD(mData.getMinMoney()) == 0) {
-                tvPriceBottom.setText("¥0");
+                tvPriceBottom.setCustomText("￥0");
             }
             activityDetailHeaderView.showDetail(response.getData());
 

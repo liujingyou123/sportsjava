@@ -10,6 +10,7 @@ import com.sports.limitsport.base.SelectEntity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.TicketList;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.CustomTypeFaceTextView;
 
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class TicketsTypeAdapter extends BaseSelectionAdapter<TicketList, BaseVie
         super.convert(helper, item);
 
         XLog.e("position = " + helper.getAdapterPosition());
-        TextView textView = helper.getView(R.id.tv_ticket_type_one);
+        CustomTypeFaceTextView textView = helper.getView(R.id.tv_ticket_type_one);
         textView.setSelected(item.isSelect);
-        textView.setText("¥"+ UnitUtil.formatSNum(item.getMoney())+"\n"+item.getName());
+        textView.setCustomText("￥" + UnitUtil.formatSNum(item.getMoney()) + "\n" + item.getName());
     }
 
     @Override

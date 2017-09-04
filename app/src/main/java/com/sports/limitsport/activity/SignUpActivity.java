@@ -24,6 +24,7 @@ import com.sports.limitsport.model.TicketListResponse;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.CustomTypeFaceTextView;
 import com.sports.limitsport.view.NumCheckView;
 import com.sports.limitsport.view.SignUpFooterView;
 import com.sports.limitsport.view.SignUpHeadView;
@@ -52,7 +53,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
     @BindView(R.id.tv_server)
     TextView tvServer;
     @BindView(R.id.tv_price_bottom)
-    TextView tvPriceBottom;
+    CustomTypeFaceTextView tvPriceBottom;
     private TicketsTypeAdapter adapter;
     private SignUpHeadView signUpHeadView;
     private SignUpFooterView signUpFooterView;
@@ -190,7 +191,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
         BigDecimal numPrice = new BigDecimal(selectTicket.price);
         selectTicket.totalPrice = UnitUtil.formatSNum(numB.multiply(numPrice).toString());
 
-        tvPriceBottom.setText("¥" + selectTicket.totalPrice);
+        tvPriceBottom.setCustomText("￥" + selectTicket.totalPrice);
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.imv_server})

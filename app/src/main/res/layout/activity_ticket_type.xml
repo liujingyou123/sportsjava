@@ -5,13 +5,13 @@
     android:orientation="vertical"
     android:id="@+id/ll_parent">
 
-    <TextView
+    <com.sports.limitsport.view.CustomTypeFaceTextView
         android:id="@+id/tv_ticket_type_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_ticket_type"
         android:gravity="center"
-        android:text="1500\n标准票"
+        android:text=""
         android:textColor="@color/color_s_green"
         android:textSize="12sp"
         android:layout_marginLeft="8dp"

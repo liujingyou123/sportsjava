@@ -57,7 +57,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_price)
-    TextView tvPrice;
+    CustomTypeFaceTextView tvPrice;
     @BindView(R.id.tv_payback)
     TextView tvPayback;
     @BindView(R.id.tv_remind_tickets)
@@ -240,7 +240,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
         }
 
         tvName.setText(mData.getName());
-        tvPrice.setText(mData.getMoney());
+        tvPrice.setCustomText(mData.getMoney());
 
         List<String> tags = new ArrayList<>(); //参加须知 标签
 
@@ -319,7 +319,7 @@ public class ActivityDetailHeaderView extends LinearLayout {
 
         if (UnitUtil.stringToD(mData.getMinMoney()) == 0) {
             tvNoMoney.setVisibility(VISIBLE);
-            tvPrice.setText("¥0");
+            tvPrice.setCustomText("￥0");
         } else {
             tvNoMoney.setVisibility(GONE);
         }
