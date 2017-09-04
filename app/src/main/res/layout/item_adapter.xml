@@ -97,14 +97,13 @@
             android:textColor="#ffffff"
             android:textSize="10sp" />
 
-        <TextView
+        <com.sports.limitsport.view.CustomTypeFaceTextView
             android:id="@+id/tv_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/color_text_green"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView

@@ -295,7 +295,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         if (response != null && response.getData() != null) {
             rlBottom.setVisibility(View.VISIBLE);
             mData = response.getData();
-            if ("1".equals(response.getData().getStatus())) { //报名中
+            if ("2".equals(response.getData().getStatus())) { //报名中
                 if (response.getData().getTicketNum() == 0) { //报名名额已满
                     btnDone.setEnabled(false);
                     ToastUtil.showFalseToast(this, "报名额满");
@@ -304,12 +304,12 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                     btnDone.setEnabled(true);
                 }
                 tvPriceBottom.setText(mData.getMoney());
-            } else if ("3".equals(response.getData().getStatus())) { //已结束
+            } else if ("4".equals(response.getData().getStatus())) { //已结束
                 btnDone.setEnabled(false);
                 ToastUtil.showFalseToast(this, "活动已结束");
                 btnDone.setText("活动结束");
                 tvPriceBottom.setText("¥0");
-            } else if ("2".equals(response.getData().getStatus())) { //进行中
+            } else if ("3".equals(response.getData().getStatus())) { //进行中
                 btnDone.setEnabled(false);
                 btnDone.setText("报名结束");
                 ToastUtil.showFalseToast(this, "报名结束");

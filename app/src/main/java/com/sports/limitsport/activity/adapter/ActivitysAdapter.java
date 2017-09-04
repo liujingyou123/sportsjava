@@ -15,6 +15,7 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.CustomTypeFaceTextView;
 import com.sports.limitsport.view.ScaleImageView;
 
 import java.util.Calendar;
@@ -39,7 +40,7 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
         TextView tvTime = helper.getView(R.id.tv_date);
         TextView tvAddress = helper.getView(R.id.tv_address);
         TextView tvFree = helper.getView(R.id.tv_no_money);
-        TextView tvPrice = helper.getView(R.id.tv_money);
+        CustomTypeFaceTextView tvPrice = helper.getView(R.id.tv_money);
         TextView tvSigning = helper.getView(R.id.tv_signing);
         TextView tvTip = helper.getView(R.id.tv_status_tip);
         View view = helper.getView(R.id.ll_price);
@@ -51,13 +52,13 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
 
         if ("0".equals(item.getMinMoney())) {
             tvFree.setVisibility(View.VISIBLE);
-            tvPrice.setText("¥0");
+            tvPrice.setCustomText("￥0");
         } else {
             tvFree.setVisibility(View.GONE);
-            tvPrice.setText("¥" + UnitUtil.formatSNum(item.getMinMoney()) + " - ¥" + UnitUtil.formatSNum(item.getMaxMoney()));
+            tvPrice.setCustomText("￥" + UnitUtil.formatSNum(item.getMinMoney()) + " - ￥" + UnitUtil.formatSNum(item.getMaxMoney()));
         }
 
-        if ("1".equals(item.getStatus())) { //报名中
+        if ("2".equals(item.getStatus())) { //报名中
 
             if (item.getTicketNum() > 0) {
                 tvSigning.setVisibility(View.VISIBLE);
@@ -73,6 +74,11 @@ public class ActivitysAdapter extends BaseQuickAdapter<Act, BaseViewHolder> {
                 view.setVisibility(View.GONE);
             }
 
+        } else if ("3".equals(item.getStatus())) {  //进行中
+            tvSigning.setVisibility(View.GONE);
+            tvTip.setVisibility(View.GONE);
+            tvTime.setVisibility(View.VISIBLE);
+            view.setVisibility(View.VISIBLE);
         } else {
             tvSigning.setVisibility(View.GONE);
             view.setVisibility(View.GONE);
