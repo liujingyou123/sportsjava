@@ -385,9 +385,8 @@ public class ActivityDetailHeaderView extends LinearLayout {
     }
 
     private void gotoH5Detail() {
-        Intent intent = new Intent(getContext(), H5Activity.class);
-        intent.putExtra("id", mData.getId());
-        intent.putExtra("type", 2);
+        Intent intent = new Intent(getContext(), RichTextActivity.class);
+        intent.putExtra("content", mData.getActivityDetail());
         getContext().startActivity(intent);
     }
 }
