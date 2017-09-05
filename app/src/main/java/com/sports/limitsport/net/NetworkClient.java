@@ -81,7 +81,7 @@ public class NetworkClient {
         SSLSocketFactory sslSocketFactory = null;
         final InputStream inputStream;
         try {
-            inputStream = ctx.getAssets().open("sign.cer"); // 得到证书的输入流
+            inputStream = ctx.getAssets().open("ultimateapp.cer"); // 得到证书的输入流
             try {
 
                 trustManager = trustManagerForCertificates(inputStream);//以流的方式读入证书

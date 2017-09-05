@@ -98,7 +98,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
                 finish();
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this, "2", null);
+                ReportDialog dialog = new ReportDialog(this, "5", userId);
                 dialog.show();
                 break;
             case R.id.imv_share:

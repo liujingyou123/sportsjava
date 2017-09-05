@@ -28,7 +28,7 @@ public class LimitSportApplication extends Application {
         limitsportapplication = this;
         SDKInitializer.initialize(getApplicationContext());
         AliOss.getInstance().init(this);
-        NetworkClient.init(this);
+        NetworkClient.initHttpsClient(this);
         Batman.getInstance().init(this);
         UMShareAPI.get(this);
         SharedPrefsUtil.initSharedPrefers(this);

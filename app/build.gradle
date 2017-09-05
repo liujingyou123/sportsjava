@@ -22,7 +22,7 @@ android {
     }
 
 
-    lintOptions{
+    lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
@@ -44,10 +44,12 @@ android {
     }
     productFlavors {
         dev {
+//            buildConfigField("String", "BASEURL", '"https://ultimateapp.x-clubs.com/prd/"')
+
             buildConfigField("String", "BASEURL", '"http://api.ex-fans.com/tst/ultimateapp/"')
         }
         pro {
-            buildConfigField("String", "BASEURL", '"http://api.ex-fans.com/ultimateapp/"')
+            buildConfigField("String", "BASEURL", '"https://ultimateapp.x-clubs.com/prd/"')
         }
     }
 }

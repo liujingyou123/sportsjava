@@ -22,7 +22,7 @@ public class Ironman {
                 .baseUrl(NetUtils.baseUrl())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(NetworkClient.getOkHttpClient())
+                .client(NetworkClient.getOkHttpClients())
                 .build();
 
         cache = new LruCache<String, Object>(Integer.MAX_VALUE);
