@@ -220,7 +220,7 @@ public class PersonInfoHeaderView extends LinearLayout {
                         tvTip.setVisibility(View.GONE);
                     }
 
-                    Batman.getInstance().getImageWithCircle(club.getClubImgUrl(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
+                    Batman.getInstance().getImageWithCircle(club.getLogoUrl(), imvHead, R.mipmap.icon_gerenzhuye_morentouxiang, R.mipmap.icon_gerenzhuye_morentouxiang);
 
                     LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
                     lp.setMargins(0, 0, 0, UnitUtil.dip2px(getContext(), 15));

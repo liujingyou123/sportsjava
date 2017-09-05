@@ -162,7 +162,7 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
 
     @Override
     public void showAllClubsList(ClubListResponse response) {
-        if (response != null && response.getData() != null && response.getData().getData() != null && response.getData().getData().size() > 0) {
+        if (response != null && response.getData() != null && response.getData().getData() != null) {
             totalSize = response.getData().getTotalSize();
             if (rlAll.isRefreshing()) {
 
@@ -176,10 +176,16 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
 
 //                adapter.notifyDataSetChanged();
                 rlAll.refreshComplete();
+
+                if (adapter.getData().size() >= totalSize) {
+                    adapter.loadMoreEnd();
+                }
             } else {
                 List<Club> tmps = response.getData().getData();
-                clubsTmp.addAll(tmps);
-                adapter.addData(clubsTmp);
+                if (tmps != null && tmps.size() > 0) {
+                    clubsTmp.addAll(tmps);
+                    adapter.addData(clubsTmp);
+                }
                 if (adapter.getData().size() >= totalSize) {
                     adapter.loadMoreEnd();
                 } else {
@@ -211,7 +217,6 @@ public class FindClubActivity extends BaseActivity implements IFindClubView {
             mPresenter.getAllClubsList(pageNumber);
 
         }
-
     }
 
     @Override

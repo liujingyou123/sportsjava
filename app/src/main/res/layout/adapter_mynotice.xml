@@ -70,7 +70,7 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_ver_default"/>
 
-    <TextView
+    <com.sports.limitsport.view.AtTextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,14 +80,14 @@
         android:textColor="#FFA5A4A4"
         android:textSize="14sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="8dp"
-        android:text="'@lover_ss'"
-        android:textColor="#FF4795FB"
-        android:textSize="13sp" />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:text="'@lover_ss'"-->
+        <!--android:textColor="#FF4795FB"-->
+        <!--android:textSize="13sp" />-->
 
     <com.sports.limitsport.view.tagview.TagCloudLayout
         android:id="@+id/tg_tag"
