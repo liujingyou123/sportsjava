@@ -30,7 +30,6 @@ import com.sports.limitsport.model.ClubDetail;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
-import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SlidingTagPagerItem;

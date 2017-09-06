@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="http://index.baidu.com"
+        android:text="https://shop.x-clubs.com"
         android:textColor="#FFFFFFFF"
         android:textSize="14sp"/>
 </LinearLayout>

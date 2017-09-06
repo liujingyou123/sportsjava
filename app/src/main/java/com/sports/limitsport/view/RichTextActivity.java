@@ -1,6 +1,7 @@
 package com.sports.limitsport.view;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.view.richtext.RichText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +21,7 @@ import butterknife.OnClick;
 
 public class RichTextActivity extends BaseActivity {
     @BindView(R.id.tv_content)
-    TextView tvContent;
+    RichText tvContent;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
 
@@ -36,9 +38,17 @@ public class RichTextActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
             String content = intent.getStringExtra("content");
-            tvContent.setText(Html.fromHtml(content));
+            tvContent.setRichText(content);
+
         }
     }
+
+    Html.ImageGetter imageGetter = new Html.ImageGetter() {
+        @Override
+        public Drawable getDrawable(String source) {
+            return null;
+        }
+    };
 
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {

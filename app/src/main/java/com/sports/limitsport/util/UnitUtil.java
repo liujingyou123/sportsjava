@@ -2,8 +2,10 @@ package com.sports.limitsport.util;
 
 
 import android.content.Context;
+import android.graphics.Point;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +22,21 @@ import java.util.Date;
 
 public class UnitUtil {
 
+
+    /**
+     * 获取屏幕尺寸
+     *
+     * @param context 上下文
+     * @return 屏幕尺寸像素值，下标为0的值为宽，下标为1的值为高
+     */
+    public static Point getScreenSize(Context context) {
+
+        // 获取屏幕宽高
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Point screenSize = new Point();
+        wm.getDefaultDisplay().getSize(screenSize);
+        return screenSize;
+    }
 
     /**
      * 将dip转换为像素
