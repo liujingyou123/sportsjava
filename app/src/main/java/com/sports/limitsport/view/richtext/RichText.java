@@ -108,17 +108,17 @@ public class RichText extends TextView implements Drawable.Callback, View.OnAtta
         glideImageGeter.recycle();
     }
 
-    @Override
-    public void invalidateDrawable(Drawable who) {
+//    @Override
+//    public void invalidateDrawable(Drawable who) {
 
 //        super.invalidateDrawable(who);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            invalidateOutline();
-        } else {
-            invalidate();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            invalidateOutline();
+//        } else {
+//            invalidate();
+//        }
 
-    }
+//    }
 
     @Override
     public void scheduleDrawable(Drawable who, Runnable what, long when) {
