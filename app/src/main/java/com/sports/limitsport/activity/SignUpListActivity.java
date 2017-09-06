@@ -159,8 +159,8 @@ public class SignUpListActivity extends BaseActivity implements ISignUpListView 
                 finish();
                 break;
             case R.id.imv_share:
-                ShareDialog dialog = new ShareDialog(this);
-                dialog.show();
+//                ShareDialog dialog = new ShareDialog(this);
+//                dialog.show();
                 break;
             case R.id.tv_reload:
                 viewNonet.setVisibility(View.GONE);

@@ -61,11 +61,11 @@ public class SignUpAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHolder> 
         if (!TextViewUtil.isEmpty(item.getProvince())) {
             location = item.getProvince();
         } else {
-            location = "上海 ";
+            location = "上海";
         }
 
         if (!TextViewUtil.isEmpty(item.getCity())) {
-            location = location + item.getCity();
+            location = location + " " + item.getCity();
         }
         tvLocation.setText(location);
         tvDes.setText(item.getIntroduction());
