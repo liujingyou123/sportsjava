@@ -16,12 +16,9 @@ import com.sports.limitsport.main.DealActivity;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.SetPresenter;
 import com.sports.limitsport.mine.ui.ISetView;
-import com.sports.limitsport.model.UserInfoResponse;
 import com.sports.limitsport.model.UserSettingInfoResponse;
 import com.sports.limitsport.net.IpServices;
-import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.net.NoTimeOutSubscriber;
-import com.sports.limitsport.net.NoneNetSubscriber;
 import com.sports.limitsport.util.CleanMessageUtil;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
@@ -48,6 +45,8 @@ public class SetActivity extends BaseActivity implements ISetView {
     SwitchCompat scEach;
     @BindView(R.id.it_cache)
     ItemView itCache;
+    @BindView(R.id.btn_done)
+    TextView btnDone;
 
     private SetPresenter mPresenter;
 
@@ -103,7 +102,12 @@ public class SetActivity extends BaseActivity implements ISetView {
         if (mPresenter == null) {
             mPresenter = new SetPresenter(this);
         }
-        mPresenter.getUserSettingInfo();
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mPresenter.getUserSettingInfo();
+            btnDone.setVisibility(View.VISIBLE);
+        } else {
+            btnDone.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.it_aboutus})

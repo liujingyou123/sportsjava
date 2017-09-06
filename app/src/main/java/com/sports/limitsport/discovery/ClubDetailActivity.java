@@ -286,7 +286,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
     @Override
     public void showClubMembers(ClubMembersResponse response) {
         if (adapter != null && response != null && response.getData() != null) {
-            adapter.addData(response.getData().getData());
+            adapter.setNewData(response.getData().getData());
             tvSignNum.setText(response.getData().getTotalSize() + "");
         }
     }
@@ -296,6 +296,9 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         if (isSuccess) {
             dataBean.setJoinClubFlag(1);
             btnDone.setText("退出俱乐部");
+            if (mPresenter != null) {
+                mPresenter.getMembers(id);
+            }
         } else {
             ToastUtil.showFalseToast(this, "申请失败");
         }
@@ -306,6 +309,9 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
         if (success) {
             dataBean.setJoinClubFlag(0);
             btnDone.setText("申请加入");
+            if (mPresenter != null) {
+                mPresenter.getMembers(id);
+            }
         } else {
             ToastUtil.showFalseToast(this, "申请失败");
         }

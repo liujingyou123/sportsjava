@@ -49,7 +49,7 @@ android {
             buildConfigField("String", "BASEURL", '"http://api.ex-fans.com/tst/ultimateapp/"')
         }
         pro {
-            buildConfigField("String", "BASEURL", '"https://ultimateapp.x-clubs.com/prd/"')
+            buildConfigField("String", "BASEURL", '"https://ultimateapp.x-clubs.com/prd/ultimateapp/"')
         }
     }
 }

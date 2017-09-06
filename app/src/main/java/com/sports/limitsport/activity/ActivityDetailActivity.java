@@ -187,10 +187,21 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 finish();
                 break;
             case R.id.btn_done:
-                if (mData.getSignStatus() == 0) {
-                    gotoSignUpActivity();
-                } else if (mData.getSignStatus() == 1) {
-                    showAlreadySignUpDialog();
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                    return;
+                } else if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().getData().getIsPerfect() == 1) {
+                    Intent intent = new Intent(this, IdentifyMainActivity.class);
+                    intent.putExtra("type", "2");
+                    startActivity(intent);
+                } else {
+                    if (mData.getSignStatus() == 0) {
+                        gotoSignUpActivity();
+                    } else if (mData.getSignStatus() == 1) {
+                        showAlreadySignUpDialog();
+                    }
                 }
                 break;
             case R.id.imv_report:
