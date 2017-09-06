@@ -319,7 +319,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 btnDone.setEnabled(false);
                 ToastUtil.showFalseToast(this, "活动已结束");
                 btnDone.setText("活动结束");
-                tvPriceBottom.setCustomText("￥0");
+                tvPriceBottom.setCustomText(mData.getMoney());
             } else if ("3".equals(response.getData().getStatus())) { //进行中
                 btnDone.setEnabled(false);
                 btnDone.setText("报名结束");

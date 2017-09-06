@@ -73,7 +73,7 @@ public class NetworkClient {
     public static void initHttpsClient(Context ctx) {
         Context appCtx = ctx.getApplicationContext();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.BASIC);
+        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
         Cache cache = new Cache(new File(appCtx.getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
 

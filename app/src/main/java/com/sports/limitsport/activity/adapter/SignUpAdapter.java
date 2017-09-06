@@ -57,7 +57,17 @@ public class SignUpAdapter extends BaseQuickAdapter<SignUpUser, BaseViewHolder> 
             tvFocus.setVisibility(View.GONE);
         }
 
-        tvLocation.setText(item.getProvince() + " " + item.getCity());
+        String location = "";
+        if (!TextViewUtil.isEmpty(item.getProvince())) {
+            location = item.getProvince();
+        } else {
+            location = "上海 ";
+        }
+
+        if (!TextViewUtil.isEmpty(item.getCity())) {
+            location = location + item.getCity();
+        }
+        tvLocation.setText(location);
         tvDes.setText(item.getIntroduction());
     }
 }
