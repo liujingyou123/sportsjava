@@ -205,13 +205,13 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             request.id = id;
             request.ticketId = selectTicket.id;
             //TODO 测试
-            if (BuildConfig.DEBUG) {
-                request.totalAmount = "0.01";
-                request.receiptAmount = "0.01";
-            } else {
-                request.totalAmount = selectTicket.totalPrice;
-                request.receiptAmount = selectTicket.totalPrice;
-            }
+//            if (BuildConfig.DEBUG) {
+//                request.totalAmount = "0.01";
+//                request.receiptAmount = "0.01";
+//            } else {
+            request.totalAmount = selectTicket.totalPrice;
+            request.receiptAmount = selectTicket.totalPrice;
+//            }
 
             request.signList = mData;
             request.number = ncv.getNum() + "";
@@ -227,11 +227,11 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @Override
     public void showPayOrderResult(PayOrderResponse response) {
         if (response != null && response.data != null) {
+            orderNo = response.data.orderNo;
             if ("1".equals(response.data.isFree)) {
                 goToPayResult(0, null);
             } else {
                 if (mPresenter != null) {
-                    orderNo = response.data.orderNo;
                     mPresenter.aliPay(response.data.orderInfo);
                 }
             }
