@@ -17,6 +17,7 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.sports.limitsport.BuildConfig;
 import com.sports.limitsport.image.BatmanUtil;
 import com.sports.limitsport.log.XLog;
 
@@ -31,11 +32,17 @@ public class AliOss {
     //用户端目录
     public static final String DIR_HEAD_PORTRAIT = "head/portrait/";
     // 运行sample前需要配置以下字段为有效的值
-    private static final String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
-    private static final String accessKeyId = "LTAI5IPPJFoPvKzS";
-    private static final String accessKeySecret = "XYOQgpiAdh22LzUmTbvKWBbhI50344";
+//    private static final String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
+    private static final String endpoint = BuildConfig.endpoint;
 
-    private static final String bucket = "ex-fans-tst";
+    //    private static final String accessKeyId = "LTAI5IPPJFoPvKzS";
+    private static final String accessKeyId = BuildConfig.accessKeyId;
+
+//    private static final String accessKeySecret = "XYOQgpiAdh22LzUmTbvKWBbhI50344";
+    private static final String accessKeySecret = BuildConfig.accessKeySecret;
+
+//    private static final String bucket = "ex-fans-tst";
+    private static final String bucket = BuildConfig.bucket;
 
     private static AliOss INSTANCE = new AliOss();
 

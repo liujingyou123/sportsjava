@@ -47,9 +47,17 @@ android {
 //            buildConfigField("String", "BASEURL", '"https://ultimateapp.x-clubs.com/prd/"')
 
             buildConfigField("String", "BASEURL", '"http://api.ex-fans.com/tst/ultimateapp/"')
+            buildConfigField("String", "accessKeyId", '"LTAIjhOVdcR6u8du"')
+            buildConfigField("String", "accessKeySecret", '"rUBxtMWqOs2djhoAVFgBPga1wdH4oh"')
+            buildConfigField("String", "bucket", '"ex-fans-tst"')
+            buildConfigField("String", "endpoint", '"src.tst.x-clubs.com"')
         }
         pro {
             buildConfigField("String", "BASEURL", '"https://ultimateapp.x-clubs.com/prd/ultimateapp/"')
+            buildConfigField("String", "accessKeyId", '"LTAIQ9Eq47FuVqlO"')
+            buildConfigField("String", "accessKeySecret", '"sKGbgLnPz9x0caAcdvnqdFQiIVxG5J"')
+            buildConfigField("String", "bucket", '"ex-fans-prd"')
+            buildConfigField("String", "endpoint", '"src.x-clubs.com"')
         }
     }
 }
