@@ -73,9 +73,13 @@ public class AtTextView extends TextView {
 
             XLog.e("sbContent = " + sbContent.toString());
         }
+        SpannableString spannable = null;
 
-        SpannableString spannable = new SpannableString(sbContent);
-
+        if (sbContent.length() == 0) {
+            spannable = new SpannableString(str);
+        } else {
+            spannable = new SpannableString(sbContent);
+        }
 
         for (int i = 0; i < list.size(); i++) {
             final HashMap<String, Object> mapTmp = list.get(i);
