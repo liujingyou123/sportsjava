@@ -54,6 +54,17 @@ public class ToolsUtil {
         return json;
     }
 
+    public static <T> List<T> jsonToLists(String json) {
+        Gson gson = new Gson();
+        List<T> rs = new ArrayList<T>();
+
+        Type type = new TypeToken<ArrayList<T>>() {
+        }.getType();
+        rs = gson.fromJson(json, type);
+        return rs;
+    }
+
+
     public static <T> List<T> jsonToList(String json, Class<T[]> clazz) {
         Gson gson = new Gson();
         T[] array = gson.fromJson(json, clazz);

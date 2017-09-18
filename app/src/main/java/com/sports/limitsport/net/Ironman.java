@@ -5,7 +5,10 @@ import android.util.LruCache;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sports.limitsport.util.DoubleDefaultAdapter;
 import com.sports.limitsport.util.FooAnnotationExclusionStrategy;
+import com.sports.limitsport.util.IntegerDefaultAdapter;
+import com.sports.limitsport.util.LongDefaultAdapter;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -27,6 +30,20 @@ public class Ironman {
 
         cache = new LruCache<String, Object>(Integer.MAX_VALUE);
 
+    }
+
+    public static Gson buildGson() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Integer.class, new IntegerDefaultAdapter())
+                .registerTypeAdapter(int.class, new IntegerDefaultAdapter())
+                .registerTypeAdapter(Double.class, new DoubleDefaultAdapter())
+                .registerTypeAdapter(double.class, new DoubleDefaultAdapter())
+                .registerTypeAdapter(Long.class, new LongDefaultAdapter())
+                .registerTypeAdapter(long.class, new LongDefaultAdapter())
+                .setExclusionStrategies(new FooAnnotationExclusionStrategy())
+                .create();
+
+        return gson;
     }
 
     public static Ironman getInstance() {

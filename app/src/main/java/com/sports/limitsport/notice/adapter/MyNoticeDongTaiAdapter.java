@@ -67,7 +67,7 @@ public class MyNoticeDongTaiAdapter extends BaseQuickAdapter<DongTaiList, BaseVi
 
         if (!TextViewUtil.isEmpty(item.getResourceType())) {
             imvCover.setVisibility(View.VISIBLE);
-            if ("1".equals(item.getResourceType())) { //1 图片 2:视频
+            if ("1".equals(item.getResourceType()) || "1.0".equals(item.getResourceType())) { //1 图片 2:视频
                 Batman.getInstance().fromNet(item.getImgUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
             } else {
                 Batman.getInstance().fromNet(item.getVedioThumbnailUrl(), imvCover, R.mipmap.icon_ver_default, R.mipmap.icon_ver_default);
