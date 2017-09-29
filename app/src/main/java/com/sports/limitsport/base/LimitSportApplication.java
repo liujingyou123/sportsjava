@@ -8,6 +8,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.sports.limitsport.aliyunoss.AliOss;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.net.NetworkClient;
+import com.sports.limitsport.util.Constants;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.SpUtil;
 import com.umeng.socialize.PlatformConfig;
@@ -45,7 +46,7 @@ public class LimitSportApplication extends Application {
     }
 
     {
-        PlatformConfig.setWeixin("wxed8eeb25f2298870", "87bc38ce0b305d763912b0efb3356b64");
+        PlatformConfig.setWeixin(Constants.APP_ID, "87bc38ce0b305d763912b0efb3356b64");
         PlatformConfig.setQQZone("1106349224", "I9TV3SLS0ojCXKS0");
         PlatformConfig.setSinaWeibo("1565300412", "15731b921e940e85128a647859354045", "http://sns.whalecloud.com");
     }

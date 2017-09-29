@@ -1,7 +1,5 @@
 package com.sports.limitsport.model;
 
-import com.sports.limitsport.util.FooAnnotation;
-
 import java.util.List;
 
 /**
@@ -11,7 +9,7 @@ import java.util.List;
 
 public class OrderRequest {
     public String id;
-    public String payType = "aliPay";
+    public String payType;
     public String ticketId;
     public String totalAmount;
     public String receiptAmount;

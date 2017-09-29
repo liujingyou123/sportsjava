@@ -2,10 +2,13 @@ package com.sports.limitsport.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.sports.limitsport.BuildConfig;
@@ -24,6 +27,10 @@ import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomTypeFaceTextView;
 import com.sports.limitsport.view.NumCheckView;
 import com.sports.limitsport.view.OrderInfoView;
+import com.sports.limitsport.wxapi.PayResultEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.math.BigDecimal;
 import java.net.ConnectException;
@@ -31,10 +38,14 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by liuworkmac on 17/6/27.
@@ -56,6 +67,8 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     LinearLayout llOrders;
     @BindView(R.id.tv_price_bottom)
     CustomTypeFaceTextView tvPriceBottom;
+    @BindView(R.id.rg_pay_type)
+    RadioGroup rgPayType;
 
     private String id; //活动ID
     private String title;//活动title
@@ -67,14 +80,20 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     private List<SignList> mData = new ArrayList<>();
     private PayPresenter mPresenter;
     private String orderNo;
+    private String payType = "aliPay";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         setContentView(R.layout.activity_payorder);
         ButterKnife.bind(this);
         getIntentData();
         initRecy();
+
+
     }
 
     private void getIntentData() {
@@ -138,6 +157,17 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             @Override
             public void overMin() {
                 ToastUtil.showFalseToast(PayOrderActivity.this, "至少选择1张票");
+            }
+        });
+
+        rgPayType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                if (checkedId == R.id.zhifubao) { //支付宝
+                    payType = "aliPay";
+                } else if (checkedId == R.id.weixin) { //微信
+                    payType = "wxPay";
+                }
             }
         });
     }
@@ -205,14 +235,15 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             request.id = id;
             request.ticketId = selectTicket.id;
             //TODO 测试
-//            if (BuildConfig.DEBUG) {
-//                request.totalAmount = "0.01";
-//                request.receiptAmount = "0.01";
-//            } else {
-            request.totalAmount = selectTicket.totalPrice;
-            request.receiptAmount = selectTicket.totalPrice;
-//            }
+            if (BuildConfig.DEBUG) {
+                request.totalAmount = "0.01";
+                request.receiptAmount = "0.01";
+            } else {
+                request.totalAmount = selectTicket.totalPrice;
+                request.receiptAmount = selectTicket.totalPrice;
+            }
 
+            request.payType = payType;
             request.signList = mData;
             request.number = ncv.getNum() + "";
 
@@ -230,14 +261,31 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             orderNo = response.data.orderNo;
             if ("1".equals(response.data.isFree)) {
                 goToPayResult(0, null);
-            } else {
-                if (mPresenter != null) {
-                    mPresenter.aliPay(response.data.orderInfo);
-                }
             }
-
         } else {
             goToPayResult(1, response.getErrMsg());
+        }
+    }
+
+    /**
+     * 微信支付结果
+     */
+    @Subscribe
+    public void payResultEvent(PayResultEvent event) {
+        switch (event.resultCode) {
+            case 0:
+                Observable.timer(1500, TimeUnit.MILLISECONDS).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        goToPayResult(0, null);
+                    }
+                });
+                break;
+            case -1:
+                break;
+            case -2:
+                ToastUtil.show(this, "取消支付");
+                break;
         }
     }
 
@@ -289,9 +337,11 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (mPresenter != null) {
             mPresenter.clear();
         }
         mPresenter = null;
+
     }
 }

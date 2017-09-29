@@ -22,6 +22,7 @@ public class OrdersList {
     private String startDate;
     private String startTime;
     private String week;
+    private String payType;
 
 
     public String getCoverUrl() {
@@ -158,5 +159,13 @@ public class OrdersList {
 
     public void setWeek(String week) {
         this.week = week;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 }

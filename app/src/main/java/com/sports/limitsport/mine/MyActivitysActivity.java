@@ -33,9 +33,11 @@ import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.notice.EditNewDongTaiActivity;
 import com.sports.limitsport.util.MyTestData;
 import com.sports.limitsport.util.SharedPrefsUtil;
+import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.ToolsUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
+import com.sports.limitsport.wxapi.PayResultEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,11 +48,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by liuworkmac on 17/7/7.
@@ -73,15 +79,16 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
     private PayPresenter mPresenter;
     private OrdersList orderList;
     private boolean isRefresh = true;
+    private boolean isGotoDetail = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myactivitys);
-        ButterKnife.bind(this);
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        setContentView(R.layout.activity_myactivitys);
+        ButterKnife.bind(this);
         if (mPresenter == null) mPresenter = new PayPresenter(this);
         initView();
 
@@ -90,6 +97,7 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
     @Override
     public void onResume() {
         super.onResume();
+        isGotoDetail = false;
         if (isRefresh) {
             isRefresh = false;
             rlAll.autoRefresh();
@@ -128,6 +136,7 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                isGotoDetail = true;
                 OrdersList tmp = (OrdersList) adapter.getItem(position);
                 Intent intent = new Intent(MyActivitysActivity.this, OrderDetailActivity.class);
                 intent.putExtra("orderNo", tmp.getOrderNo());
@@ -143,7 +152,7 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
                     if (orderList.getIsJoin() == 1) { //已参加
                         gotoEditDongtai();
                     } else if ("0".equals(orderList.getOrderStatus())) {
-                        gotoPay(orderList.getOrderInfo());
+                        gotoPay(orderList.getOrderInfo(), orderList.getPayType());
                     }
                 }
             }
@@ -238,9 +247,9 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
     /**
      * 去支付
      */
-    private void gotoPay(String orderInfo) {
+    private void gotoPay(String orderInfo, String payType) {
         if (mPresenter != null) {
-            mPresenter.aliPay(orderInfo);
+            mPresenter.pay(orderInfo, payType);
         }
     }
 
@@ -283,11 +292,35 @@ public class MyActivitysActivity extends BaseActivity implements IPayOrderView {
     }
 
     /**
+     * 微信支付结果
+     */
+    @Subscribe
+    public void payResultEvent(PayResultEvent event) {
+        if (isGotoDetail) return;
+        switch (event.resultCode) {
+            case 0:
+                Observable.timer(1500, TimeUnit.MILLISECONDS).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        goToPayResult(0, null);
+                    }
+                });
+                break;
+            case -1:
+                break;
+            case -2:
+                ToastUtil.show(this, "取消支付");
+                break;
+        }
+    }
+
+    /**
      * 前往支付结果页
      *
      * @param type 0 成功 1失败
      */
     private void goToPayResult(int type, String errormsg) {
+        isRefresh = true;
         Intent intent = new Intent(this, PaySuccessActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("errorMsg", errormsg);

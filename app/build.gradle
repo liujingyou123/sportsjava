@@ -15,8 +15,8 @@ android {
         applicationId "com.sports.limitsport"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -39,12 +39,12 @@ android {
             signingConfig signingConfigs.debug
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             //Zipalign优化
             zipAlignEnabled true
 
             // 移除无用的resource文件
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.debug
@@ -138,5 +138,7 @@ dependencies {
     compile files('libs/alipaySdk-20170710.jar')
     compile project(':refresh')
     compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
+//    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
 //    compile "me.henrytao:smooth-app-bar-layout:25.3.1.0"
 }

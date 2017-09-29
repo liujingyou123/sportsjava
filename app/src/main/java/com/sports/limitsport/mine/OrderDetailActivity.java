@@ -35,8 +35,10 @@ import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.OrderInfoView;
+import com.sports.limitsport.wxapi.PayResultEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -111,6 +113,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     TextView tvAllPrice;
     @BindView(R.id.ll_content)
     LinearLayout llContent;
+    @BindView(R.id.tv_weixin)
+    TextView tvWeixin;
 
     //    private String type; // 1: 待付款, 2:已报名（可退款）3:已参加 4:已退款 5: 已取消
     private OrderDetailPresenter mPresenter;
@@ -125,6 +129,9 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetail);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         ButterKnife.bind(this);
         getIntentData();
         initView();
@@ -171,7 +178,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
                     if (mPayPresenter == null) {
                         mPayPresenter = new PayPresenter(this);
                     }
-                    mPayPresenter.aliPay(orderDetail.getOrderInfo());
+                    mPayPresenter.pay(orderDetail.getOrderInfo(), orderDetail.getPayType());
                 }
 
                 break;
@@ -218,6 +225,20 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
         tvNotice.setVisibility(View.GONE);
         tvPayTime.setVisibility(View.GONE);
         tvPayType.setVisibility(View.GONE);
+
+        if ("aliPay".equals(orderDetail.getPayType())) {
+            tvZhifubao.setVisibility(View.VISIBLE);
+            zhifubao.setVisibility(View.VISIBLE);
+            zhifubao.setChecked(true);
+            tvWeixin.setVisibility(View.GONE);
+            weixin.setVisibility(View.GONE);
+        } else {
+            tvZhifubao.setVisibility(View.GONE);
+            zhifubao.setVisibility(View.GONE);
+            tvWeixin.setVisibility(View.VISIBLE);
+            weixin.setVisibility(View.VISIBLE);
+            weixin.setChecked(true);
+        }
     }
 
     /**
@@ -481,6 +502,33 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     }
 
     /**
+     * 微信支付结果
+     */
+    @Subscribe
+    public void payResultEvent(PayResultEvent event) {
+        switch (event.resultCode) {
+            case 0:
+                Observable.timer(1500, TimeUnit.MILLISECONDS).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        orderDetail.setOrderStatus("1");
+                        showPayOrder();
+                        goToPayResult(0, null);
+                        EventBusOrder params = new EventBusOrder();
+                        params.isChange = true;
+                        EventBus.getDefault().post(params);
+                    }
+                });
+                break;
+            case -1:
+                break;
+            case -2:
+                ToastUtil.show(this, "取消支付");
+                break;
+        }
+    }
+
+    /**
      * 前往支付结果页
      *
      * @param type 0 成功 1失败
@@ -508,6 +556,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (mPresenter != null) {
             mPresenter.clear();
         }
