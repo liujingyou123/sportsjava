@@ -19,6 +19,7 @@ public class FansList extends SelectEntity implements Serializable {
     private String sex;
     private String showCreateTime;
     private String status;
+    private String province;
 
     public String getCity() {
         return city;
@@ -90,6 +91,14 @@ public class FansList extends SelectEntity implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     @Override

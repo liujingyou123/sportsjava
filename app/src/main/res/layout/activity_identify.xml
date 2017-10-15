@@ -11,7 +11,8 @@
         android:layout_margin="15dp"
         android:text="跳过"
         android:textColor="#FFA5A4A4"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/imv_head"

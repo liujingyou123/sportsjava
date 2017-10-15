@@ -15,8 +15,8 @@ android {
         applicationId "com.sports.limitsport"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 5
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -41,7 +41,7 @@ android {
         debug {
             minifyEnabled false
             //Zipalign优化
-            zipAlignEnabled true
+            zipAlignEnabled false
 
             // 移除无用的resource文件
             shrinkResources false

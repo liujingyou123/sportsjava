@@ -142,6 +142,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
                 TicketList ticketList = (TicketList) adapter.getItem(position);
                 if (ticketList != null) {
                     selectTicket = new SelectTicket();
+                    selectTicket.num = 1;
 
                     selectTicket.id = ticketList.getId() + "";
                     int maxNum = ticketList.getUserPurchase();
@@ -178,7 +179,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
 
     private void showSelectTicket() {
         //设置最大可选择数量
-        signUpFooterView.getNumCheckView().setMinNum(0);
+        signUpFooterView.getNumCheckView().setMinNum(1);
         signUpFooterView.getNumCheckView().setMaxNum(selectTicket.maxNum);
         //设置数量为0
         signUpFooterView.getNumCheckView().setDefaultNum(selectTicket.num);

@@ -336,7 +336,11 @@ public class UserInfoActivity extends BaseActivity implements IUserInfoView {
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getSex())) {
-                itGender.setLableTwo(dataBean.getSex());
+                if ("1".equals(dataBean.getSex())) {
+                    itGender.setLableTwo("女");
+                } else {
+                    itGender.setLableTwo("男");
+                }
             }
 
             if (!TextViewUtil.isEmpty(dataBean.getBrithDate())) {

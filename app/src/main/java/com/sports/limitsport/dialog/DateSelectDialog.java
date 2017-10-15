@@ -59,7 +59,7 @@ public class DateSelectDialog extends BottomSelectDialog implements WheelPicker.
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         List<String> data_year = new ArrayList<>();
-        for (int i = 1950; i < year+1; i++) {
+        for (int i = 1980; i < year + 1; i++) {
             data_year.add((i) + "年");
         }
 

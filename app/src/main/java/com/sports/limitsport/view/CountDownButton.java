@@ -142,6 +142,7 @@ public class CountDownButton extends Button {
     public void reset() {
         if (!mTickerStopped && count > 0) {
             count = 0;
+            setEnabled(true);
         }
     }
 

@@ -216,7 +216,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             View chidView = llOrders.getChildAt(i);
             if (chidView instanceof OrderInfoView) {
                 SignList signList = ((OrderInfoView) chidView).getOrderInfo();
-                if (TextViewUtil.isEmpty(signList.name) || TextViewUtil.isEmpty(signList.idCard) || TextViewUtil.isEmpty(signList.phone)) {
+                if (TextViewUtil.isEmpty(signList.name) || TextViewUtil.isEmpty(signList.phone)) {
                     ToastUtil.showFalseToast(PayOrderActivity.this, "请填写完整用户信息");
                     ret = false;
                     break;
@@ -235,13 +235,13 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             request.id = id;
             request.ticketId = selectTicket.id;
             //TODO 测试
-            if (BuildConfig.DEBUG) {
-                request.totalAmount = "0.01";
-                request.receiptAmount = "0.01";
-            } else {
+//            if (BuildConfig.DEBUG) {
+//                request.totalAmount = "0.01";
+//                request.receiptAmount = "0.01";
+//            } else {
                 request.totalAmount = selectTicket.totalPrice;
                 request.receiptAmount = selectTicket.totalPrice;
-            }
+//            }
 
             request.payType = payType;
             request.signList = mData;

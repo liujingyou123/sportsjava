@@ -151,6 +151,10 @@ public class LoginActivity extends BaseActivity {
                 login.setEnabled(false);
             }
 
+            if (countDown != null) {
+                countDown.reset();
+            }
+
         }
     };
 
@@ -197,13 +201,13 @@ public class LoginActivity extends BaseActivity {
 //                if (phoneView.length() > 0) {
 //                    clear.setVisibility(View.VISIBLE);
 //                }
-                phoneView.setEnabled(true);
+//                phoneView.setEnabled(true);
             }
 
             @Override
             public void onTick(int time) {
 //                clear.setVisibility(View.GONE);
-                phoneView.setEnabled(false);
+//                phoneView.setEnabled(false);
             }
         });
     }

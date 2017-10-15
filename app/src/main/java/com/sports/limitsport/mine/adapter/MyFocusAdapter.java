@@ -55,10 +55,16 @@ public class MyFocusAdapter extends BaseQuickAdapter<FansList, BaseViewHolder> {
             tvFocus.setVisibility(View.GONE);
         }
 
-        if (!TextViewUtil.isEmpty(item.getCity())) {
-            tvLocation.setText(item.getCity());
-
+        String location = "";
+        if (!TextViewUtil.isEmpty(item.getProvince())) {
+            location = item.getProvince();
         }
+
+        if (!TextViewUtil.isEmpty(item.getCity())) {
+            location = location + " " + item.getCity();
+        }
+        tvLocation.setText(location);
+
         tvDes.setText(item.getIntroduction());
     }
 }

@@ -100,7 +100,7 @@ public class MineHeaderView extends LinearLayout {
         }
     }
 
-    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity, R.id.tv_name})
+    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity, R.id.tv_name, R.id.imv_head})
     public void onViewClicked(View view) {
         if (!checkIsLogin()) {
             return;
@@ -135,6 +135,8 @@ public class MineHeaderView extends LinearLayout {
                     Intent intent6 = new Intent(getContext(), UserInfoActivity.class);
                     getContext().startActivity(intent6);
                 }
+                break;
+            case R.id.imv_head:
                 break;
         }
     }
