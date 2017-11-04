@@ -1,11 +1,15 @@
 package com.sports.limitsport.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +24,13 @@ import com.sports.limitsport.activity.adapter.ActivitysAdapter;
 import com.sports.limitsport.activity.presenter.ActivityListPresenter;
 import com.sports.limitsport.activity.ui.IActivityListView;
 import com.sports.limitsport.base.BaseFragment;
+import com.sports.limitsport.dialog.UpdateTipDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.model.CheckVersionResponse;
+import com.sports.limitsport.util.Constants;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.CustomLoadMoreView;
@@ -73,6 +80,8 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
     private int pageNumber = 1;
 
     private long totalSize;
+    private UpdateTipDialog updateTipDialog;
+
 
     @Nullable
     @Override
@@ -94,9 +103,15 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
         if (mPresenter == null) {
             mPresenter = new ActivityListPresenter(this);
         }
-
-//        mPresenter.getActivityList(pageNumber);
         rlAll.autoRefresh();
+
+        try {
+            String versionName = getActivity().getPackageManager().getPackageInfo(
+                    getActivity().getPackageName(), 0).versionName;
+            mPresenter.checkVersion(versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void init() {
@@ -323,5 +338,62 @@ public class ActivityFragment extends BaseFragment implements IActivityListView 
             }
         }
 
+    }
+
+    @Override
+    public void checkVersion(final CheckVersionResponse response) {
+        Constants.SERVICE_PHONE = response.getData().getServicePhone();
+        if (response.getData().isNeedUpdate()) {
+
+            Constants.NEEd_UPDATE = true;
+            Constants.DOWNLOAD_URL = response.getData().getDownloadUrl();
+            if (response.getData().getUpdateLevel() != 0) {
+
+                String html = "<html><head><title>TextView使用HTML</title></head><body>"
+                        + "<p><a href=\"http://www.dreamdu.com/xhtml/\">超链接HTML入门</a>学习HTML!</p><p><font color=\"#00bbaa\">下面是网络图片"
+                        + "</p></body></html>";
+                updateTipDialog = new UpdateTipDialog(this.getContext());
+                updateTipDialog.setMessage(response.getData().getDesc());
+                updateTipDialog.setTitle(response.getData().getTitle());
+                if (response.getData().getUpdateLevel() == 1) {
+                    updateTipDialog.setClose(true);
+                } else if (response.getData().getUpdateLevel() == 2) {
+                    updateTipDialog.setClose(false);
+                }
+                updateTipDialog.setOkClickListener(new UpdateTipDialog.OnPreClickListner() {
+                    @Override
+                    public void onClick() {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri content_url = Uri.parse(response.getData().getDownloadUrl());
+                        intent.setData(content_url);
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onClose() {
+//                        if (welcomeDialog != null) {
+//
+//                            if (!welcomeDialog.isShowing()) {
+//                                welcomeDialog.show();
+//
+//                                SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+//                            }
+//                        }
+                    }
+                });
+                updateTipDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                updateTipDialog.show();
+            }
+        }
     }
 }

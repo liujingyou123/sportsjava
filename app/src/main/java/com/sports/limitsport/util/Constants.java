@@ -6,4 +6,7 @@ package com.sports.limitsport.util;
 
 public class Constants {
     public final static String APP_ID = "wxed8eeb25f2298870";
+    public static String DOWNLOAD_URL = "";
+    public static String SERVICE_PHONE = "";
+    public static boolean NEEd_UPDATE;
 }

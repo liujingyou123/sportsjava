@@ -111,4 +111,6 @@ public class URLConstants {
     public final static String URL_MY_ORDERS = "api/activityOrder/selectOrderList/v1.0.0";
     //退出登录
     public final static String URL_EXIT_APP = "api/user/verify/logoutVerify/v1.0.0";
+    //版本更新
+    public final static String URL_UPDATE_APP = "api/user/app/checkUpdate/v1.0.0";
 }

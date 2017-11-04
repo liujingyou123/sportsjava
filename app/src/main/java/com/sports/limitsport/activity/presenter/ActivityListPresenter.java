@@ -3,6 +3,7 @@ package com.sports.limitsport.activity.presenter;
 import com.sports.limitsport.activity.ui.IActivityListView;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.model.CheckVersionResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.NetSubscriber;
 import com.sports.limitsport.util.ToolsUtil;
@@ -39,6 +40,22 @@ public class ActivityListPresenter {
                 super.onError(e);
                 if (mIActivityListView != null) {
                     mIActivityListView.onError(e);
+                }
+            }
+        });
+
+    }
+
+    public void checkVersion(String version) {
+
+        HashMap<String ,Object> hashMap = new HashMap<>();
+        hashMap.put("osType","1");
+        hashMap.put("version",version);
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).checkVersion(hashMap), new NetSubscriber<CheckVersionResponse>() {
+            @Override
+            public void response(CheckVersionResponse response) {
+                if (mIActivityListView != null) {
+                    mIActivityListView.checkVersion(response);
                 }
             }
         });

@@ -3,6 +3,7 @@ package com.sports.limitsport.net;
 import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.ActivityResponse;
+import com.sports.limitsport.model.CheckVersionResponse;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
@@ -264,4 +265,7 @@ public interface IpServices {
     @Headers("Content-Type: application/json")
     @POST(URLConstants.URL_EXIT_APP)
     Observable<BaseResponse> exitApp();
-}
+
+    // 版本更新
+    @POST("customerapp/api/user/app/checkUpdate")
+    Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);}
