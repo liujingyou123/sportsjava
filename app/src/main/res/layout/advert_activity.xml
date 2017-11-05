@@ -27,6 +27,5 @@
         android:layout_height="143.5dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/launcher_bg"/>
+        android:scaleType="centerCrop" />
 </RelativeLayout>

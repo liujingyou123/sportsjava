@@ -1,12 +1,13 @@
 package com.sports.limitsport.model;
 
-import com.finance.winport.base.BaseResponse;
+
+import com.sports.limitsport.base.BaseResponse;
 
 /**
  * Created by jge on 17/6/26.
  */
 
-public class CheckVersionResponse extends BaseResponse{
+public class CheckVersionResponse extends BaseResponse {
 
 
     /**

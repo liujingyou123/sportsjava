@@ -24,8 +24,15 @@ public class CustomTypeFaceTextView extends TextView {
     }
 
     public void setCustomText(String text) {
+//        Typeface face = Typeface.createFromAsset(getResources().getAssets(), "ashby-black.ttf");
+//        setTypeface(face);
+        setText(text);
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
         Typeface face = Typeface.createFromAsset(getResources().getAssets(), "ashby-black.ttf");
         setTypeface(face);
-        setText(text);
+        super.setText(text, type);
     }
 }

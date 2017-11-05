@@ -291,7 +291,8 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                Intent intent1 = new Intent(this.getContext(), SetActivity.class);
+                //TODO test
+                Intent intent1 = new Intent(this.getContext(), BecomeBusinessActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.imv_focus_right:
