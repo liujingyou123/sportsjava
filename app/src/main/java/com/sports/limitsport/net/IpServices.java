@@ -266,6 +266,11 @@ public interface IpServices {
     @POST(URLConstants.URL_EXIT_APP)
     Observable<BaseResponse> exitApp();
 
-    // 版本更新
-    @POST("customerapp/api/user/app/checkUpdate")
-    Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);}
+    //版本更新
+    @POST(URLConstants.URL_UPDATE_APP)
+    Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);
+
+    //广告
+    @POST(URLConstants.URL_ADV)
+    Observable<AdvertiseInfoResponse> getAdv(@Body HashMap<String, String> params);
+}

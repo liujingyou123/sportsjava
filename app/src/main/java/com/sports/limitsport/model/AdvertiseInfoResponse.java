@@ -2,13 +2,14 @@ package com.sports.limitsport.model;
 
 import com.sports.limitsport.base.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/7/24.
  */
 
-public class AdvertiseInfoResponse extends BaseResponse {
+public class AdvertiseInfoResponse extends BaseResponse implements Serializable{
 
 
     /**
@@ -33,7 +34,7 @@ public class AdvertiseInfoResponse extends BaseResponse {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private String adPicUrl;
         private int adType;
         private String content;
@@ -43,6 +44,7 @@ public class AdvertiseInfoResponse extends BaseResponse {
         private int position;
         private String toUrl;
         private int toUrlType;
+        private String type;
 
         public String getAdPicUrl() {
             return adPicUrl;
@@ -114,6 +116,14 @@ public class AdvertiseInfoResponse extends BaseResponse {
 
         public void setToUrlType(int toUrlType) {
             this.toUrlType = toUrlType;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 }

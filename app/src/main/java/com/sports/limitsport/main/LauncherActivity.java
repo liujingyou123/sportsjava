@@ -45,15 +45,17 @@ public class LauncherActivity extends AppCompatActivity {
         mSubscription = Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
             @Override
             public void call(Long aLong) {
-                String interTimes = SpUtil.getInstance().getStringData("interTimes", null);
-                if (TextUtils.isEmpty(interTimes)) {
+//                String interTimes = SpUtil.getInstance().getStringData("interTimes", null);
+//                if (TextUtils.isEmpty(interTimes)) {
+//
+//                    Intent intent = new Intent(LauncherActivity.this, AdActivity.class);
+//                    startActivity(intent);
+//                    LauncherActivity.this.finish();
+//                } else {
+//
+//                }
 
-                    Intent intent = new Intent(LauncherActivity.this, AdActivity.class);
-                    startActivity(intent);
-                    LauncherActivity.this.finish();
-                } else {
-                    getAdvList();
-                }
+                getAdvList();
             }
         });
     }
@@ -64,9 +66,8 @@ public class LauncherActivity extends AppCompatActivity {
      */
     public void getAdvList() {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("adType", "2");
         hashMap.put("position", "0");
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getAdvList(hashMap), new NoneNetSubscriber<AdvertiseInfoResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).getAdv(hashMap), new NoneNetSubscriber<AdvertiseInfoResponse>() {
             @Override
             public void response(AdvertiseInfoResponse response) {
 
@@ -75,7 +76,6 @@ public class LauncherActivity extends AppCompatActivity {
                     startActivity(intent);
                     LauncherActivity.this.finish();
                 } else {
-
                     Intent login = new Intent(LauncherActivity.this, AdvertActivity.class);
                     ArrayList<AdvertiseInfoResponse.DataBean> list = (ArrayList<AdvertiseInfoResponse.DataBean>) response.getData();
                     login.putExtra("data", list);
@@ -87,9 +87,11 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
+                startActivity(intent);
+                LauncherActivity.this.finish();
             }
         });
-//        getTestAdvData();
     }
 
     @Override

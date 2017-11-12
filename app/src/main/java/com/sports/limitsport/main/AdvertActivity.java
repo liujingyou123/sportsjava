@@ -10,10 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sports.limitsport.R;
+import com.sports.limitsport.activity.ActivityDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.view.H5Activity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -67,7 +71,6 @@ public class AdvertActivity extends BaseActivity {
                     handler.postDelayed(this, TIME);
                     skip.setText("跳过  " + (--i));
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -87,12 +90,19 @@ public class AdvertActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img:
-                if(list!=null&&list.get(0)!=null){
-                    if (!TextUtils.isEmpty(list.get(0).getToUrl()) && !"null".equals(list.get(0).getToUrl())) {
-                        Intent intent = new Intent(AdvertActivity.this, MainActivity.class);
-                        startActivity(intent);
+                if (list != null && list.get(0) != null) {
+                    if (!TextUtils.isEmpty(list.get(0).getToUrl()) && !"null".equals(list.get(0).getToUrl()) && "1".equals(list.get(0).getType())) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(list.get(0).getToUrl());
+                            Intent intent = new Intent(AdvertActivity.this, ActivityDetailActivity.class);
+                            intent.putExtra("from", "outer");
+                            intent.putExtra("id", jsonObject.optString("activityId"));
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
                         Intent bannerDetails = new Intent(AdvertActivity.this, H5Activity.class);
-                        bannerDetails.putExtra("type", 4);
                         bannerDetails.putExtra("url", list.get(0).getToUrl());
                         startActivity(bannerDetails);
                     }
@@ -106,7 +116,6 @@ public class AdvertActivity extends BaseActivity {
                 break;
         }
     }
-
 
 
 }

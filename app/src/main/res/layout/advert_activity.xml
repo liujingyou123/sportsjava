@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/img"
         android:layout_width="match_parent"
-        android:layout_height="436dp" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/skip"
         android:layout_width="58dp"
@@ -22,10 +23,4 @@
         android:textSize="12sp"
         android:gravity="center"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="143.5dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop" />
 </RelativeLayout>

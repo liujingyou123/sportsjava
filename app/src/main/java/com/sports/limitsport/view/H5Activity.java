@@ -59,6 +59,8 @@ public class H5Activity extends BaseActivity {
         } else if (type == 2) {
             tvFocusHouse.setText("图文详情");
             url = H5Address.getUrlActivityDetail(id);
+        } else {
+            tvFocusHouse.setText("极限领袖");
         }
         tvClose.setVisibility(View.GONE);
         String address = url;
