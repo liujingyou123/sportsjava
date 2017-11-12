@@ -44,6 +44,7 @@
 
         <TextView
             android:id="@+id/tv_ok"
+            style="@style/btn_done"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="25dp"
@@ -52,7 +53,6 @@
             android:layout_marginTop="25dp"
             android:text="立即更新"
             android:gravity="center"
-            android:textColor="#ffffff"
             android:textSize="15sp" />
 
     </LinearLayout>
@@ -65,5 +65,6 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="12dp"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"
+        android:src="@mipmap/icon_share_cancel"/>
 </FrameLayout>
