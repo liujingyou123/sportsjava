@@ -277,4 +277,13 @@ public interface IpServices {
     //成为商户
     @POST(URLConstants.URL_BECOME_BUSINESS)
     Observable<BaseResponse> becomeBusiness(@Body HashMap<String, String> params);
+
+    //删除动态
+    @POST(URLConstants.URL_DELETE_DONGTAI)
+    Observable<BaseResponse> deleteDongtai(@Body HashMap<String, String> params);
+
+    //删除动态
+    @POST(URLConstants.URL_DELETE_COMMENT)
+    Observable<BaseResponse> deleteComment(@Body HashMap<String, String> params);
+
 }

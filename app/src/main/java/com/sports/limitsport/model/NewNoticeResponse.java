@@ -36,6 +36,7 @@ public class NewNoticeResponse extends BaseResponse {
         private int fans;
         private int praise;
         private int system;
+        private int totalUnRead;
 
         public int getActivity() {
             return activity;
@@ -83,6 +84,14 @@ public class NewNoticeResponse extends BaseResponse {
 
         public void setSystem(int system) {
             this.system = system;
+        }
+
+        public int getTotalUnRead() {
+            return totalUnRead;
+        }
+
+        public void setTotalUnRead(int totalUnRead) {
+            this.totalUnRead = totalUnRead;
         }
     }
 }

@@ -323,11 +323,11 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void showNewNotice(NewNoticeResponse response) {
         if (response != null && response.isSuccess() && response.getData() != null) {
             NewNoticeResponse.DataBean dataBean = response.getData();
-            if (dataBean.getSystem() > 0 || dataBean.getActivity() > 0 || dataBean.getComment() > 0 || dataBean.getAite() > 0 || dataBean.getFans() > 0 || dataBean.getPraise() > 0) {
-                headerView.setNoticeNews("0");
-            } else {
-                headerView.setNoticeNews("0");
-            }
+            headerView.setNoticeNews(dataBean.getTotalUnRead()+"");
+//            if (dataBean.getSystem() > 0 || dataBean.getActivity() > 0 || dataBean.getComment() > 0 || dataBean.getAite() > 0 || dataBean.getFans() > 0 || dataBean.getPraise() > 0) {
+//            } else {
+//                headerView.setNoticeNews("0");
+//            }
 
         }
     }

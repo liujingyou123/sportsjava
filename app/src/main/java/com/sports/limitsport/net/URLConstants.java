@@ -117,4 +117,8 @@ public class URLConstants {
     public final static String URL_ADV = "api/user/verify/advList/v1.0.0";
     //成为商户
     public final static String URL_BECOME_BUSINESS = "api/club/addBusinessman/v1.0.0";
+    //删除动态
+    public final static String URL_DELETE_DONGTAI = "api/trend/deleteTrendInfo/v1.0.0";
+    //删除评论
+    public final static String URL_DELETE_COMMENT = "api/trend/deleteTrendInfo/v1.0.0";
 }
