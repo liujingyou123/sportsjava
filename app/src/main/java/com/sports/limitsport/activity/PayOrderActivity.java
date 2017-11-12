@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sports.limitsport.BuildConfig;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.presenter.PayPresenter;
 import com.sports.limitsport.activity.ui.IPayOrderView;
@@ -69,12 +69,19 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     CustomTypeFaceTextView tvPriceBottom;
     @BindView(R.id.rg_pay_type)
     RadioGroup rgPayType;
+    @BindView(R.id.tv_notice)
+    TextView tvNotice;
+    @BindView(R.id.tv_pay_type)
+    TextView tvPayType;
+    @BindView(R.id.rl_pay_type)
+    RelativeLayout rlPayType;
 
     private String id; //活动ID
     private String title;//活动title
     private String imgCover;//活动封面
     private String startTime; //活动时间
     private String address; // 地址
+    private String authEntity;//认证主体
     private SelectTicket selectTicket;
 
     private List<SignList> mData = new ArrayList<>();
@@ -105,12 +112,22 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
             selectTicket = (SelectTicket) intent.getSerializableExtra("selectTicket");
             startTime = intent.getStringExtra("startTime");
             address = intent.getStringExtra("address");
+            authEntity = intent.getStringExtra("authEntity");
         }
     }
 
 
     private void initRecy() {
         tvFocusHouse.setText("订单支付");
+        if (!TextUtils.isEmpty(authEntity) && "1".equals(authEntity)) {
+            tvNotice.setVisibility(View.VISIBLE);
+            tvPayType.setVisibility(View.GONE);
+            rlPayType.setVisibility(View.GONE);
+        } else {
+            tvNotice.setVisibility(View.GONE);
+            tvPayType.setVisibility(View.VISIBLE);
+            rlPayType.setVisibility(View.VISIBLE);
+        }
         Batman.getInstance().fromNet(imgCover, imvCover);
 
         tvName.setText(title);
@@ -188,6 +205,9 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
         orderInfo.id = childViewCount + 1;
         OrderInfoView view = new OrderInfoView(this);
         view.showOrderInfo(orderInfo);
+        if (childViewCount == 0) {
+            view.showPhone();
+        }
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         llOrders.addView(view, lp);
     }
@@ -239,10 +259,15 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
 //                request.totalAmount = "0.01";
 //                request.receiptAmount = "0.01";
 //            } else {
-                request.totalAmount = selectTicket.totalPrice;
-                request.receiptAmount = selectTicket.totalPrice;
+            request.totalAmount = selectTicket.totalPrice;
+            request.receiptAmount = selectTicket.totalPrice;
 //            }
 
+            if (!TextUtils.isEmpty(authEntity) && "1".equals(authEntity)) {
+                payType = "offline_pay";
+                request.transactionType = "Offline";
+                request.receiptAmount = "0";
+            }
             request.payType = payType;
             request.signList = mData;
             request.number = ncv.getNum() + "";
@@ -259,7 +284,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     public void showPayOrderResult(PayOrderResponse response) {
         if (response != null && response.data != null) {
             orderNo = response.data.orderNo;
-            if ("1".equals(response.data.isFree)) {
+            if (!"0".equals(response.data.isFree)) {
                 goToPayResult(0, null);
             }
         } else {
@@ -331,6 +356,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
         intent.putExtra("startTime", startTime);
         intent.putExtra("address", address);
         intent.putExtra("orderNo", orderNo);
+        intent.putExtra("authEntity", authEntity);
         startActivity(intent);
     }
 

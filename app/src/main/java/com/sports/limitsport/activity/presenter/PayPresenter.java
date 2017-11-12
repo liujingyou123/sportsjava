@@ -113,7 +113,7 @@ public class PayPresenter {
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).payOrder(request), new NetSubscriber<PayOrderResponse>() {
             @Override
             public void response(PayOrderResponse response) {
-                if (response != null && response.data != null && !"1".equals(response.data.isFree)) {
+                if (response != null && response.data != null && "0".equals(response.data.isFree)) {
                     pay(response.data.orderInfo, request.payType);
 //                    if ("aliPay".equals(request.payType)) {
 //                        aliPay(response.data.orderInfo);

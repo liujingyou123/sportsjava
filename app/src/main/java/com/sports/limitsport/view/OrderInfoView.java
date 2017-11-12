@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.model.SignList;
+import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
 
@@ -120,6 +121,10 @@ public class OrderInfoView extends LinearLayout {
             etName.setEnabled(false);
             etIds.setEnabled(false);
         }
+    }
+
+    public void showPhone() {
+        etPhone.setText(SharedPrefsUtil.getUserInfo().getData().getPhone());
     }
 
 

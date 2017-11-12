@@ -53,6 +53,7 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
     private String imgCover;//活动封面
     private String startTime; //活动时间
     private String address; // 地址
+    private String authEntity;
     private int from;//来源：（1:从订单列表页 2:详情页进入，0:从支付页进入）
     private int type;
     private String errorMsg;
@@ -83,6 +84,7 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             address = intent.getStringExtra("address");
             orderNo = intent.getStringExtra("orderNo");
             from = intent.getIntExtra("from", 0);
+            authEntity = intent.getStringExtra("authEntity");
         }
     }
 
@@ -106,7 +108,11 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessView 
             tvFocusHouse.setText("支付成功");
             tvTitle.setText("恭喜您！购票成功！");
             tvTitle.setEnabled(true);
-            tvSubTitle.setText("请注意活动时间以免错过活动");
+            if (authEntity != null && "1".equals(authEntity)) {
+                tvSubTitle.setText("如需缴费，请直接线下交纳");
+            } else {
+                tvSubTitle.setText("请注意活动时间以免错过活动");
+            }
             tvLook.setVisibility(View.VISIBLE);
         } else if (type == 1) {
             tvFocusHouse.setText("支付失败");

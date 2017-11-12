@@ -63,6 +63,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
     private String imgCover;//活动封面
     private String startTime; //活动时间
     private String address; // 地址
+    private String authEntity; //认证主题
     private List<TicketList> data = new ArrayList<>();
     private SelectTicket selectTicket;
 
@@ -84,6 +85,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
             imgCover = intent.getStringExtra("imgCover");
             startTime = intent.getStringExtra("startTime");
             address = intent.getStringExtra("address");
+            authEntity = intent.getStringExtra("authEntity");
         }
     }
 
@@ -235,6 +237,7 @@ public class SignUpActivity extends BaseActivity implements ISignUpView {
 
         intent.putExtra("startTime", startTime);
         intent.putExtra("address", address);
+        intent.putExtra("authEntity", authEntity);
         startActivity(intent);
     }
 

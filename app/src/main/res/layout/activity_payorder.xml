@@ -43,6 +43,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tv_notice"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@mipmap/icon_home_notice"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="该活动为个人组织活动，如需缴费，请直接线下交纳。"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:background="#282828"
+                android:visibility="gone"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -104,20 +119,24 @@
                 android:orientation="vertical"></LinearLayout>
 
             <TextView
+                android:id="@+id/tv_pay_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
                 android:text="支付方式"
                 android:textColor="#FFFFFFFF"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone"/>
 
             <RelativeLayout
+                android:id="@+id/rl_pay_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_zhifubao"
