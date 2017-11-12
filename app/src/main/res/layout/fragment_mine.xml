@@ -20,14 +20,16 @@
             android:src="@mipmap/icon_gerenzhongxin_set" />
 
 
-        <ImageView
+        <TextView
             android:id="@+id/imv_focus_right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:src="@mipmap/icon_gerenzhongxin_notice" />
+            android:text="创建俱乐部"
+            android:gravity="center_vertical"
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="200dp"

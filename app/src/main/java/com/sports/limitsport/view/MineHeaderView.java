@@ -19,6 +19,7 @@ import com.sports.limitsport.mine.MyClubsActivity;
 import com.sports.limitsport.mine.MyCollectionActivity;
 import com.sports.limitsport.mine.MyFansListActivity;
 import com.sports.limitsport.mine.MyFocusListActivity;
+import com.sports.limitsport.mine.NoticeFirstLevelActivity;
 import com.sports.limitsport.mine.UserInfoActivity;
 import com.sports.limitsport.mine.adapter.TagFavAdapter;
 import com.sports.limitsport.model.UserInfoResponse;
@@ -72,6 +73,8 @@ public class MineHeaderView extends LinearLayout {
     TextView tvGuanzhu;
     @BindView(R.id.tv_Dongtai)
     TextView tvDongtai;
+    @BindView(R.id.tv_message)
+    TextView tvMessage;
     private int type;
 
     public MineHeaderView(Context context) {
@@ -100,7 +103,7 @@ public class MineHeaderView extends LinearLayout {
         }
     }
 
-    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity, R.id.tv_name, R.id.imv_head})
+    @OnClick({R.id.imv_go, R.id.tv_fav, R.id.ll_fensi, R.id.ll_guanzhu, R.id.tv_club, R.id.tv_activity, R.id.tv_name, R.id.imv_head, R.id.tv_message})
     public void onViewClicked(View view) {
         if (!checkIsLogin()) {
             return;
@@ -137,6 +140,16 @@ public class MineHeaderView extends LinearLayout {
                 }
                 break;
             case R.id.imv_head:
+                break;
+            case R.id.tv_message:
+                if (SharedPrefsUtil.getUserInfo() == null) {
+                    Intent intentLogin = new Intent(getContext(), LoginActivity.class);
+                    intentLogin.putExtra("type", "login");
+                    getContext().startActivity(intentLogin);
+                    return;
+                }
+                Intent intentNotice = new Intent(this.getContext(), NoticeFirstLevelActivity.class);
+                getContext().startActivity(intentNotice);
                 break;
         }
     }
@@ -223,5 +236,9 @@ public class MineHeaderView extends LinearLayout {
             return false;
         }
         return true;
+    }
+
+    public void setNoticeNews(String num) {
+        tvMessage.setText("消息("+num+")");
     }
 }

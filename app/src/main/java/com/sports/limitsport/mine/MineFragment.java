@@ -53,8 +53,6 @@ public class MineFragment extends BaseFragment implements IMineView {
     @BindView(R.id.ry_mine)
     RecyclerView ryMine;
     Unbinder unbinder;
-    @BindView(R.id.imv_new_notice_tip)
-    ImageView imvNewNoticeTip;
     @BindView(R.id.rl_all)
     EasyRefreshLayout rlAll;
     private MineAdapter mineAdapter;
@@ -155,7 +153,6 @@ public class MineFragment extends BaseFragment implements IMineView {
                 mineAdapter.getData().clear();
                 mineAdapter.notifyDataSetChanged();
             }
-            imvNewNoticeTip.setVisibility(View.GONE);
         }
     }
 
@@ -291,18 +288,11 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                //TODO test
-                Intent intent1 = new Intent(this.getContext(), BecomeBusinessActivity.class);
+                Intent intent1 = new Intent(this.getContext(), SetActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.imv_focus_right:
-                if (SharedPrefsUtil.getUserInfo() == null) {
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    intent.putExtra("type", "login");
-                    startActivity(intent);
-                    return;
-                }
-                Intent intent = new Intent(this.getContext(), NoticeFirstLevelActivity.class);
+                Intent intent = new Intent(this.getContext(), BecomeBusinessActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -334,9 +324,9 @@ public class MineFragment extends BaseFragment implements IMineView {
         if (response != null && response.isSuccess() && response.getData() != null) {
             NewNoticeResponse.DataBean dataBean = response.getData();
             if (dataBean.getSystem() > 0 || dataBean.getActivity() > 0 || dataBean.getComment() > 0 || dataBean.getAite() > 0 || dataBean.getFans() > 0 || dataBean.getPraise() > 0) {
-                imvNewNoticeTip.setVisibility(View.VISIBLE);
+                headerView.setNoticeNews("0");
             } else {
-                imvNewNoticeTip.setVisibility(View.GONE);
+                headerView.setNoticeNews("0");
             }
 
         }
