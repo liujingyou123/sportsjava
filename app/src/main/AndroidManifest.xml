@@ -310,6 +310,9 @@
             android:name=".view.RichTextActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".mine.BecomeBusinessSubmitActivity"
+            android:screenOrientation="portrait"/>
+
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"

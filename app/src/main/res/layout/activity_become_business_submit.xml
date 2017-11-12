@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <com.sports.limitsport.view.CustomTypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="登录后台，自行完成认证"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="10dp"
+        android:text="请登录俱乐部后台，按照指引完成商户的认证\n后台地址：www.ex-fans.com"
+        android:textColor="#A5A4A4"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <com.sports.limitsport.view.CustomTypeFaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="02"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="留下联系方式，获得客服的帮助"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_gray"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:hint="请输入您的称呼"
+        android:textColorHint="#444444"
+        android:paddingLeft="10dp"
+        android:textSize="14sp"
+        android:textColor="#ffffff"/>
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_gray"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:hint="请输入手机号码"
+        android:textColorHint="#444444"
+        android:paddingLeft="10dp"
+        android:textSize="14sp"
+        android:textColor="#ffffff"/>
+
+    <TextView
+        android:id="@+id/tv_done"
+        style="@style/bt_done"
+        android:layout_marginTop="20dp"
+        android:text="提交"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"/>
+</LinearLayout>

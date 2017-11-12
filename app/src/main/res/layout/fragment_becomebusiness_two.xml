@@ -39,7 +39,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/icon_bike"
+                        android:src="@mipmap/icon_snow"
                         android:layout_weight="1"/>
 
                     <View
@@ -50,7 +50,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/icon_bike"
+                        android:src="@mipmap/icon_flow"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -63,7 +63,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/icon_bike" />
+                    android:src="@mipmap/icon_ride_house" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -79,7 +79,7 @@
                 android:layout_width="145dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/icon_bike"
+                android:src="@mipmap/icon_motobike"
                 android:layout_alignParentRight="true"/>
 
 
@@ -99,7 +99,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/icon_bike"
+                        android:src="@mipmap/icon_water_board"
                         android:layout_weight="1"/>
 
                     <View
@@ -110,7 +110,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/icon_bike"
+                        android:src="@mipmap/icon_sailing_boat"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -123,7 +123,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/icon_bike" />
+                    android:src="@mipmap/icon_running" />
             </LinearLayout>
         </RelativeLayout>
 

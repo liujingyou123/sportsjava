@@ -273,4 +273,8 @@ public interface IpServices {
     //广告
     @POST(URLConstants.URL_ADV)
     Observable<AdvertiseInfoResponse> getAdv(@Body HashMap<String, String> params);
+
+    //成为商户
+    @POST(URLConstants.URL_BECOME_BUSINESS)
+    Observable<BaseResponse> becomeBusiness(@Body HashMap<String, String> params);
 }

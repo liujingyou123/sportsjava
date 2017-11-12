@@ -1,5 +1,6 @@
 package com.sports.limitsport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -142,6 +143,8 @@ public class BecomeBusinessActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_done:
+                Intent intent = new Intent(this, BecomeBusinessSubmitActivity.class);
+                startActivity(intent);
                 break;
         }
     }

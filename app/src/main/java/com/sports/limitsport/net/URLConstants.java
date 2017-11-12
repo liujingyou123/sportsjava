@@ -115,4 +115,6 @@ public class URLConstants {
     public final static String URL_UPDATE_APP = "api/user/verify/checkUpdate/v1.0.0";
     //广告
     public final static String URL_ADV = "api/user/verify/advList/v1.0.0";
+    //成为商户
+    public final static String URL_BECOME_BUSINESS = "api/club/addBusinessman/v1.0.0";
 }
