@@ -13,6 +13,7 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.PersonInfoAdapter;
@@ -98,7 +99,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
                 finish();
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this, "5", userId);
+                DelAndReportDialog dialog = new DelAndReportDialog(this, "5", userId, null);
                 dialog.show();
                 break;
             case R.id.imv_share:
@@ -174,7 +175,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoView 
                                 }
                             }
                         } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(PersonInfoActivity.this, "2", dongTaiList.getId() + "");
+                            DelAndReportDialog reportDialog = new DelAndReportDialog(PersonInfoActivity.this, "2", dongTaiList.getId() + "", dongTaiList.getPublishUserId()+"");
                             reportDialog.show();
                         }
                     }

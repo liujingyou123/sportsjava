@@ -19,6 +19,7 @@ import com.sports.limitsport.activity.presenter.DongTaiDetailPresenter;
 import com.sports.limitsport.activity.ui.IDongTaiDetailView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.FineShowDetailActivity;
@@ -197,7 +198,18 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                                     }
                                 }
                             } else if (view.getId() == R.id.imv_report) {
-                                ReportDialog reportDialog = new ReportDialog(DongTaiDetailActivity.this, "2", data.getId() + "");
+                                DelAndReportDialog reportDialog = new DelAndReportDialog(DongTaiDetailActivity.this, "2", data.getId() + "",data.getPublishUserId()+"");
+                                reportDialog.setOnDeleteListener(new DelAndReportDialog.OnDeleteListener() {
+                                    @Override
+                                    public void deleteDongtaiRusult(boolean success) {
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void deleteCommentRusult(boolean success) {
+
+                                    }
+                                });
                                 reportDialog.show();
                             }
                         }

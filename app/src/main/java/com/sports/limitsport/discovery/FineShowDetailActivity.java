@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.adapter.FineShowCommentAdapter;
@@ -192,7 +193,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
                                     }
                                 }
                             } else if (view.getId() == R.id.imv_report) {
-                                ReportDialog reportDialog = new ReportDialog(FineShowDetailActivity.this, "2", data.getId() + "");
+                                DelAndReportDialog reportDialog = new DelAndReportDialog(FineShowDetailActivity.this, "2", data.getId() + "",data.getPublishUserId()+"");
                                 reportDialog.show();
                             }
                         }

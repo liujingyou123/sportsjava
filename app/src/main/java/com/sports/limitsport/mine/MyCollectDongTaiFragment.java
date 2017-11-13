@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
@@ -157,7 +158,7 @@ public class MyCollectDongTaiFragment extends Fragment implements IMyCollectDong
                                 }
                             }
                         } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(getContext(), "2", dongTaiList.getId() + "");
+                            DelAndReportDialog reportDialog = new DelAndReportDialog(getContext(), "2", dongTaiList.getId() + "", dongTaiList.getPublishUserId()+"");
                             reportDialog.show();
                         }
                     }

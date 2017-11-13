@@ -19,6 +19,7 @@ import com.sports.limitsport.activity.presenter.AllShaiPresenter;
 import com.sports.limitsport.activity.ui.IAllShaiView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
@@ -162,7 +163,7 @@ public class AllShaiActivity extends BaseActivity implements IAllShaiView {
                                 }
                             }
                         } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(AllShaiActivity.this, "2", dongTaiList.getId() + "");
+                            DelAndReportDialog reportDialog = new DelAndReportDialog(AllShaiActivity.this, "2", dongTaiList.getId() + "", dongTaiList.getPublishUserId()+"");
                             reportDialog.show();
                         }
                     }

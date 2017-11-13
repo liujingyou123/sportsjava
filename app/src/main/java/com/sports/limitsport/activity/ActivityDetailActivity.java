@@ -18,6 +18,7 @@ import com.sports.limitsport.activity.presenter.ActivityDetailPresenter;
 import com.sports.limitsport.activity.ui.IActivityDetailView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
@@ -205,7 +206,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 }
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this, "0", id);
+                DelAndReportDialog dialog = new DelAndReportDialog(this, "0", id, null);
                 dialog.show();
                 break;
             case R.id.imv_share:

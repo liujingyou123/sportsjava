@@ -16,6 +16,8 @@ import com.sports.limitsport.R;
 import com.sports.limitsport.activity.DongTaiDetailActivity;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
+import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
@@ -23,12 +25,14 @@ import com.sports.limitsport.mine.adapter.MineAdapter;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.MinePresenter;
 import com.sports.limitsport.mine.ui.IMineView;
+import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.EventBusLogin;
 import com.sports.limitsport.model.NewNoticeResponse;
 import com.sports.limitsport.model.TokenTimeOutEvent;
 import com.sports.limitsport.model.UserInfoResponse;
+import com.sports.limitsport.net.H5Address;
 import com.sports.limitsport.util.SharedPrefsUtil;
 import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
@@ -65,6 +69,7 @@ public class MineFragment extends BaseFragment implements IMineView {
     private CommentDialog commentDialog;
     private int selectId;
     private int totalSize;
+    private ShareDialog shareDialog;
 
 
     @Nullable
@@ -205,6 +210,25 @@ public class MineFragment extends BaseFragment implements IMineView {
                                     mPresenter.praise(dongTaiList.getId() + "");
                                 }
                             }
+                        } else if (view.getId() == R.id.imv_share) {
+                            if (shareDialog == null) {
+                                shareDialog = new ShareDialog(MineFragment.this.getActivity());
+                            }
+                            if (!shareDialog.isShowing() && dongTaiList != null) {
+                                shareDialog.setTitle(dongTaiList.getPublishUserName() + "发布的精彩秀");
+                                shareDialog.setDes(dongTaiList.getContent());
+                                if ("1".equals(dongTaiList.getResourceType())) {
+                                    shareDialog.setImage(dongTaiList.getImgUrl());
+                                } else {
+                                    shareDialog.setImage(dongTaiList.getVedioImgUrl());
+                                }
+                                shareDialog.setUrl(H5Address.getDongTai(dongTaiList.getId()+""));
+                                shareDialog.show();
+                            }
+
+                        } else if (view.getId() == R.id.imv_report) {
+                            DelAndReportDialog reportDialog = new DelAndReportDialog(MineFragment.this.getActivity(), "2", dongTaiList.getId() + "",dongTaiList.getPublishUserId()+"");
+                            reportDialog.show();
                         }
                     }
                 }
@@ -323,7 +347,7 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void showNewNotice(NewNoticeResponse response) {
         if (response != null && response.isSuccess() && response.getData() != null) {
             NewNoticeResponse.DataBean dataBean = response.getData();
-            headerView.setNoticeNews(dataBean.getTotalUnRead()+"");
+            headerView.setNoticeNews(dataBean.getTotalUnRead() + "");
 //            if (dataBean.getSystem() > 0 || dataBean.getActivity() > 0 || dataBean.getComment() > 0 || dataBean.getAite() > 0 || dataBean.getFans() > 0 || dataBean.getPraise() > 0) {
 //            } else {
 //                headerView.setNoticeNews("0");

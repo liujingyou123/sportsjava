@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_round_white">
+        <TextView
+            android:id="@+id/tv_report"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_round_white"
+            android:text="举报"
+            android:textColor="#FF0076FF"
+            android:textSize="18sp"
+            android:gravity="center"/>
+        <View
+            android:id="@+id/view_line"
+            style="@style/view_line_one_px"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tv_del"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_round_white"
+            android:text="删除动态"
+            android:textColor="#FF0076FF"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_report_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_round_white"
+        android:text="取消"
+        android:textColor="#FF0076FF"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>

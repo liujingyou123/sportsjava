@@ -16,12 +16,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseFragment;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
 import com.sports.limitsport.discovery.PersonInfoActivity;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.mine.MineFragment;
 import com.sports.limitsport.model.DongTaiList;
 import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.DongTaiOrRecommendResponse;
@@ -77,6 +79,7 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
     private CommentDialog commentDialog;
     private int type;//1:推荐用户列表 2:关注人的动态列表
     private ShareDialog shareDialog;
+    private ShareDialog shareDongTaiDialog;
 
     @Nullable
     @Override
@@ -201,8 +204,24 @@ public class NoticeFragment extends BaseFragment implements INoticeView {
                                 }
                             }
                         } else if (view.getId() == R.id.imv_report) {
-                            ReportDialog reportDialog = new ReportDialog(getContext(), "2", dongTaiList.getId() + "");
+                            DelAndReportDialog reportDialog = new DelAndReportDialog(getContext(), "2", dongTaiList.getId() + "", dongTaiList.getPublishUserId()+"");
                             reportDialog.show();
+                        } else if (view.getId() == R.id.imv_share) {
+                            if (shareDongTaiDialog == null) {
+                                shareDongTaiDialog = new ShareDialog(NoticeFragment.this.getActivity());
+                            }
+                            if (!shareDongTaiDialog.isShowing() && dongTaiList != null) {
+                                shareDongTaiDialog.setTitle(dongTaiList.getPublishUserName() + "发布的精彩秀");
+                                shareDongTaiDialog.setDes(dongTaiList.getContent());
+                                if ("1".equals(dongTaiList.getResourceType())) {
+                                    shareDongTaiDialog.setImage(dongTaiList.getImgUrl());
+                                } else {
+                                    shareDongTaiDialog.setImage(dongTaiList.getVedioImgUrl());
+                                }
+                                shareDongTaiDialog.setUrl(H5Address.getDongTai(dongTaiList.getId()+""));
+                                shareDongTaiDialog.show();
+                            }
+                            
                         }
                     }
                 }

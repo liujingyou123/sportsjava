@@ -48,6 +48,7 @@ public class MineAdapter extends BaseQuickAdapter<DongTaiList, BaseViewHolder> {
         helper.addOnClickListener(R.id.imv_share);
         helper.addOnClickListener(R.id.imv_zan);
         helper.addOnClickListener(R.id.tv_san);
+        helper.addOnClickListener(R.id.imv_report);
 
         tvTime.setText(item.getShowCreateTime());
 

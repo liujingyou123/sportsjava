@@ -23,6 +23,7 @@ import butterknife.OnClick;
 
 /**
  * Created by liuworkmac on 17/7/11.
+ * 举报
  */
 
 public class ReportDialog extends Dialog {

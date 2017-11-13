@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.dialog.ReportDialog;
 import com.sports.limitsport.dialog.ShareDialog;
@@ -165,7 +166,7 @@ public class ClubDetailActivity extends BaseActivity implements IClubDetailView 
                 finish();
                 break;
             case R.id.imv_report:
-                ReportDialog dialog = new ReportDialog(this, "1", id);
+                DelAndReportDialog dialog = new DelAndReportDialog(this, "1", id, null);
                 dialog.show();
                 break;
             case R.id.imv_share:
