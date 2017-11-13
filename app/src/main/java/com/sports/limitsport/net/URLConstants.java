@@ -121,4 +121,6 @@ public class URLConstants {
     public final static String URL_DELETE_DONGTAI = "api/trend/deleteTrendInfo/v1.0.0";
     //删除评论
     public final static String URL_DELETE_COMMENT = "api/trend/deleteTrendInfo/v1.0.0";
+    //删除评论回复
+    public final static String URL_DELETE_COMMENT_REPLY = "api/comment/deleteCommentReplay/v1.0.0";
 }

@@ -269,6 +269,9 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                             mPresenter.praise(commentList.getId() + "", "3");
                         }
                     }
+                } else if (view.getId() == R.id.imv_report) {
+                    DelAndReportDialog reportDialog = new DelAndReportDialog(DongTaiDetailActivity.this, "3", commentList.getId() + "", commentList.getCommentatorId() + "");
+                    reportDialog.show();
                 }
 
             }

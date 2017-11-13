@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
+import com.sports.limitsport.dialog.DelCommentDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.util.TextViewUtil;
@@ -37,6 +38,7 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
         LinearLayout llRecall = helper.getView(R.id.ll_recall);
 
         helper.addOnClickListener(R.id.imv_comment);
+        helper.addOnClickListener(R.id.imv_report);
 
         tvName.setText(item.getCommentatorName());
         if (!TextViewUtil.isEmpty(item.getShowCreateTime())) {
@@ -54,7 +56,7 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
             for (int i = 0; i < item.getReplyList().size(); i++) {
                 CommentList.ReplyList replyList = item.getReplyList().get(i);
                 if (replyList != null) {
-                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent()));
+                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent(), replyList.getId()));
                 }
             }
         } else {
@@ -65,7 +67,7 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
 //        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
     }
 
-    private TextView getTextView(String commenter, String recaller, String content) {
+    private TextView getTextView(String commenter, String recaller, String content, final String id) {
         if (TextViewUtil.isEmpty(commenter)) {
             commenter = "";
         }
@@ -87,6 +89,16 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
         } else {
             TextViewUtil.setPartialColor(textView, 0, commenter.length() + 1, Color.parseColor("#ffffff"));
         }
+
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DelCommentDialog dialog = new DelCommentDialog(mContext, id);
+                dialog.show();
+                return true;
+            }
+        });
         return textView;
     }
+
 }

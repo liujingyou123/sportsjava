@@ -44,13 +44,24 @@
             android:textColor="#FFA5A4A4"
             android:textSize="12sp" />
 
+
+        <ImageView
+            android:id="@+id/imv_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/icon_dongtai_tipoff" />
+
+
         <ImageView
             android:id="@+id/imv_comment"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/imv_report"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:src="@mipmap/icon_replay" />
 
 

@@ -134,9 +134,16 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                     intent.putExtra("type", "2");
                     startActivity(intent);
                 } else {
-                    if (commentDialog != null && !commentDialog.isShowing()) {
-                        commentList = (CommentList) adapter.getItem(position);
-                        commentDialog.show();
+                    commentList = (CommentList) adapter.getItem(position);
+
+                    if (view.getId() == R.id.imv_comment) {
+                        if (commentDialog != null && !commentDialog.isShowing()) {
+                            commentDialog.setType(2);
+                            commentDialog.show();
+                        }
+                    } else if (view.getId() == R.id.imv_report) {
+                        DelAndReportDialog reportDialog = new DelAndReportDialog(ActivityDetailActivity.this, "3", commentList.getId() + "", commentList.getCommentatorId()+"");
+                        reportDialog.show();
                     }
                 }
 

@@ -21,6 +21,7 @@ import com.sports.limitsport.activity.presenter.ActivityDiscussPresenter;
 import com.sports.limitsport.activity.ui.IActivityDiscussView;
 import com.sports.limitsport.base.BaseActivity;
 import com.sports.limitsport.dialog.CommentDialog;
+import com.sports.limitsport.dialog.DelAndReportDialog;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
@@ -176,8 +177,15 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                     startActivity(intent);
                 } else {
                     commentList = (CommentList) adapter.getItem(position);
-                    commentDialog.setType(2);
-                    commentDialog.show();
+                    if (view.getId() == R.id.imv_comment) {
+                        if (commentDialog != null && !commentDialog.isShowing()) {
+                            commentDialog.show();
+                        }
+                    } else if (view.getId() == R.id.imv_report) {
+                        DelAndReportDialog reportDialog = new DelAndReportDialog(ActivityDiscussActivity.this, "3", commentList.getId() + "", commentList.getCommentatorId() + "");
+                        reportDialog.show();
+                    }
+
                 }
 
             }

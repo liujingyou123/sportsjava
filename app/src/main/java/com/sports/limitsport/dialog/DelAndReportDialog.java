@@ -64,6 +64,7 @@ public class DelAndReportDialog extends Dialog {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+
     }
 
     @OnClick({R.id.tv_report, R.id.tv_del, R.id.tv_report_cancel})
@@ -112,6 +113,11 @@ public class DelAndReportDialog extends Dialog {
         if (SharedPrefsUtil.getUserInfo() != null && publishId != null && publishId.equals(SharedPrefsUtil.getUserInfo().getData().getUserId() + "")) {
             tvReport.setVisibility(View.GONE);
             tvDel.setVisibility(View.VISIBLE);
+            if ("2".equals(type)) {
+                tvDel.setText("删除动态");
+            } else if ("3".equals(type)) {
+                tvDel.setText("删除评论");
+            }
 //            viewLine.setVisibility(View.VISIBLE);
         } else {
             tvDel.setVisibility(View.GONE);

@@ -286,4 +286,7 @@ public interface IpServices {
     @POST(URLConstants.URL_DELETE_COMMENT)
     Observable<BaseResponse> deleteComment(@Body HashMap<String, String> params);
 
+    //删除动态
+    @POST(URLConstants.URL_DELETE_COMMENT_REPLY)
+    Observable<BaseResponse> deleteCommentReply(@Body HashMap<String, String> params);
 }

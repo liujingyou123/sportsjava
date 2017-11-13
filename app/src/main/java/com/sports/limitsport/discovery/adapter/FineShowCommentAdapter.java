@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.sports.limitsport.R;
+import com.sports.limitsport.dialog.DelCommentDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.util.TextViewUtil;
@@ -43,6 +44,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
         helper.addOnClickListener(R.id.imv_comment);
         helper.addOnClickListener(R.id.imv_zan);
         helper.addOnClickListener(R.id.tv_san);
+        helper.addOnClickListener(R.id.imv_report);
 
         if (1 == item.getPraiseFlag()) { //1:已点赞 0:未点赞
             tvSan.setSelected(true);
@@ -69,7 +71,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
             for (int i = 0; i < item.getReplyList().size(); i++) {
                 CommentList.ReplyList replyList = item.getReplyList().get(i);
                 if (replyList != null) {
-                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent()));
+                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent(), replyList.getId()));
                 }
             }
         } else {
@@ -79,7 +81,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
 
     }
 
-    private TextView getTextView(String commenter, String recaller, String content) {
+    private TextView getTextView(String commenter, String recaller, String content, final String id) {
         if (TextViewUtil.isEmpty(commenter)) {
             commenter = "";
         }
@@ -101,6 +103,15 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
         } else {
             TextViewUtil.setPartialColor(textView, 0, commenter.length() + 1, Color.parseColor("#ffffff"));
         }
+
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DelCommentDialog dialog = new DelCommentDialog(mContext, id);
+                dialog.show();
+                return true;
+            }
+        });
         return textView;
     }
 }
