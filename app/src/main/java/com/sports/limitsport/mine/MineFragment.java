@@ -228,6 +228,17 @@ public class MineFragment extends BaseFragment implements IMineView {
 
                         } else if (view.getId() == R.id.imv_report) {
                             DelAndReportDialog reportDialog = new DelAndReportDialog(MineFragment.this.getActivity(), "2", dongTaiList.getId() + "",dongTaiList.getPublishUserId()+"");
+                            reportDialog.setOnDeleteListener(new DelAndReportDialog.OnDeleteListener() {
+                                @Override
+                                public void deleteDongtaiRusult(boolean success) {
+                                    rlAll.autoRefresh();
+                                }
+
+                                @Override
+                                public void deleteCommentRusult(boolean success) {
+
+                                }
+                            });
                             reportDialog.show();
                         }
                     }

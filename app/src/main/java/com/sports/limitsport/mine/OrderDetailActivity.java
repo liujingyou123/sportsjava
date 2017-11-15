@@ -421,6 +421,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
             tvTicketNum.setText("x" + orderDetail.getNumber());
             tvAllPrice.setText("¥" + orderDetail.getTotalMoney());
 
+            tvNotice.setText("如有疑问，请联系俱乐部\n"+orderDetail.getClubPhone());
             timeCountDown(orderDetail.getLaveSecond());
             if (orderDetail.getIsJoin() == 1) { //已参加
                 showPlayed();
