@@ -24,7 +24,7 @@ public interface IFineShowDetailView {
 
     void showPublishActivityComent(boolean b);
 
-    void showReplayComment(boolean b);
+    void showReplayComment(boolean b, String id);
 
     void collectReslut(boolean b);
 

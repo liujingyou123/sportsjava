@@ -29,6 +29,7 @@ public class OrderDetail {
     private String totalMoney;
     private String week;
     private int isJoin;
+    private String clubPhone;
     /**
      * city : null
      * coutry : null
@@ -228,6 +229,14 @@ public class OrderDetail {
 
     public void setIsJoin(int isJoin) {
         this.isJoin = isJoin;
+    }
+
+    public String getClubPhone() {
+        return clubPhone;
+    }
+
+    public void setClubPhone(String clubPhone) {
+        this.clubPhone = clubPhone;
     }
 
     public static class ApplicantListBean {

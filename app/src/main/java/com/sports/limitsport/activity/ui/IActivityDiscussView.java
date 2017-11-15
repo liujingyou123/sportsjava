@@ -13,7 +13,7 @@ public interface IActivityDiscussView {
 
     void showPublishActivityComent(boolean isSuccess);
 
-    void showReplayComment(boolean isSuccess);
+    void showReplayComment(boolean isSuccess, String id);
 
     void onError(Throwable e);
 }

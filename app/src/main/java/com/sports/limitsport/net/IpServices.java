@@ -7,7 +7,6 @@ import com.sports.limitsport.model.CheckVersionResponse;
 import com.sports.limitsport.model.ClubDetailResponse;
 import com.sports.limitsport.model.ClubListResponse;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
-import com.sports.limitsport.model.ClubMemberList;
 import com.sports.limitsport.model.ClubMembersResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
@@ -15,7 +14,6 @@ import com.sports.limitsport.model.DongTaiListResponse;
 import com.sports.limitsport.model.DongTaiOrRecommendResponse;
 import com.sports.limitsport.model.FansListResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
-import com.sports.limitsport.model.FineShowListResponse;
 import com.sports.limitsport.model.Hobby;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
 import com.sports.limitsport.model.MessageResponse;
@@ -27,6 +25,7 @@ import com.sports.limitsport.model.OrderDetailResponse;
 import com.sports.limitsport.model.OrdersListResponse;
 import com.sports.limitsport.model.PraiseListResponse;
 import com.sports.limitsport.model.RecomendFriendsListResponse;
+import com.sports.limitsport.model.ReplayCommentsResponse;
 import com.sports.limitsport.model.UserInfo;
 import com.sports.limitsport.model.NewPersonListResponse;
 import com.sports.limitsport.model.OrderRequest;
@@ -92,7 +91,7 @@ public interface IpServices {
 
     //发布评论
     @POST(URLConstants.URL_REPLAY_COMMENTS)
-    Observable<BaseResponse> replayComments(@Body HashMap<String, String> hashMap);
+    Observable<ReplayCommentsResponse> replayComments(@Body HashMap<String, String> hashMap);
 
     //票种列表
     @POST(URLConstants.URL_TICKET_LIST)

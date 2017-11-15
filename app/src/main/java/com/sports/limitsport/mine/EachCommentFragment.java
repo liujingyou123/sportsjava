@@ -24,6 +24,7 @@ import com.sports.limitsport.mine.adapter.EachCommentAdapter;
 import com.sports.limitsport.model.EventBusComment;
 import com.sports.limitsport.model.HuDongNoticeList;
 import com.sports.limitsport.model.HuDongNoticeListResponse;
+import com.sports.limitsport.model.ReplayCommentsResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -240,9 +241,9 @@ public class EachCommentFragment extends Fragment {
         hashMap.put("replyUserName", replyUserName);
         hashMap.put("replyContent", replyContent);
 
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<ReplayCommentsResponse>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(ReplayCommentsResponse response) {
                 if (response != null) {
                     if (response.isSuccess()) {
                         ToastUtil.showTrueToast(getContext(), "评论成功");

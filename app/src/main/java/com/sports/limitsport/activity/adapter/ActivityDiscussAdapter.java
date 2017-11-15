@@ -56,7 +56,7 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
             for (int i = 0; i < item.getReplyList().size(); i++) {
                 CommentList.ReplyList replyList = item.getReplyList().get(i);
                 if (replyList != null) {
-                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent(), replyList.getId()));
+                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent(), replyList.getId(),llRecall));
                 }
             }
         } else {
@@ -67,7 +67,7 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
 //        Batman.getInstance().getImageWithCircle("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2470615589,4205272766&fm=26&gp=0.jpg", imvHead, 0, 0);
     }
 
-    private TextView getTextView(String commenter, String recaller, String content, final String id) {
+    private TextView getTextView(String commenter, String recaller, String content, final String id, final LinearLayout llRecall) {
         if (TextViewUtil.isEmpty(commenter)) {
             commenter = "";
         }
@@ -91,9 +91,16 @@ public class ActivityDiscussAdapter extends BaseQuickAdapter<CommentList, BaseVi
         }
 
         textView.setOnLongClickListener(new View.OnLongClickListener() {
+            private String tmpId = id;
             @Override
-            public boolean onLongClick(View v) {
-                DelCommentDialog dialog = new DelCommentDialog(mContext, id);
+            public boolean onLongClick(final View v) {
+                DelCommentDialog dialog = new DelCommentDialog(mContext, tmpId);
+                dialog.setOnDeleteListener(new DelCommentDialog.OnDeleteListener() {
+                    @Override
+                    public void deleteRusult(boolean success) {
+                        llRecall.removeView(v);
+                    }
+                });
                 dialog.show();
                 return true;
             }

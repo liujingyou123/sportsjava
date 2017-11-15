@@ -289,7 +289,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
         startActivity(intentSign);
     }
 
-    private void setReplayData() {
+    private void setReplayData(String id) {
         for (int i = 0; i < adapter.getData().size(); i++) {
 
             if (adapter.getData().get(i).equals(commentList)) {
@@ -301,6 +301,7 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");
                 replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                replyList.setId(id);
                 if (adapter.getData().get(i).getReplyList() != null) {
                     adapter.getData().get(i).getReplyList().add(0, replyList);
                 } else {
@@ -375,16 +376,17 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
     @Override
     public void showCommentList(CommentListResponse response) {
         if (adapter != null && response.getData() != null) {
-            adapter.addData(response.getData().getData());
+            adapter.setNewData(response.getData().getData());
+//            adapter.addData(response.getData().getData());
         }
 
     }
 
     @Override
-    public void showReplayComment(boolean isSuccess) {
+    public void showReplayComment(boolean isSuccess, String id) {
         if (isSuccess) {
             ToastUtil.showTrueToast(this, "回复评论成功");
-            setReplayData();
+            setReplayData(id);
         } else {
             ToastUtil.showTrueToast(this, "回复评论失败");
         }

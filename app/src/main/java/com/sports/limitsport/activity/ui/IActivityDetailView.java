@@ -15,7 +15,7 @@ public interface IActivityDetailView {
 
     void showCommentList(CommentListResponse response);
 
-    void showReplayComment(boolean isSuccess);
+    void showReplayComment(boolean isSuccess, String id);
 
     void onError(Throwable e);
 

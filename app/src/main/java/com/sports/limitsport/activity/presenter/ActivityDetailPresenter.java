@@ -5,6 +5,7 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.ActivityDetailResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiListResponse;
+import com.sports.limitsport.model.ReplayCommentsResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -119,11 +120,11 @@ public class ActivityDetailPresenter {
         hashMap.put("replyUserName", replyUserName);
         hashMap.put("replyContent", replyContent);
 
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<ReplayCommentsResponse>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(ReplayCommentsResponse response) {
                 if (mIActivityDetailView != null) {
-                    mIActivityDetailView.showReplayComment(true);
+                    mIActivityDetailView.showReplayComment(true,response.getData());
                 }
             }
 
@@ -131,7 +132,7 @@ public class ActivityDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIActivityDetailView != null) {
-                    mIActivityDetailView.showReplayComment(false);
+                    mIActivityDetailView.showReplayComment(false, null);
                 }
             }
         });

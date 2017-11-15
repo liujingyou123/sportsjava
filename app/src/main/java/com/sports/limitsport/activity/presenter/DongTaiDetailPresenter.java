@@ -5,6 +5,7 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.PraiseListResponse;
+import com.sports.limitsport.model.ReplayCommentsResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -216,11 +217,11 @@ public class DongTaiDetailPresenter {
         hashMap.put("replyUserName", replyUserName);
         hashMap.put("replyContent", replyContent);
 
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<ReplayCommentsResponse>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(ReplayCommentsResponse response) {
                 if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showReplayComment(true);
+                    mIDongTaiDetailView.showReplayComment(true, response.getData());
                 }
             }
 
@@ -228,7 +229,7 @@ public class DongTaiDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIDongTaiDetailView != null) {
-                    mIDongTaiDetailView.showReplayComment(false);
+                    mIDongTaiDetailView.showReplayComment(false, null);
                 }
             }
         });

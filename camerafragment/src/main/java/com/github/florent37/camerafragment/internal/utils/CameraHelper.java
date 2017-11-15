@@ -114,7 +114,7 @@ public final class CameraHelper {
             }
         }
 
-        if (mediaFile.exists()) {
+        if (mediaFile != null && mediaFile.exists()) {
             mediaFile.delete();
         }
 

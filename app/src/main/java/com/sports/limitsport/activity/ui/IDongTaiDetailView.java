@@ -20,7 +20,7 @@ public interface IDongTaiDetailView {
 
     void onCancelPraiseResult(boolean b, String id, String type);
 
-    void showReplayComment(boolean b);
+    void showReplayComment(boolean b, String id);
 
     void showPublishActivityComent(boolean b);
 

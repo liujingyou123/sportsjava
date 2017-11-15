@@ -210,6 +210,9 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
             });
         }
 
+        if (orderDetail != null) {
+            dialog.setPhoneText(orderDetail.getClubPhone());
+        }
         if (!dialog.isShowing()) {
             dialog.show();
         }

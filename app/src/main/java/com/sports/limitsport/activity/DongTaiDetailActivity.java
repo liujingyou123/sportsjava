@@ -399,9 +399,9 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
     }
 
     @Override
-    public void showReplayComment(boolean isSuccess) {
+    public void showReplayComment(boolean isSuccess, String id) {
         if (isSuccess) {
-            setReplayData();
+            setReplayData(id);
             commentDialog.setContent("");
             btnComment.setText("我要来发言…");
             btnComment.setTextColor(Color.parseColor("#FF444444"));
@@ -480,7 +480,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
 
     }
 
-    private void setReplayData() {
+    private void setReplayData(String id) {
         for (int i = 0; i < adapter.getData().size(); i++) {
 
             if (adapter.getData().get(i).equals(commentList)) {
@@ -492,6 +492,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");
                 replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                replyList.setId(id);
                 if (adapter.getData().get(i).getReplyList() != null) {
                     adapter.getData().get(i).getReplyList().add(0, replyList);
                 } else {

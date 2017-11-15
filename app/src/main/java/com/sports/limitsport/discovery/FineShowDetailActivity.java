@@ -253,6 +253,9 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
                             mPresenter.praise(commentList.getId() + "", "3");
                         }
                     }
+                } else if (view.getId() == R.id.imv_report) {
+                    DelAndReportDialog reportDialog = new DelAndReportDialog(FineShowDetailActivity.this, "3", commentList.getId() + "",commentList.getCommentatorId()+"");
+                    reportDialog.show();
                 }
 
             }
@@ -439,9 +442,9 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
     }
 
     @Override
-    public void showReplayComment(boolean isSuccess) {
+    public void showReplayComment(boolean isSuccess,String id) {
         if (isSuccess) {
-            setReplayData();
+            setReplayData(id);
             commentDialog.setContent("");
             btnComment.setText(null);
             btnComment.setHint("我要来发言...");
@@ -480,7 +483,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
 
     }
 
-    private void setReplayData() {
+    private void setReplayData(String id) {
         for (int i = 0; i < adapter.getData().size(); i++) {
 
             if (adapter.getData().get(i).equals(commentList)) {
@@ -492,6 +495,7 @@ public class FineShowDetailActivity extends BaseActivity implements IFineShowDet
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");
                 replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                replyList.setId(id);
                 if (adapter.getData().get(i).getReplyList() != null) {
                     adapter.getData().get(i).getReplyList().add(0, replyList);
                 } else {

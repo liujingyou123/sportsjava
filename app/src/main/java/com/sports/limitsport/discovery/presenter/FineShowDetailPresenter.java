@@ -6,6 +6,7 @@ import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
 import com.sports.limitsport.model.FineShowDetailResponse;
 import com.sports.limitsport.model.PraiseListResponse;
+import com.sports.limitsport.model.ReplayCommentsResponse;
 import com.sports.limitsport.net.IpServices;
 import com.sports.limitsport.net.LoadingNetSubscriber;
 import com.sports.limitsport.net.NetSubscriber;
@@ -218,11 +219,11 @@ public class FineShowDetailPresenter {
         hashMap.put("replyUserName", replyUserName);
         hashMap.put("replyContent", replyContent);
 
-        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).replayComments(hashMap), new NetSubscriber<ReplayCommentsResponse>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(ReplayCommentsResponse response) {
                 if (mIFineShowDetailView != null) {
-                    mIFineShowDetailView.showReplayComment(true);
+                    mIFineShowDetailView.showReplayComment(true, response.getData());
                 }
             }
 
@@ -230,7 +231,7 @@ public class FineShowDetailPresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mIFineShowDetailView != null) {
-                    mIFineShowDetailView.showReplayComment(false);
+                    mIFineShowDetailView.showReplayComment(false, null);
                 }
             }
         });

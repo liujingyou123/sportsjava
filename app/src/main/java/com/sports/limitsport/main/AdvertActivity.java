@@ -92,15 +92,18 @@ public class AdvertActivity extends BaseActivity {
             case R.id.img:
                 if (list != null && list.get(0) != null) {
                     if (!TextUtils.isEmpty(list.get(0).getToUrl()) && !"null".equals(list.get(0).getToUrl()) && "1".equals(list.get(0).getType())) {
+                        JSONObject jsonObject = null;
                         try {
-                            JSONObject jsonObject = new JSONObject(list.get(0).getToUrl());
-                            Intent intent = new Intent(AdvertActivity.this, ActivityDetailActivity.class);
-                            intent.putExtra("from", "outer");
-                            intent.putExtra("id", jsonObject.optString("activityId"));
-                            startActivity(intent);
-                        } catch (JSONException e) {
+                            jsonObject = new JSONObject(list.get(0).getToUrl());
+                        } catch (Exception e) {
                             e.printStackTrace();
+                            return;
                         }
+
+                        Intent intent = new Intent(AdvertActivity.this, ActivityDetailActivity.class);
+                        intent.putExtra("from", "outer");
+                        intent.putExtra("id", jsonObject.optString("activityId"));
+                        startActivity(intent);
                     } else {
                         Intent bannerDetails = new Intent(AdvertActivity.this, H5Activity.class);
                         bannerDetails.putExtra("url", list.get(0).getToUrl());

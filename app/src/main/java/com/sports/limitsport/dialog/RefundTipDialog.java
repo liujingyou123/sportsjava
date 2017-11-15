@@ -24,6 +24,8 @@ import butterknife.OnClick;
 public class RefundTipDialog extends Dialog {
     @BindView(R.id.tv_done)
     TextView tvDone;
+    @BindView(R.id.tv_phone)
+    TextView tvPhone;
 
     public RefundTipDialog(@NonNull Context context) {
         super(context, R.style.refundDialog);
@@ -45,6 +47,10 @@ public class RefundTipDialog extends Dialog {
 
     public void setDoneClickListener(View.OnClickListener onClickListener) {
         tvDone.setOnClickListener(onClickListener);
+    }
+
+    public void setPhoneText(String phone) {
+        tvPhone.setText("联系电话："+ phone);
     }
 
     @OnClick(R.id.imv_close)

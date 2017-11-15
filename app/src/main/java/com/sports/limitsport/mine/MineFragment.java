@@ -290,9 +290,9 @@ public class MineFragment extends BaseFragment implements IMineView {
     }
 
     private void refresh() {
-        pageNumber = 1;
+//        pageNumber = 1;
         if (mPresenter != null) {
-            mPresenter.getDongTaiList(pageNumber);
+//            mPresenter.getDongTaiList(pageNumber);
             getUserInfoData();
         }
     }

@@ -179,10 +179,22 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                     commentList = (CommentList) adapter.getItem(position);
                     if (view.getId() == R.id.imv_comment) {
                         if (commentDialog != null && !commentDialog.isShowing()) {
+                            commentDialog.setType(2);
                             commentDialog.show();
                         }
                     } else if (view.getId() == R.id.imv_report) {
                         DelAndReportDialog reportDialog = new DelAndReportDialog(ActivityDiscussActivity.this, "3", commentList.getId() + "", commentList.getCommentatorId() + "");
+                        reportDialog.setOnDeleteListener(new DelAndReportDialog.OnDeleteListener() {
+                            @Override
+                            public void deleteDongtaiRusult(boolean success) {
+
+                            }
+
+                            @Override
+                            public void deleteCommentRusult(boolean success) {
+                                refresh();
+                            }
+                        });
                         reportDialog.show();
                     }
 
@@ -278,9 +290,9 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     }
 
     @Override
-    public void showReplayComment(boolean isSuccess) {
+    public void showReplayComment(boolean isSuccess, String id) {
         if (isSuccess) {
-            setReplayData();
+            setReplayData(id);
             commentDialog.setContent("");
             btnComment.setText("我要来发言…");
             ToastUtil.showTrueToast(this, "回复成功");
@@ -290,7 +302,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
         }
     }
 
-    private void setReplayData() {
+    private void setReplayData(String id) {
         for (int i = 0; i < adapter.getData().size(); i++) {
 
             if (adapter.getData().get(i).equals(commentList)) {
@@ -302,6 +314,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
                 replyList.setReplyUserName(commentList.getCommentatorName());
                 replyList.setReplyCommentId(commentList.getId() + "");
                 replyList.setReplyUserId(commentList.getCommentatorId() + "");
+                replyList.setId(id);
                 if (adapter.getData().get(i).getReplyList() != null) {
                     adapter.getData().get(i).getReplyList().add(0, replyList);
                 } else {
