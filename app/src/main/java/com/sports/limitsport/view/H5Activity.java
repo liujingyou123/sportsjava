@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.sports.limitsport.R;
 import com.sports.limitsport.base.BaseActivity;
+import com.sports.limitsport.main.AdvertActivity;
+import com.sports.limitsport.main.MainActivity;
 import com.sports.limitsport.net.H5Address;
 
 import butterknife.BindView;
@@ -31,7 +33,7 @@ public class H5Activity extends BaseActivity {
     @BindView(R.id.tv_close)
     TextView tvClose;
 
-    private int type; // 1:服务协议 2:活动图文详情
+    private int type; // 1:服务协议 2:活动图文详情  5:开机广告页
     private String url; //广告
     private String id; //活动ID
 
@@ -81,10 +83,16 @@ public class H5Activity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                if (web.canGoBack() && (type != 4)) {
-                    web.goBack();
-                } else {
+                if (type == 5) {
+                    Intent intent = new Intent(H5Activity.this, MainActivity.class);
+                    startActivity(intent);
                     finish();
+                } else {
+                    if (web.canGoBack() && (type != 4)) {
+                        web.goBack();
+                    } else {
+                        finish();
+                    }
                 }
                 break;
             case R.id.tv_close:

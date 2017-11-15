@@ -192,7 +192,7 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
 
                             @Override
                             public void deleteCommentRusult(boolean success) {
-                                refresh();
+                                rlAll.autoRefresh();
                             }
                         });
                         reportDialog.show();
@@ -257,7 +257,6 @@ public class ActivityDiscussActivity extends BaseActivity implements IActivityDi
     public void showCommentList(CommentListResponse response) {
         if (response.getData() != null) {
             totalSize = response.getData().getTotalSize();
-            XLog.e("is resreshing = ");
             if (rlAll.isRefreshing()) {
                 data.clear();
                 data.addAll(response.getData().getData());

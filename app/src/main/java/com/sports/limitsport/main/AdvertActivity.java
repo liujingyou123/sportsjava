@@ -107,6 +107,7 @@ public class AdvertActivity extends BaseActivity {
                     } else {
                         Intent bannerDetails = new Intent(AdvertActivity.this, H5Activity.class);
                         bannerDetails.putExtra("url", list.get(0).getToUrl());
+                        bannerDetails.putExtra("type", 5);
                         startActivity(bannerDetails);
                     }
                 }
