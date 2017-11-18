@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.View;
@@ -41,6 +42,9 @@ public class AtTextView extends TextView {
     List<HashMap<String, Object>> list = new ArrayList<>();
 
     public StringBuilder getContent(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return null;
+        }
         Pattern pattern = Pattern.compile("@[\\S]+?\\s\\[AT\\]\\d+\\[UID\\]");
         Matcher matcher = pattern.matcher(str);
         StringBuilder sbContent = new StringBuilder();
@@ -82,6 +86,9 @@ public class AtTextView extends TextView {
     }
 
     public void setStrings(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return;
+        }
         SpannableString  spannable = new SpannableString(getContent(str));
         for (int i = 0; i < list.size(); i++) {
             final HashMap<String, Object> mapTmp = list.get(i);

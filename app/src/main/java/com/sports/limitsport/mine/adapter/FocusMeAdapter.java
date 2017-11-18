@@ -60,12 +60,12 @@ public class FocusMeAdapter extends BaseQuickAdapter<HuDongNoticeList, BaseViewH
 //        }
 
         String replay = null;
-        if (!TextViewUtil.isEmpty(item.getMyName())) {
-            replay = "@" + item.getMyName() + ":" ;
-        }
+//        if (!TextViewUtil.isEmpty(item.getMyName())) {
+//            replay = "@" + item.getMyName() + ":" ;
+//        }
 
         if (!TextViewUtil.isEmpty(item.getFirstContent())) {
-            replay = replay+ item.getFirstContent();
+            replay = item.getFirstContent();
         }
 
         tvReplay.setStrings(replay);
