@@ -262,7 +262,8 @@ public class MyReceiver extends BroadcastReceiver {
         Matcher matcher = pattern.matcher(str);
         StringBuilder sbContent = new StringBuilder();
 
-        System.out.println(matcher.matches());
+        String endStr = null;
+
         int end = 0;
         while (matcher.find()) {
             String strMatcher = matcher.group();
@@ -288,7 +289,10 @@ public class MyReceiver extends BroadcastReceiver {
 
             XLog.e("sbContent = " + sbContent.toString());
         }
-
+        if (!TextUtils.isEmpty(endStr)) {
+            sbContent.append(endStr);
+        }
+        
         if (sbContent.length() == 0) {
             return new StringBuilder(str);
         } else {

@@ -208,7 +208,7 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                                 reportDialog.setOnDeleteListener(new DelAndReportDialog.OnDeleteListener() {
                                     @Override
                                     public void deleteDongtaiRusult(boolean success) {
-                                        ToastUtil.showTrueToast(DongTaiDetailActivity.this, "删除成功");
+//                                        ToastUtil.showTrueToast(DongTaiDetailActivity.this, "删除成功");
                                         backDongtai();
                                     }
 

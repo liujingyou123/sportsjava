@@ -39,19 +39,18 @@ public class AtTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    List<HashMap<String, Object>> list = new ArrayList<>();
-
-    public StringBuilder getContent(String str) {
+    public void setStrings(String str) {
         if (TextUtils.isEmpty(str)) {
-            return null;
+            return;
         }
         Pattern pattern = Pattern.compile("@[\\S]+?\\s\\[AT\\]\\d+\\[UID\\]");
         Matcher matcher = pattern.matcher(str);
         StringBuilder sbContent = new StringBuilder();
 
-        System.out.println(matcher.matches());
+        String endStr = null;
         int end = 0;
-        list.clear();
+        List<HashMap<String, Object>> list = new ArrayList<>();
+
         while (matcher.find()) {
             String strMatcher = matcher.group();
             XLog.e("strMatcher = " + strMatcher);
@@ -62,6 +61,8 @@ public class AtTextView extends TextView {
                 sbContent.append(str.substring(end, matcher.start()));
             }
             end = matcher.end();
+
+            endStr = str.substring(end, str.length());
             HashMap<String, Object> map = new HashMap<>();
 
             map.put("index", sbContent.length());
@@ -78,18 +79,18 @@ public class AtTextView extends TextView {
             XLog.e("sbContent = " + sbContent.toString());
         }
 
-        if (sbContent.length() == 0) {
-            return new StringBuilder(str);
-        } else {
-            return sbContent;
+        if (!TextUtils.isEmpty(endStr)) {
+            sbContent.append(endStr);
         }
-    }
 
-    public void setStrings(String str) {
-        if (TextUtils.isEmpty(str)) {
-            return;
+        SpannableString spannable = null;
+
+        if (sbContent.length() == 0) {
+            spannable = new SpannableString(str);
+        } else {
+            spannable = new SpannableString(sbContent);
         }
-        SpannableString  spannable = new SpannableString(getContent(str));
+
         for (int i = 0; i < list.size(); i++) {
             final HashMap<String, Object> mapTmp = list.get(i);
             int index = (int) mapTmp.get("index");
@@ -105,10 +106,10 @@ public class AtTextView extends TextView {
             }, Color.parseColor("#4899ff")), index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         }
+
         setText(spannable);
         setMovementMethod(LinkMovementMethod.getInstance());
         setHighlightColor(getResources().getColor(android.R.color.transparent));
     }
-
 
 }

@@ -73,6 +73,8 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
     TextView tvNotice;
     @BindView(R.id.tv_pay_type)
     TextView tvPayType;
+    @BindView(R.id.btn_done)
+    TextView tvDone;
     @BindView(R.id.rl_pay_type)
     RelativeLayout rlPayType;
 
@@ -224,6 +226,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
                 finish();
                 break;
             case R.id.btn_done:
+                tvDone.setEnabled(false);
                 payOrder();
                 break;
         }
@@ -282,6 +285,7 @@ public class PayOrderActivity extends BaseActivity implements IPayOrderView {
 
     @Override
     public void showPayOrderResult(PayOrderResponse response) {
+        tvDone.setEnabled(true);
         if (response != null && response.data != null) {
             orderNo = response.data.orderNo;
             if (!"0".equals(response.data.isFree)) {
