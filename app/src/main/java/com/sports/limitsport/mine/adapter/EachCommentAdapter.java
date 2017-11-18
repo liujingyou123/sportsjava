@@ -12,6 +12,7 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.model.HuDongNoticeList;
 import com.sports.limitsport.util.TextViewUtil;
 import com.sports.limitsport.util.UnitUtil;
+import com.sports.limitsport.view.AtTextView;
 
 import java.util.List;
 
@@ -28,12 +29,15 @@ public class EachCommentAdapter extends BaseQuickAdapter<HuDongNoticeList, BaseV
     protected void convert(BaseViewHolder helper, HuDongNoticeList item) {
         ImageView imvHead = helper.getView(R.id.imv_head);
         ImageView imageCover = helper.getView(R.id.imv_cover);
+        ImageView imageReplay = helper.getView(R.id.imv_replay);
+
         TextView tvName = helper.getView(R.id.tv_name);
         TextView tvTime = helper.getView(R.id.tv_time);
         TextView tvDetail = helper.getView(R.id.tv_detail);
-        TextView tvReplay = helper.getView(R.id.tv_replay);
+        AtTextView tvReplay = helper.getView(R.id.tv_replay);
         helper.addOnClickListener(R.id.imv_replay);
 
+        imageReplay.setVisibility(View.GONE);
         if (!TextViewUtil.isEmpty(item.getFirstImgUrl())) {
             imageCover.setVisibility(View.VISIBLE);
             Batman.getInstance().getImageWithRoundLeft(item.getFirstImgUrl(), imageCover, R.mipmap.icon_ar_default, R.mipmap.icon_ar_default, UnitUtil.dip2px(mContext, 2));
@@ -57,13 +61,13 @@ public class EachCommentAdapter extends BaseQuickAdapter<HuDongNoticeList, BaseV
 
         String replay = null;
         if (!TextViewUtil.isEmpty(item.getMyName())) {
-            replay = "@" + item.getMyName();
+            replay = "@" + item.getMyName() + ":";
         }
 
         if (!TextViewUtil.isEmpty(item.getFirstContent())) {
-            replay = replay + ":" + item.getFirstContent();
+            replay = replay + item.getFirstContent();
         }
 
-        tvReplay.setText(replay);
+        tvReplay.setStrings(replay);
     }
 }

@@ -49,7 +49,7 @@
             android:src="@mipmap/icon_replay" />
     </RelativeLayout>
 
-    <TextView
+    <com.sports.limitsport.view.AtTextView
         android:id="@+id/tv_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_ar_default"/>
 
-        <TextView
+        <com.sports.limitsport.view.AtTextView
             android:id="@+id/tv_replay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

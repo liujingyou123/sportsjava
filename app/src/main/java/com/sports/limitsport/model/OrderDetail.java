@@ -30,6 +30,7 @@ public class OrderDetail {
     private String week;
     private int isJoin;
     private String clubPhone;
+    private String clubName;
     /**
      * city : null
      * coutry : null
@@ -237,6 +238,14 @@ public class OrderDetail {
 
     public void setClubPhone(String clubPhone) {
         this.clubPhone = clubPhone;
+    }
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
     }
 
     public static class ApplicantListBean {

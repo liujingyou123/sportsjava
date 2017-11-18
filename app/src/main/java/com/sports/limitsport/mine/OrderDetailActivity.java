@@ -212,6 +212,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailVie
 
         if (orderDetail != null) {
             dialog.setPhoneText(orderDetail.getClubPhone());
+            dialog.setClubName(orderDetail.getClubName());
         }
         if (!dialog.isShowing()) {
             dialog.show();

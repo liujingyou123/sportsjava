@@ -38,6 +38,9 @@ import com.sports.limitsport.util.UnitUtil;
 import com.sports.limitsport.view.ActivityDetailHeaderView;
 import com.sports.limitsport.view.CustomTypeFaceTextView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -229,8 +232,14 @@ public class ActivityDetailActivity extends BaseActivity implements IActivityDet
                         } else {
                             shareDialog.setImage(mData.getCoverUrl());
                         }
-//                        shareDialog.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx930d2f82dab82040&redirect_uri=http%3a%2f%2fapi.ex-fans.com%2ftst%2fultimateapp%2fh5%2factivity%2fqueryActivityInfo%2f125%2fv1.0.0&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
-                        shareDialog.setUrl(H5Address.getUrlActivityDetail(mData.getId()));
+                        String url = null;
+                        try {
+                            url = URLDecoder.decode(H5Address.getUrlActivityDetail(mData.getId()),"UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        shareDialog.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx930d2f82dab82040&redirect_uri="+url+"&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
+//                        shareDialog.setUrl(H5Address.getUrlActivityDetail(mData.getId()));
                         shareDialog.show();
                     }
                 }

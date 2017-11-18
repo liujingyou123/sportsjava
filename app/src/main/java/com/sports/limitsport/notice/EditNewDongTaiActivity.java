@@ -33,6 +33,7 @@ import com.sports.limitsport.base.BaseResponse;
 import com.sports.limitsport.dialog.NoticeDelDialog;
 import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
+import com.sports.limitsport.mine.model.EventBusNewDongTai;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.FansList;
 import com.sports.limitsport.model.ReObject;
@@ -50,6 +51,8 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.ui.PreviewActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.Serializable;
@@ -612,13 +615,20 @@ public class EditNewDongTaiActivity extends BaseActivity {
         return hashMap;
     }
 
+    private void addNewNotice() {
+        EventBusNewDongTai eventBusNewDongTai = new EventBusNewDongTai();
+        eventBusNewDongTai.isNew = true;
+        EventBus.getDefault().post(eventBusNewDongTai);
+        finish();
+    }
+
     public void publishDongTai() {
         ToolsUtil.subscribe(ToolsUtil.createService(IpServices.class).publishDongTai(getParams()), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (response.isSuccess()) {
                     ToastUtil.showTrueToast(EditNewDongTaiActivity.this, "发布成功");
-                    finish();
+                    addNewNotice();
                 }
             }
 

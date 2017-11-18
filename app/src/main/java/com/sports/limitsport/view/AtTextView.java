@@ -38,16 +38,16 @@ public class AtTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setStrings(String str) {
+    List<HashMap<String, Object>> list = new ArrayList<>();
+
+    public StringBuilder getContent(String str) {
         Pattern pattern = Pattern.compile("@[\\S]+?\\s\\[AT\\]\\d+\\[UID\\]");
         Matcher matcher = pattern.matcher(str);
         StringBuilder sbContent = new StringBuilder();
 
         System.out.println(matcher.matches());
-
         int end = 0;
-        List<HashMap<String, Object>> list = new ArrayList<>();
-
+        list.clear();
         while (matcher.find()) {
             String strMatcher = matcher.group();
             XLog.e("strMatcher = " + strMatcher);
@@ -73,14 +73,16 @@ public class AtTextView extends TextView {
 
             XLog.e("sbContent = " + sbContent.toString());
         }
-        SpannableString spannable = null;
 
         if (sbContent.length() == 0) {
-            spannable = new SpannableString(str);
+            return new StringBuilder(str);
         } else {
-            spannable = new SpannableString(sbContent);
+            return sbContent;
         }
+    }
 
+    public void setStrings(String str) {
+        SpannableString  spannable = new SpannableString(getContent(str));
         for (int i = 0; i < list.size(); i++) {
             final HashMap<String, Object> mapTmp = list.get(i);
             int index = (int) mapTmp.get("index");
@@ -96,10 +98,10 @@ public class AtTextView extends TextView {
             }, Color.parseColor("#4899ff")), index, index + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         }
-
         setText(spannable);
         setMovementMethod(LinkMovementMethod.getInstance());
         setHighlightColor(getResources().getColor(android.R.color.transparent));
     }
+
 
 }

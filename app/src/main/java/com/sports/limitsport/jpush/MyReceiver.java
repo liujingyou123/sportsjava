@@ -28,7 +28,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -197,11 +200,12 @@ public class MyReceiver extends BroadcastReceiver {
         }
 
         try {
+            String msg = getContent(bundle.getString(JPushInterface.EXTRA_MESSAGE)).toString();
             Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
             Notification.Builder myBuilder = new Notification.Builder(context);
             myBuilder.setContentTitle("极限领秀")
-                    .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
-                    .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
+                    .setContentText(msg)
+                    .setTicker(msg)
                     .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher : R.mipmap.ic_launcher)
                     .setLargeIcon(LargeBitmap)
                     .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
@@ -250,5 +254,45 @@ public class MyReceiver extends BroadcastReceiver {
             return true;
         }
         return false;
+    }
+
+
+    public StringBuilder getContent(String str) {
+        Pattern pattern = Pattern.compile("@[\\S]+?\\s\\[AT\\]\\d+\\[UID\\]");
+        Matcher matcher = pattern.matcher(str);
+        StringBuilder sbContent = new StringBuilder();
+
+        System.out.println(matcher.matches());
+        int end = 0;
+        while (matcher.find()) {
+            String strMatcher = matcher.group();
+            XLog.e("strMatcher = " + strMatcher);
+            if (sbContent.length() == 0) {
+                sbContent.append(str.substring(0, matcher.start()));
+
+            } else {
+                sbContent.append(str.substring(end, matcher.start()));
+            }
+            end = matcher.end();
+            HashMap<String, Object> map = new HashMap<>();
+
+            map.put("index", sbContent.length());
+
+            String[] strs = strMatcher.split(" ");
+            sbContent.append(strs[0] + " ");
+            String strid = strs[1].replace("[AT]", "").replace("[UID]", "");
+
+//            map.put("index", sbContent.length());
+            map.put("length", strs[0].length() + 1);
+            map.put("id", strid);
+
+            XLog.e("sbContent = " + sbContent.toString());
+        }
+
+        if (sbContent.length() == 0) {
+            return new StringBuilder(str);
+        } else {
+            return sbContent;
+        }
     }
 }

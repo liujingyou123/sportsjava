@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="292dp"
-    android:layout_height="328dp">
+    android:layout_height="335dp">
 
     <LinearLayout
         android:layout_width="280dp"
-        android:layout_height="268dp"
+        android:layout_height="280dp"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:background="@drawable/bg_refund_dialog"
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="35dp"
-            android:drawablePadding="18dp"
+            android:drawablePadding="15dp"
             android:drawableTop="@mipmap/icon_refundnotice"
             android:gravity="center_horizontal"
             android:text="退款须知"
@@ -47,7 +47,20 @@
             android:layout_marginTop="5dp"
             android:drawablePadding="11dp"
             android:gravity="center_vertical"
-            android:text="得到的"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_club_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="2dp"
+            android:drawablePadding="11dp"
+            android:gravity="center_vertical"
+            android:text=""
             android:textColor="#ffffff"
             android:textSize="12sp" />
         <!--<TextView-->
@@ -84,13 +97,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/bg_btn_green"
             android:gravity="center"
-            android:paddingBottom="8dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="8dp"
+            android:paddingTop="5dp"
             android:text="退款"
             android:textColor="#FF4795FB"
             android:textSize="16sp" />

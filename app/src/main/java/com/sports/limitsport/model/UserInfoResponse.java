@@ -55,6 +55,7 @@ public class UserInfoResponse extends BaseResponse {
         private String sex;
         private String isAttenttion; //0:未关注 1已关注
         private String province;
+        private String phone;
 
         public int getActivityNum() {
             return activityNum;
@@ -190,6 +191,14 @@ public class UserInfoResponse extends BaseResponse {
 
         public void setProvince(String province) {
             this.province = province;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
     }
 }

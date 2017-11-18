@@ -24,6 +24,8 @@ import com.sports.limitsport.image.Batman;
 import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
+import com.sports.limitsport.mine.model.EventBusDongTaiDelete;
+import com.sports.limitsport.mine.model.EventBusNewDongTai;
 import com.sports.limitsport.model.Act;
 import com.sports.limitsport.model.AdvertiseInfoResponse;
 import com.sports.limitsport.model.DongTaiList;
@@ -36,6 +38,9 @@ import com.sports.limitsport.view.CustomLoadMoreView;
 import com.sports.limitsport.view.NewNewsHeadView;
 import com.sports.limitsport.view.SpacesItemDecoration;
 import com.sports.limitsport.view.SpacesItemDecorationS;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +81,9 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_news, null);
         unbinder = ButterKnife.bind(this, view);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         init();
         return view;
     }
@@ -84,6 +92,28 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getData();
+    }
+
+    @Subscribe
+    public void isDeleteDongTai(EventBusDongTaiDelete params) {
+        if (params != null && params.isDelete) {
+            if (data != null && data.size() > 0) {
+                for (int i=0; i<data.size();i++) {
+                    if (params.id.equals(data.get(i).getId()+"")) {
+                        data.remove(data.get(i));
+                        adapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Subscribe
+    public void newDongTai(EventBusNewDongTai params) {
+        if (params != null && params.isNew) {
+            rlAll.autoRefresh();
+        }
     }
 
     private void getData() {
@@ -395,13 +425,18 @@ public class NewNewsFragment extends Fragment implements INewNewsView {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
         if (mPresenter != null) {
             mPresenter.clear();
         }
-
         mPresenter = null;
     }
 

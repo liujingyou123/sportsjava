@@ -26,6 +26,8 @@ public class RefundTipDialog extends Dialog {
     TextView tvDone;
     @BindView(R.id.tv_phone)
     TextView tvPhone;
+    @BindView(R.id.tv_club_name)
+    TextView tvClubName;
 
     public RefundTipDialog(@NonNull Context context) {
         super(context, R.style.refundDialog);
@@ -41,7 +43,7 @@ public class RefundTipDialog extends Dialog {
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 292, context.getResources().getDisplayMetrics());
-        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 280, context.getResources().getDisplayMetrics());
+        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 295, context.getResources().getDisplayMetrics());
         window.setAttributes(lp);
     }
 
@@ -50,7 +52,11 @@ public class RefundTipDialog extends Dialog {
     }
 
     public void setPhoneText(String phone) {
-        tvPhone.setText("联系电话："+ phone);
+        tvPhone.setText("联系电话：" + phone);
+    }
+
+    public void setClubName(String clubName) {
+        tvClubName.setText("俱乐部："+clubName);
     }
 
     @OnClick(R.id.imv_close)

@@ -29,6 +29,7 @@ import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.main.MainActivity;
+import com.sports.limitsport.mine.model.EventBusDongTaiDelete;
 import com.sports.limitsport.model.CommentList;
 import com.sports.limitsport.model.CommentListResponse;
 import com.sports.limitsport.model.DongTaiDetailResponse;
@@ -40,13 +41,18 @@ import com.sports.limitsport.util.ToastUtil;
 import com.sports.limitsport.view.CustomLoadMoreNoEndView;
 import com.sports.limitsport.view.DongTaiDetialHeadView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Created by liuworkmac on 17/7/17.
@@ -202,7 +208,8 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                                 reportDialog.setOnDeleteListener(new DelAndReportDialog.OnDeleteListener() {
                                     @Override
                                     public void deleteDongtaiRusult(boolean success) {
-                                        finish();
+                                        ToastUtil.showTrueToast(DongTaiDetailActivity.this, "删除成功");
+                                        backDongtai();
                                     }
 
                                     @Override
@@ -271,6 +278,17 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
                     }
                 } else if (view.getId() == R.id.imv_report) {
                     DelAndReportDialog reportDialog = new DelAndReportDialog(DongTaiDetailActivity.this, "3", commentList.getId() + "", commentList.getCommentatorId() + "");
+                    reportDialog.setOnDeleteListener(new DelAndReportDialog.OnDeleteListener() {
+                        @Override
+                        public void deleteDongtaiRusult(boolean success) {
+
+                        }
+
+                        @Override
+                        public void deleteCommentRusult(boolean success) {
+                            rlAll.autoRefresh();
+                        }
+                    });
                     reportDialog.show();
                 }
 
@@ -477,7 +495,21 @@ public class DongTaiDetailActivity extends BaseActivity implements IDongTaiDetai
 
     @Override
     public void onDetailError(Throwable e) {
+        ToastUtil.showFalseToast(this, "动态已删除");
+        backDongtai();
+    }
 
+    private void backDongtai() {
+        EventBusDongTaiDelete params = new EventBusDongTaiDelete();
+        params.isDelete = true;
+        params.id = id;
+        EventBus.getDefault().post(params);
+        Observable.timer(1000, TimeUnit.MILLISECONDS).subscribe(new Action1<Long>() {
+            @Override
+            public void call(Long aLong) {
+                finish();
+            }
+        });
     }
 
     private void setReplayData(String id) {

@@ -71,7 +71,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
             for (int i = 0; i < item.getReplyList().size(); i++) {
                 CommentList.ReplyList replyList = item.getReplyList().get(i);
                 if (replyList != null) {
-                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent(), replyList.getId()));
+                    llRecall.addView(getTextView(replyList.getCommentUserName(), replyList.getReplyUserName(), replyList.getReplyContent(), replyList.getId(), llRecall));
                 }
             }
         } else {
@@ -81,7 +81,7 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
 
     }
 
-    private TextView getTextView(String commenter, String recaller, String content, final String id) {
+    private TextView getTextView(String commenter, String recaller, String content, final String id, final LinearLayout llRecall) {
         if (TextViewUtil.isEmpty(commenter)) {
             commenter = "";
         }
@@ -105,9 +105,16 @@ public class FineShowCommentAdapter extends BaseQuickAdapter<CommentList, BaseVi
         }
 
         textView.setOnLongClickListener(new View.OnLongClickListener() {
+            private String tmpId = id;
             @Override
-            public boolean onLongClick(View v) {
-                DelCommentDialog dialog = new DelCommentDialog(mContext, id);
+            public boolean onLongClick(final View v) {
+                DelCommentDialog dialog = new DelCommentDialog(mContext, tmpId);
+                dialog.setOnDeleteListener(new DelCommentDialog.OnDeleteListener() {
+                    @Override
+                    public void deleteRusult(boolean success) {
+                        llRecall.removeView(v);
+                    }
+                });
                 dialog.show();
                 return true;
             }

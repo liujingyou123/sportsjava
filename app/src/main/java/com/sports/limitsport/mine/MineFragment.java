@@ -22,6 +22,8 @@ import com.sports.limitsport.log.XLog;
 import com.sports.limitsport.main.IdentifyMainActivity;
 import com.sports.limitsport.main.LoginActivity;
 import com.sports.limitsport.mine.adapter.MineAdapter;
+import com.sports.limitsport.mine.model.EventBusDongTaiDelete;
+import com.sports.limitsport.mine.model.EventBusNewDongTai;
 import com.sports.limitsport.mine.model.EventBusUserInfo;
 import com.sports.limitsport.mine.presenter.MinePresenter;
 import com.sports.limitsport.mine.ui.IMineView;
@@ -125,6 +127,28 @@ public class MineFragment extends BaseFragment implements IMineView {
     public void isTimeOut(TokenTimeOutEvent param) {
         if (param != null) {
             isGetData = true;
+        }
+    }
+
+    @Subscribe
+    public void isDeleteDongTai(EventBusDongTaiDelete params) {
+        if (params != null && params.isDelete) {
+            if (data != null && data.size() > 0) {
+                for (int i=0; i<data.size();i++) {
+                    if (params.id.equals(data.get(i).getId()+"")) {
+                        data.remove(data.get(i));
+                        mineAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Subscribe
+    public void newDongTai(EventBusNewDongTai params) {
+        if (params != null && params.isNew) {
+            rlAll.autoRefresh();
         }
     }
 
